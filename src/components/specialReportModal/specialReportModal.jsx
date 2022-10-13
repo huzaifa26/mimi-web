@@ -408,7 +408,7 @@ export const GroupReportBody = (props) => {
           {type == "group" && (
             <Button
               loading={restoreLoading}
-              startIcon={!restoreLoading && <img src={Reset} />}
+              startIcon={!restoreLoading && <img src={Reset} alt=''/>}
               onClick={() => {
                 setRestoreLoading(true);
                 restoreDefault(subjects);
@@ -421,7 +421,7 @@ export const GroupReportBody = (props) => {
           {type == "kid" && (
             <Button
               loading={restoreLoading}
-              startIcon={!restoreLoading && <img src={Reset} />}
+              startIcon={!restoreLoading && <img src={Reset} alt=''/>}
               onClick={() => {
                 setRestoreLoading(true);
                 restoreDefault(subjects);

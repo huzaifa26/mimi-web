@@ -432,7 +432,7 @@ export const Data = React.memo(() => {
           name: sub.name,
           totalPoints: sub.totalPoints,
           // subject: sub.subject,
-          // subSubject: sub.subSubject,
+          subSubject: sub.subSubject,
           obtainedPoints: sub.obtainedPoints,
           hasSubSubject: sub.hasSubSubject,
         };

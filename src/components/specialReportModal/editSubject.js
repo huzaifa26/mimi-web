@@ -19,7 +19,6 @@ export const EditSubjectBody = (props) => {
   const [loading, setLoading] = useState(false);
 
   const handleScoreChange = (e) => {
-    console.log(e.target.value);
     setScore(e.target.value)
   }
 
@@ -28,13 +27,12 @@ export const EditSubjectBody = (props) => {
     const payload = {
       id: selectedSubject.id,
       name: subjectName,
-      // totalPoints: score,
-      totalPoints: selectedSubject.totalPoints,
+      totalPoints: score,
+      // totalPoints: selectedSubject.totalPoints,
       subSubject: selectedSubject.subSubject,
       obtainedPoints: selectedSubject.obtainedPoints,
       hasSubSubject: selectedSubject.hasSubSubject,
     };
-    console.log(payload);
     const index = subjectsCopy.findIndex((e) => e.id == selectedSubject.id);
     subjectsCopy[index].name = subjectName;
     subjectsCopy[index].totalPoints = parseInt(score);
