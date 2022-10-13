@@ -148,6 +148,7 @@ export const SpecialProgram = React.memo(() => {
                                 marginRight: 12,
                             }}
                             src={(kid._favoriteBy || []).includes(user.id) ? Star : StarOut}
+                            alt=''
                             onClick={stopEventBubble(() => handleFavorite(kid))}
                         />
                         <Avatar

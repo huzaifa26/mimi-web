@@ -5,6 +5,6 @@ export const Responses = {
     },
 
     passwordChangeRelogin: 'please login again to change password',
-    passwordChangeRelogin: 'please login again to change password',
+    // passwordChangeRelogin: 'please login again to change password',
     passwordChangeSuccess: 'password changed successfully',
 };

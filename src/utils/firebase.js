@@ -3,7 +3,7 @@ import "firebase/auth";
 import "firebase/firestore";
 
 const envoirnment = process.env.REACT_APP_ENVIRONMENT || "DEV";
-console.log({ e: process.env });
+// console.log({ e: process.env });
 const firebaseConfig = {
   apiKey: process.env[`REACT_APP_${envoirnment}_FIREBASE_API_KEY`],
   authDomain: process.env[`REACT_APP_${envoirnment}_FIREBASE_AUTH_DOMAIN`],

@@ -18,16 +18,23 @@ export const EditSubjectBody = (props) => {
   const [subjectName, setSubjectName] = useState(selectedSubject.name);
   const [loading, setLoading] = useState(false);
 
+  const handleScoreChange = (e) => {
+    console.log(e.target.value);
+    setScore(e.target.value)
+  }
+
   const _handleSubmit = () => {
     let subjectsCopy = [...subjects];
     const payload = {
       id: selectedSubject.id,
       name: subjectName,
+      // totalPoints: score,
       totalPoints: selectedSubject.totalPoints,
       subSubject: selectedSubject.subSubject,
       obtainedPoints: selectedSubject.obtainedPoints,
       hasSubSubject: selectedSubject.hasSubSubject,
     };
+    console.log(payload);
     const index = subjectsCopy.findIndex((e) => e.id == selectedSubject.id);
     subjectsCopy[index].name = subjectName;
     subjectsCopy[index].totalPoints = parseInt(score);
@@ -50,7 +57,7 @@ export const EditSubjectBody = (props) => {
           className={classes.input}
           type="number"
           value={score}
-          onChange={(e) => setScore(e.target.value)}
+          onChange={handleScoreChange}
           disabled={selectedSubject.hasSubSubject}
         />
       </Field>

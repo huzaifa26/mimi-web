@@ -44,6 +44,7 @@ export const Group = React.memo(() => {
                 const _group = { ...group };
 
                 const groupScore = (await db.collection('Institution').doc(user._code).collection('kid').where('groupId', '==', _group.id).get()).docs
+                    // . map(el => console.log(el.data()))
                     .map(el => el.data())
                     .reduce((acc, el) => (acc += el.score), 0);
 
@@ -139,6 +140,7 @@ export const Group = React.memo(() => {
                                     height: 20,
                                 }}
                                 src={(group.favoriteBy || []).includes(user.id) ? Star : StarOut}
+                            alt=''
                             />
                         </Box>
                         <Box marginX={1}>

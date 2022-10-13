@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   Grid,
   makeStyles,
@@ -176,7 +177,7 @@ export const GroupReportBody = (props) => {
                   setModalStates((prev) => ({ ...prev, subSubject: true }));
                 })}
               >
-                <img src={AddIcon} className={classes.AddImage} />
+                <img src={AddIcon} className={classes.AddImage} alt='' />
               </div>
             </Grid>
             <Grid item lg={2} md={2} sm={2} xs={2}>
@@ -216,6 +217,7 @@ export const GroupReportBody = (props) => {
                       marginTop: 6,
                       marginRight: 10,
                     }}
+                    alt=''
                   />
                   <Typography className={classes.summaryTypo}>
                     {subSubject.name}
@@ -303,6 +305,7 @@ export const GroupReportBody = (props) => {
       </SimpleModal>
       <SimpleModal
         title={<FormattedMessage id="edit_subject" />}
+        // title={<FormattedMessage id="edit_sub_subject" />}
         open={modalStates.editSubSubject}
         handleClose={closeEditSubSubject}
       >
@@ -324,6 +327,7 @@ export const GroupReportBody = (props) => {
                 <img
                   className={classes.image}
                   src={group?.image || defaultAvatars?.group}
+                  alt=''
                 />
               </Box>
             )}
@@ -332,6 +336,7 @@ export const GroupReportBody = (props) => {
                 <img
                   className={classes.image}
                   src={kid?.image || defaultAvatars?.kid}
+                  alt=''
                 />
               </Box>
             )}

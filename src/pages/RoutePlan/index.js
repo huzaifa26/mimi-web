@@ -1,18 +1,18 @@
+import { Box, makeStyles, TableCell } from '@material-ui/core';
 import React, { Fragment, useEffect, useMemo, useState } from 'react';
-import { TableCell, Typography, makeStyles, Box } from '@material-ui/core';
 
 import { FormattedMessage } from 'react-intl';
-import { AddIcon, SearchBar, Button, Loader, SimpleModal, Links, MenuSingle, DataTable, Status } from '../../components';
-import { db } from '../../utils/firebase';
-import { useStore } from '../../store';
+import { AddIcon, Button, DataTable, Links, Loader, MenuSingle, SearchBar, SimpleModal, Status } from '../../components';
 import { usePagination } from '../../hooks/usePaginaton';
+import { useStore } from '../../store';
+import { db } from '../../utils/firebase';
 
-import { getPageStyles, getSectionHeaderStyles, searchBy } from '../../utils/helpers';
 import { ROLES } from '../../utils/constants';
+import { getPageStyles, getSectionHeaderStyles, searchBy } from '../../utils/helpers';
 
+import clsx from 'clsx';
 import { CreateRoutePlanBody } from './modals/createRoutePlan';
 import { RouteDetailsBody } from './modals/routeDetails';
-import clsx from 'clsx';
 
 const headers = [
     {
