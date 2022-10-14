@@ -44,8 +44,7 @@ export const Group = React.memo(() => {
                 const _group = { ...group };
 
                 const groupScore = (await db.collection('Institution').doc(user._code).collection('kid').where('groupId', '==', _group.id).get()).docs
-                    // . map(el => console.log(el.data()))
-                    .map(el => el.data())
+                    .map(el => el.data()) 
                     .reduce((acc, el) => (acc += el.score), 0);
 
                 _group._score = groupScore;
@@ -65,6 +64,8 @@ export const Group = React.memo(() => {
     const [searchText, setSearchText] = useState('');
     const [createGroupModalShow, setCreateGroupModalShow] = useState(false);
 
+    // console.log(groups);
+    // --------- the bug seemes like here ----------
     useEffect(() => {
         if (searchText) {
             setGroups(searchBy(data, ['name'], searchText));
@@ -130,6 +131,7 @@ export const Group = React.memo(() => {
     );
 
     const renderItem = group => {
+        // console.table(group)
         return (
             <Fragment>
                 <TableCell>

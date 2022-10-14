@@ -37,6 +37,9 @@ export const usePagination = (query, modifier, comparator) => {
                                 .docChanges()
                                 .filter(change => change.type == 'added')
                                 .map(el => el.doc.data());
+                                // .map(el => console.log(el));
+                            console.log(additions);
+
 
                             if (modifier) {
                                 additions = await modifier(additions);
@@ -54,16 +57,19 @@ export const usePagination = (query, modifier, comparator) => {
 
                                 if (additions.length) {
                                     const newEntries = differenceWith(additions, updatedData, (a, b) => a.id === b.id);
+                                    console.log(newEntries);
+                                    
+                                    // console.log({
+                                    //     updatedData,
+                                    //     additions,
+                                    //     newEntries,
+                                    //     cache,
+                                    //     removals,
+                                    // });
 
-                                    console.log({
-                                        updatedData,
-                                        additions,
-                                        newEntries,
-                                        cache,
-                                        removals,
-                                    });
-
-                                    if (newEntries.length) updatedData = [...updatedData, ...newEntries];
+                                    // slightly fixing the doubled bug but another bug occers(create group is not working)
+                                    if (newEntries.length)
+                                    updatedData = [...updatedData, ...newEntries];
                                 }
                                 if (removals.length) updatedData = updatedData.filter(el => !removals.includes(el.id));
 
@@ -120,7 +126,7 @@ export const usePagination = (query, modifier, comparator) => {
             listeners.current.forEach(el => el());
             lastDoc.current = null;
         };
-    }, [query]);
+    }, []);
 
     return {
         ...state,
