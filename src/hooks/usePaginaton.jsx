@@ -33,11 +33,12 @@ export const usePagination = (query, modifier, comparator) => {
                                     return acc;
                                 }, {});
 
+
+                            // slightly fixing the doubled bug but another bug occers(create group is not working)
                             let additions = snapshot
                                 .docChanges()
-                                .filter(change => change.type == 'added')
-                                .map(el => el.doc.data());
-                                // .map(el => console.log(el));
+                                .filter(change => change.type === 'added')
+                                .forEach(el => el.doc.data());
                             console.log(additions);
 
 
@@ -53,7 +54,10 @@ export const usePagination = (query, modifier, comparator) => {
                             if (!Object.keys(cache) && !additions.length && !removals.length) return;
 
                             setState(prev => {
+                                console.log(prev)
                                 let updatedData = prev.data.map(el => cache[el.id] || el);
+
+                                console.log(updatedData);
 
                                 if (additions.length) {
                                     const newEntries = differenceWith(additions, updatedData, (a, b) => a.id === b.id);
@@ -68,6 +72,7 @@ export const usePagination = (query, modifier, comparator) => {
                                     // });
 
                                     // slightly fixing the doubled bug but another bug occers(create group is not working)
+                                    
                                     if (newEntries.length)
                                     updatedData = [...updatedData, ...newEntries];
                                 }
