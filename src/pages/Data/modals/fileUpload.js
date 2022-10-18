@@ -785,64 +785,60 @@ console.log(value)
               <img src={Tick} />
             </div>
             <Typography className={classes.summaryTitle}>
-              <FormattedMessage id="upload_succeed" />
+              <FormattedMessage id="Read Succed" />
             </Typography>
           </div>
           <div className={classes.summaryDiv}>
             <div className={classes.summaryTopDiv}>
               {uploadType == "groups" && (
                 <>
-                  <Typography className={classes.summaryTitle}>
+                 <Typography className={classes.summaryTitle}>
                     <FormattedMessage id="groups" />
                   </Typography>
                   <Typography className={classes.greyText}>
                     <FormattedMessage id="total_groups_in_file: " />
-                    {total}
-                  </Typography>
-                  <Typography className={classes.greyText}>
-                    <FormattedMessage id="created: " />
-                    {created?.length}
-                  </Typography>
-                  <Typography className={classes.greyText}>
-                    <FormattedMessage id="already_exists: " />
+                    {total} {" , "}
+                    <FormattedMessage id="Will Be Created: " />
+                    {created?.length} {" , "}
+                    <FormattedMessage id="Already Existing: " />
+                    {exists} {" , "}
+                    <FormattedMessage id="Will Fail: " />
                     {exists?.length}
                   </Typography>
                 </>
               )}
               {uploadType == "staff" && (
                 <>
+             
                   <Typography className={classes.summaryTitle}>
                     <FormattedMessage id="staff" />
                   </Typography>
                   <Typography className={classes.greyText}>
                     <FormattedMessage id="total_staff_in_file: " />
-                    {total}
-                  </Typography>
-                  <Typography className={classes.greyText}>
-                    <FormattedMessage id="created: " />
-                    {created?.length}
-                  </Typography>
-                  <Typography className={classes.greyText}>
-                    <FormattedMessage id="failed: " />
+                    {total} {" , "}
+                    <FormattedMessage id="Will Be Created: " />
+                    {created?.length} {" , "}
+                    <FormattedMessage id="Already Existing: " />
+                    {exists} {" , "}
+                    <FormattedMessage id="Will Fail: " />
                     {exists?.length}
                   </Typography>
+                  
                 </>
               )}
               {uploadType == "kids" && (
                 <>
-                  <Typography className={classes.summaryTitle}>
+                 <Typography className={classes.summaryTitle}>
                     <FormattedMessage id="kids" />
                   </Typography>
                   <Typography className={classes.greyText}>
-                    <FormattedMessage id="total_kids_in_file: " />
-                    {total}
-                  </Typography>
-                  <Typography className={classes.greyText}>
-                    <FormattedMessage id="created: " />
-                    {created?.length}
-                  </Typography>
-                  <Typography className={classes.greyText}>
-                    <FormattedMessage id="failed: " />
+                    <FormattedMessage id="total kids in file: " />
+                    {total} {" , "}
+                    <FormattedMessage id="Will Be Created: " />
+                    {created?.length} {" , "}
+                    <FormattedMessage id="Already Existing: " />
+                    {exists} {" , "}
+                    <FormattedMessage id="Will Fail: " />
                     {exists?.length}
                   </Typography>
                 </>
