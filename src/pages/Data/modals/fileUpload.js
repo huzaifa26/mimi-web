@@ -22,6 +22,7 @@ import clsx from "clsx";
 import CsvDownloader from "react-csv-downloader";
 import ScrollArea from "react-scrollbar";
 import { Button as CButton } from "../../../components/button";
+import { TextRotationAngledown } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -555,6 +556,7 @@ console.log(value)
     const groups = await FirebaseHelpers.fetchGroups.execute({ user });
 
     value = value.filter((e, idx) => idx != 0);
+    console.log(value)
     value.map(async (data) => {
       let _name = data[0];
       let _username = data[1].toString();
@@ -772,7 +774,15 @@ console.log(value)
                  loading={loading}
                  disable={!data}
                  onClick={()=>{
-                  handleStaffSubmit(data)
+                  {
+                    uploadType == "groups" && handleGroupSubmit(data);
+                  }
+                  {
+                    uploadType == "staff" && handleStaffSubmit(data);
+                  }
+                  {
+                    uploadType == "kids" && handleKidSubmit(data);
+                  }
                   setUploadModalText(`${uploadModalText} summery`)
                   
                  }}>
@@ -805,11 +815,11 @@ console.log(value)
                   </Typography>
                   <Typography className={classes.greyText}>
                     <FormattedMessage id="total_groups_in_file: " />
-                    {} {" , "}
+                    {total} {" , "}
                     <FormattedMessage id="Will_Be_Created: " />
                     {created?.length} {" , "}
                     <FormattedMessage id="Already_Existing: " />
-                    {exists} {" , "}
+                    {exists?.length} {" , "}
                     <FormattedMessage id="Will_Fail: " />
                     {exists?.length}
                   </Typography>
@@ -857,28 +867,30 @@ console.log(value)
             {uploadType == "groups" && (
               <div className={classes.summaryMainDiv}>
                 <Typography style={{ fontWeight: 600 }}>
-                  <FormattedMessage id="created: " />
+                  {/* <FormattedMessage id="created: " /> */}
                 </Typography>
+                {console.log(created)}
                 {created.map((el, idx) => {
                   return (
                     <Typography
                       className={classes.greyText}
                       style={{ fontSize: 16 }}
                     >
-                      {`${idx + 1}.` + el}
+                      {`${idx + 1}. ` + el}
                     </Typography>
                   );
                 })}
                 <Typography style={{ fontWeight: 600 }}>
-                  <FormattedMessage id="already_exists: " />
+                  {/* <FormattedMessage id="already_exists: " /> */}
                 </Typography>
+                {console.log(exists)}
                 {exists.map((el, idx) => {
                   return (
                     <Typography
                       className={classes.greyText}
-                      style={{ fontSize: 16 }}
+                      style={{ fontSize: 16, color:"red" }}
                     >
-                      {`${idx + 1}.` + el}
+                      {`${idx + 1}. Already Exist! ${el}`  }
                     </Typography>
                   );
                 })}
