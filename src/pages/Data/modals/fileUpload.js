@@ -294,6 +294,7 @@ export const FileUploadBody = (props) => {
   const { handleClose,showUploadType } = props;
   const [step, setStep] = useState(0);
   const [uploadType, setUploadType] = useState();
+  const [uploadModalText, setUploadModalText] = useState('');
   const [data, setData] = useState();
   const [total, setTotal] = useState();
   const [created, setCreated] = useState([]);
@@ -304,7 +305,7 @@ export const FileUploadBody = (props) => {
   const { state: storeState } = useStore();
   const { user, institute } = storeState;
   
-  showUploadType(uploadType)
+  showUploadType(uploadModalText)
   const handleGroupSubmit = (value) => {
     if (loading) return;
     if (!data) {
@@ -360,6 +361,7 @@ export const FileUploadBody = (props) => {
           setTotal(counter);
           setLoading(false);
           setStep(2);
+          setUploadModalText(`${uploadModalText} summery`)
         }
       } catch (error) {
         actions.alert(error.message, "error");
@@ -486,6 +488,7 @@ console.log(value)
         setTotal(counter);
         setLoading(false);
         setStep(2);
+        setUploadModalText(`${uploadModalText} summery`)
       }
     });
   };
@@ -606,6 +609,7 @@ console.log(value)
         setTotal(counter);
         setStep(2);
         setLoading(false);
+        setUploadModalText(`${uploadModalText} summery`)
       }
     });
   };
@@ -626,6 +630,7 @@ console.log(value)
                 onClick={() => {
                 
                   setUploadType("staff");
+                  setUploadModalText("staff")
                   setStep(1);
                 }}
               >
@@ -644,6 +649,7 @@ console.log(value)
                 className={classes.box}
                 onClick={() => {
                   setUploadType("kids");
+                  setUploadModalText("kids")
                   setStep(1);
                 }}
               >
@@ -662,6 +668,7 @@ console.log(value)
                 className={classes.box}
                 onClick={() => {
                   setUploadType("groups");
+                  setUploadModalText("groups")
                   setStep(1);
                 }}
               >
@@ -759,6 +766,7 @@ console.log(value)
                  disable={!data}
                  onClick={()=>{
                   setStep(2)
+                  setUploadModalText(`${uploadModalText} summery`)
                  }}>
  <FormattedMessage id="apply" />
                 </CButton>
