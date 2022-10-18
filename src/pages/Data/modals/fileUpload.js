@@ -291,7 +291,7 @@ const kidData = [
   },
 ];
 export const FileUploadBody = (props) => {
-  const { handleClose } = props;
+  const { handleClose,showUploadType } = props;
   const [step, setStep] = useState(0);
   const [uploadType, setUploadType] = useState();
   const [data, setData] = useState();
@@ -303,14 +303,15 @@ export const FileUploadBody = (props) => {
   const { actions } = useUi();
   const { state: storeState } = useStore();
   const { user, institute } = storeState;
-
+  
+  showUploadType(uploadType)
   const handleGroupSubmit = (value) => {
     if (loading) return;
     if (!data) {
       actions.alert("Please select a file", "error");
       return;
     }
-
+    
     if (value[0].length != 1) {
       actions.alert(
         "Please select a file according to Group template syntax",
@@ -366,7 +367,7 @@ export const FileUploadBody = (props) => {
       }
     });
   };
- 
+  
   const handleStaffSubmit = async (value) => {
    console.log("staff")
 console.log(value)
