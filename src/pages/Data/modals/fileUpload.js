@@ -956,9 +956,7 @@ console.log(value)
                           el.type +
                           ", Error: " +
                           el.error} */}
-                          {`${idx + 1}.` +
-                         el.email + 
-                          el.error}
+                          {`${idx + 1}. Already Exist! ${el.email}`}
                       </Typography>
                     );
                   else
