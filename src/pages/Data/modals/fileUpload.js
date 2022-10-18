@@ -306,6 +306,7 @@ export const FileUploadBody = (props) => {
   const { user, institute } = storeState;
   
   showUploadType(uploadModalText)
+ 
   const handleGroupSubmit = (value) => {
     if (loading) return;
     if (!data) {
@@ -437,12 +438,15 @@ console.log(value)
     let counter = 0;
     value = value.filter((e, idx) => idx != 0);
     console.log({ v: value });
+   
     value.map(async (data) => {
       let _name = data[0]?.toString();
       let _type = data[1]?.toString();
       let _email = data[2]?.toString();
       let _password = data[3]?.toString();
+   
       let _group = groups?.filter((e) => e.name == data[4]);
+      console.log(`group is ${_group}`)
       if (_type == "manager") {
         _type = "mngr";
       } else if (_type == "coordinator") {
@@ -457,6 +461,7 @@ console.log(value)
         email: _email,
         selectedGroups: _group,
       };
+      console.log(payload)
       await FirebaseHelpers.createStaff
         .execute({
           user,
@@ -470,9 +475,11 @@ console.log(value)
           },
         })
         .then(() => {
+          console.log("success staffff")
           setCreated((prev) => [...prev, payload]);
         })
         .catch((e) => {
+          console.log("error success")
           const _payload = {
             name: _name,
             type: _type,
@@ -765,8 +772,9 @@ console.log(value)
                  loading={loading}
                  disable={!data}
                  onClick={()=>{
-                  setStep(2)
+                  handleStaffSubmit(data)
                   setUploadModalText(`${uploadModalText} summery`)
+                  
                  }}>
  <FormattedMessage id="apply" />
                 </CButton>
@@ -797,12 +805,12 @@ console.log(value)
                   </Typography>
                   <Typography className={classes.greyText}>
                     <FormattedMessage id="total_groups_in_file: " />
-                    {total} {" , "}
-                    <FormattedMessage id="Will Be Created: " />
+                    {} {" , "}
+                    <FormattedMessage id="Will_Be_Created: " />
                     {created?.length} {" , "}
-                    <FormattedMessage id="Already Existing: " />
+                    <FormattedMessage id="Already_Existing: " />
                     {exists} {" , "}
-                    <FormattedMessage id="Will Fail: " />
+                    <FormattedMessage id="Will_Fail: " />
                     {exists?.length}
                   </Typography>
                 </>
@@ -816,11 +824,12 @@ console.log(value)
                   <Typography className={classes.greyText}>
                     <FormattedMessage id="total_staff_in_file: " />
                     {total} {" , "}
-                    <FormattedMessage id="Will Be Created: " />
+                    {console.log(created)}
+                    <FormattedMessage id="Will_Be_Created: " />
                     {created?.length} {" , "}
-                    <FormattedMessage id="Already Existing: " />
-                    {exists} {" , "}
-                    <FormattedMessage id="Will Fail: " />
+                    <FormattedMessage id="Already_Existing: " />
+                    {exists?.length} {" , "}
+                    <FormattedMessage id="Will_Fail: " />
                     {exists?.length}
                   </Typography>
                   
@@ -832,13 +841,14 @@ console.log(value)
                     <FormattedMessage id="kids" />
                   </Typography>
                   <Typography className={classes.greyText}>
-                    <FormattedMessage id="total kids in file: " />
+                    <FormattedMessage id="total_kids_in_file: " />
                     {total} {" , "}
-                    <FormattedMessage id="Will Be Created: " />
+                    <FormattedMessage id="Will_Be_Created: " />
                     {created?.length} {" , "}
-                    <FormattedMessage id="Already Existing: " />
+                   
+                    <FormattedMessage id="Already_Existing: " />
                     {exists} {" , "}
-                    <FormattedMessage id="Will Fail: " />
+                    <FormattedMessage id="Will_Fail: " />
                     {exists?.length}
                   </Typography>
                 </>
@@ -877,7 +887,7 @@ console.log(value)
             {uploadType == "staff" && (
               <div className={classes.summaryMainDiv}>
                 <Typography style={{ fontWeight: 600 }}>
-                  <FormattedMessage id="created: " />
+                  {/* <FormattedMessage id="created: " /> */}
                 </Typography>
                 {created.map((el, idx) => {
                   if (el.type == "guide")
@@ -914,16 +924,16 @@ console.log(value)
                     );
                 })}
                 <Typography style={{ fontWeight: 600 }}>
-                  <FormattedMessage id="failed: " />
+                  {/* <FormattedMessage id="failed: " /> */}
                 </Typography>
                 {exists.map((el, idx) => {
                   if (el.type == "guide")
                     return (
                       <Typography
                         className={classes.greyText}
-                        style={{ fontSize: 16 }}
+                        style={{ fontSize: 16, color:'red' }}
                       >
-                        {`${idx + 1}.` +
+                        {/* {`${idx + 1}.` +
                           "Email: " +
                           el.email +
                           ", Name: " +
@@ -933,6 +943,9 @@ console.log(value)
                           ", Role: " +
                           el.type +
                           ", Error: " +
+                          el.error} */}
+                          {`${idx + 1}.` +
+                         el.email + 
                           el.error}
                       </Typography>
                     );
@@ -942,7 +955,7 @@ console.log(value)
                         className={classes.greyText}
                         style={{ fontSize: 16 }}
                       >
-                        {`${idx + 1}.` +
+                        {/* {`${idx + 1}.` +
                           "Email: " +
                           el.email +
                           ", Name: " +
@@ -950,7 +963,10 @@ console.log(value)
                           ", Role: " +
                           el.type +
                           "," +
-                          el.error}
+                          el.error} */}
+                            {`${idx + 1}.` + el.email + 
+                         
+                         el.error}
                       </Typography>
                     );
                 })}
@@ -1002,11 +1018,33 @@ console.log(value)
             )}
           </div>
           <Divider />
-          <div className={classes.summaryButton}>
+          <Grid container spacing={2} flexDirection="row" justifyContent="space-between" style={{padding:"20px"}} >
+          <Grid item >
+           
+           
+           
+           <Button
+                  className={classes.cancelButton}
+                  onClick={() => setStep(1)}
+                >
+                  <FormattedMessage id="back" />
+                  </Button>
+          
+ 
+             </Grid>
+            <Grid item >
+           
+          
+          
             <Button onClick={handleClose} className={classes.uploadButton}>
-              <FormattedMessage id="close" />
+              <FormattedMessage id="upload" />
             </Button>
-          </div>
+          
+
+            </Grid>
+            
+            </Grid>
+          
         </>
       )}
     </Fragment>
