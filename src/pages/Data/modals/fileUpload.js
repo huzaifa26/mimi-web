@@ -366,11 +366,15 @@ export const FileUploadBody = (props) => {
       }
     });
   };
+ 
   const handleStaffSubmit = async (value) => {
+   console.log("staff")
+console.log(value)
     let validation = false;
     const groups = await FirebaseHelpers.fetchGroups.execute({ user });
     if (loading) return;
     if (!data) {
+      
       actions.alert("Please select a file", "error");
       return;
     }
@@ -619,6 +623,7 @@ export const FileUploadBody = (props) => {
               <div
                 className={classes.box}
                 onClick={() => {
+                
                   setUploadType("staff");
                   setStep(1);
                 }}
@@ -728,7 +733,8 @@ export const FileUploadBody = (props) => {
             </Grid>
             <Grid item xs={6} justifyContent="center">
               <div className={classes.summaryHeader}>
-                <CButton
+               
+                {/* <CButton
                   className={classes.uploadButton}
                   loading={loading}
                   disable={!data}
@@ -745,6 +751,15 @@ export const FileUploadBody = (props) => {
                   }}
                 >
                   <FormattedMessage id="upload" />
+                </CButton> */}
+                <CButton 
+                 className={classes.uploadButton}
+                 loading={loading}
+                 disable={!data}
+                 onClick={()=>{
+                  setStep(2)
+                 }}>
+ <FormattedMessage id="apply" />
                 </CButton>
               </div>
             </Grid>
