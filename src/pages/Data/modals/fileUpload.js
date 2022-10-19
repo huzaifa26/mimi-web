@@ -374,6 +374,9 @@ export const FileUploadBody = (props) => {
   };
   
   const handleStaffSubmit = async (value) => {
+    setCreated([])
+    setExists([])
+    setFailed([])
    console.log("staff")
 console.log(value)
     let validation = false;
@@ -490,14 +493,14 @@ console.log(value)
             selectedGroups: _group,
             error: e,
           };
-          if(e === 'Error: The email address is already in use by another account.'){
+          if(e.code === 'auth/email-already-in-use'){
             setExists((prev) => [...prev, _payload]);
           } else {
             setFailed((prev) => [...prev, _payload])
           }
          
           
-          console.log(`error staff ==> ${e} `)
+          console.log(e)
         });
 
       counter = counter + 1;
