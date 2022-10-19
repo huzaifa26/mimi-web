@@ -46,6 +46,11 @@ export const CreateGroupBody = (props) => {
           name,
         },
       });
+
+      // this reload is to add the new data. data was not adding without the reload. So I added this
+      window.location.reload();
+      //-----------------------
+
       handleClose();
     } catch (error) {
       console.log(error);

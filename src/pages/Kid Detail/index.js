@@ -693,6 +693,7 @@ export const KidsDetail = (props) => {
           <img
             src={kid?.image || defaultAvatars?.kid}
             className={classes.kidImage}
+            alt=''
           />
           <Box textAlign={"center"} display="flex" alignItems={"center"}>
             <Box>

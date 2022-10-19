@@ -72,6 +72,8 @@ export const RouteDetailsBody = props => {
     const [searchText, setSearchText] = useState('');
     const listenerRef = useRef([]);
 
+    // console.log(listenerRef);
+
     const [routePlan, setRoutePlan] = useState();
     const [data, setData] = useState([]);
     const [prizes, setPrizes] = useState([]);
@@ -121,7 +123,7 @@ export const RouteDetailsBody = props => {
 
                     const levelsForPrizes = snapshot.docs.map(el => el.data().requiredLevel).sort();
 
-                    console.log({ levelsForPrizes });
+                    // console.log({ levelsForPrizes });
 
                     setData(
                         snapshot.docs.map(el => {

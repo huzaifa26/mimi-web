@@ -22,6 +22,7 @@ const options = [
     },
 ];
 
+
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -94,7 +95,7 @@ export const Profile = React.memo(() => {
                     list={options}
                     label={<FormattedMessage id="change_language" />}
                     handleChange={value => {
-                        const dir = value.id == LANGUAGE_MAPPING.ENGLISH ? 'ltr' : 'rtl';
+                        const dir = value.id === LANGUAGE_MAPPING.ENGLISH ? 'ltr' : 'rtl';
 
                         const bodyEl = document.getElementsByTagName('html')[0];
                         bodyEl.setAttribute('lang', value.id);
@@ -104,6 +105,13 @@ export const Profile = React.memo(() => {
                         localStorage.setItem('orientation', dir);
 
                         setStoreState(prev => ({ ...prev, language: value.id, orientation: dir }));
+
+                        // to change the website title as the lnguage
+                        if(value.id === 'heb'){
+                            document.title = 'מימי';
+                        }else{
+                            document.title = 'Mimi';
+                        }
                     }}
                     defaultValue={options.find(el => el.id === storeState.language)}
                 />

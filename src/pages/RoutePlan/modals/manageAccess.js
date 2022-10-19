@@ -273,7 +273,7 @@ export const ManageAccessBody = props => {
     return (
         <Fragment>
             <Grid container spacing={2}>
-                <Grid item lg={4} md={4} sm={4} xs={12}>
+                <Grid item lg={6} md={6} sm={6} xs={12}>
                     <div className={classes.pillContainer}>
                         <img src={IconOne} />
                         <div>
@@ -284,7 +284,7 @@ export const ManageAccessBody = props => {
                         </div>
                     </div>
                 </Grid>
-                <Grid item lg={4} md={4} sm={4} xs={12}>
+                <Grid item lg={6} md={6} sm={6} xs={12}>
                     <div className={classes.pillContainer}>
                         <img src={IconOne} />
                         <div>
@@ -295,7 +295,7 @@ export const ManageAccessBody = props => {
                         </div>
                     </div>
                 </Grid>
-                <Grid item lg={4} md={4} sm={4} xs={12}>
+                {/* <Grid item lg={4} md={4} sm={4} xs={12}>
                     <div className={classes.pillContainer}>
                         <img src={IconThree} />
                         <div>
@@ -305,7 +305,7 @@ export const ManageAccessBody = props => {
                             <Typography className={classes.pillHeading}>{state.kids.length}</Typography>
                         </div>
                     </div>
-                </Grid>
+                </Grid> */}
             </Grid>
 
             <div className={classes.default_headerSection_container}>

@@ -189,6 +189,7 @@ export const GroupDetail = () => {
   ) => {
     let _save1 = await Promise.all(
       subjectAdded.map(async (sub) => {
+        console.log(sub);
         const payload = {
           id: sub.id,
           name: sub.name,
@@ -634,6 +635,8 @@ export const GroupDetail = () => {
       >
         <GrantScoreBody group={group} handleClose={closeGrantScore} />
       </SimpleModal>
+
+      {/* manage special report modal */}
       <SimpleModal
         disableBackdropClick
         title={<FormattedMessage id="manage_special_reporting" />}
@@ -652,6 +655,8 @@ export const GroupDetail = () => {
           handleClose={closeGroupReport}
         />
       </SimpleModal>
+
+      
       <SimpleModal
         title={<FormattedMessage id="upload_image" />}
         open={modalStates.imageUpload}

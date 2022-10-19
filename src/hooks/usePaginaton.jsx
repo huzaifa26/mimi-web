@@ -33,10 +33,13 @@ export const usePagination = (query, modifier, comparator) => {
                                     return acc;
                                 }, {});
 
+
                             let additions = snapshot
                                 .docChanges()
-                                .filter(change => change.type == 'added')
-                                .map(el => el.doc.data());
+                                .filter(change => change.type === 'added')
+                                .forEach(el => el.doc.data());
+                            // console.log(additions);
+
 
                             if (modifier) {
                                 additions = await modifier(additions);
@@ -52,18 +55,22 @@ export const usePagination = (query, modifier, comparator) => {
                             setState(prev => {
                                 let updatedData = prev.data.map(el => cache[el.id] || el);
 
-                                if (additions.length) {
+                                // console.log(updatedData);
+
+                                if (additions?.length) {
                                     const newEntries = differenceWith(additions, updatedData, (a, b) => a.id === b.id);
-
-                                    console.log({
-                                        updatedData,
-                                        additions,
-                                        newEntries,
-                                        cache,
-                                        removals,
-                                    });
-
-                                    if (newEntries.length) updatedData = [...updatedData, ...newEntries];
+                                    // console.log(newEntries);
+                                    
+                                    // console.log({
+                                    //     updatedData,
+                                    //     additions,
+                                    //     newEntries,
+                                    //     cache,
+                                    //     removals,
+                                    // });
+                                    
+                                    if (newEntries.length)
+                                    updatedData = [...updatedData, ...newEntries];
                                 }
                                 if (removals.length) updatedData = updatedData.filter(el => !removals.includes(el.id));
 
@@ -120,7 +127,7 @@ export const usePagination = (query, modifier, comparator) => {
             listeners.current.forEach(el => el());
             lastDoc.current = null;
         };
-    }, [query]);
+    }, []);
 
     return {
         ...state,

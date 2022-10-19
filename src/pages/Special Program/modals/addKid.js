@@ -58,7 +58,6 @@ export const AddKidBody = (props) => {
       {
         id: `GROUP`,
       },
-      ,
     ],
     []
   );

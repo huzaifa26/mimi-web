@@ -98,6 +98,8 @@ export const Data = React.memo(() => {
     })();
   }, []);
 
+  console.log(subjects);
+
   useEffect(() => {
     if (!institute) return;
     const subDate = moment(new Date(institute.subscription_end_date));
@@ -125,6 +127,7 @@ export const Data = React.memo(() => {
           .collection("basicReport")
           .get()
       ).docs.map((el) => el.data());
+      // console.log(report_templates);
       setSubjects(report_templates);
     })();
   }, [modalStates.basicReport]);
@@ -166,6 +169,7 @@ export const Data = React.memo(() => {
           subSubject: [],
           obtainedPoints: 0,
           hasSubSubject: false,
+          
         };
 
         await db
@@ -428,10 +432,12 @@ export const Data = React.memo(() => {
           id: sub.id,
           name: sub.name,
           totalPoints: sub.totalPoints,
+          // subject: sub.subject,
           subSubject: sub.subSubject,
           obtainedPoints: sub.obtainedPoints,
           hasSubSubject: sub.hasSubSubject,
         };
+        // console.log(payload);
         await db
           .collection("Institution")
           .doc(user._code)
@@ -460,6 +466,7 @@ export const Data = React.memo(() => {
             id: sub.id,
             name: sub.name,
             totalPoints: sub.totalPoints,
+            // subSubject: sub.subject,
             subSubject: sub.subSubject,
             obtainedPoints: sub.obtainedPoints,
             hasSubSubject: sub.hasSubSubject,
@@ -500,10 +507,14 @@ export const Data = React.memo(() => {
           .doc(sub.subjectId)
           .get();
 
+          console.log(reportTemplates);
+
         let _report_templates = reportTemplates.data();
 
+        // console.log(_report_templates);
+
         _report_templates.subSubject.map((e, idx) => {
-          if (e.id == sub.id) {
+          if (e.id === sub.id) {
             _report_templates.subSubject[idx] = payload;
           }
         });
@@ -593,7 +604,7 @@ export const Data = React.memo(() => {
       <div className={classes.default_headerSection_actionsContainer}>
         <Button
           className={classes.buttonReport}
-          startIcon={<img width={30} src={GroupIcon} />}
+          startIcon={<img width={30} src={GroupIcon} alt=''/>}
           onClick={() => {
             setModalStates((prev) => ({ ...prev, basicReport: true }));
           }}
@@ -875,7 +886,7 @@ export const Data = React.memo(() => {
                       }));
                     }}
                   >
-                    <img src={Score} />
+                    <img src={Score} alt=''/>
                     <Typography className={classes.toolTitle}>
                       <FormattedMessage id="update_score" />
                     </Typography>
@@ -904,7 +915,7 @@ export const Data = React.memo(() => {
                       setModalStates((prev) => ({ ...prev, grantScore: true }));
                     }}
                   >
-                    <img src={Score} />
+                    <img src={Score} alt=''/>
                     <Typography className={classes.toolTitle}>
                       <FormattedMessage id="grant_score" />
                     </Typography>

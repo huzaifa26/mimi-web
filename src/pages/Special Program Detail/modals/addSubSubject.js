@@ -18,7 +18,7 @@ export const AddSubSubjectBody = props => {
     const { handleClose, subject, kid, currentLevel } = props;
     const classes = useStyles();
     const { state: storeState } = useStore();
-    const { actions } = useUi();
+    // const { actions } = useUi();
     const { user } = storeState;
 
     const [score, setScore] = useState(0);

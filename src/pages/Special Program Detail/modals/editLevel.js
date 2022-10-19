@@ -331,7 +331,7 @@ export const EditLevelBody = (props) => {
                   setModalStates((prev) => ({ ...prev, subSubject: true }));
                 }}
               >
-                <img src={AddIcon} className={classes.AddImage} />
+                <img src={AddIcon} className={classes.AddImage} alt=''/>
               </div>
             </Grid>
             <Grid item lg={3} md={2} sm={2} xs={3}>
@@ -362,6 +362,7 @@ export const EditLevelBody = (props) => {
                 <div style={{ display: "flex" }}>
                   <img
                     src={TickIcon}
+                    alt=''
                     style={{
                       width: 13,
                       height: 12,
