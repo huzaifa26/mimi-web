@@ -377,6 +377,7 @@ export const FileUploadBody = (props) => {
     setCreated([])
     setExists([])
     setFailed([])
+    setUploadModalText("Excel Upload Staff")
    console.log("staff")
 console.log(value)
     let validation = false;
@@ -485,7 +486,7 @@ console.log(value)
             
           })
           .then(() => {
-            console.log("success staffff")
+           
             setCreated((prev) => [...prev, payload]);
           })
           .catch((e) => {
@@ -765,7 +766,10 @@ console.log(_arr)
               <div className={classes.summaryHeader}>
                 <Button
                   className={classes.cancelButton}
-                  onClick={() => setStep(0)}
+                  onClick={() => {
+                    
+                    setUploadModalText('')
+                    setStep(0)}}
                 >
                   <FormattedMessage id="back" />
                 </Button>
@@ -1123,7 +1127,9 @@ console.log(_arr)
            
            <Button
                   className={classes.cancelButton}
-                  onClick={() => setStep(1)}
+                  onClick={() => {
+                    setUploadModalText(uploadType)
+                    setStep(1)}}
                 >
                   <FormattedMessage id="back" />
                   </Button>
