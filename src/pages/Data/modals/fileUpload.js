@@ -306,7 +306,7 @@ export const FileUploadBody = (props) => {
   const { actions } = useUi();
   const { state: storeState } = useStore();
   const { user, institute } = storeState;
-  
+ 
   showUploadType(uploadModalText)
  
   const handleGroupSubmit = (value) => {
@@ -577,20 +577,22 @@ console.log(value)
     const groups = await FirebaseHelpers.fetchGroups.execute({ user });
 
     value = value.filter((e, idx) => idx != 0);
-    console.log(value)
+   console.log(value)
     value.map(async (data) => {
       let _name = data[0].toString();
       let _username = data[1].toString();
       let _password = data[2]?.toString();
-      console.log(groups)
+  
       let _group = groups.filter((e) => e.name == data[3]);
-      console.log(_group)
+     console.log(`group === > ${_group}`)
       const arrayToObject1 = _group[0];
       let _assigned_days = data[4];
-      console.log(typeof(_assigned_days)=="number" ? null : _assigned_days)
+  console.log(data[3].toString('utf-8'))
+      
+    
       
       const _arr = typeof(_assigned_days)=="number" ? [] :[ _assigned_days?.split(",")];
-console.log(_arr)
+
       const assignedDaysArray = new Array(7).fill(null).map((el, index) => {
         const exists = _arr.find((day) => day == index);
         return !!exists;
@@ -634,6 +636,7 @@ console.log(_arr)
             assigned_days: assignedDaysArray,
             error: error,
           };
+          console.log(error)
           setExists((prev) => [...prev, _payload]);
         });
 
