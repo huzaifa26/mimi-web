@@ -39,6 +39,16 @@ export const EditSubSubjectBody = (props) => {
     );
     subjectsCopy[index].subSubject[subIndex] = payload;
 
+    subjectsCopy.map((sub)=>{
+      if(sub.id === selectedSubject.id){
+        let points=0
+        sub.subSubject.map((subsub)=>{
+          points=points+subsub.totalPoints;
+        })
+        sub.totalPoints=points;
+      }
+    })
+
     subSubjectEdited(subjectsCopy, payload);
     handleClose();
   };

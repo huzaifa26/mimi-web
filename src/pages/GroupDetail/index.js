@@ -445,6 +445,14 @@ export const GroupDetail = () => {
           obtainedPoints: _report_templates.obtainedPoints,
           hasSubSubject: _report_templates.hasSubSubject,
         };
+
+        let totalSum=0;
+        _payload.subSubject.forEach((subSubject)=>{
+          totalSum=totalSum+subSubject.totalPoints;
+        });
+
+      _payload.totalPoints=totalSum;
+
         await db
           .collection("Institution")
           .doc(user._code)
