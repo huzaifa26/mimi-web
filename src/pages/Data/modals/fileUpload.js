@@ -442,74 +442,82 @@ console.log(value)
 
     let counter = 0;
     value = value.filter((e, idx) => idx != 0);
+    value = value.filter((e)=> !e.length==0);
+    
     console.log({ v: value });
    
     value.map(async (data) => {
-      let _name = data[0]?.toString();
-      let _type = data[1]?.toString();
-      let _email = data[2]?.toString();
-      let _password = data[3]?.toString();
-   
-      let _group = groups?.filter((e) => e.name == data[4]);
-      console.log(`group is ${_group}`)
-      if (_type == "manager") {
-        _type = "mngr";
-      } else if (_type == "coordinator") {
-        _type = "crdntr";
-      } else if (_type == "general staff") {
-        _type = "gstaff";
-      }
 
-      const payload = {
-        name: _name,
-        type: _type,
-        email: _email,
-        selectedGroups: _group,
-      };
+  
+        let _name = data[0]?.toString();
+        let _type = data[1]?.toString();
+        let _email = data[2]?.toString();
+        let _password = data[3]?.toString();
+     
+        let _group = groups?.filter((e) => e.name == data[4]);
+        console.log(`group is ${_group}`)
+        if (_type == "manager") {
+          _type = "mngr";
+        } else if (_type == "coordinator") {
+          _type = "crdntr";
+        } else if (_type == "general staff") {
+          _type = "gstaff";
+        }
+  
+        const payload = {
+          name: _name,
+          type: _type,
+          email: _email,
+          selectedGroups: _group,
+        };
+        
+        await FirebaseHelpers.createStaff
+          .execute({
+            user,
+            institute,
+            staff: {
+              name: _name,
+              type: _type,
+              email: _email,
+              selectedGroups: [_group[0]?.id==undefined?data[4]:_group[0]?.id],
+              password: _password,
+            },
+            
+          })
+          .then(() => {
+            console.log("success staffff")
+            setCreated((prev) => [...prev, payload]);
+          })
+          .catch((e) => {
+           
+            const _payload = {
+              name: _name,
+              type: _type,
+              email: _email,
+              selectedGroups: _group,
+              error: e.message,
+            };
+            if(e.code === 'auth/email-already-in-use'){
+              setExists((prev) => [...prev, _payload]);
+            } else {
+              setFailed((prev) => [...prev, _payload])
+            }
+           
+            
+            console.log(e)
+          });
+  
+        counter = counter + 1;
+        if (value.length == counter) {
+          setTotal(counter);
+          setLoading(false);
+          setStep(2);
+          setUploadModalText(`${uploadModalText} summery`)
+        }
       
-      await FirebaseHelpers.createStaff
-        .execute({
-          user,
-          institute,
-          staff: {
-            name: _name,
-            type: _type,
-            email: _email,
-            selectedGroups: [_group[0]?.id],
-            password: _password,
-          },
-          
-        })
-        .then(() => {
-          console.log("success staffff")
-          setCreated((prev) => [...prev, payload]);
-        })
-        .catch((e) => {
-          console.log("error success")
-          const _payload = {
-            name: _name,
-            type: _type,
-            email: _email,
-            selectedGroups: _group,
-            error: e,
-          };
-          if(e.code === 'auth/email-already-in-use'){
-            setExists((prev) => [...prev, _payload]);
-          } else {
-            setFailed((prev) => [...prev, _payload])
-          }
-         
-          
-          console.log(e)
-        });
 
-      counter = counter + 1;
-      if (value.length == counter) {
-        setTotal(counter);
-        setLoading(false);
-        setStep(2);
-        setUploadModalText(`${uploadModalText} summery`)
-      }
+
+     
     });
   };
   const handleKidSubmit = async (value) => {
@@ -849,7 +857,7 @@ console.log(_arr)
                   <Typography className={classes.greyText}>
                     <FormattedMessage id="total_staff_in_file: " />
                     {total} {" , "}
-                    {console.log(created)}
+                   
                     <FormattedMessage id="Will_Be_Created: " />
                     {created?.length} {" , "}
                     <FormattedMessage id="Already_Existing: " />
@@ -921,8 +929,9 @@ console.log(_arr)
                   if (el.type == "guide")
                     return (
 
-                      <li  className={classes.greyText}
-                      style={{ fontSize: 16, color:'red' }}>
+                      <li 
+                      className={classes.greyText}
+                      style={{ fontSize: 16 }}>
 
 <Typography
                         className={classes.greyText}
@@ -943,8 +952,9 @@ console.log(_arr)
                     );
                   else
                     return (
-                     <li  className={classes.greyText}
-                     style={{ fontSize: 16, color:'red' }}>
+                     <li 
+                     className={classes.greyText}
+                     style={{ fontSize: 16}}>
                        <Typography
                         className={classes.greyText}
                         style={{ fontSize: 16 }}
@@ -963,8 +973,9 @@ console.log(_arr)
                 {exists.map((el, idx) => {
                   if (el.type == "guide")
                     return (
-                      <li  className={classes.greyText}
-                      style={{ fontSize: 16, color:'red' }}>
+                      <li 
+                      className={classes.greyText}
+                      style={{ fontSize: 16}}>
                         <Typography
                         className={classes.greyText}
                         style={{ fontSize: 16, color:'red' }}
@@ -986,10 +997,10 @@ console.log(_arr)
                     );
                   else
                     return (
-                      <li>
+                      <li    className={classes.greyText}  style={{ fontSize: 16}} >
 <Typography
                         className={classes.greyText}
-                        style={{ fontSize: 16 }}
+                        style={{ fontSize: 16 , color:'red'}}
                       >
                         {/* {`${idx + 1}.` +
                           "Email: " +
@@ -1010,8 +1021,9 @@ console.log(_arr)
                 {failed.map((el, idx) => {
                   if (el.type == "guide")
                     return (
-                      <li  className={classes.greyText}
-                      style={{ fontSize: 16, color:'red' }}>
+                      <li 
+                      className={classes.greyText}
+                      style={{ fontSize: 16}}>
                         <Typography
                         className={classes.greyText}
                         style={{ fontSize: 16, color:'red' }}
@@ -1027,14 +1039,15 @@ console.log(_arr)
                           el.type +
                           ", Error: " +
                           el.error} */}
-                          {`Will Fail ! ${el.email}`}
+                          {`Will Fail ! ${el.email}, Cause : ${el.error}`}
                       </Typography>
                       </li>
                     );
                   else
                     return (
-                      <li  className={classes.greyText}
-                      style={{ fontSize: 16, color:'red' }}>
+                      <li 
+                      className={classes.greyText}
+                      style={{ fontSize: 16,}}>
 <Typography
                         className={classes.greyText}
                         style={{ fontSize: 16 }}
