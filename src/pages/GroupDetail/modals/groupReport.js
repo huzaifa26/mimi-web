@@ -285,7 +285,7 @@ export const GroupReportBody = (props) => {
                   setModalStates((prev) => ({ ...prev, subSubject: true }));
                 }}
               >
-                <img src={AddIcon} className={classes.AddImage} />
+                <img src={AddIcon} className={classes.AddImage} alt=''/>
               </div>
             </Grid>
             <Grid item lg={2} md={2} sm={2} xs={2}>
@@ -311,6 +311,7 @@ export const GroupReportBody = (props) => {
                       marginTop: 6,
                       marginRight: 10,
                     }}
+                    alt=''
                   />
                   <Typography className={classes.summaryTypo}>
                     {subSubject.name}
@@ -371,6 +372,7 @@ export const GroupReportBody = (props) => {
               <img
                 className={classes.image}
                 src={group.image || defaultAvatars.group}
+                alt=''
               />
             </Box>
             <div className={classes.metaContainer}>
@@ -407,7 +409,7 @@ export const GroupReportBody = (props) => {
 
         <Grid className={classes.actions} item xs={12} md={12} lg={6}>
           <Button
-            startIcon={<img src={Reset} />}
+            startIcon={<img src={Reset} alt=''/>}
             onClick={restoreDefault}
             disabled={group?.isSpecialReport == false}
           >

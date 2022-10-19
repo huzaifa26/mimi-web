@@ -169,6 +169,7 @@ export const Data = React.memo(() => {
           subSubject: [],
           obtainedPoints: 0,
           hasSubSubject: false,
+          
         };
 
         await db

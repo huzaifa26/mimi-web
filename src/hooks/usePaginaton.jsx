@@ -34,12 +34,11 @@ export const usePagination = (query, modifier, comparator) => {
                                 }, {});
 
 
-                            // slightly fixing the doubled bug but another bug occers(create group is not working)
                             let additions = snapshot
                                 .docChanges()
                                 .filter(change => change.type === 'added')
                                 .forEach(el => el.doc.data());
-                            console.log(additions);
+                            // console.log(additions);
 
 
                             if (modifier) {
@@ -54,14 +53,13 @@ export const usePagination = (query, modifier, comparator) => {
                             if (!Object.keys(cache) && !additions.length && !removals.length) return;
 
                             setState(prev => {
-                                console.log(prev)
                                 let updatedData = prev.data.map(el => cache[el.id] || el);
 
-                                console.log(updatedData);
+                                // console.log(updatedData);
 
-                                if (additions.length) {
+                                if (additions?.length) {
                                     const newEntries = differenceWith(additions, updatedData, (a, b) => a.id === b.id);
-                                    console.log(newEntries);
+                                    // console.log(newEntries);
                                     
                                     // console.log({
                                     //     updatedData,
@@ -70,8 +68,6 @@ export const usePagination = (query, modifier, comparator) => {
                                     //     cache,
                                     //     removals,
                                     // });
-
-                                    // slightly fixing the doubled bug but another bug occers(create group is not working)
                                     
                                     if (newEntries.length)
                                     updatedData = [...updatedData, ...newEntries];
