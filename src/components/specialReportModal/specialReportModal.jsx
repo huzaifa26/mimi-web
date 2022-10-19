@@ -140,6 +140,8 @@ export const GroupReportBody = (props) => {
 
     // I have to update the report_template array with 'list' array
     console.log(list)
+    // check if the two array element are same then return, if not then the new array will be updated in report_template list
+    
     
     setSubjects(list);
   };
@@ -160,13 +162,34 @@ export const GroupReportBody = (props) => {
       
           <div>
             <Draggable key={idx} draggableId={"subject-" + idx} index={idx}>
-              {(provider) => (
+              {(provider, snapshot) => {
+
+                const getItemStyle = (isDragging, draggableStyle) => ({
+                  userSelect: "none",
+                  // background: isDragging ? "darkgrey" : "white",
+                  // padding: isDragging ? '0%' : '2%',
+                  paddingLeft: '2%',
+                  margin: '0%',
+                  // fontSize: '17px',
+                  // borderBottom: '0.5px solid gray',
+                  ...draggableStyle,
+                  left: snapshot.isDragging ? 20 : 0,
+                  top: snapshot.isDragging ? 300 : 0,
+                  // styles we need to apply on draggables
+               });
+
+                return (
                 <Accordion
                   ref={provider.innerRef}
                   {...provider.draggableProps}
                   expanded={expanded === `panel${idx}`}
                   onChange={handleC(`panel${idx}`)}
-                >
+                  // style={style}
+                  style={getItemStyle(
+                    snapshot.isDragging,
+                    provider.draggableProps.style
+                 )}
+                  >
                   <AccordionSummary
                     expandIcon={null}
                     aria-controls="panel1bh-content"
@@ -309,7 +332,8 @@ export const GroupReportBody = (props) => {
                     </AccordionDetails>
                   ))}
                 </Accordion>
-              )}
+                )
+              }}
             </Draggable>
             
           </div>
@@ -505,7 +529,7 @@ export const GroupReportBody = (props) => {
         <div {...provider.droppableProps} ref={provider.innerRef}>
           <div className={classes.subjectsContainer}>
           {subjects.map((el, idx) => renderSubjects(el, idx, handleDragEnd))}
-        </div>
+          </div>
           {provider.placeholder}
         </div>
         )}
