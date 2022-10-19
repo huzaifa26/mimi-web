@@ -300,6 +300,7 @@ export const FileUploadBody = (props) => {
   const [total, setTotal] = useState();
   const [created, setCreated] = useState([]);
   const [exists, setExists] = useState([]);
+  const [failed, setFailed] = useState([]);
   const [prevGroup, setprevGroup] = useState([]);
   const [loading, setLoading] = useState(false);
   const { actions } = useUi();
@@ -462,7 +463,7 @@ console.log(value)
         email: _email,
         selectedGroups: _group,
       };
-      console.log(payload)
+      
       await FirebaseHelpers.createStaff
         .execute({
           user,
@@ -474,6 +475,7 @@ console.log(value)
             selectedGroups: [_group[0]?.id],
             password: _password,
           },
+          
         })
         .then(() => {
           console.log("success staffff")
@@ -488,7 +490,14 @@ console.log(value)
             selectedGroups: _group,
             error: e,
           };
-          setExists((prev) => [...prev, _payload]);
+          if(e === 'Error: The email address is already in use by another account.'){
+            setExists((prev) => [...prev, _payload]);
+          } else {
+            setFailed((prev) => [...prev, _payload])
+          }
+         
+          
+          console.log(`error staff ==> ${e} `)
         });
 
       counter = counter + 1;
@@ -558,15 +567,18 @@ console.log(value)
     value = value.filter((e, idx) => idx != 0);
     console.log(value)
     value.map(async (data) => {
-      let _name = data[0];
+      let _name = data[0].toString();
       let _username = data[1].toString();
       let _password = data[2]?.toString();
-      let _group = groups.filter((e) => e.id == data[3]);
+      console.log(groups)
+      let _group = groups.filter((e) => e.name == data[3]);
+      console.log(_group)
       const arrayToObject1 = _group[0];
       let _assigned_days = data[4];
-
-      const _arr = _assigned_days.split(",");
-
+      console.log(typeof(_assigned_days)=="number" ? null : _assigned_days)
+      
+      const _arr = typeof(_assigned_days)=="number" ? [] :[ _assigned_days?.split(",")];
+console.log(_arr)
       const assignedDaysArray = new Array(7).fill(null).map((el, index) => {
         const exists = _arr.find((day) => day == index);
         return !!exists;
@@ -840,7 +852,7 @@ console.log(value)
                     <FormattedMessage id="Already_Existing: " />
                     {exists?.length} {" , "}
                     <FormattedMessage id="Will_Fail: " />
-                    {exists?.length}
+                    {failed?.length}
                   </Typography>
                   
                 </>
@@ -857,7 +869,7 @@ console.log(value)
                     {created?.length} {" , "}
                    
                     <FormattedMessage id="Already_Existing: " />
-                    {exists} {" , "}
+                    {exists?.length} {" , "}
                     <FormattedMessage id="Will_Fail: " />
                     {exists?.length}
                   </Typography>
@@ -869,7 +881,7 @@ console.log(value)
                 <Typography style={{ fontWeight: 600 }}>
                   {/* <FormattedMessage id="created: " /> */}
                 </Typography>
-                {console.log(created)}
+              {console.log(created)}
                 {created.map((el, idx) => {
                   return (
                     <Typography
@@ -901,14 +913,19 @@ console.log(value)
                 <Typography style={{ fontWeight: 600 }}>
                   {/* <FormattedMessage id="created: " /> */}
                 </Typography>
+                <ol >
                 {created.map((el, idx) => {
                   if (el.type == "guide")
                     return (
-                      <Typography
+
+                      <li  className={classes.greyText}
+                      style={{ fontSize: 16, color:'red' }}>
+
+<Typography
                         className={classes.greyText}
                         style={{ fontSize: 16 }}
                       >
-                        {`${idx + 1}.` +
+                        {
                           "Email: " +
                           el.email +
                           ", Name: " +
@@ -918,14 +935,18 @@ console.log(value)
                           ", Role: " +
                           el.type}
                       </Typography>
+                      </li>
+                     
                     );
                   else
                     return (
-                      <Typography
+                     <li  className={classes.greyText}
+                     style={{ fontSize: 16, color:'red' }}>
+                       <Typography
                         className={classes.greyText}
                         style={{ fontSize: 16 }}
                       >
-                        {`${idx + 1}.` +
+                        { +
                           "Email: " +
                           el.email +
                           ", Name: " +
@@ -933,15 +954,15 @@ console.log(value)
                           ", Role: " +
                           el.type}
                       </Typography>
+                     </li>
                     );
                 })}
-                <Typography style={{ fontWeight: 600 }}>
-                  {/* <FormattedMessage id="failed: " /> */}
-                </Typography>
                 {exists.map((el, idx) => {
                   if (el.type == "guide")
                     return (
-                      <Typography
+                      <li  className={classes.greyText}
+                      style={{ fontSize: 16, color:'red' }}>
+                        <Typography
                         className={classes.greyText}
                         style={{ fontSize: 16, color:'red' }}
                       >
@@ -956,12 +977,14 @@ console.log(value)
                           el.type +
                           ", Error: " +
                           el.error} */}
-                          {`${idx + 1}. Already Exist! ${el.email}`}
+                          {`Already Exist! ${el.email}`}
                       </Typography>
+                      </li>
                     );
                   else
                     return (
-                      <Typography
+                      <li>
+<Typography
                         className={classes.greyText}
                         style={{ fontSize: 16 }}
                       >
@@ -978,14 +1001,70 @@ console.log(value)
                          
                          el.error}
                       </Typography>
+                    </li>
                     );
                 })}
+                {failed.map((el, idx) => {
+                  if (el.type == "guide")
+                    return (
+                      <li  className={classes.greyText}
+                      style={{ fontSize: 16, color:'red' }}>
+                        <Typography
+                        className={classes.greyText}
+                        style={{ fontSize: 16, color:'red' }}
+                      >
+                        {/* {`${idx + 1}.` +
+                          "Email: " +
+                          el.email +
+                          ", Name: " +
+                          el.name +
+                          ", Group: " +
+                          el.selectedGroups[0]?.name +
+                          ", Role: " +
+                          el.type +
+                          ", Error: " +
+                          el.error} */}
+                          {`Will Fail ! ${el.email}`}
+                      </Typography>
+                      </li>
+                    );
+                  else
+                    return (
+                      <li  className={classes.greyText}
+                      style={{ fontSize: 16, color:'red' }}>
+<Typography
+                        className={classes.greyText}
+                        style={{ fontSize: 16 }}
+                      >
+                        {/* {`${idx + 1}.` +
+                          "Email: " +
+                          el.email +
+                          ", Name: " +
+                          el.name +
+                          ", Role: " +
+                          el.type +
+                          "," +
+                          el.error} */}
+                            {`${idx + 1}.` + el.email + 
+                         
+                         el.error}
+                      </Typography>
+                      </li>
+                    );
+                })}
+                </ol>
+               
+                <Typography style={{ fontWeight: 600 }}>
+                  {/* <FormattedMessage id="failed: " /> */}
+                </Typography>
+                
+                
               </div>
             )}
             {uploadType == "kids" && (
               <div className={classes.summaryMainDiv}>
                 <Typography style={{ fontWeight: 600 }}>
-                  <FormattedMessage id="created: " />
+                  {/* <FormattedMessage id="created: " /> */}
                 </Typography>
                 {created.map((el, idx) => {
                   return (
@@ -1004,23 +1083,16 @@ console.log(value)
                   );
                 })}
                 <Typography style={{ fontWeight: 600 }}>
-                  <FormattedMessage id="failed: " />
+                  {/* <FormattedMessage id="failed: " /> */}
                 </Typography>
                 {exists.map((el, idx) => {
                   return (
                     <Typography
                       className={classes.greyText}
-                      style={{ fontSize: 16 }}
+                      style={{ fontSize: 16, color:"red"}}
                     >
-                      {`${idx + 1}.` +
-                        "Name: " +
-                        el.name +
-                        ", UserName: " +
-                        el.username +
-                        ", Group: " +
-                        el.group?.name +
-                        "," +
-                        el.error}
+                      {`${idx + 1}. Already Exist! ${el.name}` 
+                        }
                     </Typography>
                   );
                 })}
