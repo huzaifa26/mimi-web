@@ -310,6 +310,9 @@ export const FileUploadBody = (props) => {
   showUploadType(uploadModalText)
  
   const handleGroupSubmit = (value) => {
+    setCreated([])
+    setExists([])
+    setFailed([])
     if (loading) return;
     if (!data) {
       actions.alert("Please select a file", "error");
@@ -522,6 +525,12 @@ console.log(value)
     });
   };
   const handleKidSubmit = async (value) => {
+    setCreated([])
+    setExists([])
+    setFailed([])
+
+
+
     let validation = false;
     if (loading) return;
     if (!data) {
@@ -575,24 +584,24 @@ console.log(value)
     setLoading(true);
     let counter = 0;
     const groups = await FirebaseHelpers.fetchGroups.execute({ user });
-
+    
     value = value.filter((e, idx) => idx != 0);
-   console.log(value)
+
     value.map(async (data) => {
       let _name = data[0].toString();
       let _username = data[1].toString();
       let _password = data[2]?.toString();
   
-      let _group = groups.filter((e) => e.name == data[3]);
-     console.log(`group === > ${_group}`)
+      let _group = groups.filter((e) => e.name === data[3]);
+groups.map(e=>{console.log(e.name)})
       const arrayToObject1 = _group[0];
       let _assigned_days = data[4];
-  console.log(data[3].toString('utf-8'))
+
       
     
       
-      const _arr = typeof(_assigned_days)=="number" ? [] :[ _assigned_days?.split(",")];
-
+      const _arr =[_assigned_days?.split(",")];
+      console.log(_arr)
       const assignedDaysArray = new Array(7).fill(null).map((el, index) => {
         const exists = _arr.find((day) => day == index);
         return !!exists;
@@ -625,7 +634,7 @@ console.log(value)
           setCreated((prev) => [...prev, payload]);
         })
         .catch((error) => {
-          console.log(error);
+          
           const _payload = {
             password: _password,
             name: _name,
@@ -636,8 +645,12 @@ console.log(value)
             assigned_days: assignedDaysArray,
             error: error,
           };
-          console.log(error)
+         if(error=="Kid with same name already exists, Kindly choose a different name"){
           setExists((prev) => [...prev, _payload]);
+         } else {
+          setFailed((prev) => [...prev, _payload]);
+         }
+        
         });
 
       counter = counter + 1;
@@ -851,7 +864,7 @@ console.log(value)
                     <FormattedMessage id="Already_Existing: " />
                     {exists?.length} {" , "}
                     <FormattedMessage id="Will_Fail: " />
-                    {exists?.length}
+                    {failed?.length}
                   </Typography>
                 </>
               )}
@@ -889,7 +902,7 @@ console.log(value)
                     <FormattedMessage id="Already_Existing: " />
                     {exists?.length} {" , "}
                     <FormattedMessage id="Will_Fail: " />
-                    {exists?.length}
+                    {failed?.length}
                   </Typography>
                 </>
               )}
@@ -899,31 +912,36 @@ console.log(value)
                 <Typography style={{ fontWeight: 600 }}>
                   {/* <FormattedMessage id="created: " /> */}
                 </Typography>
-              {console.log(created)}
-                {created.map((el, idx) => {
+           <ol>
+           {created.map((el, idx) => {
                   return (
+                    <li   className={classes.greyText}>
                     <Typography
                       className={classes.greyText}
                       style={{ fontSize: 16 }}
                     >
-                      {`${idx + 1}. ` + el}
+                      {el}
                     </Typography>
+                    </li>
                   );
                 })}
-                <Typography style={{ fontWeight: 600 }}>
-                  {/* <FormattedMessage id="already_exists: " /> */}
-                </Typography>
-                {console.log(exists)}
+               
+               
                 {exists.map((el, idx) => {
                   return (
-                    <Typography
+                    <li  className={classes.greyText}>
+  <Typography
                       className={classes.greyText}
                       style={{ fontSize: 16, color:"red" }}
                     >
-                      {`${idx + 1}. Already Exist! ${el}`  }
+                      {` Already Exist! ${el}`}
                     </Typography>
+                    </li>
+                  
                   );
                 })}
+           </ol>
+              
               </div>
             )}
             {uploadType == "staff" && (
@@ -1089,8 +1107,10 @@ console.log(value)
                 <Typography style={{ fontWeight: 600 }}>
                   {/* <FormattedMessage id="created: " /> */}
                 </Typography>
+                <ol>
                 {created.map((el, idx) => {
                   return (
+                    <li className={classes.greyText}>
                     <Typography
                       className={classes.greyText}
                       style={{ fontSize: 16 }}
@@ -1103,22 +1123,41 @@ console.log(value)
                         ", Group: " +
                         el.group?.name}
                     </Typography>
+                    </li>
                   );
                 })}
-                <Typography style={{ fontWeight: 600 }}>
-                  {/* <FormattedMessage id="failed: " /> */}
-                </Typography>
+                
+                
                 {exists.map((el, idx) => {
                   return (
-                    <Typography
+                    <li  className={classes.greyText}>
+<Typography
                       className={classes.greyText}
                       style={{ fontSize: 16, color:"red"}}
                     >
-                      {`${idx + 1}. Already Exist! ${el.name}` 
+                      {` Already Exist! ${el.name}` 
                         }
                     </Typography>
+                    </li>
+                    
                   );
                 })}
+                {failed.map((el, idx) => {
+                  return (
+                    <li  className={classes.greyText}>
+<Typography
+                      className={classes.greyText}
+                      style={{ fontSize: 16, color:"red"}}
+                    >
+                      {` Will Fail! ${el.error}` 
+                        }
+                    </Typography>
+                    </li>
+                    
+                  );
+                })}
+                </ol>
+                
               </div>
             )}
           </div>

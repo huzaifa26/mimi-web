@@ -153,6 +153,7 @@ function DragDrop(props) {
         raw:true,
         
       });
+      
       /* Get first worksheet */
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
@@ -167,6 +168,7 @@ function DragDrop(props) {
      
     };
     reader.readAsText(file);
+   
   };
 
   return (
