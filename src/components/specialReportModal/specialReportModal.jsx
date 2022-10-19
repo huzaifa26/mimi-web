@@ -63,29 +63,33 @@ export const GroupReportBody = (props) => {
     editSubject: false,
     editSubSubject: false,
   });
-  const closeSubSubject = () =>
-    setModalStates((prev) => ({ ...prev, subSubject: false }));
-  const closeEditSubject = () =>
-    setModalStates((prev) => ({ ...prev, editSubject: false }));
-  const closeEditSubSubject = () =>
-    setModalStates((prev) => ({ ...prev, editSubSubject: false }));
-  const closeSubject = () =>
-    setModalStates((prev) => ({ ...prev, subject: false }));
+  const closeSubSubject = () => setModalStates((prev) => ({ ...prev, subSubject: false }));
+
+  const closeEditSubject = () => setModalStates((prev) => ({ ...prev, editSubject: false }));
+
+  const closeEditSubSubject = () => setModalStates((prev) => ({ ...prev, editSubSubject: false }));
+
+  const closeSubject = () => setModalStates((prev) => ({ ...prev, subject: false }));
+
   const handleChange = (panel) => {
     setExpanded((prev) => (prev === panel ? false : panel));
   };
+
   const subjectAdded = (payload, subject) => {
     setSubjects(payload);
     setSubjectAdded((prev) => [...prev, subject]);
   };
+
   const subSubjectAdded = (payload, subSubject) => {
     setSubjects(payload);
     setSubSubjectAdded((prev) => [...prev, subSubject]);
   };
+
   const subjectEdited = (payload, subSubject) => {
     setSubjects(payload);
     setSubjectEdit((prev) => [...prev, subSubject]);
   };
+
   const subSubjectEdited = (payload, subSubject) => {
     setSubjects(payload);
     setSubSubjectEdit((prev) => [...prev, subSubject]);
@@ -140,7 +144,7 @@ export const GroupReportBody = (props) => {
 
     // I have to update the report_template array with 'list' array
     console.log(list)
-    
+
     setSubjects(list);
   };
 
@@ -148,173 +152,173 @@ export const GroupReportBody = (props) => {
     const expandIconProps =
       subject.subSubject.length > 0
         ? {
-            onClick: () => handleChange(`panel${idx}`),
-          }
+          onClick: () => handleChange(`panel${idx}`),
+        }
         : {
-            style: {
-              visibility: "hidden",
-            },
-          };
+          style: {
+            visibility: "hidden",
+          },
+        };
 
     return (
-      
-          <div>
-            <Draggable key={idx} draggableId={"subject-" + idx} index={idx}>
-              {(provider) => (
-                <Accordion
-                  ref={provider.innerRef}
-                  {...provider.draggableProps}
-                  expanded={expanded === `panel${idx}`}
-                  onChange={handleC(`panel${idx}`)}
-                >
-                  <AccordionSummary
-                    expandIcon={null}
-                    aria-controls="panel1bh-content"
-                    id="panel1bh-header"
-                    className={classes.accordionSummary}
+
+      <div>
+        <Draggable key={idx} draggableId={"subject-" + idx} index={idx}>
+          {(provider) => (
+            <Accordion
+              ref={provider.innerRef}
+              {...provider.draggableProps}
+              expanded={expanded === `panel${idx}`}
+              onChange={handleC(`panel${idx}`)}
+            >
+              <AccordionSummary
+                expandIcon={null}
+                aria-controls="panel1bh-content"
+                id="panel1bh-header"
+                className={classes.accordionSummary}
+              >
+                <Grid container justify="center" alignItems="center">
+
+                  <Grid
+                    item
+                    lg={4}
+                    md={5}
+                    sm={4}
+                    xs={5}
+
                   >
-                    <Grid container justify="center" alignItems="center">
+                    <Box display={"flex"}>
 
-                      <Grid
-                        item
-                        lg={4}
-                        md={5}
-                        sm={4}
-                        xs={5}
-                        
-                      >
-                        <Box display={"flex"}>
+                      {/* Dragable icon */}
+                      <Typography {...provider.dragHandleProps}>
+                        <DragIndicatorIcon />
+                      </Typography>
 
-                          {/* Dragable icon */}
-                          <Typography {...provider.dragHandleProps}>
-                            <DragIndicatorIcon />
-                          </Typography>
+                      <Box {...expandIconProps} marginRight={1}>
+                        {expanded === `panel${idx}` ? (
+                          <ExpandLessIcon style={{ color: "#8F92A1" }} />
+                        ) : (
+                          <ExpandMoreIcon style={{ color: "#8F92A1" }} />
+                        )}
+                      </Box>
 
-                          <Box {...expandIconProps} marginRight={1}>
-                            {expanded === `panel${idx}` ? (
-                              <ExpandLessIcon style={{ color: "#8F92A1" }} />
-                            ) : (
-                              <ExpandMoreIcon style={{ color: "#8F92A1" }} />
-                            )}
-                          </Box>
+                      <Typography className={classes.accordianText}>
+                        {subject.name}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item lg={4} md={2} sm={4} xs={3}>
+                    <Typography className={classes.accordianText}>
+                      {subject.totalPoints}
+                    </Typography>
+                  </Grid>
+                  <Grid item lg={2} md={2} sm={2} xs={2}>
+                    <div
+                      onClick={stopEventBubble(() => {
+                        setSelectedSubject(subject);
+                        setModalStates((prev) => ({
+                          ...prev,
+                          subSubject: true,
+                        }));
+                      })}
+                    >
+                      <img
+                        src={AddIcon}
+                        className={classes.AddImage}
+                        alt=""
+                      />
+                    </div>
+                  </Grid>
+                  <Grid item lg={2} md={2} sm={2} xs={2}>
+                    <Edit
+                      className={classes.editHover}
+                      style={{
+                        color: "#8F92A1",
+                        marginRight: "10",
+                      }}
+                      onClick={stopEventBubble(() => {
+                        setSelectedSubject(subject);
+                        setModalStates((prev) => ({
+                          ...prev,
+                          editSubject: true,
+                        }));
+                      })}
+                    />
+                    <Delete
+                      className={classes.delHover}
+                      style={{
+                        color: "#8F92A1",
+                      }}
+                      onClick={stopEventBubble(() => {
+                        _handleSubjectDelete(subject.id, subject);
+                      })}
+                    />
+                  </Grid>
+                </Grid>
+              </AccordionSummary>
 
-                          <Typography className={classes.accordianText}>
-                            {subject.name}
-                          </Typography>
-                        </Box>
-                      </Grid>
-                      <Grid item lg={4} md={2} sm={4} xs={3}>
-                        <Typography className={classes.accordianText}>
-                          {subject.totalPoints}
+              {subject.subSubject.map((subSubject, idx) => (
+                <AccordionDetails>
+                  <Grid container justify="center" alignItems="center">
+                    <Grid item lg={4} md={5} sm={4} xs={5}>
+                      <div style={{ display: "flex" }}>
+                        <img
+                          src={TickIcon}
+                          style={{
+                            width: 13,
+                            height: 12,
+                            marginTop: 6,
+                            marginRight: 10,
+                          }}
+                          alt=""
+                        />
+                        <Typography className={classes.summaryTypo}>
+                          {subSubject.name}
                         </Typography>
-                      </Grid>
-                      <Grid item lg={2} md={2} sm={2} xs={2}>
-                        <div
-                          onClick={stopEventBubble(() => {
-                            setSelectedSubject(subject);
-                            setModalStates((prev) => ({
-                              ...prev,
-                              subSubject: true,
-                            }));
-                          })}
-                        >
-                          <img
-                            src={AddIcon}
-                            className={classes.AddImage}
-                            alt=""
-                          />
-                        </div>
-                      </Grid>
-                      <Grid item lg={2} md={2} sm={2} xs={2}>
-                        <Edit
-                          className={classes.editHover}
-                          style={{
-                            color: "#8F92A1",
-                            marginRight: "10",
-                          }}
-                          onClick={stopEventBubble(() => {
-                            setSelectedSubject(subject);
-                            setModalStates((prev) => ({
-                              ...prev,
-                              editSubject: true,
-                            }));
-                          })}
-                        />
-                        <Delete
-                          className={classes.delHover}
-                          style={{
-                            color: "#8F92A1",
-                          }}
-                          onClick={stopEventBubble(() => {
-                            _handleSubjectDelete(subject.id, subject);
-                          })}
-                        />
-                      </Grid>
+                      </div>
                     </Grid>
-                  </AccordionSummary>
+                    <Grid item lg={4} md={2} sm={4} xs={3}>
+                      <Typography className={classes.accordianText}>
+                        {subSubject.totalPoints}
+                      </Typography>
+                    </Grid>
+                    <Grid item lg={2} md={2} sm={2} xs={2}></Grid>
+                    <Grid item lg={2} md={2} sm={2} xs={2}>
+                      <Edit
+                        className={classes.editHover}
+                        style={{
+                          color: "#8F92A1",
+                          marginRight: "10",
+                        }}
+                        onClick={() => {
+                          setSelectedSubject(subject);
+                          setSelectedSubSubject(subSubject);
+                          setModalStates((prev) => ({
+                            ...prev,
+                            editSubSubject: true,
+                          }));
+                        }}
+                      />
+                      <Delete
+                        className={classes.delHover}
+                        style={{
+                          color: "#8F92A1",
+                        }}
+                        onClick={() => {
+                          _handleSubSubjectDelete(subSubject, subject);
+                        }}
+                      />
+                    </Grid>
+                  </Grid>
+                </AccordionDetails>
+              ))}
+            </Accordion>
+          )}
+        </Draggable>
 
-                  {subject.subSubject.map((subSubject, idx) => (
-                    <AccordionDetails>
-                      <Grid container justify="center" alignItems="center">
-                        <Grid item lg={4} md={5} sm={4} xs={5}>
-                          <div style={{ display: "flex" }}>
-                            <img
-                              src={TickIcon}
-                              style={{
-                                width: 13,
-                                height: 12,
-                                marginTop: 6,
-                                marginRight: 10,
-                              }}
-                              alt=""
-                            />
-                            <Typography className={classes.summaryTypo}>
-                              {subSubject.name}
-                            </Typography>
-                          </div>
-                        </Grid>
-                        <Grid item lg={4} md={2} sm={4} xs={3}>
-                          <Typography className={classes.accordianText}>
-                            {subSubject.totalPoints}
-                          </Typography>
-                        </Grid>
-                        <Grid item lg={2} md={2} sm={2} xs={2}></Grid>
-                        <Grid item lg={2} md={2} sm={2} xs={2}>
-                          <Edit
-                            className={classes.editHover}
-                            style={{
-                              color: "#8F92A1",
-                              marginRight: "10",
-                            }}
-                            onClick={() => {
-                              setSelectedSubject(subject);
-                              setSelectedSubSubject(subSubject);
-                              setModalStates((prev) => ({
-                                ...prev,
-                                editSubSubject: true,
-                              }));
-                            }}
-                          />
-                          <Delete
-                            className={classes.delHover}
-                            style={{
-                              color: "#8F92A1",
-                            }}
-                            onClick={() => {
-                              _handleSubSubjectDelete(subSubject, subject);
-                            }}
-                          />
-                        </Grid>
-                      </Grid>
-                    </AccordionDetails>
-                  ))}
-                </Accordion>
-              )}
-            </Draggable>
-            
-          </div>
-        
-      
+      </div>
+
+
     );
   };
 
@@ -500,15 +504,15 @@ export const GroupReportBody = (props) => {
 
 
       <DragDropContext onDragEnd={handleDragEnd}>
-      <Droppable droppableId="subject-1">
-        {(provider) => (
-        <div {...provider.droppableProps} ref={provider.innerRef}>
-          <div className={classes.subjectsContainer}>
-          {subjects.map((el, idx) => renderSubjects(el, idx, handleDragEnd))}
-        </div>
-          {provider.placeholder}
-        </div>
-        )}
+        <Droppable droppableId="subject-1">
+          {(provider) => (
+            <div {...provider.droppableProps} ref={provider.innerRef}>
+              <div className={classes.subjectsContainer}>
+                {subjects.map((el, idx) => renderSubjects(el, idx, handleDragEnd))}
+              </div>
+              {provider.placeholder}
+            </div>
+          )}
         </Droppable>
       </DragDropContext>
 
