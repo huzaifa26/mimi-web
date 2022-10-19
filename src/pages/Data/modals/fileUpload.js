@@ -593,7 +593,7 @@ console.log(value)
       let _password = data[2]?.toString();
   
       let _group = groups.filter((e) => e.name === data[3]);
-groups.map(e=>{console.log(e.name)})
+
       const arrayToObject1 = _group[0];
       let _assigned_days = data[4];
 
@@ -633,8 +633,8 @@ groups.map(e=>{console.log(e.name)})
         .then(() => {
           setCreated((prev) => [...prev, payload]);
         })
-        .catch((error) => {
-          
+        .catch((e) => {
+          console.log(e)
           const _payload = {
             password: _password,
             name: _name,
@@ -643,9 +643,9 @@ groups.map(e=>{console.log(e.name)})
             group: arrayToObject1,
             joinDate: new Date(),
             assigned_days: assignedDaysArray,
-            error: error,
+            error: e,
           };
-         if(error=="Kid with same name already exists, Kindly choose a different name"){
+         if(e=="Kid with same name already exists, Kindly choose a different name"){
           setExists((prev) => [...prev, _payload]);
          } else {
           setFailed((prev) => [...prev, _payload]);
@@ -1149,7 +1149,8 @@ groups.map(e=>{console.log(e.name)})
                       className={classes.greyText}
                       style={{ fontSize: 16, color:"red"}}
                     >
-                      {` Will Fail! ${el.error}` 
+                      {el.error=="TypeError: Cannot read properties of undefined (reading 'name')" ? ` Will Fail! Cause : Group Name Doesn't Exists you provided with ${el.name}` : ` Will Fail! Cause :  ${el.error}`  }
+                      {
                         }
                     </Typography>
                     </li>
