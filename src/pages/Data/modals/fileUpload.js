@@ -1149,7 +1149,7 @@ console.log(value)
                       className={classes.greyText}
                       style={{ fontSize: 16, color:"red"}}
                     >
-                      {el.error=="TypeError: Cannot read properties of undefined (reading 'name')" ? ` Will Fail! Cause : Group Name Doesn't Exists you provided with ${el.name}` : ` Will Fail! Cause :  ${el.error}`  }
+                      {el.error=="TypeError: Cannot read properties of undefined (reading 'name')" ? ` Will Fail! Cause : Group Name Doesn't exist you provided with ${el.name}` : ` Will Fail! Cause :  ${el.error}`  }
                       {
                         }
                     </Typography>
