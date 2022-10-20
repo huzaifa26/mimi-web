@@ -9,6 +9,7 @@ import React, { Fragment, useState } from "react";
 import { getPageStyles, getSectionHeaderStyles } from "../../../utils/helpers";
 import { FormattedMessage } from "react-intl";
 import GroupIcon from "../../../assets/icons/groupsIData.png";
+
 import KidIcon from "../../../assets/icons/kid.png";
 import StaffIcon from "../../../assets/icons/staffData.png";
 import Tick from "../../../assets/icons/tickIconData.png";
@@ -292,7 +293,7 @@ const kidData = [
   },
 ];
 export const FileUploadBody = (props) => {
-  const { handleClose,showUploadType } = props;
+  const { handleClose, showUploadType } = props;
   const [step, setStep] = useState(0);
   const [uploadType, setUploadType] = useState();
   const [uploadModalText, setUploadModalText] = useState('');
@@ -306,9 +307,9 @@ export const FileUploadBody = (props) => {
   const { actions } = useUi();
   const { state: storeState } = useStore();
   const { user, institute } = storeState;
- 
+
   showUploadType(uploadModalText)
- 
+
   const handleGroupSubmit = (value) => {
     setCreated([])
     setExists([])
@@ -318,7 +319,7 @@ export const FileUploadBody = (props) => {
       actions.alert("Please select a file", "error");
       return;
     }
-    
+
     if (value[0].length != 1) {
       actions.alert(
         "Please select a file according to Group template syntax",
@@ -375,19 +376,17 @@ export const FileUploadBody = (props) => {
       }
     });
   };
-  
+
   const handleStaffSubmit = async (value) => {
     setCreated([])
     setExists([])
     setFailed([])
     setUploadModalText("Excel Upload Staff")
-   console.log("staff")
-console.log(value)
     let validation = false;
     const groups = await FirebaseHelpers.fetchGroups.execute({ user });
     if (loading) return;
     if (!data) {
-      
+
       actions.alert("Please select a file", "error");
       return;
     }
@@ -446,82 +445,124 @@ console.log(value)
 
     let counter = 0;
     value = value.filter((e, idx) => idx != 0);
-    value = value.filter((e)=> !e.length==0);
-    
+    value = value.filter((e) => !e.length == 0);
+
     console.log({ v: value });
-   
+
     value.map(async (data) => {
 
-  
-        let _name = data[0]?.toString();
-        let _type = data[1]?.toString();
-        let _email = data[2]?.toString();
-        let _password = data[3]?.toString();
-     
-        let _group = groups?.filter((e) => e.name == data[4]);
-        console.log(`group is ${_group}`)
-        if (_type == "manager") {
-          _type = "mngr";
-        } else if (_type == "coordinator") {
-          _type = "crdntr";
-        } else if (_type == "general staff") {
-          _type = "gstaff";
+
+      let _name = data[0]?.toString();
+      let _type = data[1]?.toString();
+      let _email = data[2]?.toString();
+      let _password = data[3]?.toString();
+
+      let _group = groups?.filter((e) => e.name === data[4]);
+
+      if (data[4] === undefined) {
+        console.log("undefined")
+      } else {
+        if (_group.length === 0) {
+          const _payload = {
+            name: _name,
+            type: _type,
+            email: _email,
+            selectedGroups: _group,
+            error: `${data[4]} Group Does not Exist with name ${_name}`,
+          };
+          setFailed((prev) => [...prev, _payload])
         }
-  
-        const payload = {
+      }
+
+
+
+
+      if (_type == "manager") {
+        _type = "mngr";
+      } else if (_type == "coordinator") {
+        _type = "crdntr";
+      } else if (_type == "general staff") {
+        _type = "gstaff";
+      } else if (_type == "guide") {
+        _type = "guide";
+        if (_group.length > 1) {
+          const _payload = {
+            name: _name,
+            type: _type,
+            email: _email,
+            selectedGroups: _group,
+            error: `${_type} can not have two groups`,
+          };
+          setFailed((prev) => [...prev, _payload])
+        }
+      }
+      else {
+        const _payload = {
           name: _name,
           type: _type,
           email: _email,
           selectedGroups: _group,
+          error: `${_type} type does not exist with name ${_name}`,
         };
-        
-        await FirebaseHelpers.createStaff
-          .execute({
-            user,
-            institute,
-            staff: {
-              name: _name,
-              type: _type,
-              email: _email,
-              selectedGroups: [_group[0]?.id==undefined?data[4]:_group[0]?.id],
-              password: _password,
-            },
-            
-          })
-          .then(() => {
-           
-            setCreated((prev) => [...prev, payload]);
-          })
-          .catch((e) => {
-           
-            const _payload = {
-              name: _name,
-              type: _type,
-              email: _email,
-              selectedGroups: _group,
-              error: e.message,
-            };
-            if(e.code === 'auth/email-already-in-use'){
-              setExists((prev) => [...prev, _payload]);
-            } else {
-              setFailed((prev) => [...prev, _payload])
-            }
-           
-            
-            console.log(e)
-          });
-  
-        counter = counter + 1;
-        if (value.length == counter) {
-          setTotal(counter);
-          setLoading(false);
-          setStep(2);
-          setUploadModalText(`${uploadModalText} summery`)
-        }
-      
+        setFailed((prev) => [...prev, _payload])
+      }
+
+      const payload = {
+        name: _name,
+        type: _type,
+        email: _email,
+        selectedGroups: _group,
+      };
 
 
-     
+      await FirebaseHelpers.createStaff
+        .execute({
+          user,
+          institute,
+          staff: {
+            name: _name,
+            type: _type,
+            email: _email,
+            selectedGroups: [!_group.length == 0 ? _group : []],
+
+            password: _password,
+          },
+
+        })
+        .then(() => {
+
+          setCreated((prev) => [...prev, payload]);
+        })
+        .catch((e) => {
+
+          const _payload = {
+            name: _name,
+            type: _type,
+            email: _email,
+            selectedGroups: _group,
+            error: e.message,
+          };
+          if (e.code === 'auth/email-already-in-use') {
+            setExists((prev) => [...prev, _payload]);
+          } else {
+            setFailed((prev) => [...prev, _payload])
+          }
+
+
+
+        });
+
+      counter = counter + 1;
+      if (value.length == counter) {
+        setTotal(counter);
+        setLoading(false);
+        setStep(2);
+        setUploadModalText(`${uploadModalText} summery`)
+      }
+
+
+
+
     });
   };
   const handleKidSubmit = async (value) => {
@@ -584,24 +625,24 @@ console.log(value)
     setLoading(true);
     let counter = 0;
     const groups = await FirebaseHelpers.fetchGroups.execute({ user });
-    
+
     value = value.filter((e, idx) => idx != 0);
 
     value.map(async (data) => {
-      let _name = data[0].toString();
-      let _username = data[1].toString();
-      let _password = data[2]?.toString();
-  
+      let _name = data[0] ? data[0].toString() : 'empty';
+      let _username = data[1] ? data[1].toString() : 'empty';
+      let _password = data[2] ? data[2].toString() : 'empty';
+
       let _group = groups.filter((e) => e.name === data[3]);
 
       const arrayToObject1 = _group[0];
       let _assigned_days = data[4];
 
-      
-    
-      
-      const _arr =[_assigned_days?.split(",")];
-      console.log(_arr)
+
+
+
+      const _arr = [_assigned_days?.split(",")];
+
       const assignedDaysArray = new Array(7).fill(null).map((el, index) => {
         const exists = _arr.find((day) => day == index);
         return !!exists;
@@ -634,7 +675,7 @@ console.log(value)
           setCreated((prev) => [...prev, payload]);
         })
         .catch((e) => {
-          console.log(e)
+
           const _payload = {
             password: _password,
             name: _name,
@@ -645,12 +686,12 @@ console.log(value)
             assigned_days: assignedDaysArray,
             error: e,
           };
-         if(e=="Kid with same name already exists, Kindly choose a different name"){
-          setExists((prev) => [...prev, _payload]);
-         } else {
-          setFailed((prev) => [...prev, _payload]);
-         }
-        
+          if (e == "Kid with same name already exists, Kindly choose a different name") {
+            setExists((prev) => [...prev, _payload]);
+          } else {
+            setFailed((prev) => [...prev, _payload]);
+          }
+
         });
 
       counter = counter + 1;
@@ -677,7 +718,7 @@ console.log(value)
               <div
                 className={classes.box}
                 onClick={() => {
-                
+
                   setUploadType("staff");
                   setUploadModalText("staff")
                   setStep(1);
@@ -748,6 +789,7 @@ console.log(value)
                 datas={groupData}
               >
                 <Button className={classes.pinkButton}>
+
                   <FormattedMessage id="download_template" />
                 </Button>
               </CsvDownloader>
@@ -783,9 +825,10 @@ console.log(value)
                 <Button
                   className={classes.cancelButton}
                   onClick={() => {
-                    
+
                     setUploadModalText('')
-                    setStep(0)}}
+                    setStep(0)
+                  }}
                 >
                   <FormattedMessage id="back" />
                 </Button>
@@ -793,7 +836,7 @@ console.log(value)
             </Grid>
             <Grid item xs={6} justifyContent="center">
               <div className={classes.summaryHeader}>
-               
+
                 {/* <CButton
                   className={classes.uploadButton}
                   loading={loading}
@@ -812,24 +855,24 @@ console.log(value)
                 >
                   <FormattedMessage id="upload" />
                 </CButton> */}
-                <CButton 
-                 className={classes.uploadButton}
-                 loading={loading}
-                 disable={!data}
-                 onClick={()=>{
-                  {
-                    uploadType == "groups" && handleGroupSubmit(data);
-                  }
-                  {
-                    uploadType == "staff" && handleStaffSubmit(data);
-                  }
-                  {
-                    uploadType == "kids" && handleKidSubmit(data);
-                  }
-                  setUploadModalText(`${uploadModalText} summery`)
-                  
-                 }}>
- <FormattedMessage id="apply" />
+                <CButton
+                  className={classes.uploadButton}
+                  loading={loading}
+                  disable={!data}
+                  onClick={() => {
+                    {
+                      uploadType == "groups" && handleGroupSubmit(data);
+                    }
+                    {
+                      uploadType == "staff" && handleStaffSubmit(data);
+                    }
+                    {
+                      uploadType == "kids" && handleKidSubmit(data);
+                    }
+                    setUploadModalText(`${uploadModalText} summery`)
+
+                  }}>
+                  <FormattedMessage id="apply" />
                 </CButton>
               </div>
             </Grid>
@@ -853,7 +896,7 @@ console.log(value)
             <div className={classes.summaryTopDiv}>
               {uploadType == "groups" && (
                 <>
-                 <Typography className={classes.summaryTitle}>
+                  <Typography className={classes.summaryTitle}>
                     <FormattedMessage id="groups" />
                   </Typography>
                   <Typography className={classes.greyText}>
@@ -870,14 +913,14 @@ console.log(value)
               )}
               {uploadType == "staff" && (
                 <>
-             
+
                   <Typography className={classes.summaryTitle}>
                     <FormattedMessage id="staff" />
                   </Typography>
                   <Typography className={classes.greyText}>
                     <FormattedMessage id="total_staff_in_file: " />
                     {total} {" , "}
-                   
+
                     <FormattedMessage id="Will_Be_Created: " />
                     {created?.length} {" , "}
                     <FormattedMessage id="Already_Existing: " />
@@ -885,12 +928,12 @@ console.log(value)
                     <FormattedMessage id="Will_Fail: " />
                     {failed?.length}
                   </Typography>
-                  
+
                 </>
               )}
               {uploadType == "kids" && (
                 <>
-                 <Typography className={classes.summaryTitle}>
+                  <Typography className={classes.summaryTitle}>
                     <FormattedMessage id="kids" />
                   </Typography>
                   <Typography className={classes.greyText}>
@@ -898,7 +941,7 @@ console.log(value)
                     {total} {" , "}
                     <FormattedMessage id="Will_Be_Created: " />
                     {created?.length} {" , "}
-                   
+
                     <FormattedMessage id="Already_Existing: " />
                     {exists?.length} {" , "}
                     <FormattedMessage id="Will_Fail: " />
@@ -912,36 +955,36 @@ console.log(value)
                 <Typography style={{ fontWeight: 600 }}>
                   {/* <FormattedMessage id="created: " /> */}
                 </Typography>
-           <ol>
-           {created.map((el, idx) => {
-                  return (
-                    <li   className={classes.greyText}>
-                    <Typography
-                      className={classes.greyText}
-                      style={{ fontSize: 16 }}
-                    >
-                      {el}
-                    </Typography>
-                    </li>
-                  );
-                })}
-               
-               
-                {exists.map((el, idx) => {
-                  return (
-                    <li  className={classes.greyText}>
-  <Typography
-                      className={classes.greyText}
-                      style={{ fontSize: 16, color:"red" }}
-                    >
-                      {` Already Exist! ${el}`}
-                    </Typography>
-                    </li>
-                  
-                  );
-                })}
-           </ol>
-              
+                <ol>
+                  {created.map((el, idx) => {
+                    return (
+                      <li className={classes.greyText}>
+                        <Typography
+                          className={classes.greyText}
+                          style={{ fontSize: 16 }}
+                        >
+                          {el}
+                        </Typography>
+                      </li>
+                    );
+                  })}
+
+
+                  {exists.map((el, idx) => {
+                    return (
+                      <li className={classes.greyText}>
+                        <Typography
+                          className={classes.greyText}
+                          style={{ fontSize: 16, color: "red" }}
+                        >
+                          {` Already Exist! ${el}`}
+                        </Typography>
+                      </li>
+
+                    );
+                  })}
+                </ol>
+
               </div>
             )}
             {uploadType == "staff" && (
@@ -950,62 +993,62 @@ console.log(value)
                   {/* <FormattedMessage id="created: " /> */}
                 </Typography>
                 <ol >
-                {created.map((el, idx) => {
-                  if (el.type == "guide")
-                    return (
+                  {created.map((el, idx) => {
+                    if (el.type == "guide")
+                      return (
 
-                      <li 
-                      className={classes.greyText}
-                      style={{ fontSize: 16 }}>
+                        <li
+                          className={classes.greyText}
+                          style={{ fontSize: 16 }}>
 
-<Typography
-                        className={classes.greyText}
-                        style={{ fontSize: 16 }}
-                      >
-                        {
-                          "Email: " +
-                          el.email +
-                          ", Name: " +
-                          el.name +
-                          ", Group: " +
-                          el.selectedGroups[0]?.name +
-                          ", Role: " +
-                          el.type}
-                      </Typography>
-                      </li>
-                     
-                    );
-                  else
-                    return (
-                     <li 
-                     className={classes.greyText}
-                     style={{ fontSize: 16}}>
-                       <Typography
-                        className={classes.greyText}
-                        style={{ fontSize: 16 }}
-                      >
-                        { +
-                          "Email: " +
-                          el.email +
-                          ", Name: " +
-                          el.name +
-                          ", Role: " +
-                          el.type}
-                      </Typography>
-                     </li>
-                    );
-                })}
-                {exists.map((el, idx) => {
-                  if (el.type == "guide")
-                    return (
-                      <li 
-                      className={classes.greyText}
-                      style={{ fontSize: 16}}>
-                        <Typography
-                        className={classes.greyText}
-                        style={{ fontSize: 16, color:'red' }}
-                      >
-                        {/* {`${idx + 1}.` +
+                          <Typography
+                            className={classes.greyText}
+                            style={{ fontSize: 16 }}
+                          >
+                            {
+                              "Email: " +
+                              el.email +
+                              ", Name: " +
+                              el.name +
+                              ", Group: " +
+                              el.selectedGroups[0]?.name +
+                              ", Role: " +
+                              el.type}
+                          </Typography>
+                        </li>
+
+                      );
+                    else
+                      return (
+                        <li
+                          className={classes.greyText}
+                          style={{ fontSize: 16 }}>
+                          <Typography
+                            className={classes.greyText}
+                            style={{ fontSize: 16 }}
+                          >
+                            {
+                              "Email: " +
+                              el.email +
+                              ", Name: " +
+                              el.name +
+                              ", Role: " +
+                              el.type}
+                          </Typography>
+                        </li>
+                      );
+                  })}
+                  {exists.map((el, idx) => {
+                    if (el.type == "guide")
+                      return (
+                        <li
+                          className={classes.greyText}
+                          style={{ fontSize: 16 }}>
+                          <Typography
+                            className={classes.greyText}
+                            style={{ fontSize: 16, color: 'red' }}
+                          >
+                            {/* {`${idx + 1}.` +
                           "Email: " +
                           el.email +
                           ", Name: " +
@@ -1016,18 +1059,18 @@ console.log(value)
                           el.type +
                           ", Error: " +
                           el.error} */}
-                          {`Already Exist! ${el.email}`}
-                      </Typography>
-                      </li>
-                    );
-                  else
-                    return (
-                      <li    className={classes.greyText}  style={{ fontSize: 16}} >
-<Typography
-                        className={classes.greyText}
-                        style={{ fontSize: 16 , color:'red'}}
-                      >
-                        {/* {`${idx + 1}.` +
+                            {`Already Exist! ${el.email}`}
+                          </Typography>
+                        </li>
+                      );
+                    else
+                      return (
+                        <li className={classes.greyText} style={{ fontSize: 16 }} >
+                          <Typography
+                            className={classes.greyText}
+                            style={{ fontSize: 16, color: 'red' }}
+                          >
+                            {/* {`${idx + 1}.` +
                           "Email: " +
                           el.email +
                           ", Name: " +
@@ -1036,24 +1079,22 @@ console.log(value)
                           el.type +
                           "," +
                           el.error} */}
-                            {`${idx + 1}.` + el.email + 
-                         
-                         el.error}
-                      </Typography>
-                    </li>
-                    );
-                })}
-                {failed.map((el, idx) => {
-                  if (el.type == "guide")
-                    return (
-                      <li 
-                      className={classes.greyText}
-                      style={{ fontSize: 16}}>
-                        <Typography
-                        className={classes.greyText}
-                        style={{ fontSize: 16, color:'red' }}
-                      >
-                        {/* {`${idx + 1}.` +
+                            {`Already Exist! ${el.email}`}
+                          </Typography>
+                        </li>
+                      );
+                  })}
+                  {failed.map((el, idx) => {
+                    if (el.type == "guide")
+                      return (
+                        <li
+                          className={classes.greyText}
+                          style={{ fontSize: 16 }}>
+                          <Typography
+                            className={classes.greyText}
+                            style={{ fontSize: 16, color: 'red' }}
+                          >
+                            {/* {`${idx + 1}.` +
                           "Email: " +
                           el.email +
                           ", Name: " +
@@ -1064,20 +1105,20 @@ console.log(value)
                           el.type +
                           ", Error: " +
                           el.error} */}
-                          {`Will Fail ! ${el.email}, Cause : ${el.error}`}
-                      </Typography>
-                      </li>
-                    );
-                  else
-                    return (
-                      <li 
-                      className={classes.greyText}
-                      style={{ fontSize: 16,}}>
-<Typography
-                        className={classes.greyText}
-                        style={{ fontSize: 16 }}
-                      >
-                        {/* {`${idx + 1}.` +
+                            {`Will Fail ! ${el.email}, Cause : ${el.error}`}
+                          </Typography>
+                        </li>
+                      );
+                    else
+                      return (
+                        <li
+                          className={classes.greyText}
+                          style={{ fontSize: 16, }}>
+                          <Typography
+                            className={classes.greyText}
+                            style={{ fontSize: 16 }}
+                          >
+                            {/* {`${idx + 1}.` +
                           "Email: " +
                           el.email +
                           ", Name: " +
@@ -1086,20 +1127,20 @@ console.log(value)
                           el.type +
                           "," +
                           el.error} */}
-                            {`${idx + 1}.` + el.email + 
-                         
-                         el.error}
-                      </Typography>
-                      </li>
-                    );
-                })}
+                            {`${idx + 1}.` + el.email +
+
+                              el.error}
+                          </Typography>
+                        </li>
+                      );
+                  })}
                 </ol>
-               
+
                 <Typography style={{ fontWeight: 600 }}>
                   {/* <FormattedMessage id="failed: " /> */}
                 </Typography>
-                
-                
+
+
               </div>
             )}
             {uploadType == "kids" && (
@@ -1108,90 +1149,91 @@ console.log(value)
                   {/* <FormattedMessage id="created: " /> */}
                 </Typography>
                 <ol>
-                {created.map((el, idx) => {
-                  return (
-                    <li className={classes.greyText}>
-                    <Typography
-                      className={classes.greyText}
-                      style={{ fontSize: 16 }}
-                    >
-                      {`${idx + 1}.` +
-                        "Name: " +
-                        el.name +
-                        ", UserName: " +
-                        el.username +
-                        ", Group: " +
-                        el.group?.name}
-                    </Typography>
-                    </li>
-                  );
-                })}
-                
-                
-                {exists.map((el, idx) => {
-                  return (
-                    <li  className={classes.greyText}>
-<Typography
-                      className={classes.greyText}
-                      style={{ fontSize: 16, color:"red"}}
-                    >
-                      {` Already Exist! ${el.name}` 
-                        }
-                    </Typography>
-                    </li>
-                    
-                  );
-                })}
-                {failed.map((el, idx) => {
-                  return (
-                    <li  className={classes.greyText}>
-<Typography
-                      className={classes.greyText}
-                      style={{ fontSize: 16, color:"red"}}
-                    >
-                      {el.error=="TypeError: Cannot read properties of undefined (reading 'name')" ? ` Will Fail! Cause : Group Name Doesn't exist you provided with ${el.name}` : ` Will Fail! Cause :  ${el.error}`  }
-                      {
-                        }
-                    </Typography>
-                    </li>
-                    
-                  );
-                })}
+                  {created.map((el, idx) => {
+                    return (
+                      <li className={classes.greyText}>
+                        <Typography
+                          className={classes.greyText}
+                          style={{ fontSize: 16 }}
+                        >
+                          {
+                            "Name: " +
+                            el.name +
+                            ", UserName: " +
+                            el.username +
+                            ", Group: " +
+                            el.group?.name}
+                        </Typography>
+                      </li>
+                    );
+                  })}
+
+
+                  {exists.map((el, idx) => {
+                    return (
+                      <li className={classes.greyText}>
+                        <Typography
+                          className={classes.greyText}
+                          style={{ fontSize: 16, color: "red" }}
+                        >
+                          {` Already Exist! ${el.name}`
+                          }
+                        </Typography>
+                      </li>
+
+                    );
+                  })}
+                  {failed.map((el, idx) => {
+                    return (
+                      <li className={classes.greyText}>
+                        <Typography
+                          className={classes.greyText}
+                          style={{ fontSize: 16, color: "red" }}
+                        >
+                          {el.error == "TypeError: Cannot read properties of undefined (reading 'name')" ? ` Will Fail! Cause : Group Name Doesn't exist you provided with ${el.name}` : ` Will Fail! Cause :  ${el.error}`}
+                          {
+                          }
+                        </Typography>
+                      </li>
+
+                    );
+                  })}
                 </ol>
-                
+
               </div>
             )}
           </div>
           <Divider />
-          <Grid container spacing={2} flexDirection="row" justifyContent="space-between" style={{padding:"20px"}} >
-          <Grid item >
-           
-           
-           
-           <Button
-                  className={classes.cancelButton}
-                  onClick={() => {
-                    setUploadModalText(uploadType)
-                    setStep(1)}}
-                >
-                  <FormattedMessage id="back" />
-                  </Button>
-          
- 
-             </Grid>
+          <Grid container spacing={2} flexDirection="row" justifyContent="space-between" style={{ padding: "20px" }} >
             <Grid item >
-           
-          
-          
-            <Button onClick={handleClose} className={classes.uploadButton}>
-              <FormattedMessage id="upload" />
-            </Button>
-          
+
+
+
+              <Button
+                className={classes.cancelButton}
+                onClick={() => {
+                  setUploadModalText(uploadType)
+                  setStep(1)
+                }}
+              >
+                <FormattedMessage id="back" />
+              </Button>
+
 
             </Grid>
-            
+            <Grid item >
+
+
+
+              <Button onClick={handleClose} className={classes.uploadButton}>
+                <FormattedMessage id="upload" />
+              </Button>
+
+
             </Grid>
-          
+
+          </Grid>
+
         </>
       )}
     </Fragment>
