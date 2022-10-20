@@ -640,7 +640,7 @@ if (_type=="guide") {
     value.map(async (data) => {
       let _name = data[0] ? data[0].toString() : 'empty';
       let _username = data[1] ? data[1].toString() : 'empty';
-      let _password = data[2] ? data[2].toString() : 'empty';
+      let _password = data[2]?.toString()
 
       let _group = groups.filter((e) => e.name === data[3]);
 
@@ -705,6 +705,34 @@ if (_type=="guide") {
           setFailed((prev) => [...prev, _payload])
         }
       }
+       console.log(_password)
+     if(_password===undefined){
+      const _payload = {
+        password: _password,
+        name: _name,
+        username: _username,
+        confirmPassword: _password,
+        group: arrayToObject1,
+        joinDate: new Date(),
+        assigned_days: assignedDaysArray,
+        error: `Password is Missing with ${_username}`,
+      };
+      setFailed((prev) => [...prev, _payload])
+     } else 
+     if(_password.length<6){
+      const _payload = {
+        password: _password,
+        name: _name,
+        username: _username,
+        confirmPassword: _password,
+        group: arrayToObject1,
+        joinDate: new Date(),
+        assigned_days: assignedDaysArray,
+        error: `Password should not be less than 6 character. ${_username}`,
+      };
+      setFailed((prev) => [...prev, _payload])
+     }
+
       const payload = {
         password: _password,
         name: _name,
