@@ -144,7 +144,7 @@ const useStyles = makeStyles((theme) => {
       borderRadius: 20,
       margin: 10,
       alignItems: "flex-start",
-      padding: 20,
+      padding: 30,
       width: "80%",
       backgroundColor: "#fff",
       overflowY: "auto",
@@ -572,6 +572,7 @@ if (_type=="guide") {
 
 
     });
+    console.log(failed)
   };
   const handleKidSubmit = async (value) => {
     setCreated([])
@@ -1056,18 +1057,8 @@ if (_type=="guide") {
                             className={classes.greyText}
                             style={{ fontSize: 16, color: 'red' }}
                           >
-                            {/* {`${idx + 1}.` +
-                          "Email: " +
-                          el.email +
-                          ", Name: " +
-                          el.name +
-                          ", Group: " +
-                          el.selectedGroups[0]?.name +
-                          ", Role: " +
-                          el.type +
-                          ", Error: " +
-                          el.error} */}
-                            {`Already Exist! ${el.email}`}
+                           
+                            {` Already Exist! ${el.email}`}
                           </Typography>
                         </li>
                       );
@@ -1087,7 +1078,7 @@ if (_type=="guide") {
                           el.type +
                           "," +
                           el.error} */}
-                            {`Already Exist! ${el.email}`}
+                            {` Already Exist! ${el.email}`}
                           </Typography>
                         </li>
                       );
@@ -1113,7 +1104,7 @@ if (_type=="guide") {
                           el.type +
                           ", Error: " +
                           el.error} */}
-                            {`Will Fail ! ${el.email}, Cause : ${el.error}`}
+                            {` Will Fail ! ${el.email}, Cause : ${el.error}`}
                           </Typography>
                         </li>
                       );
@@ -1124,7 +1115,7 @@ if (_type=="guide") {
                           style={{ fontSize: 16, }}>
                           <Typography
                             className={classes.greyText}
-                            style={{ fontSize: 16 }}
+                            style={{ fontSize: 16, color:'red' }}
                           >
                             {/* {`${idx + 1}.` +
                           "Email: " +
