@@ -10,6 +10,7 @@ import {
   makeStyles,
   Typography
 } from "@material-ui/core";
+import { Sync } from "@material-ui/icons";
 import ExpandLessIcon from "@material-ui/icons/ArrowDropDown";
 import ExpandMoreIcon from "@material-ui/icons/ArrowRight";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
@@ -53,9 +54,11 @@ export const GroupReportBody = (props) => {
   const [_subSubjectDeleted, setSubSubjectDeleted] = useState([]);
   const [_subjectEdit, setSubjectEdit] = useState([]);
   const [_subSubjectEdit, setSubSubjectEdit] = useState([]);
+  const [_subjectLock, setSubjectLock] = useState([]);
   const [expanded, setExpanded] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [restoreLoading, setRestoreLoading] = React.useState(false);
+  const [lockSubject,setLockSubject]=useState();
 
   const [modalStates, setModalStates] = useState({
     subject: false,
@@ -129,6 +132,7 @@ export const GroupReportBody = (props) => {
     setSubjects(filteredSubjects);
     setSubjectDeleted((prev) => [...prev, subject]);
   };
+
   const handleC = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
@@ -148,6 +152,19 @@ export const GroupReportBody = (props) => {
     setSubjects(list);
   };
 
+  const _handleLockSubject=(id,subject)=>{
+    let subjectCopy=[...subjects]
+    subjectCopy.map((sub)=>{
+      if(sub.id === subject.id){
+        sub.isSubjectLocked=!subject.isSubjectLocked
+      }
+    })
+    console.log(subjectCopy)
+    // setSubjects(subjectCopy);
+    setSubjectLock((prev) => [...prev,subject]);
+  } 
+
+  // Manage Special Reporting Modal
   const renderSubjects = (subject, idx) => {
     const expandIconProps =
       subject.subSubject.length > 0
@@ -212,47 +229,66 @@ export const GroupReportBody = (props) => {
                       {subject.totalPoints}
                     </Typography>
                   </Grid>
+                    <Grid item lg={2} md={2} sm={2} xs={2}>
+                      {subject.isSubjectLocked ? null: 
+                        <div
+                          onClick={stopEventBubble(() => {
+                            setSelectedSubject(subject);
+                            setModalStates((prev) => ({
+                              ...prev,
+                              subSubject: true,
+                            }));
+                          })}
+                        >
+                          <img
+                            src={AddIcon}
+                            className={classes.AddImage}
+                            alt=""
+                          />
+                        </div>
+                      }
+                    </Grid>
                   <Grid item lg={2} md={2} sm={2} xs={2}>
-                    <div
-                      onClick={stopEventBubble(() => {
-                        setSelectedSubject(subject);
-                        setModalStates((prev) => ({
-                          ...prev,
-                          subSubject: true,
-                        }));
-                      })}
-                    >
-                      <img
-                        src={AddIcon}
-                        className={classes.AddImage}
-                        alt=""
-                      />
-                    </div>
-                  </Grid>
-                  <Grid item lg={2} md={2} sm={2} xs={2}>
-                    <Edit
-                      className={classes.editHover}
-                      style={{
+                    <Sync className={classes.editHover}
+                      style={subject.isSubjectLocked ? {
+                        color: "#4fbf67",
+                        marginRight: "10",
+                      }:{
                         color: "#8F92A1",
                         marginRight: "10",
                       }}
                       onClick={stopEventBubble(() => {
-                        setSelectedSubject(subject);
-                        setModalStates((prev) => ({
-                          ...prev,
-                          editSubject: true,
-                        }));
+                        _handleLockSubject(subject.id, subject);
                       })}
-                    />
-                    <Delete
-                      className={classes.delHover}
-                      style={{
-                        color: "#8F92A1",
-                      }}
-                      onClick={stopEventBubble(() => {
-                        _handleSubjectDelete(subject.id, subject);
-                      })}
-                    />
+                      />
+                      {subject.isSubjectLocked !== true ? 
+                        <>
+                          <Edit
+                            className={classes.editHover}
+                            style={{
+                              color: "#8F92A1",
+                              marginRight: "10",
+                            }}
+                            onClick={stopEventBubble(() => {
+                              setSelectedSubject(subject);
+                              setModalStates((prev) => ({
+                                ...prev,
+                                editSubject: true,
+                              }));
+                            })}
+                          />
+                          <Delete
+                            className={classes.delHover}
+                            style={{
+                              color: "#8F92A1",
+                            }}
+                            onClick={stopEventBubble(() => {
+                              _handleSubjectDelete(subject.id, subject);
+                            })}
+                          />
+                        </>
+                        :null
+                        }
                   </Grid>
                 </Grid>
               </AccordionSummary>
@@ -284,6 +320,8 @@ export const GroupReportBody = (props) => {
                     </Grid>
                     <Grid item lg={2} md={2} sm={2} xs={2}></Grid>
                     <Grid item lg={2} md={2} sm={2} xs={2}>
+                    {subject.isSubjectLocked ? null : 
+                      <>
                       <Edit
                         className={classes.editHover}
                         style={{
@@ -308,6 +346,7 @@ export const GroupReportBody = (props) => {
                           _handleSubSubjectDelete(subSubject, subject);
                         }}
                       />
+                      </>}
                     </Grid>
                   </Grid>
                 </AccordionDetails>
@@ -532,7 +571,8 @@ export const GroupReportBody = (props) => {
               _subjectAdded,
               _subSubjectAdded,
               _subjectEdit,
-              _subSubjectEdit
+              _subSubjectEdit,
+              _subjectLock
             );
           }}
         >

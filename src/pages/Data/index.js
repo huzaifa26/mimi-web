@@ -160,6 +160,128 @@ export const Data = React.memo(() => {
     subjectEdit,
     subSubjectEdit
   ) => {
+
+    // delete subject
+    let _save3 = await Promise.all(
+      subjectDeleted.map(async (sub) => {
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("basicReport")
+          .doc(sub.id)
+          .delete();
+
+        let groups = (
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("groups")
+            .where("isSpecialReport", "==", false)
+            .get()
+        ).docs.map((el) => el.data());
+
+        groups.map(async (group) => {
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("groups")
+            .doc(group.id)
+            .collection("report_templates")
+            .doc(sub.id)
+            .delete();
+
+          let kids = (
+            await db
+              .collection("Institution")
+              .doc(user._code)
+              .collection("kid")
+              .where("groupId", "==", group.id)
+              .get()
+          ).docs.map((el) => el.data());
+
+          kids.map(async (el) => {
+            await db
+              .collection("Institution")
+              .doc(user._code)
+              .collection("kid")
+              .doc(el.id)
+              .collection("achievements")
+              .doc(sub.id)
+              .update({
+                isDeleted: true,
+                redPoints: 0,
+                streak: 0,
+              });
+          });
+        });
+      })
+    );
+
+    // delete sub subject
+    let _save4 = await Promise.all(
+      subSubjectDeleted.map(async (sub) => {
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("basicReport")
+          .doc(sub.subjectId)
+          .update({
+            subSubject: firebase.firestore.FieldValue.arrayRemove(
+              sub.subSubject
+            ),
+            totalPoints: sub.subjectPoints,
+          });
+        let groups = (
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("groups")
+            .where("isSpecialReport", "==", false)
+            .get()
+        ).docs.map((el) => el.data());
+
+        groups.map(async (group) => {
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("groups")
+            .doc(group.id)
+            .collection("report_templates")
+            .doc(sub.subjectId)
+            .update({
+              subSubject: firebase.firestore.FieldValue.arrayRemove(
+                sub.subSubject
+              ),
+              totalPoints: sub.subjectPoints,
+            });
+          if (!sub.subSubjectLength) {
+            await db
+              .collection("Institution")
+              .doc(user._code)
+              .collection("groups")
+              .doc(group.id)
+              .collection("report_templates")
+              .doc(sub.subjectId)
+              .update({
+                hasSubSubject: false,
+              });
+          }
+        });
+
+        if (!sub.subSubjectLength) {
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("basicReport")
+            .doc(sub.subjectId)
+            .update({
+              hasSubSubject: false,
+            });
+        }
+      })
+    );
+
+    // add subject
     let _save1 = await Promise.all(
       subjectAdded.map(async (sub) => {
         const payload = {
@@ -245,6 +367,8 @@ export const Data = React.memo(() => {
         );
       })
     );
+
+    // add sub subject
     let _save2 = await Promise.all(
       subSubjectAdded.map(async (sub) => {
         const payload = {
@@ -304,122 +428,8 @@ export const Data = React.memo(() => {
         );
       })
     );
-    let _save3 = await Promise.all(
-      subjectDeleted.map(async (sub) => {
-        await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("basicReport")
-          .doc(sub.id)
-          .delete();
 
-        let groups = (
-          await db
-            .collection("Institution")
-            .doc(user._code)
-            .collection("groups")
-            .where("isSpecialReport", "==", false)
-            .get()
-        ).docs.map((el) => el.data());
-
-        groups.map(async (group) => {
-          await db
-            .collection("Institution")
-            .doc(user._code)
-            .collection("groups")
-            .doc(group.id)
-            .collection("report_templates")
-            .doc(sub.id)
-            .delete();
-
-          let kids = (
-            await db
-              .collection("Institution")
-              .doc(user._code)
-              .collection("kid")
-              .where("groupId", "==", group.id)
-              .get()
-          ).docs.map((el) => el.data());
-
-          kids.map(async (el) => {
-            await db
-              .collection("Institution")
-              .doc(user._code)
-              .collection("kid")
-              .doc(el.id)
-              .collection("achievements")
-              .doc(sub.id)
-              .update({
-                isDeleted: true,
-                redPoints: 0,
-                streak: 0,
-              });
-          });
-        });
-      })
-    );
-    let _save4 = await Promise.all(
-      subSubjectDeleted.map(async (sub) => {
-        await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("basicReport")
-          .doc(sub.subjectId)
-          .update({
-            subSubject: firebase.firestore.FieldValue.arrayRemove(
-              sub.subSubject
-            ),
-            totalPoints: sub.subjectPoints,
-          });
-        let groups = (
-          await db
-            .collection("Institution")
-            .doc(user._code)
-            .collection("groups")
-            .where("isSpecialReport", "==", false)
-            .get()
-        ).docs.map((el) => el.data());
-
-        groups.map(async (group) => {
-          await db
-            .collection("Institution")
-            .doc(user._code)
-            .collection("groups")
-            .doc(group.id)
-            .collection("report_templates")
-            .doc(sub.subjectId)
-            .update({
-              subSubject: firebase.firestore.FieldValue.arrayRemove(
-                sub.subSubject
-              ),
-              totalPoints: sub.subjectPoints,
-            });
-          if (!sub.subSubjectLength) {
-            await db
-              .collection("Institution")
-              .doc(user._code)
-              .collection("groups")
-              .doc(group.id)
-              .collection("report_templates")
-              .doc(sub.subjectId)
-              .update({
-                hasSubSubject: false,
-              });
-          }
-        });
-
-        if (!sub.subSubjectLength) {
-          await db
-            .collection("Institution")
-            .doc(user._code)
-            .collection("basicReport")
-            .doc(sub.subjectId)
-            .update({
-              hasSubSubject: false,
-            });
-        }
-      })
-    );
+    // edit subject
     let _save5 = await Promise.all(
       subjectEdit.map(async (sub) => {
         await db
@@ -482,6 +492,8 @@ export const Data = React.memo(() => {
         });
       })
     );
+
+    // edit sub subject
     let _save6 = await Promise.all(
       subSubjectEdit.map(async (sub) => {
         const payload = {
@@ -558,6 +570,14 @@ export const Data = React.memo(() => {
           obtainedPoints: _report_templates.obtainedPoints,
           hasSubSubject: _report_templates.hasSubSubject,
         };
+
+        let totalSum=0;
+        _payload.subSubject.forEach((subSubject)=>{
+          totalSum=totalSum+subSubject.totalPoints;
+        });
+
+        _payload.totalPoints=totalSum;
+        
         await db
           .collection("Institution")
           .doc(user._code)

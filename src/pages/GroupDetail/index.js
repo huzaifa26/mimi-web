@@ -185,7 +185,8 @@ export const GroupDetail = () => {
     subjectAdded,
     subSubjectAdded,
     subjectEdit,
-    subSubjectEdit
+    subSubjectEdit,
+    subjectLock
   ) => {
 
     // delete subject
@@ -539,7 +540,7 @@ export const GroupDetail = () => {
           totalSum=totalSum+subSubject.totalPoints;
         });
 
-      _payload.totalPoints=totalSum;
+        _payload.totalPoints=totalSum;
 
         await db
           .collection("Institution")
@@ -551,6 +552,40 @@ export const GroupDetail = () => {
           .set(_payload);
       })
     );
+
+    // lock subject
+    let _save7 = await Promise.all(
+      subjectLock.map(async (sub) => {
+
+        const reportTemplates=await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("groups")
+          .doc(group.id)
+          .collection("report_templates")
+          .doc(sub.id)
+          .get();
+
+        let _report_templates = reportTemplates.data();
+
+        let _isSubjectLocked=true;
+        if(_report_templates.isSubjectLocked === true){
+          _isSubjectLocked=false
+        }
+        
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("groups")
+          .doc(group.id)
+          .collection("report_templates")
+          .doc(sub.id)
+          .update({
+            isSubjectLocked: _isSubjectLocked,
+          });
+      })
+    );
+
     closeGroupReport();
   };
 
