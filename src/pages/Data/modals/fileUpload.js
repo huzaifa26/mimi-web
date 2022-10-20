@@ -1126,9 +1126,7 @@ if (_type=="guide") {
                           el.type +
                           "," +
                           el.error} */}
-                            {`${idx + 1}.` + el.email +
-
-                              el.error}
+                            {` Will Fail ! ${el.email}, Cause : ${el.error}`}
                           </Typography>
                         </li>
                       );
