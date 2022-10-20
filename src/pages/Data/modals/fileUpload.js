@@ -638,11 +638,11 @@ if (_type=="guide") {
     value = value.filter((e, idx) => idx != 0);
 
     value.map(async (data) => {
-      let _name = data[0] ? data[0].toString() : 'empty';
-      let _username = data[1] ? data[1].toString() : 'empty';
+      let _name = data[0]?.toString()
+      let _username = data[1]?.toString()
       let _password = data[2]?.toString()
-
-      let _group = groups.filter((e) => e.name === data[3]);
+      let _groupWithIndividualRow = data[3]?.split(",");
+      let _group = groups.filter((e) => e.name === _groupWithIndividualRow?.map(e => {return e} ));
 
       const arrayToObject1 = _group[0];
       let _assigned_days = data[4];
@@ -677,7 +677,7 @@ if (_type=="guide") {
         })
       })
 
-      // for handling group does not exist or group missing error
+      // for handling group does not exist or group missing error or more than one group
       if (data[3] === undefined) {
         const _payload = {
           password: _password,
@@ -704,6 +704,18 @@ if (_type=="guide") {
           };
           setFailed((prev) => [...prev, _payload])
         }
+      } if(_groupWithIndividualRow?.length > 1) {
+        const _payload = {
+          password: _password,
+          name: _name,
+          username: _username,
+          confirmPassword: _password,
+          group: arrayToObject1,
+          joinDate: new Date(),
+          assigned_days: assignedDaysArray,
+          error: `kid must have only one group provided with ${_username}`,
+        };
+        setFailed((prev) => [...prev, _payload])
       }
        console.log(_password)
      if(_password===undefined){
@@ -732,11 +744,12 @@ if (_type=="guide") {
       };
       setFailed((prev) => [...prev, _payload])
      }
+     
 
       const payload = {
         password: _password,
         name: _name,
-        username: _username.trim().toLowerCase(),
+        username: _username?.trim().toLowerCase(),
         confirmPassword: _password,
         group: arrayToObject1,
         joinDate: new Date(),
