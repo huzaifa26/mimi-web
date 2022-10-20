@@ -637,7 +637,7 @@ if (_type=="guide") {
 
     value = value.filter((e, idx) => idx != 0);
 
-    value.map(async (data) => {
+    value.map(async (data,index) => {
       let _name = data[0]?.toString()
       let _username = data[1]?.toString()
       let _password = data[2]?.toString()
@@ -740,11 +740,58 @@ if (_type=="guide") {
         group: arrayToObject1,
         joinDate: new Date(),
         assigned_days: assignedDaysArray,
-        error: `Password should not be less than 6 character. ${_username}`,
+        error: `Password should not be less than 6 character. ${_username} `,
       };
       setFailed((prev) => [...prev, _payload])
      }
      
+     // handle error if username / name / password missing
+     if(_username===undefined){
+      let lineNumber =  index + 2;
+      console.log(index)
+      console.log(lineNumber)
+      const _payload = {
+        password: _password,
+        name: _name,
+        username: _username,
+        confirmPassword: _password,
+        group: arrayToObject1,
+        joinDate: new Date(),
+        assigned_days: assignedDaysArray,
+        error: `User Name is Missing at ${lineNumber} Line in File.`,
+      };
+      setFailed((prev) => [...prev, _payload])
+     } 
+     if(_password===undefined){
+      let lineNumber =  index + 2;
+      const _payload = {
+        password: _password,
+        name: _name,
+        username: _username,
+        confirmPassword: _password,
+        group: arrayToObject1,
+        joinDate: new Date(),
+        assigned_days: assignedDaysArray,
+        error: `Password is Missing at ${lineNumber} Line in File.`,
+      };
+      setFailed((prev) => [...prev, _payload])
+     } 
+     if(_name===undefined){
+      let lineNumber =  index + 2;
+      console.log(index)
+      console.log(lineNumber)
+      const _payload = {
+        password: _password,
+        name: _name,
+        username: _username,
+        confirmPassword: _password,
+        group: arrayToObject1,
+        joinDate: new Date(),
+        assigned_days: assignedDaysArray,
+        error: "Name is Missing at : "+ lineNumber + "Line in File." ,
+      };
+      setFailed((prev) => [...prev, _payload])
+     } 
 
       const payload = {
         password: _password,
