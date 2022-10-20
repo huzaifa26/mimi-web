@@ -456,7 +456,22 @@ export const FileUploadBody = (props) => {
       let _type = data[1]?.toString();
       let _email = data[2]?.toString();
       let _password = data[3]?.toString();
-
+      let _groupWithIndividualRow = data[4]?.split(",");
+      console.log(_groupWithIndividualRow)
+if (_type=="guide") {
+  var arr = data[4].split(",");
+  if(arr.length>1){
+    const _payload = {
+      name: _name,
+      type: _type,
+      email: _email,
+      
+      error: ` Guide can not have two groups!`,
+    };
+    setFailed((prev) => [...prev, _payload])
+  }
+         
+        }
       let _group = groups?.filter((e) => e.name === data[4]);
 
       if (data[4] === undefined) {
@@ -468,7 +483,7 @@ export const FileUploadBody = (props) => {
             type: _type,
             email: _email,
             selectedGroups: _group,
-            error: `${data[4]} Group Does not Exist with name ${_name}`,
+            error: ` ${data[4]} Group does not exist with name ${_name}!`,
           };
           setFailed((prev) => [...prev, _payload])
         }
@@ -485,16 +500,8 @@ export const FileUploadBody = (props) => {
         _type = "gstaff";
       } else if (_type == "guide") {
         _type = "guide";
-        if (_group.length > 1) {
-          const _payload = {
-            name: _name,
-            type: _type,
-            email: _email,
-            selectedGroups: _group,
-            error: `${_type} can not have two groups`,
-          };
-          setFailed((prev) => [...prev, _payload])
-        }
+      
+        
       }
       else {
         const _payload = {
@@ -502,7 +509,7 @@ export const FileUploadBody = (props) => {
           type: _type,
           email: _email,
           selectedGroups: _group,
-          error: `${_type} type does not exist with name ${_name}`,
+          error: ` ${_type} type does not exist with name ${_name}! `,
         };
         setFailed((prev) => [...prev, _payload])
       }
