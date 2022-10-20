@@ -457,7 +457,7 @@ export const FileUploadBody = (props) => {
       let _email = data[2]?.toString();
       let _password = data[3]?.toString();
       let _groupWithIndividualRow = data[4]?.split(",");
-      console.log(_groupWithIndividualRow)
+      
 if (_type=="guide") {
   var arr = data[4].split(",");
   if(arr.length>1){
@@ -472,7 +472,8 @@ if (_type=="guide") {
   }
          
         }
-      let _group = groups?.filter((e) => e.name === data[4]);
+       
+      let _group = groups?.filter((e) => e.name === _groupWithIndividualRow?.map(e => {return e} ))
 
       if (data[4] === undefined) {
         console.log("undefined")
