@@ -676,6 +676,35 @@ if (_type=="guide") {
           }
         })
       })
+
+      // for handling group does not exist or group missing error
+      if (data[3] === undefined) {
+        const _payload = {
+          password: _password,
+          name: _name,
+          username: _username,
+          confirmPassword: _password,
+          group: arrayToObject1,
+          joinDate: new Date(),
+          assigned_days: assignedDaysArray,
+          error: `Group Name is Missing with ${_username}`,
+        };
+        setFailed((prev) => [...prev, _payload])
+      } else {
+        if (_group.length === 0) {
+          const _payload = {
+            password: _password,
+            name: _name,
+            username: _username,
+            confirmPassword: _password,
+            group: arrayToObject1,
+            joinDate: new Date(),
+            assigned_days: assignedDaysArray,
+            error: `Group does not exist provided with ${_username}`,
+          };
+          setFailed((prev) => [...prev, _payload])
+        }
+      }
       const payload = {
         password: _password,
         name: _name,
