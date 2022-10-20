@@ -651,12 +651,31 @@ if (_type=="guide") {
 
 
       const _arr = [_assigned_days?.split(",")];
+// check assign days numbers are between 1 to 7
+      let _filteredArr = _arr.map((days)=> days?.filter((e)=> e!==''))
+      console.log(_filteredArr)
 
       const assignedDaysArray = new Array(7).fill(null).map((el, index) => {
-        const exists = _arr.find((day) => day == index);
+        const exists = _filteredArr.find((day) => day == index);
         return !!exists;
       });
-
+      _filteredArr.map(days=>{
+        days?.map(val=>{
+          if(val > 7 || val < 1){
+            const _payload = {
+              password: _password,
+              name: _name,
+              username: _username,
+              confirmPassword: _password,
+              group: arrayToObject1,
+              joinDate: new Date(),
+              assigned_days: assignedDaysArray,
+              error: `Assigning days should be between 1 to 7, Issue with ${_username} `,
+            };
+            setFailed((prev) => [...prev, _payload]);
+          }
+        })
+      })
       const payload = {
         password: _password,
         name: _name,
