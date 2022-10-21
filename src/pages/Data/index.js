@@ -98,8 +98,6 @@ export const Data = React.memo(() => {
     })();
   }, []);
 
-  console.log(subjects);
-
   useEffect(() => {
     if (!institute) return;
     const subDate = moment(new Date(institute.subscription_end_date));
@@ -127,7 +125,6 @@ export const Data = React.memo(() => {
           .collection("basicReport")
           .get()
       ).docs.map((el) => el.data());
-      // console.log(report_templates);
       setSubjects(report_templates);
     })();
   }, [modalStates.basicReport]);
@@ -291,7 +288,7 @@ export const Data = React.memo(() => {
           subSubject: [],
           obtainedPoints: 0,
           hasSubSubject: false,
-          
+          isSync:false
         };
 
         await db
@@ -371,6 +368,7 @@ export const Data = React.memo(() => {
     // add sub subject
     let _save2 = await Promise.all(
       subSubjectAdded.map(async (sub) => {
+        console.log(subSubjectAdded)
         const payload = {
           id: sub.id,
           name: sub.name,
@@ -446,8 +444,8 @@ export const Data = React.memo(() => {
           subSubject: sub.subSubject,
           obtainedPoints: sub.obtainedPoints,
           hasSubSubject: sub.hasSubSubject,
+          isSync:sub.isSync
         };
-        // console.log(payload);
         await db
           .collection("Institution")
           .doc(user._code)
@@ -480,6 +478,7 @@ export const Data = React.memo(() => {
             subSubject: sub.subSubject,
             obtainedPoints: sub.obtainedPoints,
             hasSubSubject: sub.hasSubSubject,
+            isSync:sub.isSync
           };
           await db
             .collection("Institution")
@@ -519,17 +518,14 @@ export const Data = React.memo(() => {
           .doc(sub.subjectId)
           .get();
 
-          console.log(reportTemplates);
-
         let _report_templates = reportTemplates.data();
-
-        // console.log(_report_templates);
 
         _report_templates.subSubject.map((e, idx) => {
           if (e.id === sub.id) {
             _report_templates.subSubject[idx] = payload;
           }
         });
+        
         groups.map(async (group) => {
           await db
             .collection("Institution")
@@ -546,6 +542,7 @@ export const Data = React.memo(() => {
             subSubject: _report_templates.subSubject,
             obtainedPoints: _report_templates.obtainedPoints,
             hasSubSubject: _report_templates.hasSubSubject,
+            isSync:_report_templates.isSync
           };
           await db
             .collection("Institution")
@@ -569,6 +566,7 @@ export const Data = React.memo(() => {
           subSubject: _report_templates.subSubject,
           obtainedPoints: _report_templates.obtainedPoints,
           hasSubSubject: _report_templates.hasSubSubject,
+          isSync:_report_templates.isSync
         };
 
         let totalSum=0;
@@ -577,7 +575,7 @@ export const Data = React.memo(() => {
         });
 
         _payload.totalPoints=totalSum;
-        
+
         await db
           .collection("Institution")
           .doc(user._code)

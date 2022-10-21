@@ -52,6 +52,9 @@
   "actions": "Actions",
   "save": "Save",
   "add_subject": "Add Subject",
+  "change_sync": "Change Sync",
+  "sync_message":"Are you sure you want to sync this subject.",
+  "unsync_message":"Are you sure you want to unsync this subject.",
   "max_score": "Max Score (Points)",
   "profile": "Profile",
   "history": "History",
@@ -328,6 +331,8 @@
   "load_users_from_excel": "Load users from Excel",
   "total_staff_in_file: ": "Total staff in file: ",
   "failed: ": "Failed: ",
-  "PRODUCT_LIMIT":"PRODUCT LIMIT"
+  "PRODUCT_LIMIT":"PRODUCT LIMIT",
+  "yes":"Yes",
+  "no":"No"
 
 }

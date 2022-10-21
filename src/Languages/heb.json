@@ -47,6 +47,9 @@
   "actions": "פעולות",
   "save": "שמירה",
   "add_subject": "הוסף נושא",
+  "change_sync": "שנה סנכרון",
+  "sync_message":"האם אתה בטוח שברצונך לסנכרן נושא זה.",
+  "unsync_message":"האם אתה בטוח שברצונך לבטל את סנכרון הנושא הזה.",
   "profile": "פרופיל",
   "history": "היסטוריה",
   "show:": "הצג:",
@@ -310,5 +313,7 @@
   "load_users_from_excel": "ייבא משתמשים מקובץ",
   "total_staff_in_file: ": "סך הכל צוות בקובץ: ",
   "failed: ": "נכשלו: ",
-  "PRODUCT_LIMIT":"PRODUCT_LIMIT"
+  "PRODUCT_LIMIT":"PRODUCT_LIMIT",
+  "yes":"כן",
+  "no":"לא"
 }

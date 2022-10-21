@@ -1263,7 +1263,6 @@ export const searchBy = (list, keywords, text) => {
     if (!paths.length || typeof obj !== "object" || Array.isArray(obj))
       return obj;
     const [key] = paths.splice(0, 1);
-
     return getProperty(obj[key], paths);
   };
 

@@ -141,7 +141,6 @@ export const UiProvidor = ({ children }) => {
                                 fullWidth
                                 onClick={async () => {
                                     setLoading(true);
-
                                     try {
                                         state.dialog.action && (await state.dialog.action());
                                         handleCloseDialog();

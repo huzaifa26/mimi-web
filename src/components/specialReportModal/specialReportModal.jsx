@@ -17,6 +17,7 @@ import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 import React, { Fragment, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { FormattedMessage } from "react-intl";
+import { useLocation } from "react-router-dom";
 import { AddIconSim, Button, Delete, SimpleModal } from "..";
 import AddIcon from "../../assets/icons/addIcon.png"; //Action Icon
 import Reset from "../../assets/icons/reset.png";
@@ -28,9 +29,11 @@ import { AddSubjectBody } from "./addSubject";
 import { AddSubSubjectBody } from "./addSubSubject";
 import { EditSubjectBody } from "./editSubject";
 import { EditSubSubjectBody } from "./editSubSubject";
+import { SyncSubject } from "./syncSubject";
 // import Draggable from "react-draggable";
 
 export const GroupReportBody = (props) => {
+  const location=useLocation();
   const {
     group,
     guides,
@@ -58,13 +61,15 @@ export const GroupReportBody = (props) => {
   const [expanded, setExpanded] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [restoreLoading, setRestoreLoading] = React.useState(false);
-  const [lockSubject,setLockSubject]=useState();
+  const [syncSubId,setSyncSubId]=useState();
+  const [syncSubject,setSyncSubject]=useState();
 
   const [modalStates, setModalStates] = useState({
     subject: false,
     subSubject: false,
     editSubject: false,
     editSubSubject: false,
+    sync:false
   });
   const closeSubSubject = () => setModalStates((prev) => ({ ...prev, subSubject: false }));
 
@@ -73,6 +78,8 @@ export const GroupReportBody = (props) => {
   const closeEditSubSubject = () => setModalStates((prev) => ({ ...prev, editSubSubject: false }));
 
   const closeSubject = () => setModalStates((prev) => ({ ...prev, subject: false }));
+  
+  const closeSync = () => setModalStates((prev) => ({ ...prev, sync: false }));
 
   const handleChange = (panel) => {
     setExpanded((prev) => (prev === panel ? false : panel));
@@ -152,15 +159,13 @@ export const GroupReportBody = (props) => {
     setSubjects(list);
   };
 
-  const _handleLockSubject=(id,subject)=>{
+  const _handleSyncSubject=(id,subject)=>{
     let subjectCopy=[...subjects]
     subjectCopy.map((sub)=>{
       if(sub.id === subject.id){
-        sub.isSubjectLocked=!subject.isSubjectLocked
+        sub.isSync=!subject.isSync
       }
     })
-    console.log(subjectCopy)
-    // setSubjects(subjectCopy);
     setSubjectLock((prev) => [...prev,subject]);
   } 
 
@@ -178,7 +183,6 @@ export const GroupReportBody = (props) => {
         };
 
     return (
-
       <div>
         <Draggable key={idx} draggableId={"subject-" + idx} index={idx}>
           {(provider) => (
@@ -195,14 +199,12 @@ export const GroupReportBody = (props) => {
                 className={classes.accordionSummary}
               >
                 <Grid container justify="center" alignItems="center">
-
                   <Grid
                     item
                     lg={4}
                     md={5}
                     sm={4}
                     xs={5}
-
                   >
                     <Box display={"flex"}>
 
@@ -230,7 +232,7 @@ export const GroupReportBody = (props) => {
                     </Typography>
                   </Grid>
                     <Grid item lg={2} md={2} sm={2} xs={2}>
-                      {subject.isSubjectLocked ? null: 
+                      {subject.isSync && location.pathname.includes("/kids") ? null: 
                         <div
                           onClick={stopEventBubble(() => {
                             setSelectedSubject(subject);
@@ -250,45 +252,54 @@ export const GroupReportBody = (props) => {
                     </Grid>
                   <Grid item lg={2} md={2} sm={2} xs={2}>
                     <Sync className={classes.editHover}
-                      style={subject.isSubjectLocked ? {
-                        color: "#4fbf67",
+                      style={subject.isSync && !location.pathname.includes("/kids") ? {
+                        color: "#685be7",
                         marginRight: "10",
-                      }:{
+                      } : subject.isSync && location.pathname.includes("/kids") ? {
+                        color: "#4cb763",
+                        marginRight: "10",
+                      } : {
                         color: "#8F92A1",
                         marginRight: "10",
                       }}
                       onClick={stopEventBubble(() => {
-                        _handleLockSubject(subject.id, subject);
+                        setSyncSubId(subject.id)
+                        setSyncSubject(subject)
+                        // _handleSyncSubject(subject.id, subject);
+                        setModalStates((prev) => ({
+                          ...prev,
+                          sync: true,
+                        }));
                       })}
                       />
-                      {subject.isSubjectLocked !== true ? 
-                        <>
-                          <Edit
-                            className={classes.editHover}
-                            style={{
-                              color: "#8F92A1",
-                              marginRight: "10",
-                            }}
-                            onClick={stopEventBubble(() => {
-                              setSelectedSubject(subject);
-                              setModalStates((prev) => ({
-                                ...prev,
-                                editSubject: true,
-                              }));
-                            })}
-                          />
-                          <Delete
-                            className={classes.delHover}
-                            style={{
-                              color: "#8F92A1",
-                            }}
-                            onClick={stopEventBubble(() => {
-                              _handleSubjectDelete(subject.id, subject);
-                            })}
-                          />
-                        </>
-                        :null
-                        }
+                      {subject.isSync && location.pathname.includes("/kids") ? 
+                          null :
+                         <>
+                         <Edit
+                           className={classes.editHover}
+                           style={{
+                             color: "#8F92A1",
+                             marginRight: "10",
+                           }}
+                           onClick={stopEventBubble(() => {
+                             setSelectedSubject(subject);
+                             setModalStates((prev) => ({
+                               ...prev,
+                               editSubject: true,
+                             }));
+                           })}
+                         />
+                         <Delete
+                           className={classes.delHover}
+                           style={{
+                             color: "#8F92A1",
+                           }}
+                           onClick={stopEventBubble(() => {
+                             _handleSubjectDelete(subject.id, subject);
+                           })}
+                         />
+                       </>
+                        } 
                   </Grid>
                 </Grid>
               </AccordionSummary>
@@ -320,7 +331,7 @@ export const GroupReportBody = (props) => {
                     </Grid>
                     <Grid item lg={2} md={2} sm={2} xs={2}></Grid>
                     <Grid item lg={2} md={2} sm={2} xs={2}>
-                    {subject.isSubjectLocked ? null : 
+                    {subject.isSync && subject.isSync && location.pathname.includes("/kids") ? null : 
                       <>
                       <Edit
                         className={classes.editHover}
@@ -363,6 +374,20 @@ export const GroupReportBody = (props) => {
 
   return (
     <Fragment>
+
+      <SimpleModal
+        title={<FormattedMessage id="change_sync" />}
+        open={modalStates.sync}
+        handleClose={closeSync}
+      >
+        <SyncSubject
+          subId={syncSubId}
+          subject={syncSubject}
+          handleClose={closeSync}
+          handleSyncSubject={_handleSyncSubject}
+        />
+      </SimpleModal>
+
       <SimpleModal
         title={<FormattedMessage id="add_subject" />}
         open={modalStates.subject}
@@ -375,6 +400,7 @@ export const GroupReportBody = (props) => {
           subjectAdded={subjectAdded}
         />
       </SimpleModal>
+
       <SimpleModal
         title={<FormattedMessage id="add_sub_subjects" />}
         open={modalStates.subSubject}
