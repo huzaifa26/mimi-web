@@ -303,6 +303,7 @@ export const FileUploadBody = (props) => {
   const [created, setCreated] = useState([]);
   const [exists, setExists] = useState([]);
   const [failed, setFailed] = useState([]);
+  const [allDataForFilter, setAllDataForFilter] = useState([]);
   const [prevGroup, setprevGroup] = useState([]);
   const [loading, setLoading] = useState(false);
   const { actions } = useUi();
@@ -392,7 +393,7 @@ export const FileUploadBody = (props) => {
       }
     });
   };
-console.log(step)
+
   const handleStaffSubmit = async (value) => {
     setCreated([])
     setExists([])
@@ -470,7 +471,7 @@ console.log(step)
 
       let _name = data[0]?.toString();
       let _type = data[1]?.toString();
-      let _email = data[2]?.toString();
+      let _email = data[2]?.toString().trim();
       let _password = data[3]?.toString();
       let _groupWithIndividualRow = data[4]?.split(",");
 
@@ -538,44 +539,69 @@ console.log(step)
         selectedGroups: _group,
       };
 
+      await FirebaseHelpers.fetchAllStaffEmail.execute({ user })
+        .then(res => {
+          res.map(data => {
+            if (data.email === _email) {
+              const _payload = {
+                name: _name,
+                type: _type,
+                email: _email,
+                selectedGroups: _group,
+                error: `${_email}`,
+              };
+              setExists((prev) => [...prev, _payload]);
 
-      await FirebaseHelpers.createStaff
-        .execute({
-          user,
-          institute,
-          staff: {
-            name: _name,
-            type: _type,
-            email: _email,
-            selectedGroups: [!_group.length == 0 ? _group : []],
-
-            password: _password,
-          },
-
+            }
+          })
         })
-        .then(() => {
-
-          setCreated((prev) => [...prev, payload]);
-        })
-        .catch((e) => {
-
-          const _payload = {
-            name: _name,
-            type: _type,
-            email: _email,
-            selectedGroups: _group,
-            error: e.message,
-          };
-          if (e.code === 'auth/email-already-in-use') {
-            setExists((prev) => [...prev, _payload]);
-          } else {
-            setFailed((prev) => [...prev, _payload])
-          }
+        .catch(error => { console.log(error) })
 
 
+      // await FirebaseHelpers.createStaff
+      //   .execute({
+      //     user,
+      //     institute,
+      //     staff: {
+      //       name: _name,
+      //       type: _type,
+      //       email: _email,
+      //       selectedGroups: [!_group.length == 0 ? _group : []],
 
-        });
+      //       password: _password,
+      //     },
 
+      //   })
+      //   .then(() => {
+
+      //     setCreated((prev) => [...prev, payload]);
+      //   })
+      //   .catch((e) => {
+
+      //     const _payload = {
+      //       name: _name,
+      //       type: _type,
+      //       email: _email,
+      //       selectedGroups: _group,
+      //       error: e.message,
+      //     };
+      //     if (e.code === 'auth/email-already-in-use') {
+      //       setExists((prev) => [...prev, _payload]);
+      //     } else {
+      //       setFailed((prev) => [...prev, _payload])
+      //     }
+
+
+
+      //   });
+      setAllDataForFilter((prev) => [...prev, {
+        name: _name,
+        type: _type,
+        email: _email,
+        selectedGroups: [!_group.length == 0 ? _group : []],
+
+        password: _password,
+      }]);
       counter = counter + 1;
       if (value.length == counter) {
         setTotal(counter);
@@ -587,8 +613,11 @@ console.log(step)
 
 
 
+
+
+
     });
-    console.log(failed)
+
   };
   const handleKidSubmit = async (value) => {
     setCreated([])
@@ -857,6 +886,19 @@ console.log(step)
     setData(value);
   };
 
+  const handleUploadConfirm = () => {
+
+    console.log(exists)
+    console.log(failed)
+    console.log(allDataForFilter)
+
+
+
+
+
+
+
+  }
   const classes = useStyles();
   return (
     <Fragment>
@@ -1376,7 +1418,9 @@ console.log(step)
 
 
 
-              <Button onClick={()=>{setStep(3)}} className={classes.uploadButton}>
+              <Button onClick={() => {
+                setStep(3)
+              }} className={classes.uploadButton}>
                 <FormattedMessage id="Upload" />
               </Button>
 
@@ -1387,31 +1431,31 @@ console.log(step)
 
         </>
       )}
-{step == 3 && (
+      {step == 3 && (
 
-  <>
- <div className={classes.summaryHeader}>
+        <>
+          <div className={classes.summaryHeader}>
             <div
               className={classes.roundContainer}
               style={{ backgroundColor: "red" }}
             >
-              <Typography style={{color:"#fff", fontSize:30}}>
-           !
-            </Typography>
+              <Typography style={{ color: "#fff", fontSize: 30 }}>
+                !
+              </Typography>
             </div>
             <Typography className={classes.summaryTitle}>
               <FormattedMessage id="ALERT" />
             </Typography>
           </div>
-    
-                <>
-                  
-                  <Typography className={classes.greyText}>
-               {`   ${created.length} Users will be created, ${failed.length+exists.length} will not be created due to error, Are you sure you want to proceed?`}
-                  </Typography>
-                </>
-                
-                <Grid container spacing={2}>
+
+          <>
+
+            <Typography className={classes.greyText}>
+              {`   ${created.length} Users will be created, ${failed.length + exists.length} will not be created due to error, Are you sure you want to proceed?`}
+            </Typography>
+          </>
+
+          <Grid container spacing={2}>
             <Grid item xs={6} justifyContent="center">
               <div className={classes.summaryHeader}>
                 <Button
@@ -1429,22 +1473,23 @@ console.log(step)
             <Grid item xs={6} justifyContent="center">
               <div className={classes.summaryHeader}>
 
-              
+
                 <CButton
                   className={classes.uploadButton}
                   loading={loading}
                   disable={!data}
-                  onClick={() => {
-                    {
-                      uploadType == "groups" && handleGroupSubmit(data);
-                    }
-                    {
-                      uploadType == "staff" && handleStaffSubmit(data);
-                    }
-                    {
-                      uploadType == "kids" && handleKidSubmit(data);
-                    }
-                    
+                  onClick={async () => {
+                    // {
+                    //   uploadType == "groups" && handleGroupSubmit(data);
+                    // }
+                    // {
+                    //   uploadType == "staff" && handleStaffSubmit(data);
+                    // }
+                    // {
+                    //   uploadType == "kids" && handleKidSubmit(data);
+                    // }
+                    handleUploadConfirm();
+                    setAllDataForFilter([])
 
                   }}>
                   <FormattedMessage id="YES" />
@@ -1452,9 +1497,9 @@ console.log(step)
               </div>
             </Grid>
           </Grid>
-           
-  </>
-)}
+
+        </>
+      )}
     </Fragment>
   );
 };

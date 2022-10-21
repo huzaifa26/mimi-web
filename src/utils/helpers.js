@@ -7,6 +7,23 @@ import { nanoid } from "nanoid";
 import { _auth } from "../utils/firebase";
 
 export const FirebaseHelpers = {
+
+  fetchAllStaffEmail : {
+    query: (params) => {
+ 
+      const { user } = params;
+
+      let _query = db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("staff");
+      
+return _query;
+    },
+    execute: async function (params, config) {
+      return (await this.query(params).get()).docs.map((el) => el.data());
+    },
+  },
   fetchStaff: {
     query: (params) => {
       const { user } = params;
