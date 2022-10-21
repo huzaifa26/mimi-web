@@ -9,7 +9,6 @@ import React, { Fragment, useState } from "react";
 import { getPageStyles, getSectionHeaderStyles } from "../../../utils/helpers";
 import { FormattedMessage } from "react-intl";
 import GroupIcon from "../../../assets/icons/groupsIData.png";
-
 import KidIcon from "../../../assets/icons/kid.png";
 import StaffIcon from "../../../assets/icons/staffData.png";
 import Tick from "../../../assets/icons/tickIconData.png";
@@ -283,6 +282,7 @@ const kidHeader = [
     displayName: "assignDays",
   },
 ];
+
 const kidData = [
   {
     name: "Kid Name",
@@ -292,6 +292,7 @@ const kidData = [
     assignDays: "0",
   },
 ];
+
 export const FileUploadBody = (props) => {
   const { handleClose, showUploadType } = props;
   const [step, setStep] = useState(0);
@@ -308,12 +309,14 @@ export const FileUploadBody = (props) => {
   const { state: storeState } = useStore();
   const { user, institute } = storeState;
 
+  // ** this function update modal head text with current upload type. **
   showUploadType(uploadModalText)
 
   const handleGroupSubmit = (value) => {
     setCreated([])
     setExists([])
     setFailed([])
+
     if (loading) return;
     if (!data) {
       actions.alert("Please select a file", "error");
@@ -327,6 +330,7 @@ export const FileUploadBody = (props) => {
       );
       return;
     }
+
     value = value.filter((e, idx) => idx != 0);
 
     value.map((data, idx) => {
@@ -335,17 +339,19 @@ export const FileUploadBody = (props) => {
 
     if (value.length !== new Set(value).size) {
       actions.alert("File contains duplicate group names", "error");
+
       return;
-      
+
     }
 
     setLoading(true);
 
     let counter = 0;
+
     value.map(async (data) => {
       try {
         let name = data?.trim();
-       
+
         let groups = (
           await db
             .collection("Institution")
@@ -374,11 +380,11 @@ export const FileUploadBody = (props) => {
         }
       } catch (error) {
 
-        
+
 
         const _payload = {
-       
-        
+
+
           error: `${error}`,
         };
         setFailed((prev) => [...prev, _payload])
@@ -386,7 +392,7 @@ export const FileUploadBody = (props) => {
       }
     });
   };
-
+console.log(step)
   const handleStaffSubmit = async (value) => {
     setCreated([])
     setExists([])
@@ -467,23 +473,23 @@ export const FileUploadBody = (props) => {
       let _email = data[2]?.toString();
       let _password = data[3]?.toString();
       let _groupWithIndividualRow = data[4]?.split(",");
-      
-if (_type=="guide") {
-  var arr = data[4].split(",");
-  if(arr.length>1){
-    const _payload = {
-      name: _name,
-      type: _type,
-      email: _email,
-      
-      error: ` Guide can not have two groups!`,
-    };
-    setFailed((prev) => [...prev, _payload])
-  }
-         
+
+      if (_type == "guide") {
+        var arr = data[4].split(",");
+        if (arr.length > 1) {
+          const _payload = {
+            name: _name,
+            type: _type,
+            email: _email,
+
+            error: ` Guide can not have two groups!`,
+          };
+          setFailed((prev) => [...prev, _payload])
         }
-       
-      let _group = groups?.filter((e) => e.name === _groupWithIndividualRow?.map(e => {return e} ))
+
+      }
+
+      let _group = groups?.filter((e) => e.name === _groupWithIndividualRow?.map(e => { return e }))
 
       if (data[4] === undefined) {
         console.log("undefined")
@@ -511,8 +517,8 @@ if (_type=="guide") {
         _type = "gstaff";
       } else if (_type == "guide") {
         _type = "guide";
-      
-        
+
+
       }
       else {
         const _payload = {
@@ -647,12 +653,12 @@ if (_type=="guide") {
 
     value = value.filter((e, idx) => idx != 0);
 
-    value.map(async (data,index) => {
+    value.map(async (data, index) => {
       let _name = data[0]?.toString()
       let _username = data[1]?.toString()
       let _password = data[2]?.toString()
       let _groupWithIndividualRow = data[3]?.split(",");
-      let _group = groups.filter((e) => e.name === _groupWithIndividualRow?.map(e => {return e} ));
+      let _group = groups.filter((e) => e.name === _groupWithIndividualRow?.map(e => { return e }));
 
       const arrayToObject1 = _group[0];
       let _assigned_days = data[4];
@@ -661,17 +667,17 @@ if (_type=="guide") {
 
 
       const _arr = [_assigned_days?.split(",")];
-// check assign days numbers are between 1 to 7
-      let _filteredArr = _arr.map((days)=> days?.filter((e)=> e!==''))
+      // check assign days numbers are between 1 to 7
+      let _filteredArr = _arr.map((days) => days?.filter((e) => e !== ''))
       console.log(_filteredArr)
 
       const assignedDaysArray = new Array(7).fill(null).map((el, index) => {
         const exists = _filteredArr.find((day) => day == index);
         return !!exists;
       });
-      _filteredArr.map(days=>{
-        days?.map(val=>{
-          if(val > 7 || val < 1){
+      _filteredArr.map(days => {
+        days?.map(val => {
+          if (val > 7 || val < 1) {
             const _payload = {
               password: _password,
               name: _name,
@@ -714,7 +720,7 @@ if (_type=="guide") {
           };
           setFailed((prev) => [...prev, _payload])
         }
-      } if(_groupWithIndividualRow?.length > 1) {
+      } if (_groupWithIndividualRow?.length > 1) {
         const _payload = {
           password: _password,
           name: _name,
@@ -727,69 +733,69 @@ if (_type=="guide") {
         };
         setFailed((prev) => [...prev, _payload])
       }
-       console.log(_password)
-     if(_password===undefined){
-      const _payload = {
-        password: _password,
-        name: _name,
-        username: _username,
-        confirmPassword: _password,
-        group: arrayToObject1,
-        joinDate: new Date(),
-        assigned_days: assignedDaysArray,
-        error: `Password is Missing with ${_username}`,
-      };
-      setFailed((prev) => [...prev, _payload])
-     } else 
-     if(_password.length<6){
-      const _payload = {
-        password: _password,
-        name: _name,
-        username: _username,
-        confirmPassword: _password,
-        group: arrayToObject1,
-        joinDate: new Date(),
-        assigned_days: assignedDaysArray,
-        error: `Password should not be less than 6 character. ${_username} `,
-      };
-      setFailed((prev) => [...prev, _payload])
-     }
-     
-     // handle error if username / name / password missing
-     if(_username===undefined){
-      let lineNumber =  index + 2;
-      console.log(index)
-      console.log(lineNumber)
-      const _payload = {
-        password: _password,
-        name: _name,
-        username: _username,
-        confirmPassword: _password,
-        group: arrayToObject1,
-        joinDate: new Date(),
-        assigned_days: assignedDaysArray,
-        error: `User Name is Missing at ${lineNumber} Line in File.`,
-      };
-      setFailed((prev) => [...prev, _payload])
-     } 
-     
+      console.log(_password)
+      if (_password === undefined) {
+        const _payload = {
+          password: _password,
+          name: _name,
+          username: _username,
+          confirmPassword: _password,
+          group: arrayToObject1,
+          joinDate: new Date(),
+          assigned_days: assignedDaysArray,
+          error: `Password is Missing with ${_username}`,
+        };
+        setFailed((prev) => [...prev, _payload])
+      } else
+        if (_password.length < 6) {
+          const _payload = {
+            password: _password,
+            name: _name,
+            username: _username,
+            confirmPassword: _password,
+            group: arrayToObject1,
+            joinDate: new Date(),
+            assigned_days: assignedDaysArray,
+            error: `Password should not be less than 6 character. ${_username} `,
+          };
+          setFailed((prev) => [...prev, _payload])
+        }
 
-     if(_name===undefined){
-      let lineNumber =  index + 2;
-      console.log(index)
-      console.log(lineNumber)
-      const _payload = {
-        password: _password,
-        name: _name,
-        username: _username,
-        confirmPassword: _password,
-        group: arrayToObject1,
-        joinDate: new Date(),
-        assigned_days: assignedDaysArray,
-        error: "Name is Missing at : "+ lineNumber + "Line in File." ,
-      };
-      setFailed((prev) => [...prev, _payload])
-     } 
+      // handle error if username / name / password missing
+      if (_username === undefined) {
+        let lineNumber = index + 2;
+        console.log(index)
+        console.log(lineNumber)
+        const _payload = {
+          password: _password,
+          name: _name,
+          username: _username,
+          confirmPassword: _password,
+          group: arrayToObject1,
+          joinDate: new Date(),
+          assigned_days: assignedDaysArray,
+          error: `User Name is Missing at ${lineNumber} Line in File.`,
+        };
+        setFailed((prev) => [...prev, _payload])
+      }
+
+
+      if (_name === undefined) {
+        let lineNumber = index + 2;
+        console.log(index)
+        console.log(lineNumber)
+        const _payload = {
+          password: _password,
+          name: _name,
+          username: _username,
+          confirmPassword: _password,
+          group: arrayToObject1,
+          joinDate: new Date(),
+          assigned_days: assignedDaysArray,
+          error: "Name is Missing at : " + lineNumber + "Line in File.",
+        };
+        setFailed((prev) => [...prev, _payload])
+      }
 
       const payload = {
         password: _password,
@@ -1022,6 +1028,7 @@ if (_type=="guide") {
           </Grid>
         </>
       )}
+
       {step == 2 && (
         <>
           <div className={classes.summaryHeader}>
@@ -1204,7 +1211,7 @@ if (_type=="guide") {
                             className={classes.greyText}
                             style={{ fontSize: 16, color: 'red' }}
                           >
-                           
+
                             {` Already Exist! ${el.email}`}
                           </Typography>
                         </li>
@@ -1262,7 +1269,7 @@ if (_type=="guide") {
                           style={{ fontSize: 16, }}>
                           <Typography
                             className={classes.greyText}
-                            style={{ fontSize: 16, color:'red' }}
+                            style={{ fontSize: 16, color: 'red' }}
                           >
                             {/* {`${idx + 1}.` +
                           "Email: " +
@@ -1360,7 +1367,7 @@ if (_type=="guide") {
                   setStep(1)
                 }}
               >
-                <FormattedMessage id="back" />
+                <FormattedMessage id="Back" />
               </Button>
 
 
@@ -1369,8 +1376,8 @@ if (_type=="guide") {
 
 
 
-              <Button onClick={handleClose} className={classes.uploadButton}>
-                <FormattedMessage id="upload" />
+              <Button onClick={()=>{setStep(3)}} className={classes.uploadButton}>
+                <FormattedMessage id="Upload" />
               </Button>
 
 
@@ -1380,6 +1387,74 @@ if (_type=="guide") {
 
         </>
       )}
+{step == 3 && (
+
+  <>
+ <div className={classes.summaryHeader}>
+            <div
+              className={classes.roundContainer}
+              style={{ backgroundColor: "red" }}
+            >
+              <Typography style={{color:"#fff", fontSize:30}}>
+           !
+            </Typography>
+            </div>
+            <Typography className={classes.summaryTitle}>
+              <FormattedMessage id="ALERT" />
+            </Typography>
+          </div>
+    
+                <>
+                  
+                  <Typography className={classes.greyText}>
+               {`   ${created.length} Users will be created, ${failed.length+exists.length} will not be created due to error, Are you sure you want to proceed?`}
+                  </Typography>
+                </>
+                
+                <Grid container spacing={2}>
+            <Grid item xs={6} justifyContent="center">
+              <div className={classes.summaryHeader}>
+                <Button
+                  className={classes.cancelButton}
+                  onClick={() => {
+
+                    setUploadModalText('')
+                    setStep(1)
+                  }}
+                >
+                  <FormattedMessage id="NO" />
+                </Button>
+              </div>
+            </Grid>
+            <Grid item xs={6} justifyContent="center">
+              <div className={classes.summaryHeader}>
+
+              
+                <CButton
+                  className={classes.uploadButton}
+                  loading={loading}
+                  disable={!data}
+                  onClick={() => {
+                    {
+                      uploadType == "groups" && handleGroupSubmit(data);
+                    }
+                    {
+                      uploadType == "staff" && handleStaffSubmit(data);
+                    }
+                    {
+                      uploadType == "kids" && handleKidSubmit(data);
+                    }
+                    
+
+                  }}>
+                  <FormattedMessage id="YES" />
+                </CButton>
+              </div>
+            </Grid>
+          </Grid>
+           
+  </>
+)}
     </Fragment>
   );
 };
