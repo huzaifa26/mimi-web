@@ -336,6 +336,7 @@ export const FileUploadBody = (props) => {
     if (value.length !== new Set(value).size) {
       actions.alert("File contains duplicate group names", "error");
       return;
+      
     }
 
     setLoading(true);
@@ -343,7 +344,8 @@ export const FileUploadBody = (props) => {
     let counter = 0;
     value.map(async (data) => {
       try {
-        let name = data;
+        let name = data?.trim();
+       
         let groups = (
           await db
             .collection("Institution")
@@ -371,7 +373,15 @@ export const FileUploadBody = (props) => {
           setUploadModalText(`${uploadModalText} summery`)
         }
       } catch (error) {
-        actions.alert(error.message, "error");
+
+        
+
+        const _payload = {
+       
+        
+          error: `${error}`,
+        };
+        setFailed((prev) => [...prev, _payload])
         setLoading(false);
       }
     });
@@ -762,20 +772,8 @@ if (_type=="guide") {
       };
       setFailed((prev) => [...prev, _payload])
      } 
-     if(_password===undefined){
-      let lineNumber =  index + 2;
-      const _payload = {
-        password: _password,
-        name: _name,
-        username: _username,
-        confirmPassword: _password,
-        group: arrayToObject1,
-        joinDate: new Date(),
-        assigned_days: assignedDaysArray,
-        error: `Password is Missing at ${lineNumber} Line in File.`,
-      };
-      setFailed((prev) => [...prev, _payload])
-     } 
+     
+
      if(_name===undefined){
       let lineNumber =  index + 2;
       console.log(index)
@@ -1123,6 +1121,19 @@ if (_type=="guide") {
                           style={{ fontSize: 16, color: "red" }}
                         >
                           {` Already Exist! ${el}`}
+                        </Typography>
+                      </li>
+
+                    );
+                  })}
+                  {failed.map((el, idx) => {
+                    return (
+                      <li className={classes.greyText}>
+                        <Typography
+                          className={classes.greyText}
+                          style={{ fontSize: 16, color: "red" }}
+                        >
+                          {` Will Fail! Cause :  ${el.error}`}
                         </Typography>
                       </li>
 
