@@ -372,6 +372,28 @@ export const GroupDetail = () => {
           .collection("report_templates")
           .doc(sub.id)
           .set(payload);
+
+        location?.state?.group.kids_ids.map(async (kid_id) => {
+          console.log(payload)
+          await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("kid")
+          .doc(kid_id)
+          .update({
+            isSpecialReport: true,
+          });
+
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("kid")
+            .doc(kid_id)
+            .collection("subjects")
+            .doc(sub.id)
+            .set(payload);
+        })
+
         const kids = (
           await db
             .collection("Institution")
@@ -380,6 +402,7 @@ export const GroupDetail = () => {
             .where("groupId", "==", group.id)
             .get()
         ).docs.map((el) => el.data());
+        
         kids.map((el) => {
           [...subjects, payload].map(async (e) => {
             const subjectId = e.id;
@@ -423,6 +446,7 @@ export const GroupDetail = () => {
 
         let _report_templates = reportTemplates.data();
         _report_templates.subSubject.push(payload);
+        console.log(_report_templates)
 
         await db
           .collection("Institution")
@@ -441,7 +465,7 @@ export const GroupDetail = () => {
           .collection("report_templates")
           .doc(sub.subjectId)
           .delete();
-          
+
         const _payload = {
           id: _report_templates.id,
           name: _report_templates.name,
@@ -468,8 +492,10 @@ export const GroupDetail = () => {
           .doc(sub.subjectId)
           .set(_payload);
 
+          console.log(location)
           if (_report_templates.isSync) {
             location?.state?.group.kids_ids.map(async (kid_id) => {
+              console.log(location?.state?.group.kids_ids)
               const kidSubject = await db
                 .collection("Institution")
                 .doc(user._code)
@@ -618,6 +644,7 @@ export const GroupDetail = () => {
     let _save6 = await Promise.all(
       // Edit sub subject inside group
       subSubjectEdit.map(async (sub) => {
+        console.log(subSubjectEdit)
         const payload = {
           id: sub.id,
           name: sub.name,
@@ -635,6 +662,8 @@ export const GroupDetail = () => {
           .get();
 
         let _report_templates = reportTemplates.data();
+        console.log(_report_templates)
+
 
         _report_templates.subSubject.map((e, idx) => {
           if (e.id == sub.id) {
