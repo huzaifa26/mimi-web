@@ -312,7 +312,13 @@ export const FileUploadBody = (props) => {
 
   // ** this function update modal head text with current upload type. **
   showUploadType(uploadModalText)
-
+  const resetDataStates = () => {
+    setData([])
+    setCreated([])
+    setExists([])
+    setFailed([])
+    setAllDataForFilter([])
+  }
   const handleGroupSubmit = (value) => {
     setCreated([])
     setExists([])
@@ -395,13 +401,13 @@ export const FileUploadBody = (props) => {
   };
 
   const handleStaffSubmit = async (value) => {
-    setCreated([])
-    setExists([])
-    setFailed([])
-    setUploadModalText("Excel Upload Staff")
+
+    resetDataStates();
+    setUploadModalText("Excel Upload Staff");
     let validation = false;
     const groups = await FirebaseHelpers.fetchGroups.execute({ user });
     if (loading) return;
+
     if (!data) {
 
       actions.alert("Please select a file", "error");
@@ -475,6 +481,8 @@ export const FileUploadBody = (props) => {
       let _password = data[3]?.toString();
       let _groupWithIndividualRow = data[4]?.split(",");
 
+
+      // ** start checking manually all conditions ** 
       if (_type == "guide") {
         var arr = data[4].split(",");
         if (arr.length > 1) {
@@ -506,8 +514,6 @@ export const FileUploadBody = (props) => {
           setFailed((prev) => [...prev, _payload])
         }
       }
-
-
 
 
       if (_type == "manager") {
@@ -557,6 +563,7 @@ export const FileUploadBody = (props) => {
         })
         .catch(error => { console.log(error) })
 
+      // ** close checking manually all conditions ** 
 
       // await FirebaseHelpers.createStaff
       //   .execute({
@@ -594,6 +601,7 @@ export const FileUploadBody = (props) => {
 
 
       //   });
+
       setAllDataForFilter((prev) => [...prev, {
         name: _name,
         type: _type,
@@ -610,15 +618,19 @@ export const FileUploadBody = (props) => {
         setUploadModalText(`${uploadModalText} summery`)
       }
 
-
-
-
-
-
-
     });
 
+    // comparing issue data with all data for finding out non issue data.
+    let issueData = [...exists, ...failed];
+    setCreated(
+      allDataForFilter.filter(function (obj) {
+        return !issueData.some(function (obj2) {
+          return obj.email == obj2.email;
+        })
+      })
+    )
   };
+
   const handleKidSubmit = async (value) => {
     setCreated([])
     setExists([])
@@ -888,12 +900,49 @@ export const FileUploadBody = (props) => {
 
   const handleUploadConfirm = () => {
 
-    console.log(exists)
-    console.log(failed)
+
     console.log(allDataForFilter)
+    var issueData = [...exists, ...failed];
+    console.log(issueData)
 
 
+    var correctedData = allDataForFilter.filter(function (obj) {
+      return !issueData.some(function (obj2) {
+        return obj.email == obj2.email;
+      });
+    });
+    correctedData.map(async (data) => {
+      var payload = {
+        user,
+        institute,
+        staff: {
+          name: data.name,
+          type: data.type,
+          email: data.email,
+          selectedGroups: [!data.selectedGroups.length == 0 ? data.selectedGroups : []],
+          password: data.password
+        }
+      }
 
+      await FirebaseHelpers.createStaff
+        .execute(payload)
+        .then(() => {
+          actions.alert(
+            "You data is uploaded successfully!",
+            "success"
+          )
+          resetDataStates()
+        })
+        .catch((error) => {
+          actions.alert(
+            `${error}`,
+            "error"
+          )
+          resetDataStates()
+        })
+
+
+    })
 
 
 
@@ -1018,6 +1067,7 @@ export const FileUploadBody = (props) => {
                   onClick={() => {
 
                     setUploadModalText('')
+                    resetDataStates()
                     setStep(0)
                   }}
                 >
@@ -1405,6 +1455,7 @@ export const FileUploadBody = (props) => {
               <Button
                 className={classes.cancelButton}
                 onClick={() => {
+                  resetDataStates()
                   setUploadModalText(uploadType)
                   setStep(1)
                 }}
@@ -1461,7 +1512,7 @@ export const FileUploadBody = (props) => {
                 <Button
                   className={classes.cancelButton}
                   onClick={() => {
-
+                    resetDataStates()
                     setUploadModalText('')
                     setStep(1)
                   }}
