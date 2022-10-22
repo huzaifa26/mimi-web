@@ -202,14 +202,76 @@ export const GroupDetail = () => {
             isSpecialReport: true,
           });
 
-        await db
+        const reportTemplates = await db
           .collection("Institution")
           .doc(user._code)
           .collection("groups")
           .doc(group.id)
           .collection("report_templates")
           .doc(sub.id)
-          .delete();
+          .get();
+
+        let _report_templates = reportTemplates.data();
+
+        console.log(sub)
+        console.log(_report_templates)
+        if (_report_templates.isSync) {
+          location?.state?.group.kids_ids.map(async (kid_id) => {
+            const kidSubject = await db
+              .collection("Institution")
+              .doc(user._code)
+              .collection("kid")
+              .doc(kid_id)
+              .collection("subjects")
+              .doc(sub.id)
+              .get();
+
+            const _kid_subject = kidSubject.data();
+
+            if (_report_templates.isSync) {
+              location?.state?.group.kids_ids.map(async (kid_id) => {
+                const kidSubject = await db
+                  .collection("Institution")
+                  .doc(user._code)
+                  .collection("kid")
+                  .doc(kid_id)
+                  .collection("subjects")
+                  .doc(sub.id)
+                  .get();
+
+                const _kid_subject = kidSubject.data();
+                if (_kid_subject !== undefined) {
+                  await db
+                    .collection("Institution")
+                    .doc(user._code)
+                    .collection("kid")
+                    .doc(kid_id)
+                    .update({
+                      isSpecialReport: true,
+                    });
+
+                  await db
+                    .collection("Institution")
+                    .doc(user._code)
+                    .collection("kid")
+                    .doc(kid_id)
+                    .collection("subjects")
+                    .doc(sub.id)
+                    .delete();
+                }
+              })
+            }
+          })
+        }
+
+        await db
+        .collection("Institution")
+        .doc(user._code)
+        .collection("groups")
+        .doc(group.id)
+        .collection("report_templates")
+        .doc(sub.id)
+        .delete();
 
         let kids = (
           await db
@@ -285,7 +347,7 @@ export const GroupDetail = () => {
           .get();
 
         let _report_templates = reportTemplates.data();
-        
+
         // delete subsubject if sync
         if (_report_templates.isSync) {
           location?.state?.group.kids_ids.map(async (kid_id) => {
@@ -297,7 +359,7 @@ export const GroupDetail = () => {
               .collection("subjects")
               .doc(sub.subjectId)
               .get();
-              
+
             const _kid_subject = kidSubject.data();
             if (_kid_subject !== undefined) {
               await db
@@ -325,18 +387,18 @@ export const GroupDetail = () => {
                   totalPoints: sub.subjectPoints,
                 });
 
-                if (!sub.subSubjectLength) {
-                  await db
-                    .collection("Institution")
-                    .doc(user._code)
-                    .collection("kid")
-                    .doc(kid_id)
-                    .collection("subjects")
-                    .doc(sub.subjectId)
-                    .update({
-                      hasSubSubject: false,
-                    });
-                }
+              if (!sub.subSubjectLength) {
+                await db
+                  .collection("Institution")
+                  .doc(user._code)
+                  .collection("kid")
+                  .doc(kid_id)
+                  .collection("subjects")
+                  .doc(sub.subjectId)
+                  .update({
+                    hasSubSubject: false,
+                  });
+              }
             }
           })
         }
@@ -353,7 +415,7 @@ export const GroupDetail = () => {
           subSubject: [],
           obtainedPoints: 0,
           hasSubSubject: false,
-          isSync:false
+          isSync: false
         };
         await db
           .collection("Institution")
@@ -373,26 +435,26 @@ export const GroupDetail = () => {
           .doc(sub.id)
           .set(payload);
 
-        location?.state?.group.kids_ids.map(async (kid_id) => {
-          console.log(payload)
-          await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("kid")
-          .doc(kid_id)
-          .update({
-            isSpecialReport: true,
-          });
+        // location?.state?.group.kids_ids.map(async (kid_id) => {
+        //   console.log(payload)
+        //   await db
+        //   .collection("Institution")
+        //   .doc(user._code)
+        //   .collection("kid")
+        //   .doc(kid_id)
+        //   .update({
+        //     isSpecialReport: true,
+        //   });
 
-          await db
-            .collection("Institution")
-            .doc(user._code)
-            .collection("kid")
-            .doc(kid_id)
-            .collection("subjects")
-            .doc(sub.id)
-            .set(payload);
-        })
+        //   await db
+        //     .collection("Institution")
+        //     .doc(user._code)
+        //     .collection("kid")
+        //     .doc(kid_id)
+        //     .collection("subjects")
+        //     .doc(sub.id)
+        //     .set(payload);
+        // })
 
         const kids = (
           await db
@@ -402,7 +464,7 @@ export const GroupDetail = () => {
             .where("groupId", "==", group.id)
             .get()
         ).docs.map((el) => el.data());
-        
+
         kids.map((el) => {
           [...subjects, payload].map(async (e) => {
             const subjectId = e.id;
@@ -473,7 +535,7 @@ export const GroupDetail = () => {
           subSubject: _report_templates.subSubject,
           obtainedPoints: _report_templates.obtainedPoints,
           hasSubSubject: _report_templates.hasSubSubject,
-          isSync:_report_templates.isSync
+          isSync: _report_templates.isSync
         };
 
         let totalSum = 0;
@@ -492,52 +554,52 @@ export const GroupDetail = () => {
           .doc(sub.subjectId)
           .set(_payload);
 
-          console.log(location)
-          if (_report_templates.isSync) {
-            location?.state?.group.kids_ids.map(async (kid_id) => {
-              console.log(location?.state?.group.kids_ids)
-              const kidSubject = await db
+        console.log(location)
+        if (_report_templates.isSync) {
+          location?.state?.group.kids_ids.map(async (kid_id) => {
+            console.log(location?.state?.group.kids_ids)
+            const kidSubject = await db
+              .collection("Institution")
+              .doc(user._code)
+              .collection("kid")
+              .doc(kid_id)
+              .collection("subjects")
+              .doc(sub.subjectId)
+              .get();
+
+            const _kid_subject = kidSubject.data();
+            if (_kid_subject !== undefined) {
+              await db
                 .collection("Institution")
                 .doc(user._code)
                 .collection("kid")
                 .doc(kid_id)
                 .collection("subjects")
                 .doc(sub.subjectId)
-                .get();
-  
-              const _kid_subject = kidSubject.data();
-              if (_kid_subject !== undefined) {
-                await db
-                  .collection("Institution")
-                  .doc(user._code)
-                  .collection("kid")
-                  .doc(kid_id)
-                  .collection("subjects")
-                  .doc(sub.subjectId)
-                  .update({
-                    isSpecialReport: true,
-                  });
-  
-                await db
-                  .collection("Institution")
-                  .doc(user._code)
-                  .collection("kid")
-                  .doc(kid_id)
-                  .collection("subjects")
-                  .doc(sub.subjectId)
-                  .delete();
-  
-                await db
-                  .collection("Institution")
-                  .doc(user._code)
-                  .collection("kid")
-                  .doc(kid_id)
-                  .collection("subjects")
-                  .doc(sub.subjectId)
-                  .set(_payload);
-              }
-            })
-          }
+                .update({
+                  isSpecialReport: true,
+                });
+
+              await db
+                .collection("Institution")
+                .doc(user._code)
+                .collection("kid")
+                .doc(kid_id)
+                .collection("subjects")
+                .doc(sub.subjectId)
+                .delete();
+
+              await db
+                .collection("Institution")
+                .doc(user._code)
+                .collection("kid")
+                .doc(kid_id)
+                .collection("subjects")
+                .doc(sub.subjectId)
+                .set(_payload);
+            }
+          })
+        }
       })
     );
 
@@ -687,7 +749,7 @@ export const GroupDetail = () => {
           .collection("report_templates")
           .doc(sub.subjectId)
           .delete();
-          console.log(_report_templates)
+        console.log(_report_templates)
         const _payload = {
           id: _report_templates.id,
           name: _report_templates.name,
@@ -695,7 +757,7 @@ export const GroupDetail = () => {
           subSubject: _report_templates.subSubject,
           obtainedPoints: _report_templates.obtainedPoints,
           hasSubSubject: _report_templates.hasSubSubject,
-          isSync:_report_templates.isSync
+          isSync: _report_templates.isSync
         };
 
         let totalSum = 0;
@@ -765,7 +827,7 @@ export const GroupDetail = () => {
     // Sync subject
     let _save7 = await Promise.all(
       subjectLock.map(async (sub) => {
-
+        console.log(subjectLock)
         const reportTemplates = await db
           .collection("Institution")
           .doc(user._code)
@@ -792,6 +854,37 @@ export const GroupDetail = () => {
           .update({
             isSync: _isSync,
           });
+
+        location?.state?.group.kids_ids.map(async (kid_id) => {
+          const kidSubject = await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("kid")
+            .doc(kid_id)
+            .collection("subjects")
+            .doc(sub.subjectId)
+            .get();
+
+          const _kid_subject = kidSubject.data();
+
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("kid")
+            .doc(kid_id)
+            .update({
+              isSpecialReport: true,
+            });
+
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("kid")
+            .doc(kid_id)
+            .collection("subjects")
+            .doc(subjectLock[0].id)
+            .set(subjectLock[0]);
+        })
       })
     );
 
