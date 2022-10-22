@@ -461,12 +461,12 @@ return _query;
         }
       }
 
-      // const _staff = await _auth.createUserWithEmailAndPassword(
-      //   email,
-      //   password
-      // );
-      // const staffId = _staff.user.uid;
-      const staffId = nanoid(8)
+      const _staff = await _auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
+      const staffId = _staff.user.uid;
+      
       await db
         .collection("Institution")
         .doc(user._code)
