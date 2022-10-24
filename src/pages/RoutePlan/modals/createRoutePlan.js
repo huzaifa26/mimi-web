@@ -66,7 +66,7 @@ export const CreateRoutePlanBody = props => {
                 status: status.id,
                 startingDate: startDate,
                 endingDate: endDate,
-                created_date: date,
+                date_created: date,
 
             };
 
