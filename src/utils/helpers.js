@@ -483,6 +483,7 @@ return _query;
           kids_access: [],
           group_ids: [],
           products_redeemed: [],
+          date_created : new Date(),
           permissions: defaultPermissions.permissions,
           requestingPermission: false,
           requestAccepted: false,
@@ -504,8 +505,10 @@ return _query;
             type: type,
             email: email,
             kids_access: [],
+          
             group_ids: [],
             products_redeemed: [],
+            date_created : new Date(),
             permissions: {
               deleteGroup: true,
               assignDays: true,
@@ -550,6 +553,7 @@ return _query;
               kids_access: [],
               group_ids: [],
               products_redeemed: [],
+              date_created : new Date(),
               permissions: {
                 deleteGroup: true,
                 assignDays: true,
@@ -676,6 +680,7 @@ return _query;
           products_used: [],
           special_program: [],
           storeId: [],
+          date_created : new Date(),
           level: 1,
           reported: false,
           reportedBy: "",

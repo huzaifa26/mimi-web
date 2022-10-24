@@ -319,10 +319,8 @@ export const FileUploadBody = (props) => {
     setFailed([])
     setAllDataForFilter([])
   }
-  const handleGroupSubmit = (value) => {
-    setCreated([])
-    setExists([])
-    setFailed([])
+  const handleGroupSubmit = async (value) => {
+    resetDataStates();
 
     if (loading) return;
     if (!data) {
@@ -345,61 +343,67 @@ export const FileUploadBody = (props) => {
     });
 
     if (value.length !== new Set(value).size) {
-      actions.alert("File contains duplicate group names", "error");
-
-      return;
-
-    }
-
+    actions.alert("File contains duplicate group names","error");  
+    return;
+  }
     setLoading(true);
 
     let counter = 0;
 
+ 
     value.map(async (data) => {
-      try {
-        let name = data?.trim();
-
-        let groups = (
-          await db
-            .collection("Institution")
-            .doc(user._code)
-            .collection("groups")
-            .where("name", "==", name)
-            .get()
-        ).docs.map((el) => el.data());
-        if (groups.length > 0) {
-          setExists((prev) => [...prev, name]);
-        } else {
-          await FirebaseHelpers.createGroup.execute({
-            user,
-            group: {
-              name,
-            },
-          });
-          setCreated((prev) => [...prev, name]);
-        }
-        counter = counter + 1;
-        if (value.length == counter) {
-          setTotal(counter);
-          setLoading(false);
-          setStep(2);
-          setUploadModalText(`${uploadModalText} summery`)
-        }
-      } catch (error) {
-
-
-
-        const _payload = {
-
-
-          error: `${error}`,
-        };
-        setFailed((prev) => [...prev, _payload])
-        setLoading(false);
+      let name = data?.trim();
+       let groups = (
+      await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("groups")
+          .where("name", "==", name)
+          .get()
+      ).docs.map((el) => el.data());
+      if (groups.length > 0) {
+        setExists((prev) => [...prev, name]);
       }
-    });
+      // } else {
+      //   await FirebaseHelpers.createGroup.execute({
+      //     user,
+      //     group: {
+      //       name,
+      //     },
+      //   });
+      //   setCreated((prev) => [...prev, name]);
+      // }
+
+  // setCreated((prev) => [...prev, name])
+      counter = counter + 1;
+      if (value.length == counter) {
+      
+        setTotal(counter);
+        setLoading(false);
+        setStep(2);
+        setUploadModalText(`${uploadModalText} summery`)
+        
+      }
+  })
+
+
+ setCreated( value.filter(function (obj) {
+  return ![...exists, ...failed].some(function (obj2) {
+    return obj.email.trim() == obj2.email.trim();
+  })
+}))
+  
+   
+    
+     
+   
+   
+   
+
   };
 
+
+ 
   const handleStaffSubmit = async (value) => {
 
     resetDataStates();
@@ -480,7 +484,7 @@ export const FileUploadBody = (props) => {
       let _email = data[2]?.toString().trim();
       let _password = data[3]?.toString();
       let _groupWithIndividualRow = data[4]?.split(",");
-
+      
 
       // ** start checking manually all conditions ** 
       if (_type == "guide") {
@@ -499,7 +503,7 @@ export const FileUploadBody = (props) => {
       }
 
       let _group = groups?.filter((e) => e.name === _groupWithIndividualRow?.map(e => { return e }))
-
+     
       if (data[4] === undefined) {
         console.log("undefined")
       } else {
@@ -607,7 +611,6 @@ export const FileUploadBody = (props) => {
         type: _type,
         email: _email,
         selectedGroups: [!_group.length == 0 ? _group : []],
-
         password: _password,
       }]);
       counter = counter + 1;
@@ -632,12 +635,7 @@ export const FileUploadBody = (props) => {
   };
 
   const handleKidSubmit = async (value) => {
-    setCreated([])
-    setExists([])
-    setFailed([])
-
-
-
+    resetDataStates();
     let validation = false;
     if (loading) return;
     if (!data) {
@@ -710,12 +708,19 @@ export const FileUploadBody = (props) => {
       const _arr = [_assigned_days?.split(",")];
       // check assign days numbers are between 1 to 7
       let _filteredArr = _arr.map((days) => days?.filter((e) => e !== ''))
-      console.log(_filteredArr)
+      
 
       const assignedDaysArray = new Array(7).fill(null).map((el, index) => {
         const exists = _filteredArr.find((day) => day == index);
         return !!exists;
       });
+
+      if(data[4]===undefined){
+        console.log(data[1] +" firebase default days! ")
+      } else {
+        console.log(assignedDaysArray)
+      }
+
       _filteredArr.map(days => {
         days?.map(val => {
           if (val > 7 || val < 1) {
@@ -818,6 +823,28 @@ export const FileUploadBody = (props) => {
           error: `User Name is Missing at ${lineNumber} Line in File.`,
         };
         setFailed((prev) => [...prev, _payload])
+      } else {
+        const kidExists = await db
+        .collection("Institution")
+        .doc(user._code)
+        .collection("kid")
+        .where("username", "==", _username?.trim().toLowerCase())
+        .get();
+  
+      if (!kidExists.empty) {
+        let lineNumber = index + 2;
+        const _payload = {
+          password: _password,
+          name: _name,
+          username: _username,
+          confirmPassword: _password,
+          group: arrayToObject1,
+          joinDate: new Date(),
+          assigned_days: assignedDaysArray,
+          error: `Kid with same name already exists, Kindly choose a different name at ${lineNumber}`,
+        };
+        setExists((prev) => [...prev, _payload])
+      }
       }
 
 
@@ -837,6 +864,9 @@ export const FileUploadBody = (props) => {
         };
         setFailed((prev) => [...prev, _payload])
       }
+      
+     
+
 
       const payload = {
         password: _password,
@@ -852,38 +882,38 @@ export const FileUploadBody = (props) => {
       });
       const kidId = nanoid(6);
 
-      await FirebaseHelpers.createKid
-        .execute({
-          user,
-          institute,
-          kid: {
-            kidId,
-            ...payload,
-          },
-        })
-        .then(() => {
-          setCreated((prev) => [...prev, payload]);
-        })
-        .catch((e) => {
+      // await FirebaseHelpers.createKid
+      //   .execute({
+      //     user,
+      //     institute,
+      //     kid: {
+      //       kidId,
+      //       ...payload,
+      //     },
+      //   })
+      //   .then(() => {
+      //     setCreated((prev) => [...prev, payload]);
+      //   })
+      //   .catch((e) => {
 
-          const _payload = {
-            password: _password,
-            name: _name,
-            username: _username,
-            confirmPassword: _password,
-            group: arrayToObject1,
-            joinDate: new Date(),
-            assigned_days: assignedDaysArray,
-            error: e,
-          };
-          if (e == "Kid with same name already exists, Kindly choose a different name") {
-            setExists((prev) => [...prev, _payload]);
-          } else {
-            setFailed((prev) => [...prev, _payload]);
-          }
+      //     const _payload = {
+      //       password: _password,
+      //       name: _name,
+      //       username: _username,
+      //       confirmPassword: _password,
+      //       group: arrayToObject1,
+      //       joinDate: new Date(),
+      //       assigned_days: assignedDaysArray,
+      //       error: e,
+      //     };
+      //     if (e == "Kid with same name already exists, Kindly choose a different name") {
+      //       setExists((prev) => [...prev, _payload]);
+      //     } else {
+      //       setFailed((prev) => [...prev, _payload]);
+      //     }
 
-        });
-
+      //   });
+      setAllDataForFilter((prev) => [...prev, payload]);
       counter = counter + 1;
       if (value.length == counter) {
         setTotal(counter);
@@ -892,26 +922,88 @@ export const FileUploadBody = (props) => {
         setUploadModalText(`${uploadModalText} summery`)
       }
     });
+
+  // comparing issue data with all data for finding out non issue data.
+  let issueData = [...exists, ...failed];
+  setCreated(
+    allDataForFilter.filter(function (obj) {
+      return !issueData.some(function (obj2) {
+        return obj.email == obj2.email;
+      })
+    })
+  )
   };
 
   const handleSubmit = (value) => {
     setData(value);
   };
+  const handleUploadConfirmGroup = async () => {
+    console.log(created)
+    console.log(exists)
+    console.log(failed)
+   
 
-  const handleUploadConfirm = () => {
+    created.map( async(value)=>{
+      await FirebaseHelpers.createGroup.execute({
+        user,
+        group: {
+          value,
+        },
+      })
+      .then(()=>{
+        actions.alert(
+          "You data is uploaded successfully!",
+          "success"
+        )
+        resetDataStates()
+      })
+      .catch((e)=>{
+        
+        actions.alert(
+          e,
+          "error"
+        )
+        resetDataStates()
+      })
+    })
+  }
+  const handleUploadConfirmKid = async () => {
+    console.log(created)
+    console.log(exists)
+    console.log(failed)
+    created.map(async(data)=>{
+      const kidId = nanoid(6);
 
+      await FirebaseHelpers.createKid
+        .execute({
+          user,
+          institute,
+          kid: {
+            kidId,
+            ...data,
+          },
+        })
+        .then(() => {
+          actions.alert(
+            "You data is uploaded successfully!",
+            "success"
+          )
+          resetDataStates()
+        })
+        .catch((e) => {
 
-    console.log(allDataForFilter)
-    var issueData = [...exists, ...failed];
-    console.log(issueData)
+          actions.alert(
+            e,
+            "error"
+          )
+          resetDataStates()
 
-
-    var correctedData = allDataForFilter.filter(function (obj) {
-      return !issueData.some(function (obj2) {
-        return obj.email == obj2.email;
-      });
-    });
-    correctedData.map(async (data) => {
+        });
+    })
+  }
+  const handleUploadConfirmStaff = async () => {
+    console.log(created)
+    created.map(async (data) => {
       var payload = {
         user,
         institute,
@@ -923,7 +1015,6 @@ export const FileUploadBody = (props) => {
           password: data.password
         }
       }
-
       await FirebaseHelpers.createStaff
         .execute(payload)
         .then(() => {
@@ -940,8 +1031,6 @@ export const FileUploadBody = (props) => {
           )
           resetDataStates()
         })
-
-
     })
 
 
@@ -1198,6 +1287,7 @@ export const FileUploadBody = (props) => {
                   {/* <FormattedMessage id="created: " /> */}
                 </Typography>
                 <ol>
+                  
                   {created.map((el, idx) => {
                     return (
                       <li className={classes.greyText}>
@@ -1530,16 +1620,16 @@ export const FileUploadBody = (props) => {
                   loading={loading}
                   disable={!data}
                   onClick={async () => {
-                    // {
-                    //   uploadType == "groups" && handleGroupSubmit(data);
-                    // }
-                    // {
-                    //   uploadType == "staff" && handleStaffSubmit(data);
-                    // }
-                    // {
-                    //   uploadType == "kids" && handleKidSubmit(data);
-                    // }
-                    handleUploadConfirm();
+                    {
+                      uploadType == "groups" && handleUploadConfirmGroup(data);
+                    }
+                    {
+                      uploadType == "staff" && handleUploadConfirmStaff();
+                    }
+                    {
+                      uploadType == "kids" && handleUploadConfirmKid(data);
+                    }
+                 
                     setAllDataForFilter([])
 
                   }}>
