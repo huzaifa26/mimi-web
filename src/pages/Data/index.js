@@ -198,200 +198,6 @@ export const Data = React.memo(() => {
     subjectLock
   ) => {
 
-    // delete subject
-    let _save3 = await Promise.all(
-      subjectDeleted.map(async (sub) => {
-        await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("basicReport")
-          .doc(sub.id)
-          .delete();
-
-        if (sub.isSync) {
-          const batch = db.batch();
-          kidsId.map(async (kid_id) => {
-            console.log(kid_id)
-            batch.delete(
-              db.collection("Institution")
-                .doc(user._code)
-                .collection("kid")
-                .doc(kid_id)
-                .collection("subjects")
-                .doc(sub.id)
-            );
-          });
-          await batch.commit().then(() => console.log("kid deleted"));
-
-          const batch1 = db.batch();
-          groupsId.map(async (group_id) => {
-            console.log(group_id)
-            batch1.delete(
-              db.collection("Institution")
-                .doc(user._code)
-                .collection("groups")
-                .doc(group_id)
-                .collection("report_templates")
-                .doc(sub.id)
-            );
-          })
-          await batch1.commit().then(() => console.log("group deleted"));
-        }
-
-        let groups = (
-          await db
-            .collection("Institution")
-            .doc(user._code)
-            .collection("groups")
-            .where("isSpecialReport", "==", false)
-            .get()
-        ).docs.map((el) => el.data());
-
-        groups.map(async (group) => {
-          await db
-            .collection("Institution")
-            .doc(user._code)
-            .collection("groups")
-            .doc(group.id)
-            .collection("report_templates")
-            .doc(sub.id)
-            .delete();
-
-          let kids = (
-            await db
-              .collection("Institution")
-              .doc(user._code)
-              .collection("kid")
-              .where("groupId", "==", group.id)
-              .get()
-          ).docs.map((el) => el.data());
-
-          kids.map(async (el) => {
-            await db
-              .collection("Institution")
-              .doc(user._code)
-              .collection("kid")
-              .doc(el.id)
-              .collection("achievements")
-              .doc(sub.id)
-              .update({
-                isDeleted: true,
-                redPoints: 0,
-                streak: 0,
-              });
-          });
-        });
-      })
-    );
-
-    // delete sub subject Done
-    let _save4 = await Promise.all(
-      subSubjectDeleted.map(async (sub) => {
-        await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("basicReport")
-          .doc(sub.subjectId)
-          .update({
-            subSubject: firebase.firestore.FieldValue.arrayRemove(
-              sub.subSubject
-            ),
-            totalPoints: sub.subjectPoints,
-          });
-
-
-        if (sub.isSync) {
-          kidsId.map(async (kid_id) => {
-            const batch = db.batch();
-
-            batch.update(
-              db.collection("Institution")
-                .doc(user._code)
-                .collection("kid")
-                .doc(kid_id)
-                .collection("subjects")
-                .doc(sub.subjectId),
-              {
-                subSubject: firebase.firestore.FieldValue.arrayRemove(
-                  sub.subSubject
-                ),
-                totalPoints: sub.subjectPoints,
-              }
-            );
-            await batch.commit();
-          });
-
-          groupsId.map(async (group_id) => {
-            const batch = db.batch();
-
-            batch.update(
-              db.collection("Institution")
-                .doc(user._code)
-                .collection("groups")
-                .doc(group_id)
-                .collection("report_templates")
-                .doc(sub.subjectId),
-              {
-                subSubject: firebase.firestore.FieldValue.arrayRemove(
-                  sub.subSubject
-                ),
-                totalPoints: sub.subjectPoints,
-              }
-            );
-            await batch.commit();
-          })
-        }
-
-        let groups = (
-          await db
-            .collection("Institution")
-            .doc(user._code)
-            .collection("groups")
-            .where("isSpecialReport", "==", false)
-            .get()
-        ).docs.map((el) => el.data());
-
-        groups.map(async (group) => {
-          await db
-            .collection("Institution")
-            .doc(user._code)
-            .collection("groups")
-            .doc(group.id)
-            .collection("report_templates")
-            .doc(sub.subjectId)
-            .update({
-              subSubject: firebase.firestore.FieldValue.arrayRemove(
-                sub.subSubject
-              ),
-              totalPoints: sub.subjectPoints,
-            });
-          if (!sub.subSubjectLength) {
-            await db
-              .collection("Institution")
-              .doc(user._code)
-              .collection("groups")
-              .doc(group.id)
-              .collection("report_templates")
-              .doc(sub.subjectId)
-              .update({
-                hasSubSubject: false,
-              });
-          }
-        });
-
-        if (!sub.subSubjectLength) {
-          await db
-            .collection("Institution")
-            .doc(user._code)
-            .collection("basicReport")
-            .doc(sub.subjectId)
-            .update({
-              hasSubSubject: false,
-            });
-        }
-      })
-    );
-
     // add subject (WE DONT NEED TO MAKE IT WORK WITH SYNC BECAUSE BY DEFUALT SUBJECT IS NOT SYNC)
     let _save1 = await Promise.all(
       subjectAdded.map(async (sub) => {
@@ -403,7 +209,7 @@ export const Data = React.memo(() => {
           obtainedPoints: 0,
           hasSubSubject: false,
           isSync: false,
-          type:"basic"
+          type: "basic"
         };
 
         await db
@@ -499,7 +305,7 @@ export const Data = React.memo(() => {
             subSubject: firebase.firestore.FieldValue.arrayUnion(payload),
             hasSubSubject: true,
             totalPoints: sub.subjectPoints,
-          });
+          }).then(() => console.log("done adding kid subject"))
 
         const groups = (
           await db
@@ -601,7 +407,7 @@ export const Data = React.memo(() => {
           obtainedPoints: sub.obtainedPoints,
           hasSubSubject: sub.hasSubSubject,
           isSync: sub.isSync,
-          type:sub.type
+          type: sub.type
         };
 
         await db
@@ -701,7 +507,7 @@ export const Data = React.memo(() => {
             obtainedPoints: sub.obtainedPoints,
             hasSubSubject: sub.hasSubSubject,
             isSync: sub.isSync,
-            type:sub.type
+            type: sub.type
           };
 
           await db
@@ -949,6 +755,203 @@ export const Data = React.memo(() => {
             .doc(sub.id)
             .set(sub);
         })
+      })
+    );
+
+    // delete subject
+    let _save3 = await Promise.all(
+      subjectDeleted.map(async (sub) => {
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("basicReport")
+          .doc(sub.id)
+          .delete();
+
+        if (sub.isSync) {
+          const batch = db.batch();
+          kidsId.map(async (kid_id) => {
+            console.log(kid_id)
+            batch.delete(
+              db.collection("Institution")
+                .doc(user._code)
+                .collection("kid")
+                .doc(kid_id)
+                .collection("subjects")
+                .doc(sub.id)
+            );
+          });
+          await batch.commit().then(() => console.log("kid deleted"));
+
+          const batch1 = db.batch();
+          groupsId.map(async (group_id) => {
+            console.log(group_id)
+            batch1.delete(
+              db.collection("Institution")
+                .doc(user._code)
+                .collection("groups")
+                .doc(group_id)
+                .collection("report_templates")
+                .doc(sub.id)
+            );
+          })
+          await batch1.commit().then(() => console.log("group deleted"));
+        }
+
+        let groups = (
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("groups")
+            .where("isSpecialReport", "==", false)
+            .get()
+        ).docs.map((el) => el.data());
+
+        groups.map(async (group) => {
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("groups")
+            .doc(group.id)
+            .collection("report_templates")
+            .doc(sub.id)
+            .delete();
+
+          let kids = (
+            await db
+              .collection("Institution")
+              .doc(user._code)
+              .collection("kid")
+              .where("groupId", "==", group.id)
+              .get()
+          ).docs.map((el) => el.data());
+
+          kids.map(async (el) => {
+            await db
+              .collection("Institution")
+              .doc(user._code)
+              .collection("kid")
+              .doc(el.id)
+              .collection("achievements")
+              .doc(sub.id)
+              .update({
+                isDeleted: true,
+                redPoints: 0,
+                streak: 0,
+              });
+          });
+        });
+      })
+    );
+
+    // delete sub subject Done
+    let _save4 = await Promise.all(
+      subSubjectDeleted.map(async (sub) => {
+        const _payload = { ...sub.selectedSubject };
+
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("basicReport")
+          .doc(sub.subjectId)
+          .delete()
+
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("basicReport")
+          .doc(sub.subjectId)
+          .set(_payload)
+
+        if (sub.isSync) {
+          kidsId.map(async (kid_id) => {
+            await db.collection("Institution")
+              .doc(user._code)
+              .collection("kid")
+              .doc(kid_id)
+              .collection("subjects")
+              .doc(sub.subjectId)
+              .delete()
+
+            await db.collection("Institution")
+              .doc(user._code)
+              .collection("kid")
+              .doc(kid_id)
+              .collection("subjects")
+              .doc(sub.subjectId)
+              .set(_payload)
+          });
+
+          groupsId.map(async (group_id) => {
+            db.collection("Institution")
+              .doc(user._code)
+              .collection("groups")
+              .doc(group_id)
+              .collection("report_templates")
+              .doc(sub.subjectId)
+              .delete()
+
+            await db.collection("Institution")
+              .doc(user._code)
+              .collection("groups")
+              .doc(group_id)
+              .collection("report_templates")
+              .doc(sub.subjectId)
+                .set(_payload)
+          })
+        }
+
+        let groups = (
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("groups")
+            .where("isSpecialReport", "==", false)
+            .get()
+        ).docs.map((el) => el.data());
+
+        groups.map(async (group) => {
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("groups")
+            .doc(group.id)
+            .collection("report_templates")
+            .delete();
+
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("groups")
+            .doc(group.id)
+            .collection("report_templates")
+            .doc(sub.subjectId)
+            .set(_payload);
+
+          if (!sub.subSubjectLength) {
+            await db
+              .collection("Institution")
+              .doc(user._code)
+              .collection("groups")
+              .doc(group.id)
+              .collection("report_templates")
+              .doc(sub.subjectId)
+              .update({
+                hasSubSubject: false,
+              });
+          }
+        });
+
+        if (!sub.subSubjectLength) {
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("basicReport")
+            .doc(sub.subjectId)
+            .update({
+              hasSubSubject: false,
+            });
+        }
       })
     );
     closeBasicReportModal();

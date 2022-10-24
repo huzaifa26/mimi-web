@@ -107,7 +107,8 @@ export const KidsDetail = (props) => {
           setKid(querySnapshot.data());
         });
     })();
-  }, []);
+  }, [modalStates.kidReport]);
+
   useEffect(() => {
     if (!kid) return;
 
@@ -137,6 +138,7 @@ export const KidsDetail = (props) => {
       }
     })();
   }, [modalStates.kidReport, kid]);
+
   useEffect(() => {
     if (!kid?.id) return;
     (async () => {
@@ -173,7 +175,7 @@ export const KidsDetail = (props) => {
   const handleChangePassword = () => {
     setModalStates((prev) => ({ ...prev, changePassword: true }));
   };
-  const handleAchievement = () => {};
+  const handleAchievement = () => { };
   const handleGrantScore = () => {
     setModalStates((prev) => ({ ...prev, grantScore: true }));
   };
@@ -199,9 +201,8 @@ export const KidsDetail = (props) => {
         kid,
       }),
       title: `Change Profile Permission?`,
-      body: `Are you sure you want to this ${
-        kid.profile_permission ? "disable" : "enable"
-      } this permission`,
+      body: `Are you sure you want to this ${kid.profile_permission ? "disable" : "enable"
+        } this permission`,
     });
   };
   const handleSwitchSpecial = () => {
@@ -285,80 +286,6 @@ export const KidsDetail = (props) => {
         );
     }
 
-    // delete subject
-    let _save3 = await Promise.all(
-      subjectDeleted.map(async (sub) => {
-        await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("kid")
-          .doc(kid.id)
-          .update({
-            has_special_program: true,
-          });
-        await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("kid")
-          .doc(kid.id)
-          .collection("subjects")
-          .doc(sub.id)
-          .delete();
-
-        await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("kid")
-          .doc(kid.id)
-          .collection("achievements")
-          .doc(sub.id)
-          .update({
-            isDeleted: true,
-            redPoints: 0,
-            streak: 0,
-          });
-      })
-    );
-
-    // delete sub subject
-    let _save4 = await Promise.all(
-      subSubjectDeleted.map(async (sub) => {
-        await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("kid")
-          .doc(kid.id)
-          .update({
-            has_special_program: true,
-          });
-        await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("kid")
-          .doc(kid.id)
-          .collection("subjects")
-          .doc(sub.subjectId)
-          .update({
-            subSubject: firebase.firestore.FieldValue.arrayRemove(
-              sub.subSubject
-            ),
-            totalPoints: sub.subjectPoints,
-          });
-        if (!sub.subSubjectLength) {
-          await db
-            .collection("Institution")
-            .doc(user._code)
-            .collection("kid")
-            .doc(kid.id)
-            .collection("subjects")
-            .doc(sub.subjectId)
-            .update({
-              hasSubSubject: false,
-            });
-        }
-      })
-    );
-
     // Add subject
     let _save1 = await Promise.all(
       subjectAdded.map(async (sub) => {
@@ -369,7 +296,7 @@ export const KidsDetail = (props) => {
           subSubject: [],
           obtainedPoints: 0,
           hasSubSubject: false,
-          isSync  : false,
+          isSync: false,
         };
         await db
           .collection("Institution")
@@ -528,12 +455,12 @@ export const KidsDetail = (props) => {
 
         const _payload = { ...sub.selectedSubject };
 
-        let totalSum=0;
-        _payload.subSubject.forEach((subSubject)=>{
-          totalSum=totalSum+subSubject.totalPoints;
+        let totalSum = 0;
+        _payload.subSubject.forEach((subSubject) => {
+          totalSum = totalSum + subSubject.totalPoints;
         });
 
-        _payload.totalPoints=totalSum;
+        _payload.totalPoints = totalSum;
 
         await db
           .collection("Institution")
@@ -543,6 +470,89 @@ export const KidsDetail = (props) => {
           .collection("subjects")
           .doc(sub.subjectId)
           .set(_payload);
+      })
+    );
+
+    // delete subject
+    let _save3 = await Promise.all(
+      subjectDeleted.map(async (sub) => {
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("kid")
+          .doc(kid.id)
+          .update({
+            has_special_program: true,
+          });
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("kid")
+          .doc(kid.id)
+          .collection("subjects")
+          .doc(sub.id)
+          .delete();
+
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("kid")
+          .doc(kid.id)
+          .collection("achievements")
+          .doc(sub.id)
+          .update({
+            isDeleted: true,
+            redPoints: 0,
+            streak: 0,
+          });
+      })
+    );
+
+    // delete sub subject
+    let _save4 = await Promise.all(
+      subSubjectDeleted.map(async (sub) => {
+        const _payload = { ...sub.selectedSubject };
+
+        // await db
+        //   .collection("Institution")
+        //   .doc(user._code)
+        //   .collection("kid")
+        //   .doc(kid.id)
+        //   .update({
+        //     has_special_program: true,
+        //   });
+        
+
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("kid")
+          .doc(kid.id)
+          .collection("subjects")
+          .doc(sub.subjectId)
+          .delete();
+
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("kid")
+          .doc(kid.id)
+          .collection("subjects")
+          .doc(sub.subjectId)
+          .set(_payload);
+
+        if (!sub.subSubjectLength) {
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("kid")
+            .doc(kid.id)
+            .collection("subjects")
+            .doc(sub.subjectId)
+            .update({
+              hasSubSubject: false,
+            });
+        }
       })
     );
     closeKidReport();
@@ -640,7 +650,7 @@ export const KidsDetail = (props) => {
 
   const nextAwardXp = nextPrize?.requiredLevel
     ? Number(nextPrize?.requiredLevel * institute?.points_for_next_level) -
-      Number(kid.xp)
+    Number(kid.xp)
     : null;
 
   return (

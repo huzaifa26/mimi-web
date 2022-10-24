@@ -10,7 +10,7 @@ import {
   makeStyles,
   Typography
 } from "@material-ui/core";
-import { Sync } from "@material-ui/icons";
+import { AddBox, Sync } from "@material-ui/icons";
 import ExpandLessIcon from "@material-ui/icons/ArrowDropDown";
 import ExpandMoreIcon from "@material-ui/icons/ArrowRight";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
@@ -33,7 +33,7 @@ import { SyncSubject } from "./syncSubject";
 // import Draggable from "react-draggable";
 
 export const GroupReportBody = (props) => {
-  const location=useLocation();
+  const location = useLocation();
   const {
     group,
     guides,
@@ -61,15 +61,15 @@ export const GroupReportBody = (props) => {
   const [expanded, setExpanded] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [restoreLoading, setRestoreLoading] = React.useState(false);
-  const [syncSubId,setSyncSubId]=useState();
-  const [syncSubject,setSyncSubject]=useState();
+  const [syncSubId, setSyncSubId] = useState();
+  const [syncSubject, setSyncSubject] = useState();
 
   const [modalStates, setModalStates] = useState({
     subject: false,
     subSubject: false,
     editSubject: false,
     editSubSubject: false,
-    sync:false
+    sync: false
   });
   const closeSubSubject = () => setModalStates((prev) => ({ ...prev, subSubject: false }));
 
@@ -78,7 +78,7 @@ export const GroupReportBody = (props) => {
   const closeEditSubSubject = () => setModalStates((prev) => ({ ...prev, editSubSubject: false }));
 
   const closeSubject = () => setModalStates((prev) => ({ ...prev, subject: false }));
-  
+
   const closeSync = () => setModalStates((prev) => ({ ...prev, sync: false }));
 
   const handleChange = (panel) => {
@@ -96,7 +96,7 @@ export const GroupReportBody = (props) => {
   };
 
   const subjectEdited = (payload, subSubject) => {
-    console.log({payload, subSubject})
+    console.log({ payload, subSubject })
     setSubjects(payload);
     setSubjectEdit((prev) => [...prev, subSubject]);
   };
@@ -127,7 +127,8 @@ export const GroupReportBody = (props) => {
       subSubject: selectedSubSubjects,
       subjectPoints: points,
       subSubjectLength: subjectsCopy[index].subSubject.length,
-      isSync:selectedSubject.isSync
+      isSync: selectedSubject.isSync,
+      selectedSubject
     };
     setSubSubjectDeleted((prev) => [...prev, subjectIds]);
   };
@@ -161,15 +162,15 @@ export const GroupReportBody = (props) => {
     setSubjects(list);
   };
 
-  const _handleSyncSubject=(id,subject)=>{
-    let subjectCopy=[...subjects]
-    subjectCopy.map((sub)=>{
-      if(sub.id === subject.id){
-        sub.isSync=!subject.isSync
+  const _handleSyncSubject = (id, subject) => {
+    let subjectCopy = [...subjects]
+    subjectCopy.map((sub) => {
+      if (sub.id === subject.id) {
+        sub.isSync = !subject.isSync
       }
     })
-    setSubjectLock((prev) => [...prev,subject]);
-  } 
+    setSubjectLock((prev) => [...prev, subject]);
+  }
 
   // Manage Special Reporting Modal
   const renderSubjects = (subject, idx) => {
@@ -233,76 +234,76 @@ export const GroupReportBody = (props) => {
                       {subject.totalPoints}
                     </Typography>
                   </Grid>
-                    <Grid item lg={2} md={2} sm={2} xs={2}>
-                      {subject.isSync && location.pathname.includes("/kids") ? null: 
-                        <div
+                  <Grid item lg={2} md={2} sm={2} xs={2}>
+                    {subject.isSync && location.pathname.includes("/kids") ? null :
+                      <div
+                        onClick={stopEventBubble(() => {
+                          setSelectedSubject(subject);
+                          setModalStates((prev) => ({
+                            ...prev,
+                            subSubject: true,
+                          }));
+                        })}
+                      >
+                        <img
+                          src={AddIcon}
+                          className={classes.AddImage}
+                          alt=""
+                        />
+                      </div>
+                    }
+                  </Grid>
+                  <Grid item lg={2} md={2} sm={2} xs={2}>
+                    {(!subject.isSync && location.pathname.includes("/kids")) || (!subject.isSync && subject.type === "basic" && location.pathname.includes("/group")) ? null :
+                      <Sync className={classes.editHover}
+                        style={(subject.isSync && !location.pathname.includes("/kids") && (subject.type === "group" && location.pathname.includes("/group"))) || (subject.isSync && subject.type === "basic" && location.pathname.includes("/data")) ? {
+                          color: "#685be7", //Blue
+                          marginRight: "10",
+                        } : subject.isSync && location.pathname.includes("/kids") || (subject.isSync && subject.type === "basic") ? {
+                          color: "#4cb763", //Green
+                          marginRight: "10",
+                        } : {
+                          color: "#8F92A1",
+                          marginRight: "10",
+                        }}
+                        onClick={stopEventBubble(() => {
+                          setSyncSubId(subject.id)
+                          setSyncSubject(subject)
+                          setModalStates((prev) => ({
+                            ...prev,
+                            sync: true,
+                          }));
+                        })}
+                      />
+                    }
+                    {(subject.isSync && location.pathname.includes("/kids")) || (subject.isSync && subject.type === "basic" && !location.pathname.includes("/data")) ?
+                      null :
+                      <>
+                        <Edit
+                          className={classes.editHover}
+                          style={{
+                            color: "#8F92A1",
+                            marginRight: "10",
+                          }}
                           onClick={stopEventBubble(() => {
                             setSelectedSubject(subject);
                             setModalStates((prev) => ({
                               ...prev,
-                              subSubject: true,
+                              editSubject: true,
                             }));
                           })}
-                        >
-                          <img
-                            src={AddIcon}
-                            className={classes.AddImage}
-                            alt=""
-                          />
-                        </div>
-                      }
-                    </Grid>
-                  <Grid item lg={2} md={2} sm={2} xs={2}>
-                    {(!subject.isSync && location.pathname.includes("/kids")) || (!subject.isSync && subject.type === "basic" && location.pathname.includes("/group")) ? null :
-                    <Sync className={classes.editHover}
-                      style={(subject.isSync && !location.pathname.includes("/kids") && (subject.type === "group" && location.pathname.includes("/group"))) || (subject.isSync && subject.type === "basic" && location.pathname.includes("/data")) ? {
-                        color: "#685be7", //Blue
-                        marginRight: "10",
-                      } : subject.isSync && location.pathname.includes("/kids") || (subject.isSync && subject.type === "basic") ? {
-                        color: "#4cb763", //Green
-                        marginRight: "10",
-                      } : {
-                        color: "#8F92A1",
-                        marginRight: "10",
-                      }}
-                      onClick={stopEventBubble(() => {
-                        setSyncSubId(subject.id)
-                        setSyncSubject(subject)
-                        setModalStates((prev) => ({
-                          ...prev,
-                          sync: true,
-                        }));
-                      })}
-                      />
-                      }
-                      {(subject.isSync && location.pathname.includes("/kids")) || (subject.isSync && subject.type === "basic" && !location.pathname.includes("/data")) ? 
-                          null :
-                         <>
-                         <Edit
-                           className={classes.editHover}
-                           style={{
-                             color: "#8F92A1",
-                             marginRight: "10",
-                           }}
-                           onClick={stopEventBubble(() => {
-                             setSelectedSubject(subject);
-                             setModalStates((prev) => ({
-                               ...prev,
-                               editSubject: true,
-                             }));
-                           })}
-                         />
-                         <Delete
-                           className={classes.delHover}
-                           style={{
-                             color: "#8F92A1",
-                           }}
-                           onClick={stopEventBubble(() => {
-                             _handleSubjectDelete(subject.id, subject);
-                           })}
-                         />
-                       </>
-                        } 
+                        />
+                        <Delete
+                          className={classes.delHover}
+                          style={{
+                            color: "#8F92A1",
+                          }}
+                          onClick={stopEventBubble(() => {
+                            _handleSubjectDelete(subject.id, subject);
+                          })}
+                        />
+                      </>
+                    }
                   </Grid>
                 </Grid>
               </AccordionSummary>
@@ -334,33 +335,33 @@ export const GroupReportBody = (props) => {
                     </Grid>
                     <Grid item lg={2} md={2} sm={2} xs={2}></Grid>
                     <Grid item lg={2} md={2} sm={2} xs={2}>
-                    {subject.isSync && subject.isSync && location.pathname.includes("/kids") ? null : 
-                      <>
-                      <Edit
-                        className={classes.editHover}
-                        style={{
-                          color: "#8F92A1",
-                          marginRight: "10",
-                        }}
-                        onClick={() => {
-                          setSelectedSubject(subject);
-                          setSelectedSubSubject(subSubject);
-                          setModalStates((prev) => ({
-                            ...prev,
-                            editSubSubject: true,
-                          }));
-                        }}
-                      />
-                      <Delete
-                        className={classes.delHover}
-                        style={{
-                          color: "#8F92A1",
-                        }}
-                        onClick={() => {
-                          _handleSubSubjectDelete(subSubject, subject);
-                        }}
-                      />
-                      </>}
+                      {subject.isSync && subject.isSync && location.pathname.includes("/kids") ? null :
+                        <>
+                          <Edit
+                            className={classes.editHover}
+                            style={{
+                              color: "#8F92A1",
+                              marginRight: "10",
+                            }}
+                            onClick={() => {
+                              setSelectedSubject(subject);
+                              setSelectedSubSubject(subSubject);
+                              setModalStates((prev) => ({
+                                ...prev,
+                                editSubSubject: true,
+                              }));
+                            }}
+                          />
+                          <Delete
+                            className={classes.delHover}
+                            style={{
+                              color: "#8F92A1",
+                            }}
+                            onClick={() => {
+                              _handleSubSubjectDelete(subSubject, subject);
+                            }}
+                          />
+                        </>}
                     </Grid>
                   </Grid>
                 </AccordionDetails>
@@ -571,18 +572,20 @@ export const GroupReportBody = (props) => {
       </Grid>
 
 
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId="subject-1">
-          {(provider) => (
-            <div {...provider.droppableProps} ref={provider.innerRef}>
-              <div className={classes.subjectsContainer}>
-                {subjects.map((el, idx) => renderSubjects(el, idx, handleDragEnd))}
+      <Box className={classes.box + " " + "scrollBox"}>
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <Droppable droppableId="subject-1">
+            {(provider) => (
+              <div {...provider.droppableProps} ref={provider.innerRef}>
+                <div className={classes.subjectsContainer}>
+                  {subjects.map((el, idx) => renderSubjects(el, idx, handleDragEnd))}
+                </div>
+                {provider.placeholder}
               </div>
-              {provider.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </Box>
 
 
       <div className={classes.footer}>
@@ -616,6 +619,11 @@ const useStyles = makeStyles((theme) => {
     ...getModalStyles(theme),
     container: {
       display: "flex",
+    },
+    // To make report modal scroll
+    box: {
+      overflow: "auto",
+
     },
     cancelButton: {
       "&:hover": {
