@@ -494,14 +494,11 @@ export const FileUploadBody = (props) => {
             name: _name,
             type: _type,
             email: _email,
-
             error: ` Guide can not have two groups!`,
           };
           setFailed((prev) => [...prev, _payload])
         }
-
       }
-
       let _group = groups?.filter((e) => e.name === _groupWithIndividualRow?.map(e => { return e }))
      
       if (data[4] === undefined) {
@@ -528,8 +525,6 @@ export const FileUploadBody = (props) => {
         _type = "gstaff";
       } else if (_type == "guide") {
         _type = "guide";
-
-
       }
       else {
         const _payload = {
@@ -698,13 +693,8 @@ export const FileUploadBody = (props) => {
       let _password = data[2]?.toString()
       let _groupWithIndividualRow = data[3]?.split(",");
       let _group = groups.filter((e) => e.name === _groupWithIndividualRow?.map(e => { return e }));
-
       const arrayToObject1 = _group[0];
       let _assigned_days = data[4];
-
-
-
-
       const _arr = [_assigned_days?.split(",")];
       // check assign days numbers are between 1 to 7
       let _filteredArr = _arr.map((days) => days?.filter((e) => e !== ''))
@@ -875,7 +865,7 @@ export const FileUploadBody = (props) => {
         confirmPassword: _password,
         group: arrayToObject1,
         joinDate: new Date(),
-        assigned_days: assignedDaysArray,
+        assigned_days: data[4]===undefined? [true,false,true,false,true,false,false] : assignedDaysArray,
       };
       console.log({
         p: payload,
