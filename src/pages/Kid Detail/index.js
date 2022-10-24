@@ -485,20 +485,20 @@ export const KidsDetail = (props) => {
           totalPoints: sub.totalPoints,
           obtainedPoints: sub.obtainedPoints,
         };
-        const reportTemplates = await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("kid")
-          .doc(kid.id)
-          .collection("subjects")
-          .doc(sub.subjectId)
-          .get();
-        let _report_templates = reportTemplates.data();
-        _report_templates.subSubject.map((e, idx) => {
-          if (e.id == sub.id) {
-            _report_templates.subSubject[idx] = payload;
-          }
-        });
+        // const reportTemplates = await db
+        //   .collection("Institution")
+        //   .doc(user._code)
+        //   .collection("kid")
+        //   .doc(kid.id)
+        //   .collection("subjects")
+        //   .doc(sub.subjectId)
+        //   .get();
+        // let _report_templates = reportTemplates.data();
+        // _report_templates.subSubject.map((e, idx) => {
+        //   if (e.id == sub.id) {
+        //     _report_templates.subSubject[idx] = payload;
+        //   }
+        // });
         await db
           .collection("Institution")
           .doc(user._code)
@@ -515,15 +515,18 @@ export const KidsDetail = (props) => {
           .collection("subjects")
           .doc(sub.subjectId)
           .delete();
-        const _payload = {
-          id: _report_templates.id,
-          name: _report_templates.name,
-          totalPoints: _report_templates.totalPoints,
-          subSubject: _report_templates.subSubject,
-          obtainedPoints: _report_templates.obtainedPoints,
-          hasSubSubject: _report_templates.hasSubSubject,
-          isSync: _report_templates.isSync,
-        };
+
+        // const _payload = {
+        //   id: _report_templates.id,
+        //   name: _report_templates.name,
+        //   totalPoints: _report_templates.totalPoints,
+        //   subSubject: _report_templates.subSubject,
+        //   obtainedPoints: _report_templates.obtainedPoints,
+        //   hasSubSubject: _report_templates.hasSubSubject,
+        //   isSync: _report_templates.isSync,
+        // };
+
+        const _payload = { ...sub.selectedSubject };
 
         let totalSum=0;
         _payload.subSubject.forEach((subSubject)=>{

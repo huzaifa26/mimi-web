@@ -213,8 +213,6 @@ export const GroupDetail = () => {
 
         let _report_templates = reportTemplates.data();
 
-        console.log(sub)
-        console.log(_report_templates)
         if (_report_templates.isSync) {
           location?.state?.group.kids_ids.map(async (kid_id) => {
             const kidSubject = await db
@@ -265,13 +263,13 @@ export const GroupDetail = () => {
         }
 
         await db
-        .collection("Institution")
-        .doc(user._code)
-        .collection("groups")
-        .doc(group.id)
-        .collection("report_templates")
-        .doc(sub.id)
-        .delete();
+          .collection("Institution")
+          .doc(user._code)
+          .collection("groups")
+          .doc(group.id)
+          .collection("report_templates")
+          .doc(sub.id)
+          .delete();
 
         let kids = (
           await db
@@ -415,7 +413,8 @@ export const GroupDetail = () => {
           subSubject: [],
           obtainedPoints: 0,
           hasSubSubject: false,
-          isSync: false
+          isSync: false,
+          type: "group"
         };
         await db
           .collection("Institution")
@@ -490,6 +489,7 @@ export const GroupDetail = () => {
     // Add sub subject
     let _save2 = await Promise.all(
       subSubjectAdded.map(async (sub) => {
+        console.log(sub);
         const payload = {
           id: sub.id,
           name: sub.name,
@@ -497,18 +497,17 @@ export const GroupDetail = () => {
           obtainedPoints: sub.obtainedPoints,
         };
 
-        const reportTemplates = await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("groups")
-          .doc(group.id)
-          .collection("report_templates")
-          .doc(sub.subjectId)
-          .get();
+        // const reportTemplates = await db
+        //   .collection("Institution")
+        //   .doc(user._code)
+        //   .collection("groups")
+        //   .doc(group.id)
+        //   .collection("report_templates")
+        //   .doc(sub.subjectId)
+        //   .get();
 
-        let _report_templates = reportTemplates.data();
-        _report_templates.subSubject.push(payload);
-        console.log(_report_templates)
+        // let _report_templates = reportTemplates.data();
+        // _report_templates.subSubject.push(payload);
 
         await db
           .collection("Institution")
@@ -519,6 +518,33 @@ export const GroupDetail = () => {
             isSpecialReport: true,
           });
 
+        // await db
+        //   .collection("Institution")
+        //   .doc(user._code)
+        //   .collection("groups")
+        //   .doc(group.id)
+        //   .collection("report_templates")
+        //   .doc(sub.subjectId)
+        //   .delete();
+
+        // const _payload = {
+        //   id: _report_templates.id,
+        //   name: _report_templates.name,
+        //   totalPoints: _report_templates.totalPoints,
+        //   subSubject: _report_templates.subSubject,
+        //   obtainedPoints: _report_templates.obtainedPoints,
+        //   hasSubSubject: _report_templates.hasSubSubject,
+        //   isSync: _report_templates.isSync,
+        //   type:_report_templates.type
+        // };
+
+        // let totalSum = 0;
+        // _payload.subSubject.forEach((subSubject) => {
+        //   totalSum = totalSum + subSubject.totalPoints;
+        // });
+
+        // _payload.totalPoints = totalSum;
+
         await db
           .collection("Institution")
           .doc(user._code)
@@ -526,36 +552,13 @@ export const GroupDetail = () => {
           .doc(group.id)
           .collection("report_templates")
           .doc(sub.subjectId)
-          .delete();
+          .update({
+            subSubject: firebase.firestore.FieldValue.arrayUnion(payload),
+            hasSubSubject: true,
+            totalPoints: sub.subjectPoints,
+          });
 
-        const _payload = {
-          id: _report_templates.id,
-          name: _report_templates.name,
-          totalPoints: _report_templates.totalPoints,
-          subSubject: _report_templates.subSubject,
-          obtainedPoints: _report_templates.obtainedPoints,
-          hasSubSubject: _report_templates.hasSubSubject,
-          isSync: _report_templates.isSync
-        };
-
-        let totalSum = 0;
-        _payload.subSubject.forEach((subSubject) => {
-          totalSum = totalSum + subSubject.totalPoints;
-        });
-
-        _payload.totalPoints = totalSum;
-
-        await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("groups")
-          .doc(group.id)
-          .collection("report_templates")
-          .doc(sub.subjectId)
-          .set(_payload);
-
-        console.log(location)
-        if (_report_templates.isSync) {
+        if (sub.isSync) {
           location?.state?.group.kids_ids.map(async (kid_id) => {
             console.log(location?.state?.group.kids_ids)
             const kidSubject = await db
@@ -580,14 +583,14 @@ export const GroupDetail = () => {
                   isSpecialReport: true,
                 });
 
-              await db
-                .collection("Institution")
-                .doc(user._code)
-                .collection("kid")
-                .doc(kid_id)
-                .collection("subjects")
-                .doc(sub.subjectId)
-                .delete();
+              // await db
+              //   .collection("Institution")
+              //   .doc(user._code)
+              //   .collection("kid")
+              //   .doc(kid_id)
+              //   .collection("subjects")
+              //   .doc(sub.subjectId)
+              //   .delete();
 
               await db
                 .collection("Institution")
@@ -596,7 +599,11 @@ export const GroupDetail = () => {
                 .doc(kid_id)
                 .collection("subjects")
                 .doc(sub.subjectId)
-                .set(_payload);
+                .update({
+                  subSubject: firebase.firestore.FieldValue.arrayUnion(payload),
+                  hasSubSubject: true,
+                  totalPoints: sub.subjectPoints,
+                });
             }
           })
         }
@@ -617,7 +624,7 @@ export const GroupDetail = () => {
 
         let _report_templates = reportTemplates.data();
 
-        // change subject inside group
+        // edit subject inside group
         await db
           .collection("Institution")
           .doc(user._code)
@@ -642,7 +649,8 @@ export const GroupDetail = () => {
           subSubject: sub.subSubject,
           obtainedPoints: sub.obtainedPoints,
           hasSubSubject: sub.hasSubSubject,
-          isSync: _report_templates.isSync
+          isSync: _report_templates.isSync,
+          type: _report_templates.type,
         };
 
         await db
@@ -706,7 +714,6 @@ export const GroupDetail = () => {
     let _save6 = await Promise.all(
       // Edit sub subject inside group
       subSubjectEdit.map(async (sub) => {
-        console.log(subSubjectEdit)
         const payload = {
           id: sub.id,
           name: sub.name,
@@ -714,24 +721,22 @@ export const GroupDetail = () => {
           obtainedPoints: sub.obtainedPoints,
         };
 
-        const reportTemplates = await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("groups")
-          .doc(group.id)
-          .collection("report_templates")
-          .doc(sub.subjectId)
-          .get();
+        // const reportTemplates = await db
+        //   .collection("Institution")
+        //   .doc(user._code)
+        //   .collection("groups")
+        //   .doc(group.id)
+        //   .collection("report_templates")
+        //   .doc(sub.subjectId)
+        //   .get();
 
-        let _report_templates = reportTemplates.data();
-        console.log(_report_templates)
+        // let _report_templates = reportTemplates.data();
 
-
-        _report_templates.subSubject.map((e, idx) => {
-          if (e.id == sub.id) {
-            _report_templates.subSubject[idx] = payload;
-          }
-        });
+        // _report_templates.subSubject.map((e, idx) => {
+        //   if (e.id == sub.id) {
+        //     _report_templates.subSubject[idx] = payload;
+        //   }
+        // });
         await db
           .collection("Institution")
           .doc(user._code)
@@ -749,16 +754,19 @@ export const GroupDetail = () => {
           .collection("report_templates")
           .doc(sub.subjectId)
           .delete();
-        console.log(_report_templates)
-        const _payload = {
-          id: _report_templates.id,
-          name: _report_templates.name,
-          totalPoints: _report_templates.totalPoints,
-          subSubject: _report_templates.subSubject,
-          obtainedPoints: _report_templates.obtainedPoints,
-          hasSubSubject: _report_templates.hasSubSubject,
-          isSync: _report_templates.isSync
-        };
+
+        // const _payload = {
+        //   id: _report_templates.id,
+        //   name: _report_templates.name,
+        //   totalPoints: _report_templates.totalPoints,
+        //   subSubject: _report_templates.subSubject,
+        //   obtainedPoints: _report_templates.obtainedPoints,
+        //   hasSubSubject: _report_templates.hasSubSubject,
+        //   isSync: _report_templates.isSync,
+        //   type: _report_templates.type,
+        // };
+
+        const _payload = { ...sub.selectedSubject };
 
         let totalSum = 0;
         _payload.subSubject.forEach((subSubject) => {
@@ -777,7 +785,7 @@ export const GroupDetail = () => {
           .set(_payload);
 
         // Code it subject is sync
-        if (_report_templates.isSync) {
+        if (sub.selectedSubject.isSync) {
           location?.state?.group.kids_ids.map(async (kid_id) => {
             const kidSubject = await db
               .collection("Institution")
@@ -882,8 +890,8 @@ export const GroupDetail = () => {
             .collection("kid")
             .doc(kid_id)
             .collection("subjects")
-            .doc(subjectLock[0].id)
-            .set(subjectLock[0]);
+            .doc(sub.id)
+            .set(sub);
         })
       })
     );

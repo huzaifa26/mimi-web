@@ -32,6 +32,8 @@ export const EditSubjectBody = (props) => {
       subSubject: selectedSubject.subSubject,
       obtainedPoints: selectedSubject.obtainedPoints,
       hasSubSubject: selectedSubject.hasSubSubject,
+      isSync:selectedSubject.isSync,
+      type:selectedSubject.type
     };
     const index = subjectsCopy.findIndex((e) => e.id == selectedSubject.id);
     subjectsCopy[index].name = subjectName;

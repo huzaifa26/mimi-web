@@ -96,6 +96,7 @@ export const GroupReportBody = (props) => {
   };
 
   const subjectEdited = (payload, subSubject) => {
+    console.log({payload, subSubject})
     setSubjects(payload);
     setSubjectEdit((prev) => [...prev, subSubject]);
   };
@@ -126,6 +127,7 @@ export const GroupReportBody = (props) => {
       subSubject: selectedSubSubjects,
       subjectPoints: points,
       subSubjectLength: subjectsCopy[index].subSubject.length,
+      isSync:selectedSubject.isSync
     };
     setSubSubjectDeleted((prev) => [...prev, subjectIds]);
   };
@@ -251,12 +253,13 @@ export const GroupReportBody = (props) => {
                       }
                     </Grid>
                   <Grid item lg={2} md={2} sm={2} xs={2}>
+                    {(!subject.isSync && location.pathname.includes("/kids")) || (!subject.isSync && subject.type === "basic" && location.pathname.includes("/group")) ? null :
                     <Sync className={classes.editHover}
-                      style={subject.isSync && !location.pathname.includes("/kids") ? {
-                        color: "#685be7",
+                      style={(subject.isSync && !location.pathname.includes("/kids") && (subject.type === "group" && location.pathname.includes("/group"))) || (subject.isSync && subject.type === "basic" && location.pathname.includes("/data")) ? {
+                        color: "#685be7", //Blue
                         marginRight: "10",
-                      } : subject.isSync && location.pathname.includes("/kids") ? {
-                        color: "#4cb763",
+                      } : subject.isSync && location.pathname.includes("/kids") || (subject.isSync && subject.type === "basic") ? {
+                        color: "#4cb763", //Green
                         marginRight: "10",
                       } : {
                         color: "#8F92A1",
@@ -265,14 +268,14 @@ export const GroupReportBody = (props) => {
                       onClick={stopEventBubble(() => {
                         setSyncSubId(subject.id)
                         setSyncSubject(subject)
-                        // _handleSyncSubject(subject.id, subject);
                         setModalStates((prev) => ({
                           ...prev,
                           sync: true,
                         }));
                       })}
                       />
-                      {subject.isSync && location.pathname.includes("/kids") ? 
+                      }
+                      {(subject.isSync && location.pathname.includes("/kids")) || (subject.isSync && subject.type === "basic" && !location.pathname.includes("/data")) ? 
                           null :
                          <>
                          <Edit

@@ -32,12 +32,16 @@ export const EditSubSubjectBody = (props) => {
       totalPoints: parseInt(score),
       obtainedPoints: selectedSubSubject.obtainedPoints,
       subjectId: selectedSubject.id,
+      // isSync:selectedSubject.isSync,
     };
     const index = subjectsCopy.findIndex((e) => e.id == selectedSubject.id);
     const subIndex = subjectsCopy[index].subSubject.findIndex(
       (e) => e.id == selectedSubSubject.id
     );
     subjectsCopy[index].subSubject[subIndex] = payload;
+
+    // created new object and added the whole selected subject to avoid fetching subject in Data/index/subSubjectEdit.map() function.
+    const _payload={...payload,selectedSubject:selectedSubject}
 
     subjectsCopy.map((sub)=>{
       if(sub.id === selectedSubject.id){
@@ -48,8 +52,7 @@ export const EditSubSubjectBody = (props) => {
         sub.totalPoints=points;
       }
     })
-
-    subSubjectEdited(subjectsCopy, payload);
+    subSubjectEdited(subjectsCopy, _payload);
     handleClose();
   };
 

@@ -54,6 +54,8 @@ export const Data = React.memo(() => {
 
   const { state: storeState } = useStore();
   const { user, institute } = storeState;
+  const [kidsId, setKidsId] = useState([])
+  const [groupsId, setGroupsId] = useState([])
 
   const intl = useIntl();
 
@@ -128,6 +130,43 @@ export const Data = React.memo(() => {
       setSubjects(report_templates);
     })();
   }, [modalStates.basicReport]);
+
+  useEffect(() => {
+    const getKidIds = async () => {
+      const kidTemplates = await db
+        .collection("Institution")
+        .doc(user._code)
+        .collection("kid")
+        .get();
+
+
+      let _kid_templates = kidTemplates.docs.map((doc) => {
+        return doc.data().id;
+      })
+      setKidsId((prevState) => [..._kid_templates])
+    }
+    getKidIds();
+  }, [])
+
+  useEffect(() => {
+    const getGroupIds = async () => {
+      const groupsTemplates = await db
+        .collection("Institution")
+        .doc(user._code)
+        .collection("groups")
+        .get();
+
+
+      let _groups_templates = groupsTemplates.docs.map((doc) => {
+        return doc.data().id;
+      })
+      setGroupsId((prevState) => [..._groups_templates])
+    }
+    getGroupIds();
+  }, [])
+
+
+
   const closeGrantScoreModal = () => {
     setModalStates((prev) => ({ ...prev, grantScore: false }));
   };
@@ -155,7 +194,8 @@ export const Data = React.memo(() => {
     subjectAdded,
     subSubjectAdded,
     subjectEdit,
-    subSubjectEdit
+    subSubjectEdit,
+    subjectLock
   ) => {
 
     // delete subject
@@ -167,6 +207,36 @@ export const Data = React.memo(() => {
           .collection("basicReport")
           .doc(sub.id)
           .delete();
+
+        if (sub.isSync) {
+          const batch = db.batch();
+          kidsId.map(async (kid_id) => {
+            console.log(kid_id)
+            batch.delete(
+              db.collection("Institution")
+                .doc(user._code)
+                .collection("kid")
+                .doc(kid_id)
+                .collection("subjects")
+                .doc(sub.id)
+            );
+          });
+          await batch.commit().then(() => console.log("kid deleted"));
+
+          const batch1 = db.batch();
+          groupsId.map(async (group_id) => {
+            console.log(group_id)
+            batch1.delete(
+              db.collection("Institution")
+                .doc(user._code)
+                .collection("groups")
+                .doc(group_id)
+                .collection("report_templates")
+                .doc(sub.id)
+            );
+          })
+          await batch1.commit().then(() => console.log("group deleted"));
+        }
 
         let groups = (
           await db
@@ -214,7 +284,7 @@ export const Data = React.memo(() => {
       })
     );
 
-    // delete sub subject
+    // delete sub subject Done
     let _save4 = await Promise.all(
       subSubjectDeleted.map(async (sub) => {
         await db
@@ -228,6 +298,50 @@ export const Data = React.memo(() => {
             ),
             totalPoints: sub.subjectPoints,
           });
+
+
+        if (sub.isSync) {
+          kidsId.map(async (kid_id) => {
+            const batch = db.batch();
+
+            batch.update(
+              db.collection("Institution")
+                .doc(user._code)
+                .collection("kid")
+                .doc(kid_id)
+                .collection("subjects")
+                .doc(sub.subjectId),
+              {
+                subSubject: firebase.firestore.FieldValue.arrayRemove(
+                  sub.subSubject
+                ),
+                totalPoints: sub.subjectPoints,
+              }
+            );
+            await batch.commit();
+          });
+
+          groupsId.map(async (group_id) => {
+            const batch = db.batch();
+
+            batch.update(
+              db.collection("Institution")
+                .doc(user._code)
+                .collection("groups")
+                .doc(group_id)
+                .collection("report_templates")
+                .doc(sub.subjectId),
+              {
+                subSubject: firebase.firestore.FieldValue.arrayRemove(
+                  sub.subSubject
+                ),
+                totalPoints: sub.subjectPoints,
+              }
+            );
+            await batch.commit();
+          })
+        }
+
         let groups = (
           await db
             .collection("Institution")
@@ -278,7 +392,7 @@ export const Data = React.memo(() => {
       })
     );
 
-    // add subject
+    // add subject (WE DONT NEED TO MAKE IT WORK WITH SYNC BECAUSE BY DEFUALT SUBJECT IS NOT SYNC)
     let _save1 = await Promise.all(
       subjectAdded.map(async (sub) => {
         const payload = {
@@ -288,7 +402,8 @@ export const Data = React.memo(() => {
           subSubject: [],
           obtainedPoints: 0,
           hasSubSubject: false,
-          isSync:false
+          isSync: false,
+          type:"basic"
         };
 
         await db
@@ -328,6 +443,7 @@ export const Data = React.memo(() => {
                 .where("groupId", "==", group.id)
                 .get()
             ).docs.map((el) => el.data());
+
             const reportTemplates = (
               await db
                 .collection("Institution")
@@ -358,23 +474,22 @@ export const Data = React.memo(() => {
                 );
               });
             });
-
             await batch.commit();
           })
         );
       })
     );
 
-    // add sub subject
+    // add sub subject //Done
     let _save2 = await Promise.all(
       subSubjectAdded.map(async (sub) => {
-        console.log(subSubjectAdded)
         const payload = {
           id: sub.id,
           name: sub.name,
           totalPoints: sub.totalPoints,
           obtainedPoints: 0,
         };
+
         await db
           .collection("Institution")
           .doc(user._code)
@@ -394,6 +509,46 @@ export const Data = React.memo(() => {
             .where("isSpecialReport", "==", false)
             .get()
         ).docs.map((el) => el.data());
+
+        // const reportTemplates = await db
+        //   .collection("Institution")
+        //   .doc(user._code)
+        //   .collection("basicReport")
+        //   .doc(sub.subjectId)
+        //   .get();
+
+        // let _report_templates = reportTemplates.data();
+
+        if (sub.isSync) {
+          kidsId.map(async (kid_id) => {
+            await db.collection("Institution")
+              .doc(user._code)
+              .collection("kid")
+              .doc(kid_id)
+              .collection("subjects")
+              .doc(sub.subjectId)
+              .update({
+                subSubject: firebase.firestore.FieldValue.arrayUnion(payload),
+                hasSubSubject: true,
+                totalPoints: sub.subjectPoints,
+              });
+          })
+
+          groupsId.map(async (group_id) => {
+            await db.collection("Institution")
+              .doc(user._code)
+              .collection("groups")
+              .doc(group_id)
+              .collection("report_templates")
+              .doc(sub.subjectId)
+              .update({
+                subSubject: firebase.firestore.FieldValue.arrayUnion(payload),
+                hasSubSubject: true,
+                totalPoints: sub.subjectPoints,
+              });
+          })
+        }
+
 
         await Promise.all(
           groups.map(async (group) => {
@@ -427,7 +582,7 @@ export const Data = React.memo(() => {
       })
     );
 
-    // edit subject
+    // edit subject DONE
     let _save5 = await Promise.all(
       subjectEdit.map(async (sub) => {
         await db
@@ -436,6 +591,7 @@ export const Data = React.memo(() => {
           .collection("basicReport")
           .doc(sub.id)
           .delete();
+
         const payload = {
           id: sub.id,
           name: sub.name,
@@ -444,14 +600,78 @@ export const Data = React.memo(() => {
           subSubject: sub.subSubject,
           obtainedPoints: sub.obtainedPoints,
           hasSubSubject: sub.hasSubSubject,
-          isSync:sub.isSync
+          isSync: sub.isSync,
+          type:sub.type
         };
+
         await db
           .collection("Institution")
           .doc(user._code)
           .collection("basicReport")
           .doc(sub.id)
           .set(payload);
+
+        if (sub.isSync) {
+          kidsId.map(async (kid_id) => {
+            await db
+              .collection("Institution")
+              .doc(user._code)
+              .collection("kid")
+              .doc(kid_id)
+              .collection("subjects")
+              .doc(sub.id)
+              .update({
+                isSpecialReport: true,
+              });
+
+            await db
+              .collection("Institution")
+              .doc(user._code)
+              .collection("kid")
+              .doc(kid_id)
+              .collection("subjects")
+              .doc(sub.id)
+              .delete();
+
+            await db
+              .collection("Institution")
+              .doc(user._code)
+              .collection("kid")
+              .doc(kid_id)
+              .collection("subjects")
+              .doc(sub.id)
+              .set(payload);
+          })
+
+          groupsId.map(async (group_id) => {
+            await db
+              .collection("Institution")
+              .doc(user._code)
+              .collection("groups")
+              .doc(group_id)
+              .update({
+                isSpecialReport: true,
+              });
+
+            await db
+              .collection("Institution")
+              .doc(user._code)
+              .collection("groups")
+              .doc(group_id)
+              .collection("report_templates")
+              .doc(sub.id)
+              .delete();
+
+            await db
+              .collection("Institution")
+              .doc(user._code)
+              .collection("groups")
+              .doc(group_id)
+              .collection("report_templates")
+              .doc(sub.id)
+              .set(payload);
+          })
+        }
 
         let groups = (
           await db
@@ -461,6 +681,7 @@ export const Data = React.memo(() => {
             .where("isSpecialReport", "==", false)
             .get()
         ).docs.map((el) => el.data());
+
         groups.map(async (group) => {
           await db
             .collection("Institution")
@@ -470,6 +691,7 @@ export const Data = React.memo(() => {
             .collection("report_templates")
             .doc(sub.id)
             .delete();
+
           const payload = {
             id: sub.id,
             name: sub.name,
@@ -478,8 +700,10 @@ export const Data = React.memo(() => {
             subSubject: sub.subSubject,
             obtainedPoints: sub.obtainedPoints,
             hasSubSubject: sub.hasSubSubject,
-            isSync:sub.isSync
+            isSync: sub.isSync,
+            type:sub.type
           };
+
           await db
             .collection("Institution")
             .doc(user._code)
@@ -495,6 +719,8 @@ export const Data = React.memo(() => {
     // edit sub subject
     let _save6 = await Promise.all(
       subSubjectEdit.map(async (sub) => {
+        console.log(sub.selectedSubject)
+
         const payload = {
           id: sub.id,
           name: sub.name,
@@ -511,21 +737,21 @@ export const Data = React.memo(() => {
             .get()
         ).docs.map((el) => el.data());
 
-        const reportTemplates = await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("basicReport")
-          .doc(sub.subjectId)
-          .get();
+        // const reportTemplates = await db
+        //   .collection("Institution")
+        //   .doc(user._code)
+        //   .collection("basicReport")
+        //   .doc(sub.subjectId)
+        //   .get();
 
-        let _report_templates = reportTemplates.data();
+        // let _report_templates = reportTemplates.data();
 
-        _report_templates.subSubject.map((e, idx) => {
-          if (e.id === sub.id) {
-            _report_templates.subSubject[idx] = payload;
-          }
-        });
-        
+        // _report_templates.subSubject.map((e, idx) => {
+        //   if (e.id === sub.id) {
+        //     _report_templates.subSubject[idx] = payload;
+        //   }
+        // });
+
         groups.map(async (group) => {
           await db
             .collection("Institution")
@@ -535,15 +761,19 @@ export const Data = React.memo(() => {
             .collection("report_templates")
             .doc(sub.subjectId)
             .delete();
-          const _payload = {
-            id: _report_templates.id,
-            name: _report_templates.name,
-            totalPoints: _report_templates.totalPoints,
-            subSubject: _report_templates.subSubject,
-            obtainedPoints: _report_templates.obtainedPoints,
-            hasSubSubject: _report_templates.hasSubSubject,
-            isSync:_report_templates.isSync
-          };
+
+          // const _payload = {
+          //   id: _report_templates.id,
+          //   name: _report_templates.name,
+          //   totalPoints: _report_templates.totalPoints,
+          //   subSubject: _report_templates.subSubject,
+          //   obtainedPoints: _report_templates.obtainedPoints,
+          //   hasSubSubject: _report_templates.hasSubSubject,
+          //   isSync: _report_templates.isSync
+          // };
+
+          const _payload = { ...sub.selectedSubject };
+
           await db
             .collection("Institution")
             .doc(user._code)
@@ -553,38 +783,174 @@ export const Data = React.memo(() => {
             .doc(sub.subjectId)
             .set(_payload);
         });
+
         await db
           .collection("Institution")
           .doc(user._code)
           .collection("basicReport")
           .doc(sub.subjectId)
           .delete();
-        const _payload = {
-          id: _report_templates.id,
-          name: _report_templates.name,
-          totalPoints: _report_templates.totalPoints,
-          subSubject: _report_templates.subSubject,
-          obtainedPoints: _report_templates.obtainedPoints,
-          hasSubSubject: _report_templates.hasSubSubject,
-          isSync:_report_templates.isSync
-        };
 
-        let totalSum=0;
-        _payload.subSubject.forEach((subSubject)=>{
-          totalSum=totalSum+subSubject.totalPoints;
+        // const _payload = {
+        //   id: _report_templates.id,
+        //   name: _report_templates.name,
+        //   totalPoints: _report_templates.totalPoints,
+        //   subSubject: _report_templates.subSubject,
+        //   obtainedPoints: _report_templates.obtainedPoints,
+        //   hasSubSubject: _report_templates.hasSubSubject,
+        //   isSync: _report_templates.isSync
+        // };
+
+        const _payload = { ...sub.selectedSubject };
+
+        let totalSum = 0;
+        _payload.subSubject.forEach((sub) => {
+          totalSum = totalSum + sub.totalPoints;
         });
 
-        _payload.totalPoints=totalSum;
-
+        _payload.totalPoints = totalSum;
         await db
           .collection("Institution")
           .doc(user._code)
           .collection("basicReport")
           .doc(sub.subjectId)
           .set(_payload);
+
+        if (sub.selectedSubject.isSync === true) {
+          kidsId.map(async (kid_id) => {
+            await db
+              .collection("Institution")
+              .doc(user._code)
+              .collection("kid")
+              .doc(kid_id)
+              .update({
+                isSpecialReport: true,
+              });
+
+            await db
+              .collection("Institution")
+              .doc(user._code)
+              .collection("kid")
+              .doc(kid_id)
+              .collection("subjects")
+              .doc(sub.subjectId)
+              .delete();
+
+            await db
+              .collection("Institution")
+              .doc(user._code)
+              .collection("kid")
+              .doc(kid_id)
+              .collection("subjects")
+              .doc(sub.subjectId)
+              .set(_payload);
+          })
+
+          groupsId.map(async (group_id) => {
+            await db
+              .collection("Institution")
+              .doc(user._code)
+              .collection("groups")
+              .doc(group_id)
+              .update({
+                isSpecialReport: true,
+              });
+
+            await db
+              .collection("Institution")
+              .doc(user._code)
+              .collection("groups")
+              .doc(group_id)
+              .collection("report_templates")
+              .doc(sub.subjectId)
+              .delete();
+
+            await db
+              .collection("Institution")
+              .doc(user._code)
+              .collection("groups")
+              .doc(group_id)
+              .collection("report_templates")
+              .doc(sub.subjectId)
+              .set(_payload);
+          })
+        }
       })
     );
 
+    // Sync subject
+    let _save7 = await Promise.all(
+      subjectLock.map(async (sub) => {
+
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("basicReport")
+          .doc(sub.id)
+          .update({
+            isSync: sub.isSync,
+          });
+
+        kidsId.map(async (kid_id) => {
+          if (kid_id === undefined) return
+
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("kid")
+            .doc(kid_id)
+            .update({
+              isSpecialReport: true,
+            });
+
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("kid")
+            .doc(kid_id)
+            .collection("subjects")
+            .doc(sub.id)
+            .set(sub);
+
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("kid")
+            .doc(kid_id)
+            .collection("achievements")
+            .doc(sub.id)
+            .set({
+              redPoints: 0,
+              streak: 0,
+              subjectName: sub.name,
+              isDeleted: true,
+              subject_id: sub.id,
+            })
+        })
+
+        groupsId.map(async (group_id) => {
+          if (group_id === undefined) return
+
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("groups")
+            .doc(group_id)
+            .update({
+              isSpecialReport: true,
+            });
+
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("groups")
+            .doc(group_id)
+            .collection("report_templates")
+            .doc(sub.id)
+            .set(sub);
+        })
+      })
+    );
     closeBasicReportModal();
   };
 
@@ -622,7 +988,7 @@ export const Data = React.memo(() => {
       <div className={classes.default_headerSection_actionsContainer}>
         <Button
           className={classes.buttonReport}
-          startIcon={<img width={30} src={GroupIcon} alt=''/>}
+          startIcon={<img width={30} src={GroupIcon} alt='' />}
           onClick={() => {
             setModalStates((prev) => ({ ...prev, basicReport: true }));
           }}
@@ -684,6 +1050,7 @@ export const Data = React.memo(() => {
       >
         <GrantScoreBody handleClose={closeGrantScoreModal} />
       </SimpleModal>
+
       <SimpleModal
         disableBackdropClick
         title={<FormattedMessage id="set_basic_report" />}
@@ -698,6 +1065,7 @@ export const Data = React.memo(() => {
           handleClose={closeBasicReportModal}
         />
       </SimpleModal>
+
       <SimpleModal
         disableBackdropClick
         title={<FormattedMessage id="excel_upload" />}
@@ -904,7 +1272,7 @@ export const Data = React.memo(() => {
                       }));
                     }}
                   >
-                    <img src={Score} alt=''/>
+                    <img src={Score} alt='' />
                     <Typography className={classes.toolTitle}>
                       <FormattedMessage id="update_score" />
                     </Typography>
@@ -933,7 +1301,7 @@ export const Data = React.memo(() => {
                       setModalStates((prev) => ({ ...prev, grantScore: true }));
                     }}
                   >
-                    <img src={Score} alt=''/>
+                    <img src={Score} alt='' />
                     <Typography className={classes.toolTitle}>
                       <FormattedMessage id="grant_score" />
                     </Typography>

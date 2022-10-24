@@ -96,6 +96,7 @@ export const AddSubSubjectBody = (props) => {
       obtainedPoints: 0,
       subjectId: selectedSubject.id,
       subjectPoints: points,
+      isSync:selectedSubject.isSync
     };
     console.log(subjectsCopy);
     console.log(finalPayload);
