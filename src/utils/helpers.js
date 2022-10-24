@@ -7,6 +7,7 @@ import { nanoid } from "nanoid";
 import { _auth } from "../utils/firebase";
 
 export const FirebaseHelpers = {
+
   fetchStaff: {
     query: (params) => {
       const { user } = params;
@@ -356,6 +357,7 @@ export const FirebaseHelpers = {
   createGroup: {
     execute: async function (params, config) {
       const { user, group } = params;
+      // const date = new Date();
 
       const groupId = nanoid(6);
 
@@ -449,6 +451,7 @@ export const FirebaseHelpers = {
         password
       );
       const staffId = _staff.user.uid;
+      const date = new Date();
       await db
         .collection("Institution")
         .doc(user._code)
@@ -474,6 +477,7 @@ export const FirebaseHelpers = {
           hasAcceptedTerms: false,
           showMedal: false,
           defaultAvatar: false,
+          created_date: date,
         });
       if (type == "admin") {
         await db
@@ -608,6 +612,7 @@ export const FirebaseHelpers = {
   createKid: {
     execute: async function (params, config) {
       const { user, institute, kid } = params;
+      const date = new Date();
 
       const {
         password,
@@ -671,6 +676,7 @@ export const FirebaseHelpers = {
           isFavorite: false,
           isSpecialFav: false,
           hasAcceptedTerms: false,
+          created_date: date,
         });
       await db
         .collection("Institution")

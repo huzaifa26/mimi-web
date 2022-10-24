@@ -150,15 +150,12 @@ export const GroupReportBody = (props) => {
     })();
   }, []);
 
-  // console.log(oldSubjects);
-
   const handleDragEnd = async (result) => {
     console.log(result);
     if (!result.destination) return;
 
     const list = Array.from(subjects);
     const [reorderData] = list.splice(result.source.index, 1);
-    // console.log(reorderData)
     list.splice(result.destination.index, 0, reorderData);
     setSubjects(list);
     
