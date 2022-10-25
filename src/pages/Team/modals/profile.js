@@ -122,11 +122,11 @@ export const ProfileBody = (props) => {
 
   const handleDeleteStaff = () => {
     const action = async () => {
-      await FirebaseHelpers.deleteStaff.execute({
-        staff,
-        user,
-      });
-    
+      // await FirebaseHelpers.deleteStaff.execute({
+      //   staff,
+      //   user,
+      // });
+    console.log(staff)
 
       handleClose();
     };

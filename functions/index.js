@@ -16,3 +16,14 @@ exports.addData = functions.https.onRequest((request, response) => {
   const result = admin.firestore().collection("testadmin").doc("testusers").set({value: "some value"});
   response.status(200).send(result);
 });
+
+exports.deleteUser = functions.https.onRequest((response, context)=>{
+  return admin.auth()
+      .deleteUser("HwpxZPrsnfY1i97VzxhviBlySv42")
+      .then(() => {
+        response.status(200).send("Successfully deleted user");
+      })
+      .catch((error) => {
+        console.log("Error deleting user:", error);
+      });
+});
