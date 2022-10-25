@@ -1,42 +1,41 @@
-[debug] [2022-10-25T06:27:18.816Z] ----------------------------------------------------------------------
-[debug] [2022-10-25T06:27:18.818Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\muham\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start --only functions
-[debug] [2022-10-25T06:27:18.819Z] CLI Version:   11.15.0
-[debug] [2022-10-25T06:27:18.820Z] Platform:      win32
-[debug] [2022-10-25T06:27:18.820Z] Node Version:  v16.15.1
-[debug] [2022-10-25T06:27:18.821Z] Time:          Tue Oct 25 2022 11:27:18 GMT+0500 (Pakistan Standard Time)
-[debug] [2022-10-25T06:27:18.821Z] ----------------------------------------------------------------------
+[debug] [2022-10-25T06:57:08.727Z] ----------------------------------------------------------------------
+[debug] [2022-10-25T06:57:08.729Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\muham\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start --only functions
+[debug] [2022-10-25T06:57:08.730Z] CLI Version:   11.15.0
+[debug] [2022-10-25T06:57:08.730Z] Platform:      win32
+[debug] [2022-10-25T06:57:08.730Z] Node Version:  v16.15.1
+[debug] [2022-10-25T06:57:08.731Z] Time:          Tue Oct 25 2022 11:57:08 GMT+0500 (Pakistan Standard Time)
+[debug] [2022-10-25T06:57:08.732Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2022-10-25T06:27:18.932Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2022-10-25T06:27:18.933Z] > authorizing via signed-in user (muhammad1azhar2@gmail.com)
+[debug] [2022-10-25T06:57:08.954Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-10-25T06:57:08.955Z] > authorizing via signed-in user (muhammad1azhar2@gmail.com)
 [info] i  emulators: Starting emulators: functions {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: functions"}}
-[debug] [2022-10-25T06:27:18.951Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[warn] !  ui: Emulator UI unable to start on port 4000, starting on 4001 instead. {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI unable to start on port 4000, starting on 4001 instead."}}
-[debug] [2022-10-25T06:27:18.955Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4001},{"address":"::1","family":"IPv6","port":4001}]},"metadata":{"message":"assigned listening specs for emulators"}}
-[warn] !  emulators: It seems that you are running multiple instances of the emulator suite for project mimi-plan-test. This may result in unexpected behavior. 
-[debug] [2022-10-25T06:27:18.970Z] [hub] writing locator at C:\Users\muham\AppData\Local\Temp\hub-mimi-plan-test.json
-[debug] [2022-10-25T06:27:19.063Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2022-10-25T06:27:19.063Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2022-10-25T06:27:19.064Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4001},{"address":"::1","family":"IPv6","port":4001}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[debug] [2022-10-25T06:57:08.967Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[warn] !  ui: Emulator UI unable to start on port 4000, starting on 4002 instead. {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI unable to start on port 4000, starting on 4002 instead."}}
+[debug] [2022-10-25T06:57:08.970Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4002},{"address":"::1","family":"IPv6","port":4002}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2022-10-25T06:57:08.981Z] [hub] writing locator at C:\Users\muham\AppData\Local\Temp\hub-mimi-plan-test.json
+[debug] [2022-10-25T06:57:09.043Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-10-25T06:57:09.044Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-10-25T06:57:09.044Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4002},{"address":"::1","family":"IPv6","port":4002}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
 [warn] !  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: auth, firestore, database, hosting, pubsub, storage {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mauth, firestore, database, hosting, pubsub, storage\u001b[22m"}}
 [info] +  functions: Using node@16 from host. {"metadata":{"emulator":{"name":"functions"},"message":"Using node@16 from host."}}
-[debug] [2022-10-25T06:27:19.125Z] defaultcredentials: writing to file C:\Users\muham\AppData\Roaming\firebase\muhammad1azhar2_gmail_com_application_default_credentials.json
-[debug] [2022-10-25T06:27:19.129Z] Setting GAC to C:\Users\muham\AppData\Roaming\firebase\muhammad1azhar2_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\muham\\AppData\\Roaming\\firebase\\muhammad1azhar2_gmail_com_application_default_credentials.json"}}
-[debug] [2022-10-25T06:27:19.132Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/mimi-plan-test/adminSdkConfig [none]
-[debug] [2022-10-25T06:27:19.814Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/mimi-plan-test/adminSdkConfig 200
-[debug] [2022-10-25T06:27:19.814Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/mimi-plan-test/adminSdkConfig {"projectId":"mimi-plan-test","storageBucket":"mimi-plan-test.appspot.com","locationId":"us-central"}
-[debug] [2022-10-25T06:27:19.851Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2022-10-25T06:27:19.852Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
-[debug] [2022-10-25T06:27:19.852Z] Starting Emulator UI with command {"binary":"node","args":["C:\\Users\\muham\\.cache\\firebase\\emulators\\ui-v1.11.1\\server\\server.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"C:\\\\Users\\\\muham\\\\.cache\\\\firebase\\\\emulators\\\\ui-v1.11.1\\\\server\\\\server.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
+[debug] [2022-10-25T06:57:09.085Z] defaultcredentials: writing to file C:\Users\muham\AppData\Roaming\firebase\muhammad1azhar2_gmail_com_application_default_credentials.json
+[debug] [2022-10-25T06:57:09.092Z] Setting GAC to C:\Users\muham\AppData\Roaming\firebase\muhammad1azhar2_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\muham\\AppData\\Roaming\\firebase\\muhammad1azhar2_gmail_com_application_default_credentials.json"}}
+[debug] [2022-10-25T06:57:09.095Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/mimi-plan-test/adminSdkConfig [none]
+[debug] [2022-10-25T06:57:10.160Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/mimi-plan-test/adminSdkConfig 200
+[debug] [2022-10-25T06:57:10.160Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/mimi-plan-test/adminSdkConfig {"projectId":"mimi-plan-test","storageBucket":"mimi-plan-test.appspot.com","locationId":"us-central"}
+[debug] [2022-10-25T06:57:10.216Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2022-10-25T06:57:10.217Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2022-10-25T06:57:10.217Z] Starting Emulator UI with command {"binary":"node","args":["C:\\Users\\muham\\.cache\\firebase\\emulators\\ui-v1.11.1\\server\\server.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"C:\\\\Users\\\\muham\\\\.cache\\\\firebase\\\\emulators\\\\ui-v1.11.1\\\\server\\\\server.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
 [info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
-[debug] [2022-10-25T06:27:20.044Z] Web / API server started at 127.0.0.1:4001
- {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at 127.0.0.1:4001\n"}}
-[debug] [2022-10-25T06:27:20.044Z] Web / API server started at ::1:4001
- {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at ::1:4001\n"}}
+[debug] [2022-10-25T06:57:10.443Z] Web / API server started at 127.0.0.1:4002
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at 127.0.0.1:4002\n"}}
+[debug] [2022-10-25T06:57:10.443Z] Web / API server started at ::1:4002
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at ::1:4002\n"}}
 [info] i  functions: Watching "E:\frontend\reactJS\mimi-web\functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"E:\\frontend\\reactJS\\mimi-web\\functions\" for Cloud Functions..."}}
-[debug] [2022-10-25T06:27:20.131Z] Validating nodejs source
+[debug] [2022-10-25T06:57:10.509Z] Validating nodejs source
 [warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
 [warn] !  functions: Please note that there will be breaking changes when you upgrade. 
-[debug] [2022-10-25T06:27:24.350Z] > [functions] package.json contents: {
+[debug] [2022-10-25T06:57:14.685Z] > [functions] package.json contents: {
   "name": "functions",
   "description": "Cloud Functions for Firebase",
   "scripts": {
@@ -52,7 +51,7 @@
   },
   "main": "index.js",
   "dependencies": {
-    "firebase-admin": "^10.0.2",
+    "firebase-admin": "^11.2.0",
     "firebase-functions": "^3.18.0"
   },
   "devDependencies": {
@@ -62,63 +61,37 @@
   },
   "private": true
 }
-[debug] [2022-10-25T06:27:24.350Z] Building nodejs source
-[debug] [2022-10-25T06:27:24.350Z] Analyzing nodejs backend spec
-[debug] [2022-10-25T06:27:24.353Z] Could not find functions.yaml. Must use http discovery
-[debug] [2022-10-25T06:27:24.762Z] Serving at port 9005
+[debug] [2022-10-25T06:57:14.685Z] Building nodejs source
+[debug] [2022-10-25T06:57:14.685Z] Analyzing nodejs backend spec
+[debug] [2022-10-25T06:57:14.687Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-10-25T06:57:15.081Z] Serving at port 9005
 
-[debug] [2022-10-25T06:27:24.855Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","httpsTrigger":{},"entryPoint":"helloWorld"}},"specVersion":"v1alpha1","requiredAPIs":[]}
-[debug] [2022-10-25T06:27:24.870Z] shutdown requested via /__/quitquitquit
+[debug] [2022-10-25T06:57:15.235Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","httpsTrigger":{},"entryPoint":"helloWorld"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-10-25T06:57:15.244Z] shutdown requested via /__/quitquitquit
 
 [info] +  functions: Loaded functions definitions from source: helloWorld. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: helloWorld."}}
 [info] +  functions[us-central1-helloWorld]: http function initialized (http://127.0.0.1:5001/mimi-plan-test/us-central1/helloWorld). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/mimi-plan-test/us-central1/helloWorld)."}}
 [info] 
 ┌─────────────────────────────────────────────────────────────┐
 │ ✔  All emulators ready! It is now safe to connect your app. │
-│ i  View Emulator UI at http://127.0.0.1:4001/               │
+│ i  View Emulator UI at http://127.0.0.1:4002/               │
 └─────────────────────────────────────────────────────────────┘
 
 ┌───────────┬────────────────┬─────────────────────────────────┐
 │ Emulator  │ Host:Port      │ View in Emulator UI             │
 ├───────────┼────────────────┼─────────────────────────────────┤
-│ Functions │ 127.0.0.1:5001 │ http://127.0.0.1:4001/functions │
+│ Functions │ 127.0.0.1:5001 │ http://127.0.0.1:4002/functions │
 └───────────┴────────────────┴─────────────────────────────────┘
   Emulator Hub running at 127.0.0.1:4400
   Other reserved ports: 4500
 
 Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
  
-[debug] [2022-10-25T06:28:04.562Z] [work-queue] {"queueLength":1,"workRunningCount":0}
-[debug] [2022-10-25T06:28:04.565Z] [work-queue] {"queueLength":0,"workRunningCount":1}
-[debug] [2022-10-25T06:28:04.566Z] Accepted request GET /mimi-plan-test/us-central1/helloWorld --> us-central1-helloWorld
-[debug] [2022-10-25T06:28:04.572Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
-[debug] [2022-10-25T06:28:04.573Z] [functions] Got req.url=/mimi-plan-test/us-central1/helloWorld, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/mimi-plan-test/us-central1/helloWorld, mapping to path=/"}}
-[debug] [2022-10-25T06:28:04.584Z] [worker-pool] addWorker(us-central1-helloWorld) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(us-central1-helloWorld)"}}
-[debug] [2022-10-25T06:28:04.585Z] [worker-pool] Adding worker with key us-central1-helloWorld, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key us-central1-helloWorld, total=1"}}
-[debug] [2022-10-25T06:28:06.429Z] [runtime-status] [10624] Resolved module firebase-admin {"declared":true,"installed":true,"version":"10.3.0","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [10624] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"10.3.0\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
-[debug] [2022-10-25T06:28:06.432Z] [runtime-status] [10624] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [10624] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
-[debug] [2022-10-25T06:28:06.435Z] [runtime-status] [10624] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [10624] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
-[debug] [2022-10-25T06:28:06.436Z] [runtime-status] [10624] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [10624] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
-[debug] [2022-10-25T06:28:06.500Z] [runtime-status] [10624] Checked functions.config() {"config":{}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [10624] Checked functions.config() {\"config\":{}}"}}
-[debug] [2022-10-25T06:28:06.500Z] [runtime-status] [10624] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.24.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [10624] firebase-functions has been stubbed. {\"functionsResolution\":{\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}}"}}
-[debug] [2022-10-25T06:28:06.501Z] [runtime-status] [10624] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [10624] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
-[debug] [2022-10-25T06:28:06.503Z] [runtime-status] [10624] Resolved module firebase-admin {"declared":true,"installed":true,"version":"10.3.0","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [10624] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"10.3.0\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
-[debug] [2022-10-25T06:28:06.504Z] [runtime-status] [10624] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [10624] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
-[debug] [2022-10-25T06:28:06.506Z] [runtime-status] [10624] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"10.3.0","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [10624] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"10.3.0\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}}"}}
-[debug] [2022-10-25T06:28:06.515Z] [runtime-status] [10624] Functions runtime initialized. {"cwd":"E:\\frontend\\reactJS\\mimi-web\\functions","node_version":"16.15.1"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [10624] Functions runtime initialized. {\"cwd\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\",\"node_version\":\"16.15.1\"}"}}
-[debug] [2022-10-25T06:28:06.516Z] [runtime-status] [10624] Listening to port: \\?\pipe\fire_emu_a78e1d1dc4aa5bc3 {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [10624] Listening to port: \\\\?\\pipe\\fire_emu_a78e1d1dc4aa5bc3"}}
-[debug] [2022-10-25T06:28:06.583Z] [worker-pool] submitRequest(triggerId=us-central1-helloWorld) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-helloWorld)"}}
-[debug] [2022-10-25T06:28:06.584Z] [worker-us-central1-helloWorld-9f2a0714-2f7e-4a1e-aeee-4778e7d271bc]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-helloWorld-9f2a0714-2f7e-4a1e-aeee-4778e7d271bc]: BUSY"}}
-[info] i  functions: Beginning execution of "helloWorld" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"Beginning execution of \"helloWorld\""}}
-[info] >  {"structuredData":true,"severity":"INFO","message":"Hello logs!"} {"user":{"structuredData":true,"severity":"INFO","message":"Hello logs!"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"\u001b[90m> \u001b[39m {\"structuredData\":true,\"severity\":\"INFO\",\"message\":\"Hello logs!\"}"}}
-[debug] [2022-10-25T06:28:06.598Z] [worker-us-central1-helloWorld-9f2a0714-2f7e-4a1e-aeee-4778e7d271bc]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-helloWorld-9f2a0714-2f7e-4a1e-aeee-4778e7d271bc]: IDLE"}}
-[debug] [2022-10-25T06:28:06.598Z] [work-queue] {"queueLength":0,"workRunningCount":0}
-[info] i  functions: Finished "helloWorld" in 8.2358ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"Finished \"helloWorld\" in 8.2358ms"}}
-[debug] [2022-10-25T06:32:25.281Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
-[debug] [2022-10-25T06:32:26.301Z] Validating nodejs source
+[debug] [2022-10-25T06:57:59.293Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-10-25T06:58:00.313Z] Validating nodejs source
 [warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
 [warn] !  functions: Please note that there will be breaking changes when you upgrade. 
-[debug] [2022-10-25T06:32:31.801Z] > [functions] package.json contents: {
+[debug] [2022-10-25T06:58:06.192Z] > [functions] package.json contents: {
   "name": "functions",
   "description": "Cloud Functions for Firebase",
   "scripts": {
@@ -134,7 +107,7 @@ Issues? Report them at https://github.com/firebase/firebase-tools/issues and att
   },
   "main": "index.js",
   "dependencies": {
-    "firebase-admin": "^10.0.2",
+    "firebase-admin": "^11.2.0",
     "firebase-functions": "^3.18.0"
   },
   "devDependencies": {
@@ -144,25 +117,20 @@ Issues? Report them at https://github.com/firebase/firebase-tools/issues and att
   },
   "private": true
 }
-[debug] [2022-10-25T06:32:31.801Z] Building nodejs source
-[debug] [2022-10-25T06:32:31.801Z] Analyzing nodejs backend spec
-[debug] [2022-10-25T06:32:31.803Z] Could not find functions.yaml. Must use http discovery
-[debug] [2022-10-25T06:32:31.832Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
-[debug] [2022-10-25T06:32:32.327Z] Serving at port 9005
+[debug] [2022-10-25T06:58:06.195Z] Building nodejs source
+[debug] [2022-10-25T06:58:06.196Z] Analyzing nodejs backend spec
+[debug] [2022-10-25T06:58:06.197Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-10-25T06:58:06.666Z] Serving at port 9005
 
-[debug] [2022-10-25T06:32:32.438Z] Got response from /__/functions.yaml {"endpoints":{"createNewDocument":{"platform":"gcfv1","httpsTrigger":{},"entryPoint":"createNewDocument"}},"specVersion":"v1alpha1","requiredAPIs":[]}
-[debug] [2022-10-25T06:32:32.456Z] shutdown requested via /__/quitquitquit
+[debug] [2022-10-25T06:58:06.845Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","httpsTrigger":{},"entryPoint":"helloWorld"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-10-25T06:58:06.860Z] shutdown requested via /__/quitquitquit
 
-[info] +  functions: Loaded functions definitions from source: createNewDocument. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: createNewDocument."}}
-[debug] [2022-10-25T06:32:32.472Z] [worker-pool] Shutting down IDLE worker (us-central1-helloWorld) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Shutting down IDLE worker (us-central1-helloWorld)"}}
-[debug] [2022-10-25T06:32:32.472Z] [worker-us-central1-helloWorld-9f2a0714-2f7e-4a1e-aeee-4778e7d271bc]: FINISHING {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-helloWorld-9f2a0714-2f7e-4a1e-aeee-4778e7d271bc]: FINISHING"}}
-[info] +  functions[us-central1-createNewDocument]: http function initialized (http://127.0.0.1:5001/mimi-plan-test/us-central1/createNewDocument). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/mimi-plan-test/us-central1/createNewDocument)."}}
-[debug] [2022-10-25T06:32:32.487Z] [worker-us-central1-helloWorld-9f2a0714-2f7e-4a1e-aeee-4778e7d271bc]: exited {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-helloWorld-9f2a0714-2f7e-4a1e-aeee-4778e7d271bc]: exited"}}
-[debug] [2022-10-25T06:32:32.488Z] [worker-us-central1-helloWorld-9f2a0714-2f7e-4a1e-aeee-4778e7d271bc]: FINISHED {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-helloWorld-9f2a0714-2f7e-4a1e-aeee-4778e7d271bc]: FINISHED"}}
-[debug] [2022-10-25T06:32:32.835Z] Validating nodejs source
+[info] +  functions: Loaded functions definitions from source: helloWorld. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: helloWorld."}}
+[debug] [2022-10-25T06:58:12.745Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-10-25T06:58:13.770Z] Validating nodejs source
 [warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
 [warn] !  functions: Please note that there will be breaking changes when you upgrade. 
-[debug] [2022-10-25T06:32:37.628Z] > [functions] package.json contents: {
+[debug] [2022-10-25T06:58:19.034Z] > [functions] package.json contents: {
   "name": "functions",
   "description": "Cloud Functions for Firebase",
   "scripts": {
@@ -178,7 +146,7 @@ Issues? Report them at https://github.com/firebase/firebase-tools/issues and att
   },
   "main": "index.js",
   "dependencies": {
-    "firebase-admin": "^10.0.2",
+    "firebase-admin": "^11.2.0",
     "firebase-functions": "^3.18.0"
   },
   "devDependencies": {
@@ -188,140 +156,23 @@ Issues? Report them at https://github.com/firebase/firebase-tools/issues and att
   },
   "private": true
 }
-[debug] [2022-10-25T06:32:37.629Z] Building nodejs source
-[debug] [2022-10-25T06:32:37.629Z] Analyzing nodejs backend spec
-[debug] [2022-10-25T06:32:37.629Z] Could not find functions.yaml. Must use http discovery
-[debug] [2022-10-25T06:32:37.654Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
-[debug] [2022-10-25T06:32:38.054Z] Serving at port 9005
+[debug] [2022-10-25T06:58:19.034Z] Building nodejs source
+[debug] [2022-10-25T06:58:19.034Z] Analyzing nodejs backend spec
+[debug] [2022-10-25T06:58:19.035Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-10-25T06:58:19.063Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-10-25T06:58:19.447Z] Serving at port 9005
 
-[debug] [2022-10-25T06:32:38.196Z] Got response from /__/functions.yaml {"endpoints":{"createNewDocument":{"platform":"gcfv1","httpsTrigger":{},"entryPoint":"createNewDocument"}},"specVersion":"v1alpha1","requiredAPIs":[]}
-[debug] [2022-10-25T06:32:38.203Z] shutdown requested via /__/quitquitquit
-
-[info] +  functions: Loaded functions definitions from source: createNewDocument. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: createNewDocument."}}
-[debug] [2022-10-25T06:32:38.669Z] Validating nodejs source
-[warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
-[warn] !  functions: Please note that there will be breaking changes when you upgrade. 
-[debug] [2022-10-25T06:32:43.138Z] > [functions] package.json contents: {
-  "name": "functions",
-  "description": "Cloud Functions for Firebase",
-  "scripts": {
-    "lint": "eslint .",
-    "serve": "firebase emulators:start --only functions",
-    "shell": "firebase functions:shell",
-    "start": "npm run shell",
-    "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
-  },
-  "engines": {
-    "node": "16"
-  },
-  "main": "index.js",
-  "dependencies": {
-    "firebase-admin": "^10.0.2",
-    "firebase-functions": "^3.18.0"
-  },
-  "devDependencies": {
-    "eslint": "^8.9.0",
-    "eslint-config-google": "^0.14.0",
-    "firebase-functions-test": "^0.2.0"
-  },
-  "private": true
-}
-[debug] [2022-10-25T06:32:43.138Z] Building nodejs source
-[debug] [2022-10-25T06:32:43.138Z] Analyzing nodejs backend spec
-[debug] [2022-10-25T06:32:43.139Z] Could not find functions.yaml. Must use http discovery
-[debug] [2022-10-25T06:32:43.508Z] Serving at port 9005
-
-[debug] [2022-10-25T06:32:43.613Z] Got response from /__/functions.yaml {"endpoints":{"createNewDocument":{"platform":"gcfv1","httpsTrigger":{},"entryPoint":"createNewDocument"}},"specVersion":"v1alpha1","requiredAPIs":[]}
-[debug] [2022-10-25T06:32:43.624Z] shutdown requested via /__/quitquitquit
-
-[info] +  functions: Loaded functions definitions from source: createNewDocument. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: createNewDocument."}}
-[debug] [2022-10-25T06:32:46.674Z] [work-queue] {"queueLength":1,"workRunningCount":0}
-[debug] [2022-10-25T06:32:46.675Z] [work-queue] {"queueLength":0,"workRunningCount":1}
-[debug] [2022-10-25T06:32:46.675Z] Accepted request GET /mimi-plan-test/us-central1/createNewDocument --> us-central1-createNewDocument
-[debug] [2022-10-25T06:32:46.680Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
-[debug] [2022-10-25T06:32:46.681Z] [functions] Got req.url=/mimi-plan-test/us-central1/createNewDocument, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/mimi-plan-test/us-central1/createNewDocument, mapping to path=/"}}
-[debug] [2022-10-25T06:32:46.682Z] [worker-pool] Cleaned up workers for us-central1-helloWorld: 1 --> 0 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Cleaned up workers for us-central1-helloWorld: 1 --> 0"}}
-[debug] [2022-10-25T06:32:46.693Z] [worker-pool] addWorker(us-central1-createNewDocument) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(us-central1-createNewDocument)"}}
-[debug] [2022-10-25T06:32:46.693Z] [worker-pool] Adding worker with key us-central1-createNewDocument, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key us-central1-createNewDocument, total=1"}}
-[debug] [2022-10-25T06:32:48.979Z] [runtime-status] [8012] Resolved module firebase-admin {"declared":true,"installed":true,"version":"10.3.0","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [8012] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"10.3.0\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
-[debug] [2022-10-25T06:32:48.982Z] [runtime-status] [8012] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [8012] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
-[debug] [2022-10-25T06:32:48.983Z] [runtime-status] [8012] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [8012] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
-[debug] [2022-10-25T06:32:48.986Z] [runtime-status] [8012] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [8012] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
-[debug] [2022-10-25T06:32:49.048Z] [runtime-status] [8012] Checked functions.config() {"config":{}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [8012] Checked functions.config() {\"config\":{}}"}}
-[debug] [2022-10-25T06:32:49.048Z] [runtime-status] [8012] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.24.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [8012] firebase-functions has been stubbed. {\"functionsResolution\":{\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}}"}}
-[debug] [2022-10-25T06:32:49.049Z] [runtime-status] [8012] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [8012] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
-[debug] [2022-10-25T06:32:49.051Z] [runtime-status] [8012] Resolved module firebase-admin {"declared":true,"installed":true,"version":"10.3.0","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [8012] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"10.3.0\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
-[debug] [2022-10-25T06:32:49.053Z] [runtime-status] [8012] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [8012] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
-[debug] [2022-10-25T06:32:49.053Z] [runtime-status] [8012] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"10.3.0","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [8012] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"10.3.0\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}}"}}
-[debug] [2022-10-25T06:32:49.062Z] [runtime-status] [8012] Functions runtime initialized. {"cwd":"E:\\frontend\\reactJS\\mimi-web\\functions","node_version":"16.15.1"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [8012] Functions runtime initialized. {\"cwd\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\",\"node_version\":\"16.15.1\"}"}}
-[debug] [2022-10-25T06:32:49.062Z] [runtime-status] [8012] Listening to port: \\?\pipe\fire_emu_0eddaac0c45e0bb0 {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [8012] Listening to port: \\\\?\\pipe\\fire_emu_0eddaac0c45e0bb0"}}
-[debug] [2022-10-25T06:32:49.097Z] [worker-pool] submitRequest(triggerId=us-central1-createNewDocument) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-createNewDocument)"}}
-[debug] [2022-10-25T06:32:49.097Z] [worker-us-central1-createNewDocument-eb6a1a1c-d655-436e-a766-5f64bfc120d4]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-createNewDocument-eb6a1a1c-d655-436e-a766-5f64bfc120d4]: BUSY"}}
-[info] i  functions: Beginning execution of "createNewDocument" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"Beginning execution of \"createNewDocument\""}}
-[warn] !  functions: ReferenceError: admin is not defined
-    at E:\frontend\reactJS\mimi-web\functions\index.js:7:5
-    at cloudFunction (E:\frontend\reactJS\mimi-web\functions\node_modules\firebase-functions\lib\providers\https.js:50:16)
-    at C:\Users\muham\AppData\Roaming\npm\node_modules\firebase-tools\lib\emulator\functionsEmulatorRuntime.js:530:16
-    at runFunction (C:\Users\muham\AppData\Roaming\npm\node_modules\firebase-tools\lib\emulator\functionsEmulatorRuntime.js:504:15)
-    at runHTTPS (C:\Users\muham\AppData\Roaming\npm\node_modules\firebase-tools\lib\emulator\functionsEmulatorRuntime.js:529:11)
-    at C:\Users\muham\AppData\Roaming\npm\node_modules\firebase-tools\lib\emulator\functionsEmulatorRuntime.js:694:27
-    at Layer.handle [as handle_request] (C:\Users\muham\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\express\lib\router\layer.js:95:5)
-    at next (C:\Users\muham\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\express\lib\router\route.js:137:13)
-    at next (C:\Users\muham\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\express\lib\router\route.js:131:14)
-    at next (C:\Users\muham\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\express\lib\router\route.js:131:14) {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"ReferenceError: admin is not defined\n    at E:\\frontend\\reactJS\\mimi-web\\functions\\index.js:7:5\n    at cloudFunction (E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\providers\\https.js:50:16)\n    at C:\\Users\\muham\\AppData\\Roaming\\npm\\node_modules\\firebase-tools\\lib\\emulator\\functionsEmulatorRuntime.js:530:16\n    at runFunction (C:\\Users\\muham\\AppData\\Roaming\\npm\\node_modules\\firebase-tools\\lib\\emulator\\functionsEmulatorRuntime.js:504:15)\n    at runHTTPS (C:\\Users\\muham\\AppData\\Roaming\\npm\\node_modules\\firebase-tools\\lib\\emulator\\functionsEmulatorRuntime.js:529:11)\n    at C:\\Users\\muham\\AppData\\Roaming\\npm\\node_modules\\firebase-tools\\lib\\emulator\\functionsEmulatorRuntime.js:694:27\n    at Layer.handle [as handle_request] (C:\\Users\\muham\\AppData\\Roaming\\npm\\node_modules\\firebase-tools\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\muham\\AppData\\Roaming\\npm\\node_modules\\firebase-tools\\node_modules\\express\\lib\\router\\route.js:137:13)\n    at next (C:\\Users\\muham\\AppData\\Roaming\\npm\\node_modules\\firebase-tools\\node_modules\\express\\lib\\router\\route.js:131:14)\n    at next (C:\\Users\\muham\\AppData\\Roaming\\npm\\node_modules\\firebase-tools\\node_modules\\express\\lib\\router\\route.js:131:14)"}}
-[warn] !  Your function was killed because it raised an unhandled error. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"Your function was killed because it raised an unhandled error."}}
-[debug] [2022-10-25T06:32:49.110Z] [worker-us-central1-createNewDocument-eb6a1a1c-d655-436e-a766-5f64bfc120d4]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-createNewDocument-eb6a1a1c-d655-436e-a766-5f64bfc120d4]: IDLE"}}
-[debug] [2022-10-25T06:32:49.110Z] [work-queue] {"queueLength":0,"workRunningCount":0}
-[debug] [2022-10-25T06:32:49.172Z] [worker-us-central1-createNewDocument-eb6a1a1c-d655-436e-a766-5f64bfc120d4]: exited {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-createNewDocument-eb6a1a1c-d655-436e-a766-5f64bfc120d4]: exited"}}
-[debug] [2022-10-25T06:32:49.173Z] [worker-us-central1-createNewDocument-eb6a1a1c-d655-436e-a766-5f64bfc120d4]: FINISHED {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-createNewDocument-eb6a1a1c-d655-436e-a766-5f64bfc120d4]: FINISHED"}}
-[debug] [2022-10-25T06:33:36.231Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
-[debug] [2022-10-25T06:33:37.232Z] Validating nodejs source
-[warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
-[warn] !  functions: Please note that there will be breaking changes when you upgrade. 
-[debug] [2022-10-25T06:33:41.615Z] > [functions] package.json contents: {
-  "name": "functions",
-  "description": "Cloud Functions for Firebase",
-  "scripts": {
-    "lint": "eslint .",
-    "serve": "firebase emulators:start --only functions",
-    "shell": "firebase functions:shell",
-    "start": "npm run shell",
-    "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
-  },
-  "engines": {
-    "node": "16"
-  },
-  "main": "index.js",
-  "dependencies": {
-    "firebase-admin": "^10.0.2",
-    "firebase-functions": "^3.18.0"
-  },
-  "devDependencies": {
-    "eslint": "^8.9.0",
-    "eslint-config-google": "^0.14.0",
-    "firebase-functions-test": "^0.2.0"
-  },
-  "private": true
-}
-[debug] [2022-10-25T06:33:41.615Z] Building nodejs source
-[debug] [2022-10-25T06:33:41.616Z] Analyzing nodejs backend spec
-[debug] [2022-10-25T06:33:41.616Z] Could not find functions.yaml. Must use http discovery
-[debug] [2022-10-25T06:33:41.995Z] Serving at port 9005
-
-[debug] [2022-10-25T06:33:42.016Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module
-[debug] [2022-10-25T06:33:42.018Z] Failed to parse functions.yamlincomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+[debug] [2022-10-25T06:58:19.468Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module
+[debug] [2022-10-25T06:58:19.471Z] Failed to parse functions.yamlincomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
      ... rom function source: SyntaxError: Cannot use import statement ou ... 
                                          ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Cannot use import statement ou ... \n                                         ^"}
-[debug] [2022-10-25T06:33:42.022Z] shutdown requested via /__/quitquitquit
+[debug] [2022-10-25T06:58:19.475Z] shutdown requested via /__/quitquitquit
 
 [error] !!  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module"}}
-[debug] [2022-10-25T06:34:18.121Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
-[debug] [2022-10-25T06:34:19.131Z] Validating nodejs source
+[debug] [2022-10-25T06:58:20.077Z] Validating nodejs source
 [warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
 [warn] !  functions: Please note that there will be breaking changes when you upgrade. 
-[debug] [2022-10-25T06:34:24.057Z] > [functions] package.json contents: {
+[debug] [2022-10-25T06:58:24.139Z] > [functions] package.json contents: {
   "name": "functions",
   "description": "Cloud Functions for Firebase",
   "scripts": {
@@ -337,7 +188,7 @@ Issues? Report them at https://github.com/firebase/firebase-tools/issues and att
   },
   "main": "index.js",
   "dependencies": {
-    "firebase-admin": "^10.0.2",
+    "firebase-admin": "^11.2.0",
     "firebase-functions": "^3.18.0"
   },
   "devDependencies": {
@@ -347,95 +198,23 @@ Issues? Report them at https://github.com/firebase/firebase-tools/issues and att
   },
   "private": true
 }
-[debug] [2022-10-25T06:34:24.057Z] Building nodejs source
-[debug] [2022-10-25T06:34:24.058Z] Analyzing nodejs backend spec
-[debug] [2022-10-25T06:34:24.059Z] Could not find functions.yaml. Must use http discovery
-[debug] [2022-10-25T06:34:24.467Z] Serving at port 9005
+[debug] [2022-10-25T06:58:24.139Z] Building nodejs source
+[debug] [2022-10-25T06:58:24.139Z] Analyzing nodejs backend spec
+[debug] [2022-10-25T06:58:24.143Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-10-25T06:58:24.503Z] Serving at port 9005
 
-[debug] [2022-10-25T06:34:24.581Z] Got response from /__/functions.yaml {"endpoints":{"createNewDocument":{"platform":"gcfv1","httpsTrigger":{},"entryPoint":"createNewDocument"}},"specVersion":"v1alpha1","requiredAPIs":[]}
-[debug] [2022-10-25T06:34:24.593Z] shutdown requested via /__/quitquitquit
+[debug] [2022-10-25T06:58:24.523Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module
+[debug] [2022-10-25T06:58:24.524Z] Failed to parse functions.yamlincomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+     ... rom function source: SyntaxError: Cannot use import statement ou ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Cannot use import statement ou ... \n                                         ^"}
+[debug] [2022-10-25T06:58:24.529Z] shutdown requested via /__/quitquitquit
 
-[info] +  functions: Loaded functions definitions from source: createNewDocument. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: createNewDocument."}}
-[debug] [2022-10-25T06:34:34.694Z] [work-queue] {"queueLength":1,"workRunningCount":0}
-[debug] [2022-10-25T06:34:34.695Z] [work-queue] {"queueLength":0,"workRunningCount":1}
-[debug] [2022-10-25T06:34:34.695Z] Accepted request GET /mimi-plan-test/us-central1/createNewDocument --> us-central1-createNewDocument
-[debug] [2022-10-25T06:34:34.698Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
-[debug] [2022-10-25T06:34:34.698Z] [functions] Got req.url=/mimi-plan-test/us-central1/createNewDocument, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/mimi-plan-test/us-central1/createNewDocument, mapping to path=/"}}
-[debug] [2022-10-25T06:34:34.698Z] [worker-pool] Cleaned up workers for us-central1-createNewDocument: 1 --> 0 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Cleaned up workers for us-central1-createNewDocument: 1 --> 0"}}
-[debug] [2022-10-25T06:34:34.706Z] [worker-pool] addWorker(us-central1-createNewDocument) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(us-central1-createNewDocument)"}}
-[debug] [2022-10-25T06:34:34.706Z] [worker-pool] Adding worker with key us-central1-createNewDocument, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key us-central1-createNewDocument, total=1"}}
-[debug] [2022-10-25T06:34:36.588Z] [runtime-status] [10348] Resolved module firebase-admin {"declared":true,"installed":true,"version":"10.3.0","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [10348] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"10.3.0\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
-[debug] [2022-10-25T06:34:36.591Z] [runtime-status] [10348] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [10348] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
-[debug] [2022-10-25T06:34:36.592Z] [runtime-status] [10348] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [10348] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
-[debug] [2022-10-25T06:34:36.595Z] [runtime-status] [10348] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [10348] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
-[debug] [2022-10-25T06:34:36.661Z] [runtime-status] [10348] Checked functions.config() {"config":{}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [10348] Checked functions.config() {\"config\":{}}"}}
-[debug] [2022-10-25T06:34:36.662Z] [runtime-status] [10348] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.24.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [10348] firebase-functions has been stubbed. {\"functionsResolution\":{\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}}"}}
-[debug] [2022-10-25T06:34:36.663Z] [runtime-status] [10348] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [10348] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
-[debug] [2022-10-25T06:34:36.665Z] [runtime-status] [10348] Resolved module firebase-admin {"declared":true,"installed":true,"version":"10.3.0","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [10348] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"10.3.0\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
-[debug] [2022-10-25T06:34:36.666Z] [runtime-status] [10348] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [10348] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
-[debug] [2022-10-25T06:34:36.666Z] [runtime-status] [10348] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"10.3.0","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [10348] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"10.3.0\",\"resolution\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}}"}}
-[debug] [2022-10-25T06:34:36.677Z] [runtime-status] [10348] Functions runtime initialized. {"cwd":"E:\\frontend\\reactJS\\mimi-web\\functions","node_version":"16.15.1"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [10348] Functions runtime initialized. {\"cwd\":\"E:\\\\frontend\\\\reactJS\\\\mimi-web\\\\functions\",\"node_version\":\"16.15.1\"}"}}
-[debug] [2022-10-25T06:34:36.677Z] [runtime-status] [10348] Listening to port: \\?\pipe\fire_emu_a11471af7a068deb {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"[runtime-status] [10348] Listening to port: \\\\?\\pipe\\fire_emu_a11471af7a068deb"}}
-[debug] [2022-10-25T06:34:36.774Z] [worker-pool] submitRequest(triggerId=us-central1-createNewDocument) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-createNewDocument)"}}
-[debug] [2022-10-25T06:34:36.774Z] [worker-us-central1-createNewDocument-3c046ac4-fdec-4ab4-b19c-68a17c0b6dfa]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-createNewDocument-3c046ac4-fdec-4ab4-b19c-68a17c0b6dfa]: BUSY"}}
-[info] i  functions: Beginning execution of "createNewDocument" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"Beginning execution of \"createNewDocument\""}}
-[warn] !  functions: The Cloud Firestore emulator is not running, so calls to Firestore will affect production. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"The Cloud Firestore emulator is not running, so calls to Firestore will affect production."}}
-[warn] !  functions: Error: The default Firebase app does not exist. Make sure you call initializeApp() before using any of the Firebase services.
-    at FirebaseAppError.FirebaseError [as constructor] (E:\frontend\reactJS\mimi-web\functions\node_modules\firebase-admin\lib\utils\error.js:44:28)
-    at FirebaseAppError.PrefixedFirebaseError [as constructor] (E:\frontend\reactJS\mimi-web\functions\node_modules\firebase-admin\lib\utils\error.js:90:28)
-    at new FirebaseAppError (E:\frontend\reactJS\mimi-web\functions\node_modules\firebase-admin\lib\utils\error.js:125:28)
-    at AppStore.getApp (E:\frontend\reactJS\mimi-web\functions\node_modules\firebase-admin\lib\app\lifecycle.js:67:19)
-    at FirebaseNamespaceInternals.app (E:\frontend\reactJS\mimi-web\functions\node_modules\firebase-admin\lib\app\firebase-namespace.js:54:33)
-    at FirebaseNamespace.app (E:\frontend\reactJS\mimi-web\functions\node_modules\firebase-admin\lib\app\firebase-namespace.js:321:30)
-    at FirebaseNamespace.ensureApp (E:\frontend\reactJS\mimi-web\functions\node_modules\firebase-admin\lib\app\firebase-namespace.js:335:24)
-    at Proxy.fn (E:\frontend\reactJS\mimi-web\functions\node_modules\firebase-admin\lib\app\firebase-namespace.js:163:30)
-    at E:\frontend\reactJS\mimi-web\functions\index.js:8:6
-    at cloudFunction (E:\frontend\reactJS\mimi-web\functions\node_modules\firebase-functions\lib\providers\https.js:50:16) {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"Error: The default Firebase app does not exist. Make sure you call initializeApp() before using any of the Firebase services.\n    at FirebaseAppError.FirebaseError [as constructor] (E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\utils\\error.js:44:28)\n    at FirebaseAppError.PrefixedFirebaseError [as constructor] (E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\utils\\error.js:90:28)\n    at new FirebaseAppError (E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\utils\\error.js:125:28)\n    at AppStore.getApp (E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\app\\lifecycle.js:67:19)\n    at FirebaseNamespaceInternals.app (E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\app\\firebase-namespace.js:54:33)\n    at FirebaseNamespace.app (E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\app\\firebase-namespace.js:321:30)\n    at FirebaseNamespace.ensureApp (E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\app\\firebase-namespace.js:335:24)\n    at Proxy.fn (E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\app\\firebase-namespace.js:163:30)\n    at E:\\frontend\\reactJS\\mimi-web\\functions\\index.js:8:6\n    at cloudFunction (E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\providers\\https.js:50:16)"}}
-[warn] !  Your function was killed because it raised an unhandled error. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createNewDocument"},"extension":{},"message":"Your function was killed because it raised an unhandled error."}}
-[debug] [2022-10-25T06:34:37.079Z] [work-queue] {"queueLength":0,"workRunningCount":0}
-[debug] [2022-10-25T06:34:37.130Z] [worker-us-central1-createNewDocument-3c046ac4-fdec-4ab4-b19c-68a17c0b6dfa]: exited {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-createNewDocument-3c046ac4-fdec-4ab4-b19c-68a17c0b6dfa]: exited"}}
-[debug] [2022-10-25T06:34:37.130Z] [worker-us-central1-createNewDocument-3c046ac4-fdec-4ab4-b19c-68a17c0b6dfa]: FINISHED {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-createNewDocument-3c046ac4-fdec-4ab4-b19c-68a17c0b6dfa]: FINISHED"}}
-[debug] [2022-10-25T06:35:24.698Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
-[debug] [2022-10-25T06:35:25.714Z] Validating nodejs source
-[debug] [2022-10-25T06:36:03.465Z] ----------------------------------------------------------------------
-[debug] [2022-10-25T06:36:03.467Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\muham\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start --only functions
-[debug] [2022-10-25T06:36:03.468Z] CLI Version:   11.15.0
-[debug] [2022-10-25T06:36:03.468Z] Platform:      win32
-[debug] [2022-10-25T06:36:03.468Z] Node Version:  v16.15.1
-[debug] [2022-10-25T06:36:03.469Z] Time:          Tue Oct 25 2022 11:36:03 GMT+0500 (Pakistan Standard Time)
-[debug] [2022-10-25T06:36:03.470Z] ----------------------------------------------------------------------
-[debug] 
-[debug] [2022-10-25T06:36:03.582Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2022-10-25T06:36:03.582Z] > authorizing via signed-in user (muhammad1azhar2@gmail.com)
-[info] i  emulators: Starting emulators: functions {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: functions"}}
-[debug] [2022-10-25T06:36:03.599Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[warn] !  ui: Emulator UI unable to start on port 4000, starting on 4002 instead. {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI unable to start on port 4000, starting on 4002 instead."}}
-[debug] [2022-10-25T06:36:03.602Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4002},{"address":"::1","family":"IPv6","port":4002}]},"metadata":{"message":"assigned listening specs for emulators"}}
-[warn] !  emulators: It seems that you are running multiple instances of the emulator suite for project mimi-plan-test. This may result in unexpected behavior. 
-[debug] [2022-10-25T06:36:03.613Z] [hub] writing locator at C:\Users\muham\AppData\Local\Temp\hub-mimi-plan-test.json
-[debug] [2022-10-25T06:36:03.692Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2022-10-25T06:36:03.692Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2022-10-25T06:36:03.692Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4002},{"address":"::1","family":"IPv6","port":4002}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
-[warn] !  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: auth, firestore, database, hosting, pubsub, storage {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mauth, firestore, database, hosting, pubsub, storage\u001b[22m"}}
-[info] +  functions: Using node@16 from host. {"metadata":{"emulator":{"name":"functions"},"message":"Using node@16 from host."}}
-[debug] [2022-10-25T06:36:03.720Z] defaultcredentials: writing to file C:\Users\muham\AppData\Roaming\firebase\muhammad1azhar2_gmail_com_application_default_credentials.json
-[debug] [2022-10-25T06:36:03.726Z] Setting GAC to C:\Users\muham\AppData\Roaming\firebase\muhammad1azhar2_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\muham\\AppData\\Roaming\\firebase\\muhammad1azhar2_gmail_com_application_default_credentials.json"}}
-[debug] [2022-10-25T06:36:03.729Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/mimi-plan-test/adminSdkConfig [none]
-[debug] [2022-10-25T06:36:04.609Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/mimi-plan-test/adminSdkConfig 200
-[debug] [2022-10-25T06:36:04.609Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/mimi-plan-test/adminSdkConfig {"projectId":"mimi-plan-test","storageBucket":"mimi-plan-test.appspot.com","locationId":"us-central"}
-[debug] [2022-10-25T06:36:04.652Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2022-10-25T06:36:04.652Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
-[debug] [2022-10-25T06:36:04.652Z] Starting Emulator UI with command {"binary":"node","args":["C:\\Users\\muham\\.cache\\firebase\\emulators\\ui-v1.11.1\\server\\server.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"C:\\\\Users\\\\muham\\\\.cache\\\\firebase\\\\emulators\\\\ui-v1.11.1\\\\server\\\\server.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
-[info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
-[debug] [2022-10-25T06:36:04.844Z] Web / API server started at 127.0.0.1:4002
- {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at 127.0.0.1:4002\n"}}
-[debug] [2022-10-25T06:36:04.844Z] Web / API server started at ::1:4002
- {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at ::1:4002\n"}}
-[info] i  functions: Watching "E:\frontend\reactJS\mimi-web\functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"E:\\frontend\\reactJS\\mimi-web\\functions\" for Cloud Functions..."}}
-[debug] [2022-10-25T06:36:04.964Z] Validating nodejs source
+[error] !!  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module"}}
+[debug] [2022-10-25T06:58:48.868Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-10-25T06:58:49.880Z] Validating nodejs source
 [warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
 [warn] !  functions: Please note that there will be breaking changes when you upgrade. 
-[debug] [2022-10-25T06:36:09.598Z] > [functions] package.json contents: {
+[debug] [2022-10-25T06:58:54.532Z] > [functions] package.json contents: {
   "name": "functions",
   "description": "Cloud Functions for Firebase",
   "scripts": {
@@ -451,7 +230,7 @@ Issues? Report them at https://github.com/firebase/firebase-tools/issues and att
   },
   "main": "index.js",
   "dependencies": {
-    "firebase-admin": "^10.0.2",
+    "firebase-admin": "^11.2.0",
     "firebase-functions": "^3.18.0"
   },
   "devDependencies": {
@@ -461,6 +240,266 @@ Issues? Report them at https://github.com/firebase/firebase-tools/issues and att
   },
   "private": true
 }
-[debug] [2022-10-25T06:36:09.598Z] Building nodejs source
-[debug] [2022-10-25T06:36:09.598Z] Analyzing nodejs backend spec
-[debug] [2022-10-25T06:36:09.600Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-10-25T06:58:54.532Z] Building nodejs source
+[debug] [2022-10-25T06:58:54.532Z] Analyzing nodejs backend spec
+[debug] [2022-10-25T06:58:54.533Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-10-25T06:58:54.559Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-10-25T06:58:54.900Z] Serving at port 9005
+
+[debug] [2022-10-25T06:58:55.004Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module
+[debug] [2022-10-25T06:58:55.004Z] Failed to parse functions.yamlincomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+     ... rom function source: SyntaxError: Cannot use import statement ou ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Cannot use import statement ou ... \n                                         ^"}
+[debug] [2022-10-25T06:58:55.012Z] shutdown requested via /__/quitquitquit
+
+[error] !!  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module"}}
+[debug] [2022-10-25T06:58:55.562Z] Validating nodejs source
+[warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] !  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2022-10-25T06:58:59.622Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^3.18.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-10-25T06:58:59.622Z] Building nodejs source
+[debug] [2022-10-25T06:58:59.623Z] Analyzing nodejs backend spec
+[debug] [2022-10-25T06:58:59.623Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-10-25T06:59:00.003Z] Serving at port 9005
+
+[debug] [2022-10-25T06:59:00.115Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module
+[debug] [2022-10-25T06:59:00.116Z] Failed to parse functions.yamlincomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+     ... rom function source: SyntaxError: Cannot use import statement ou ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Cannot use import statement ou ... \n                                         ^"}
+[debug] [2022-10-25T06:59:00.123Z] shutdown requested via /__/quitquitquit
+
+[error] !!  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module"}}
+[debug] [2022-10-25T06:59:07.097Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-10-25T06:59:08.100Z] Validating nodejs source
+[warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] !  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2022-10-25T06:59:12.279Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^3.18.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-10-25T06:59:12.280Z] Building nodejs source
+[debug] [2022-10-25T06:59:12.280Z] Analyzing nodejs backend spec
+[debug] [2022-10-25T06:59:12.281Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-10-25T06:59:12.845Z] Serving at port 9005
+
+[debug] [2022-10-25T06:59:12.938Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module
+[debug] [2022-10-25T06:59:12.938Z] Failed to parse functions.yamlincomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+     ... rom function source: SyntaxError: Cannot use import statement ou ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Cannot use import statement ou ... \n                                         ^"}
+[debug] [2022-10-25T06:59:12.950Z] shutdown requested via /__/quitquitquit
+
+[error] !!  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module"}}
+[debug] [2022-10-25T06:59:13.406Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-10-25T06:59:14.407Z] Validating nodejs source
+[warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] !  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2022-10-25T06:59:18.372Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^3.18.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-10-25T06:59:18.372Z] Building nodejs source
+[debug] [2022-10-25T06:59:18.372Z] Analyzing nodejs backend spec
+[debug] [2022-10-25T06:59:18.375Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-10-25T06:59:18.759Z] Serving at port 9005
+
+[debug] [2022-10-25T06:59:18.856Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module
+[debug] [2022-10-25T06:59:18.856Z] Failed to parse functions.yamlincomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+     ... rom function source: SyntaxError: Cannot use import statement ou ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Cannot use import statement ou ... \n                                         ^"}
+[debug] [2022-10-25T06:59:18.869Z] shutdown requested via /__/quitquitquit
+
+[error] !!  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module"}}
+[debug] [2022-10-25T06:59:30.416Z] File E:\frontend\reactJS\mimi-web\functions\createNewDocument.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\createNewDocument.js changed, reloading triggers"}}
+[debug] [2022-10-25T06:59:31.433Z] Validating nodejs source
+[warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] !  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2022-10-25T06:59:35.454Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^3.18.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-10-25T06:59:35.455Z] Building nodejs source
+[debug] [2022-10-25T06:59:35.455Z] Analyzing nodejs backend spec
+[debug] [2022-10-25T06:59:35.456Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-10-25T06:59:35.821Z] Serving at port 9005
+
+[debug] [2022-10-25T06:59:35.912Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Unexpected token 'export'
+[debug] [2022-10-25T06:59:35.912Z] Failed to parse functions.yamlincomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+     ... rom function source: SyntaxError: Unexpected token 'export'
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Unexpected token 'export'\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Unexpected token 'export'\n                                         ^"}
+[debug] [2022-10-25T06:59:35.920Z] shutdown requested via /__/quitquitquit
+
+[error] !!  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Unexpected token 'export' {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Unexpected token 'export'"}}
+[debug] [2022-10-25T07:02:32.834Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-10-25T07:02:33.846Z] Validating nodejs source
+[warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] !  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2022-10-25T07:02:37.887Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^3.18.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-10-25T07:02:37.888Z] Building nodejs source
+[debug] [2022-10-25T07:02:37.888Z] Analyzing nodejs backend spec
+[debug] [2022-10-25T07:02:37.891Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-10-25T07:02:38.409Z] Serving at port 9005
+
+[debug] [2022-10-25T07:02:38.537Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Unexpected token 'export'
+[debug] [2022-10-25T07:02:38.538Z] Failed to parse functions.yamlincomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+     ... rom function source: SyntaxError: Unexpected token 'export'
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Unexpected token 'export'\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Unexpected token 'export'\n                                         ^"}
+[debug] [2022-10-25T07:02:38.552Z] shutdown requested via /__/quitquitquit
+
+[error] !!  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Unexpected token 'export' {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Unexpected token 'export'"}}
+[debug] [2022-10-25T07:02:40.210Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-10-25T07:02:41.215Z] Validating nodejs source
+[warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] !  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2022-10-25T07:02:45.757Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^3.18.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-10-25T07:02:45.757Z] Building nodejs source
+[debug] [2022-10-25T07:02:45.757Z] Analyzing nodejs backend spec
+[debug] [2022-10-25T07:02:45.758Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-10-25T07:02:46.111Z] Serving at port 9005
+
+[debug] [2022-10-25T07:02:46.257Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","httpsTrigger":{},"entryPoint":"helloWorld"},"addData":{"platform":"gcfv1","httpsTrigger":{},"entryPoint":"addData"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-10-25T07:02:46.262Z] shutdown requested via /__/quitquitquit
+
+[info] +  functions: Loaded functions definitions from source: helloWorld, addData. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: helloWorld, addData."}}
+[info] +  functions[us-central1-addData]: http function initialized (http://127.0.0.1:5001/mimi-plan-test/us-central1/addData). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/mimi-plan-test/us-central1/addData)."}}
+[debug] [2022-10-25T07:02:59.388Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
