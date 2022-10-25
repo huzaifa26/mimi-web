@@ -2,7 +2,8 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 
-const envoirnment = process.env.REACT_APP_ENVIRONMENT || "DEV";
+// const envoirnment = process.env.REACT_APP_ENVIRONMENT || "DEV";
+const envoirnment = "DEV";
 // console.log({ e: process.env });
 const firebaseConfig = {
   apiKey: process.env[`REACT_APP_${envoirnment}_FIREBASE_API_KEY`],
@@ -15,6 +16,8 @@ const firebaseConfig = {
   appId: process.env[`REACT_APP_${envoirnment}_FIREBASE_APP_ID`],
   // measurementId: process.env[`REACT_APP_${envoirnment}_FIREBASE_MEASUREMENT_ID`],
 };
+
+console.log(envoirnment)
 
 const app = firebase.initializeApp(firebaseConfig);
 const db = app.firestore();

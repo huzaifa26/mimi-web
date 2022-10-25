@@ -903,6 +903,7 @@ export const FirebaseHelpers = {
             kids_access: firebase.firestore.FieldValue.arrayRemove(kid.id),
           });
       });
+
       const groups = await db
         .collection("Institution")
         .doc(user._code)
@@ -1269,7 +1270,6 @@ export const searchBy = (list, keywords, text) => {
     if (!paths.length || typeof obj !== "object" || Array.isArray(obj))
       return obj;
     const [key] = paths.splice(0, 1);
-
     return getProperty(obj[key], paths);
   };
 

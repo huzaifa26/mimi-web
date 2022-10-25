@@ -18,3 +18,26 @@
 .ltl {
     text-align: right;
 }
+
+.scrollBox{
+
+}
+/* width */
+.scrollBox::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+.scrollBox::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Handle */
+.scrollBox::-webkit-scrollbar-thumb {
+    background: #8f92a1;
+  }
+  
+  /* Handle on hover */
+.scrollBox::-webkit-scrollbar-thumb:hover {
+    background: #8f92a181;
+  }
