@@ -1,7 +1,6 @@
 import React, {
   Fragment,
   useEffect,
-  useLayoutEffect,
   useRef,
   useState,
 } from "react";
@@ -52,10 +51,13 @@ export function Login() {
   const [showChangePassword, setShowChangePassword] = useState(false);
 
   useEffect(() => {
-    if (auth.currentUser) {
-      return history.push("/dashboard");
-    }
-
+    // if(user?.permissions?.webpanelAccess){
+    //   if (auth.currentUser) {
+    //     console.log("2222222222")
+    //     return history.push("/dashboard");
+    //   }
+    // }
+    
     const lang = navigator.language;
     const defaultDir = rtlDetect.getLangDir(lang);
     setStoreState((prev) => ({
@@ -124,6 +126,19 @@ export function Login() {
       };
 
       const access = user.permissions[PERMISSIONS.webpanelAccess];
+      if (access === false){
+        localStorage.clear();
+        await auth.signOut().then(
+          () => {
+            localStorage.clear();
+            // history.push("/");
+          },
+          (error) => {
+            console.error("Sign Out Error", error);
+          }
+        );
+        return actions.alert("You are restricted from using panel","error");
+      }
 
       if (typeof access === "boolean" && !access)
         return actions.alert("You account has been disabled. Please contact admin for queries","error");
@@ -131,8 +146,10 @@ export function Login() {
       if (!user.firstPasswordChanged && user.type != ROLES.admin) {
         return setShowChangePassword(true);
       }
-
-      history.push("/dashboard");
+      if (access === true){
+        console.log("2222222222")
+        history.push("/dashboard");
+      }
     } catch (error) {
       console.log(error);
 
