@@ -23,6 +23,7 @@
     "firebase": "^8.9.1",
     "firebase-admin": "^11.2.0",
     "firebase-cli": "^1.2.0",
+    "firebase-functions": "^4.0.1",
     "i": "^0.3.7",
     "image-upload-react": "^1.4.5",
     "lodash": "^4.17.21",
@@ -52,6 +53,7 @@
   },
   "scripts": {
     "start": "set REACT_APP_ENVIRONMENT=PROD&& react-scripts start",
+    "serve": "firebase emulators:start --only functions",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
