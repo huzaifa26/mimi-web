@@ -29,7 +29,6 @@ export const AddSubSubjectBody = (props) => {
 
   // const handleSubmit = async () => {
   //   setLoading(true);
-
   //   // ------------------------
   //   const id = nanoid();
   //   const pointsSum = handleTotalPoints();
@@ -97,8 +96,10 @@ export const AddSubSubjectBody = (props) => {
       obtainedPoints: 0,
       subjectId: selectedSubject.id,
       subjectPoints: points,
+      isSync:selectedSubject.isSync
     };
-
+    console.log(subjectsCopy);
+    console.log(finalPayload);
     subSubjectAdded(subjectsCopy, finalPayload);
     handleClose();
   };

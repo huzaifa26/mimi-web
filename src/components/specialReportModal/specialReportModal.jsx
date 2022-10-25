@@ -10,12 +10,14 @@ import {
   makeStyles,
   Typography
 } from "@material-ui/core";
+import { AddBox, Sync } from "@material-ui/icons";
 import ExpandLessIcon from "@material-ui/icons/ArrowDropDown";
 import ExpandMoreIcon from "@material-ui/icons/ArrowRight";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 import React, { Fragment, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { FormattedMessage } from "react-intl";
+import { useLocation } from "react-router-dom";
 import { AddIconSim, Button, Delete, SimpleModal } from "..";
 import AddIcon from "../../assets/icons/addIcon.png"; //Action Icon
 import Reset from "../../assets/icons/reset.png";
@@ -27,9 +29,11 @@ import { AddSubjectBody } from "./addSubject";
 import { AddSubSubjectBody } from "./addSubSubject";
 import { EditSubjectBody } from "./editSubject";
 import { EditSubSubjectBody } from "./editSubSubject";
+import { SyncSubject } from "./syncSubject";
 // import Draggable from "react-draggable";
 
 export const GroupReportBody = (props) => {
+  const location = useLocation();
   const {
     group,
     guides,
@@ -53,45 +57,56 @@ export const GroupReportBody = (props) => {
   const [_subSubjectDeleted, setSubSubjectDeleted] = useState([]);
   const [_subjectEdit, setSubjectEdit] = useState([]);
   const [_subSubjectEdit, setSubSubjectEdit] = useState([]);
+  const [_subjectLock, setSubjectLock] = useState([]);
   const [expanded, setExpanded] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [restoreLoading, setRestoreLoading] = React.useState(false);
+  const [syncSubId, setSyncSubId] = useState();
+  const [syncSubject, setSyncSubject] = useState();
 
   const [modalStates, setModalStates] = useState({
     subject: false,
     subSubject: false,
     editSubject: false,
     editSubSubject: false,
+    sync: false
   });
-  const closeSubSubject = () =>
-    setModalStates((prev) => ({ ...prev, subSubject: false }));
-  const closeEditSubject = () =>
-    setModalStates((prev) => ({ ...prev, editSubject: false }));
-  const closeEditSubSubject = () =>
-    setModalStates((prev) => ({ ...prev, editSubSubject: false }));
-  const closeSubject = () =>
-    setModalStates((prev) => ({ ...prev, subject: false }));
+  const closeSubSubject = () => setModalStates((prev) => ({ ...prev, subSubject: false }));
+
+  const closeEditSubject = () => setModalStates((prev) => ({ ...prev, editSubject: false }));
+
+  const closeEditSubSubject = () => setModalStates((prev) => ({ ...prev, editSubSubject: false }));
+
+  const closeSubject = () => setModalStates((prev) => ({ ...prev, subject: false }));
+
+  const closeSync = () => setModalStates((prev) => ({ ...prev, sync: false }));
+
   const handleChange = (panel) => {
     setExpanded((prev) => (prev === panel ? false : panel));
   };
+
   const subjectAdded = (payload, subject) => {
     setSubjects(payload);
     setSubjectAdded((prev) => [...prev, subject]);
   };
+
   const subSubjectAdded = (payload, subSubject) => {
     setSubjects(payload);
     setSubSubjectAdded((prev) => [...prev, subSubject]);
   };
+
   const subjectEdited = (payload, subSubject) => {
+    console.log({ payload, subSubject })
     setSubjects(payload);
     setSubjectEdit((prev) => [...prev, subSubject]);
   };
+
   const subSubjectEdited = (payload, subSubject) => {
     setSubjects(payload);
     setSubSubjectEdit((prev) => [...prev, subSubject]);
   };
 
-  const totalPoints = subjects.reduce((acc, el) => (acc += el.totalPoints), 0);
+  const totalPoints = subjects.reduce((acc, el) => (acc += +el.totalPoints), 0);
 
   const _handleSubSubjectDelete = (selectedSubSubjects, selectedSubject) => {
     const subjectsCopy = [...subjects];
@@ -112,6 +127,8 @@ export const GroupReportBody = (props) => {
       subSubject: selectedSubSubjects,
       subjectPoints: points,
       subSubjectLength: subjectsCopy[index].subSubject.length,
+      isSync: selectedSubject.isSync,
+      selectedSubject
     };
     setSubSubjectDeleted((prev) => [...prev, subjectIds]);
   };
@@ -125,6 +142,7 @@ export const GroupReportBody = (props) => {
     setSubjects(filteredSubjects);
     setSubjectDeleted((prev) => [...prev, subject]);
   };
+
   const handleC = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
@@ -140,92 +158,127 @@ export const GroupReportBody = (props) => {
 
     // I have to update the report_template array with 'list' array
     console.log(list)
-    
+
     setSubjects(list);
   };
 
+  const _handleSyncSubject = (id, subject) => {
+    let subjectCopy = [...subjects]
+    subjectCopy.map((sub) => {
+      if (sub.id === subject.id) {
+        sub.isSync = !subject.isSync
+      }
+    })
+    setSubjectLock((prev) => [...prev, subject]);
+  }
+
+  // Manage Special Reporting Modal
   const renderSubjects = (subject, idx) => {
     const expandIconProps =
       subject.subSubject.length > 0
         ? {
-            onClick: () => handleChange(`panel${idx}`),
-          }
+          onClick: () => handleChange(`panel${idx}`),
+        }
         : {
-            style: {
-              visibility: "hidden",
-            },
-          };
+          style: {
+            visibility: "hidden",
+          },
+        };
 
     return (
-      
-          <div>
-            <Draggable key={idx} draggableId={"subject-" + idx} index={idx}>
-              {(provider) => (
-                <Accordion
-                  ref={provider.innerRef}
-                  {...provider.draggableProps}
-                  expanded={expanded === `panel${idx}`}
-                  onChange={handleC(`panel${idx}`)}
-                >
-                  <AccordionSummary
-                    expandIcon={null}
-                    aria-controls="panel1bh-content"
-                    id="panel1bh-header"
-                    className={classes.accordionSummary}
+      <div>
+        <Draggable key={idx} draggableId={"subject-" + idx} index={idx}>
+          {(provider) => (
+            <Accordion
+              ref={provider.innerRef}
+              {...provider.draggableProps}
+              expanded={expanded === `panel${idx}`}
+              onChange={handleC(`panel${idx}`)}
+            >
+              <AccordionSummary
+                expandIcon={null}
+                aria-controls="panel1bh-content"
+                id="panel1bh-header"
+                className={classes.accordionSummary}
+              >
+                <Grid container justify="center" alignItems="center">
+                  <Grid
+                    item
+                    lg={4}
+                    md={5}
+                    sm={4}
+                    xs={5}
                   >
-                    <Grid container justify="center" alignItems="center">
+                    <Box display={"flex"}>
 
-                      <Grid
-                        item
-                        lg={4}
-                        md={5}
-                        sm={4}
-                        xs={5}
-                        
+                      {/* Dragable icon */}
+                      <Typography {...provider.dragHandleProps}>
+                        <DragIndicatorIcon />
+                      </Typography>
+
+                      <Box {...expandIconProps} marginRight={1}>
+                        {expanded === `panel${idx}` ? (
+                          <ExpandLessIcon style={{ color: "#8F92A1" }} />
+                        ) : (
+                          <ExpandMoreIcon style={{ color: "#8F92A1" }} />
+                        )}
+                      </Box>
+
+                      <Typography className={classes.accordianText}>
+                        {subject.name}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item lg={4} md={2} sm={4} xs={3}>
+                    <Typography className={classes.accordianText}>
+                      {subject.totalPoints}
+                    </Typography>
+                  </Grid>
+                  <Grid item lg={2} md={2} sm={2} xs={2}>
+                    {subject.isSync && location.pathname.includes("/kids") ? null :
+                      <div
+                        onClick={stopEventBubble(() => {
+                          setSelectedSubject(subject);
+                          setModalStates((prev) => ({
+                            ...prev,
+                            subSubject: true,
+                          }));
+                        })}
                       >
-                        <Box display={"flex"}>
-
-                          {/* Dragable icon */}
-                          <Typography {...provider.dragHandleProps}>
-                            <DragIndicatorIcon />
-                          </Typography>
-
-                          <Box {...expandIconProps} marginRight={1}>
-                            {expanded === `panel${idx}` ? (
-                              <ExpandLessIcon style={{ color: "#8F92A1" }} />
-                            ) : (
-                              <ExpandMoreIcon style={{ color: "#8F92A1" }} />
-                            )}
-                          </Box>
-
-                          <Typography className={classes.accordianText}>
-                            {subject.name}
-                          </Typography>
-                        </Box>
-                      </Grid>
-                      <Grid item lg={4} md={2} sm={4} xs={3}>
-                        <Typography className={classes.accordianText}>
-                          {subject.totalPoints}
-                        </Typography>
-                      </Grid>
-                      <Grid item lg={2} md={2} sm={2} xs={2}>
-                        <div
-                          onClick={stopEventBubble(() => {
-                            setSelectedSubject(subject);
-                            setModalStates((prev) => ({
-                              ...prev,
-                              subSubject: true,
-                            }));
-                          })}
-                        >
-                          <img
-                            src={AddIcon}
-                            className={classes.AddImage}
-                            alt=""
-                          />
-                        </div>
-                      </Grid>
-                      <Grid item lg={2} md={2} sm={2} xs={2}>
+                        <img
+                          src={AddIcon}
+                          className={classes.AddImage}
+                          alt=""
+                        />
+                      </div>
+                    }
+                  </Grid>
+                  <Grid item lg={2} md={2} sm={2} xs={2}>
+                    {(!subject.isSync && location.pathname.includes("/kids")) || (!subject.isSync && subject.type === "basic" && location.pathname.includes("/group")) ? null :
+                      <Sync className={classes.editHover}
+                        style={(subject.isSync && !location.pathname.includes("/kids") && (subject.type === "group" && location.pathname.includes("/group"))) || (subject.isSync && subject.type === "basic" && location.pathname.includes("/data")) ? {
+                          color: "#685be7", //Blue
+                          marginRight: "10",
+                        } : subject.isSync && location.pathname.includes("/kids") || (subject.isSync && subject.type === "basic") ? {
+                          color: "#4cb763", //Green
+                          marginRight: "10",
+                        } : {
+                          color: "#8F92A1",
+                          marginRight: "10",
+                        }}
+                        onClick={stopEventBubble(() => {
+                          setSyncSubId(subject.id)
+                          setSyncSubject(subject)
+                          setModalStates((prev) => ({
+                            ...prev,
+                            sync: true,
+                          }));
+                        })}
+                      />
+                    }
+                    {(subject.isSync && location.pathname.includes("/kids")) || (subject.isSync && subject.type === "basic" && !location.pathname.includes("/data")) ?
+                      null :
+                      <>
                         <Edit
                           className={classes.editHover}
                           style={{
@@ -249,37 +302,41 @@ export const GroupReportBody = (props) => {
                             _handleSubjectDelete(subject.id, subject);
                           })}
                         />
-                      </Grid>
-                    </Grid>
-                  </AccordionSummary>
+                      </>
+                    }
+                  </Grid>
+                </Grid>
+              </AccordionSummary>
 
-                  {subject.subSubject.map((subSubject, idx) => (
-                    <AccordionDetails>
-                      <Grid container justify="center" alignItems="center">
-                        <Grid item lg={4} md={5} sm={4} xs={5}>
-                          <div style={{ display: "flex" }}>
-                            <img
-                              src={TickIcon}
-                              style={{
-                                width: 13,
-                                height: 12,
-                                marginTop: 6,
-                                marginRight: 10,
-                              }}
-                              alt=""
-                            />
-                            <Typography className={classes.summaryTypo}>
-                              {subSubject.name}
-                            </Typography>
-                          </div>
-                        </Grid>
-                        <Grid item lg={4} md={2} sm={4} xs={3}>
-                          <Typography className={classes.accordianText}>
-                            {subSubject.totalPoints}
-                          </Typography>
-                        </Grid>
-                        <Grid item lg={2} md={2} sm={2} xs={2}></Grid>
-                        <Grid item lg={2} md={2} sm={2} xs={2}>
+              {subject.subSubject.map((subSubject, idx) => (
+                <AccordionDetails>
+                  <Grid container justify="center" alignItems="center">
+                    <Grid item lg={4} md={5} sm={4} xs={5}>
+                      <div style={{ display: "flex" }}>
+                        <img
+                          src={TickIcon}
+                          style={{
+                            width: 13,
+                            height: 12,
+                            marginTop: 6,
+                            marginRight: 10,
+                          }}
+                          alt=""
+                        />
+                        <Typography className={classes.summaryTypo}>
+                          {subSubject.name}
+                        </Typography>
+                      </div>
+                    </Grid>
+                    <Grid item lg={4} md={2} sm={4} xs={3}>
+                      <Typography className={classes.accordianText}>
+                        {subSubject.totalPoints}
+                      </Typography>
+                    </Grid>
+                    <Grid item lg={2} md={2} sm={2} xs={2}></Grid>
+                    <Grid item lg={2} md={2} sm={2} xs={2}>
+                      {subject.isSync && subject.isSync && location.pathname.includes("/kids") ? null :
+                        <>
                           <Edit
                             className={classes.editHover}
                             style={{
@@ -304,22 +361,37 @@ export const GroupReportBody = (props) => {
                               _handleSubSubjectDelete(subSubject, subject);
                             }}
                           />
-                        </Grid>
-                      </Grid>
-                    </AccordionDetails>
-                  ))}
-                </Accordion>
-              )}
-            </Draggable>
-            
-          </div>
-        
-      
+                        </>}
+                    </Grid>
+                  </Grid>
+                </AccordionDetails>
+              ))}
+            </Accordion>
+          )}
+        </Draggable>
+
+      </div>
+
+
     );
   };
 
   return (
     <Fragment>
+
+      <SimpleModal
+        title={<FormattedMessage id="change_sync" />}
+        open={modalStates.sync}
+        handleClose={closeSync}
+      >
+        <SyncSubject
+          subId={syncSubId}
+          subject={syncSubject}
+          handleClose={closeSync}
+          handleSyncSubject={_handleSyncSubject}
+        />
+      </SimpleModal>
+
       <SimpleModal
         title={<FormattedMessage id="add_subject" />}
         open={modalStates.subject}
@@ -332,6 +404,7 @@ export const GroupReportBody = (props) => {
           subjectAdded={subjectAdded}
         />
       </SimpleModal>
+
       <SimpleModal
         title={<FormattedMessage id="add_sub_subjects" />}
         open={modalStates.subSubject}
@@ -499,18 +572,20 @@ export const GroupReportBody = (props) => {
       </Grid>
 
 
-      <DragDropContext onDragEnd={handleDragEnd}>
-      <Droppable droppableId="subject-1">
-        {(provider) => (
-        <div {...provider.droppableProps} ref={provider.innerRef}>
-          <div className={classes.subjectsContainer}>
-          {subjects.map((el, idx) => renderSubjects(el, idx, handleDragEnd))}
-        </div>
-          {provider.placeholder}
-        </div>
-        )}
-        </Droppable>
-      </DragDropContext>
+      <Box className={classes.box + " " + "scrollBox"}>
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <Droppable droppableId="subject-1">
+            {(provider) => (
+              <div {...provider.droppableProps} ref={provider.innerRef}>
+                <div className={classes.subjectsContainer}>
+                  {subjects.map((el, idx) => renderSubjects(el, idx, handleDragEnd))}
+                </div>
+                {provider.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </Box>
 
 
       <div className={classes.footer}>
@@ -528,7 +603,8 @@ export const GroupReportBody = (props) => {
               _subjectAdded,
               _subSubjectAdded,
               _subjectEdit,
-              _subSubjectEdit
+              _subSubjectEdit,
+              _subjectLock
             );
           }}
         >
@@ -543,6 +619,11 @@ const useStyles = makeStyles((theme) => {
     ...getModalStyles(theme),
     container: {
       display: "flex",
+    },
+    // To make report modal scroll
+    box: {
+      overflow: "auto",
+
     },
     cancelButton: {
       "&:hover": {
