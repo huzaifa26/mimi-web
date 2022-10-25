@@ -333,6 +333,7 @@
   "failed: ": "Failed: ",
   "PRODUCT_LIMIT":"PRODUCT LIMIT",
   "yes":"Yes",
-  "no":"No"
-
+  "no":"No",
+  "delete_kid_password":"Please enter password to proceed.",
+  "delete":"Delete"
 }

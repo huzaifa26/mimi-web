@@ -106,7 +106,7 @@ export const GroupReportBody = (props) => {
     setSubSubjectEdit((prev) => [...prev, subSubject]);
   };
 
-  const totalPoints = subjects.reduce((acc, el) => (acc += el.totalPoints), 0);
+  const totalPoints = subjects.reduce((acc, el) => (acc += +el.totalPoints), 0);
 
   const _handleSubSubjectDelete = (selectedSubSubjects, selectedSubject) => {
     const subjectsCopy = [...subjects];

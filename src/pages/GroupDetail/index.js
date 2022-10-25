@@ -823,7 +823,7 @@ export const GroupDetail = () => {
           .doc(sub.subjectId)
           .set(_payload)
 
-        if (!sub.subSubjectLength) {
+        if (_payload.subSubject.length === 0) {
           await db
             .collection("Institution")
             .doc(user._code)
@@ -833,6 +833,17 @@ export const GroupDetail = () => {
             .doc(sub.subjectId)
             .update({
               hasSubSubject: false,
+            });
+        } else if (_payload.subSubject.length > 0) {
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("groups")
+            .doc(group.id)
+            .collection("report_templates")
+            .doc(sub.subjectId)
+            .update({
+              hasSubSubject: true,
             });
         }
 
@@ -879,7 +890,7 @@ export const GroupDetail = () => {
                 .doc(sub.subjectId)
                 .set(_payload);
 
-              if (!sub.subSubjectLength) {
+              if (_payload.subSubject.length === 0) {
                 await db
                   .collection("Institution")
                   .doc(user._code)
@@ -890,6 +901,17 @@ export const GroupDetail = () => {
                   .update({
                     hasSubSubject: false,
                   });
+              } else if (_payload.subSubject.length > 0) {
+                await db
+                .collection("Institution")
+                .doc(user._code)
+                .collection("kid")
+                .doc(kid_id)
+                .collection("subjects")
+                .doc(sub.subjectId)
+                .update({
+                  hasSubSubject: true,
+                });
               }
             }
           })

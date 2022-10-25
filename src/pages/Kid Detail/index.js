@@ -51,6 +51,7 @@ import { AssignDaysBody } from "./modals/assignDays";
 import { VoucherBody } from "./modals/voucher";
 import { Award } from "../../components/award";
 import { GroupReportBody as KidReportBody } from "../../components/specialReportModal/specialReportModal";
+import { DeleteKid } from "./modals/deleteKid";
 
 export const KidsDetail = (props) => {
   const params = useParams();
@@ -73,6 +74,7 @@ export const KidsDetail = (props) => {
     groupTransfer: false,
     assignDays: false,
     kidReport: false,
+    deleteKid:false
   });
 
   const closeGrantScoreModal = () => {
@@ -80,6 +82,9 @@ export const KidsDetail = (props) => {
   };
   const closeKidReport = () => {
     setModalStates((prev) => ({ ...prev, kidReport: false }));
+  };
+  const closeDeleteKidModal = () => {
+    setModalStates((prev) => ({ ...prev, deleteKid: false }));
   };
   const closeChangeScoreModal = () => {
     setModalStates((prev) => ({ ...prev, changeScore: false }));
@@ -179,18 +184,23 @@ export const KidsDetail = (props) => {
   const handleGrantScore = () => {
     setModalStates((prev) => ({ ...prev, grantScore: true }));
   };
+
   const handleHistory = () => {
     history.push(`/kids/${kid.id}/history`);
   };
+
   const handleGroupTransfer = () => {
     setModalStates((prev) => ({ ...prev, groupTransfer: true }));
   };
+
   const handleVochers = () => {
     setModalStates((prev) => ({ ...prev, voucher: true }));
   };
+
   const handleChangeScore = () => {
     setModalStates((prev) => ({ ...prev, changeScore: true }));
   };
+
   const handleProfilePic = async () => {
     if (!user.permissions[PERMISSIONS.picAccess])
       return actions.alert("You don't have access to perform this action");
@@ -205,28 +215,34 @@ export const KidsDetail = (props) => {
         } this permission`,
     });
   };
+
   const handleSwitchSpecial = () => {
     if (!kid.has_special_program)
       return actions.alert("Kid is not in Special Program");
     history.push(`/specialProgram/${kid.id}`);
   };
+
   const handleAssginDays = () => {
     setModalStates((prev) => ({ ...prev, assignDays: true }));
   };
-  const hanldeDeleteKid = () => {
+
+  // delete kid handler
+  const hanldeDeleteKid = async() => {
     if (!user.permissions[PERMISSIONS.deleteKid])
       return actions.alert("You don't have access to perform this action");
+    setModalStates((prev) => ({ ...prev, deleteKid: true }));
 
-    actions.showDialog({
-      action: FirebaseHelpers.deleteKid.execute.bind(null, {
-        kid,
-        user,
-        history,
-      }),
-      title: `Delete ${kid.name}?`,
-      body: "Are you sure you want to delete? it cannot be undone",
-    });
+    // actions.showDialog({
+    //   action: FirebaseHelpers.deleteKid.execute.bind(null, {
+    //     kid,
+    //     user,
+    //     history,
+    //   }),
+    //   title: `Delete ${kid.name}?`,
+    //   body: "Are you sure you want to delete? it cannot be undone",
+    // });
   };
+
   const handleSpecialReportSave = async (
     subjectDeleted,
     subSubjectDeleted,
@@ -513,15 +529,14 @@ export const KidsDetail = (props) => {
       subSubjectDeleted.map(async (sub) => {
         const _payload = { ...sub.selectedSubject };
 
-        // await db
-        //   .collection("Institution")
-        //   .doc(user._code)
-        //   .collection("kid")
-        //   .doc(kid.id)
-        //   .update({
-        //     has_special_program: true,
-        //   });
-        
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("kid")
+          .doc(kid.id)
+          .update({
+            has_special_program: true,
+          });
 
         await db
           .collection("Institution")
@@ -541,7 +556,7 @@ export const KidsDetail = (props) => {
           .doc(sub.subjectId)
           .set(_payload);
 
-        if (!sub.subSubjectLength) {
+        if (_payload.subSubject.length === 0) {
           await db
             .collection("Institution")
             .doc(user._code)
@@ -551,6 +566,17 @@ export const KidsDetail = (props) => {
             .doc(sub.subjectId)
             .update({
               hasSubSubject: false,
+            });
+        } else if (_payload.subSubject.length > 0) {
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("kid")
+            .doc(kid.id)
+            .collection("subjects")
+            .doc(sub.subjectId)
+            .update({
+              hasSubSubject: true,
             });
         }
       })
@@ -656,6 +682,19 @@ export const KidsDetail = (props) => {
   return (
     <Fragment>
       {/* ------------------------------------- */}
+      <SimpleModal
+        title={<FormattedMessage id="delete_kid" />}
+        open={modalStates.deleteKid}
+        handleClose={closeDeleteKidModal}
+      >
+        <DeleteKid
+          kid={kid}
+          userData={user}
+          history={history}
+          handleClose={closeDeleteKidModal}
+        />
+      </SimpleModal>
+
       <SimpleModal
         disableBackdropClick
         title={<FormattedMessage id="kid_report" />}

@@ -76,17 +76,21 @@ export function Login() {
         .collection("Institution")
         .where("code", "==", institutionCode.toUpperCase())
         .get();
+
       if (institutionDocs.empty)
         return actions.alert("No Institution code found", "error");
+
       const institution = institutionDocs.docs[0].data();
 
       const subEndDate = new Date(
         new Date(institution.subscription_end_date).setHours(0, 0, 0, 0)
       ).getTime();
+
       const todayDate = new Date(new Date().setHours(0, 0, 0, 0)).getTime();
 
       if (todayDate > subEndDate)
         return actions.alert("Subscription Expired", "error");
+
       if (!institution.enabled)
         return actions.alert("Institution Disabled", "error");
 
@@ -106,12 +110,14 @@ export function Login() {
         password
       );
 
+
       const userDocRef = await db
         .collection("Institution")
         .doc(institutionCode.toUpperCase())
         .collection("staff")
         .doc(userCredential.user.uid)
         .get();
+
       const user = {
         ...userDocRef.data(),
         _code: institutionCode.toUpperCase(),
@@ -120,10 +126,7 @@ export function Login() {
       const access = user.permissions[PERMISSIONS.webpanelAccess];
 
       if (typeof access === "boolean" && !access)
-        return actions.alert(
-          "You account has been disabled. Please contact admin for queries",
-          "error"
-        );
+        return actions.alert("You account has been disabled. Please contact admin for queries","error");
 
       if (!user.firstPasswordChanged && user.type != ROLES.admin) {
         return setShowChangePassword(true);
@@ -138,6 +141,7 @@ export function Login() {
       setLoading(false);
     }
   };
+
   const handleCreate = async () => {
     setLoading(true);
     try {
@@ -158,6 +162,7 @@ export function Login() {
       setLoading(false);
     }
   };
+
   const handleUpdatePassword = async (newPassword) => {
     const encryptPass = md5(newPassword);
     await auth.currentUser.updatenewPassword(newPassword);

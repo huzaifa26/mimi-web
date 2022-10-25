@@ -315,5 +315,7 @@
   "failed: ": "נכשלו: ",
   "PRODUCT_LIMIT":"PRODUCT_LIMIT",
   "yes":"כן",
-  "no":"לא"
+  "no":"לא",
+  "delete_kid_password":"נא להזין סיסמה כדי להמשיך",
+  "delete":"לִמְחוֹק"  
 }

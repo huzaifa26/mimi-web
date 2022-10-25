@@ -305,7 +305,7 @@ export const Data = React.memo(() => {
             subSubject: firebase.firestore.FieldValue.arrayUnion(payload),
             hasSubSubject: true,
             totalPoints: sub.subjectPoints,
-          }).then(() => console.log("done adding kid subject"))
+          })
 
         const groups = (
           await db
@@ -848,6 +848,8 @@ export const Data = React.memo(() => {
     let _save4 = await Promise.all(
       subSubjectDeleted.map(async (sub) => {
         const _payload = { ...sub.selectedSubject };
+        console.log(_payload);
+
 
         await db
           .collection("Institution")
@@ -880,6 +882,28 @@ export const Data = React.memo(() => {
               .collection("subjects")
               .doc(sub.subjectId)
               .set(_payload)
+
+            if (_payload.subSubject.length === 0) {
+              await db.collection("Institution")
+                .doc(user._code)
+                .collection("kid")
+                .doc(kid_id)
+                .collection("subjects")
+                .doc(sub.subjectId)
+                .update({
+                  hasSubSubject: false,
+                });
+            } else if (_payload.subSubject.length > 0) {
+              await db.collection("Institution")
+                .doc(user._code)
+                .collection("kid")
+                .doc(kid_id)
+                .collection("subjects")
+                .doc(sub.subjectId)
+                .update({
+                  hasSubSubject: true,
+                });
+            }
           });
 
           groupsId.map(async (group_id) => {
@@ -897,7 +921,29 @@ export const Data = React.memo(() => {
               .doc(group_id)
               .collection("report_templates")
               .doc(sub.subjectId)
-                .set(_payload)
+              .set(_payload)
+
+            if (_payload.subSubject.length === 0) {
+              await db.collection("Institution")
+                .doc(user._code)
+                .collection("groups")
+                .doc(group_id)
+                .collection("report_templates")
+                .doc(sub.subjectId)
+                .update({
+                  hasSubSubject: false,
+                });
+            } else if (_payload.subSubject.length > 0) {
+              await db.collection("Institution")
+                .doc(user._code)
+                .collection("groups")
+                .doc(group_id)
+                .collection("report_templates")
+                .doc(sub.subjectId)
+                .update({
+                  hasSubSubject: true,
+                });
+            }
           })
         }
 
@@ -928,7 +974,7 @@ export const Data = React.memo(() => {
             .doc(sub.subjectId)
             .set(_payload);
 
-          if (!sub.subSubjectLength) {
+          if (_payload.subSubject.length === 0) {
             await db
               .collection("Institution")
               .doc(user._code)
@@ -939,10 +985,21 @@ export const Data = React.memo(() => {
               .update({
                 hasSubSubject: false,
               });
+          } else if (_payload.subSubject.length > 0) {
+            await db
+              .collection("Institution")
+              .doc(user._code)
+              .collection("groups")
+              .doc(group.id)
+              .collection("report_templates")
+              .doc(sub.subjectId)
+              .update({
+                hasSubSubject: true,
+              });
           }
         });
 
-        if (!sub.subSubjectLength) {
+        if (_payload.subSubject.length === 0) {
           await db
             .collection("Institution")
             .doc(user._code)
@@ -950,6 +1007,15 @@ export const Data = React.memo(() => {
             .doc(sub.subjectId)
             .update({
               hasSubSubject: false,
+            });
+        } else if (_payload.subSubject.length > 0) {
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("basicReport")
+            .doc(sub.subjectId)
+            .update({
+              hasSubSubject: true,
             });
         }
       })

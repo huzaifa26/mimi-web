@@ -897,6 +897,7 @@ export const FirebaseHelpers = {
             kids_access: firebase.firestore.FieldValue.arrayRemove(kid.id),
           });
       });
+
       const groups = await db
         .collection("Institution")
         .doc(user._code)
