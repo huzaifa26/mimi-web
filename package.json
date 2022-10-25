@@ -19,6 +19,7 @@
     "apexcharts": "^3.27.1",
     "clsx": "^1.1.1",
     "date-fns": "^2.22.1",
+    "dotenv": "^16.0.3",
     "firebase": "^8.9.1",
     "firebase-admin": "^11.2.0",
     "firebase-cli": "^1.2.0",
