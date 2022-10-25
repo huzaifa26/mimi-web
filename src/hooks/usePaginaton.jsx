@@ -59,7 +59,7 @@ export const usePagination = (query, modifier, comparator) => {
 
                                 console.log(updatedData);
 
-                                if (additions.length) {
+                                if (additions?.length) {
                                     const newEntries = differenceWith(additions, updatedData, (a, b) => a.id === b.id);
                                     console.log(newEntries);
                                     

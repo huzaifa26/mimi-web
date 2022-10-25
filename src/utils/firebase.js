@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/firebase-functions"
 
 const envoirnment = process.env.REACT_APP_ENVIRONMENT || "DEV";
 // console.log({ e: process.env });
@@ -23,3 +24,4 @@ const auth = app.auth();
 const _app = firebase.initializeApp(firebaseConfig, "secondary");
 const _auth = _app.auth();
 export { db, app, _auth, auth };
+var functions = firebase.functions();
