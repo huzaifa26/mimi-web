@@ -141,7 +141,7 @@ export const RegisterKid = (props) => {
       });
       setGroups(data);
     })();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     setDefaultAssignedDays(

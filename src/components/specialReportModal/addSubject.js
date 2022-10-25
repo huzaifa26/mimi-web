@@ -28,6 +28,7 @@ export const AddSubjectBody = (props) => {
     const subject_id = nanoid(6);
     const payload = {
       id: subject_id,
+      // sortedId: 0,
       name: subjectName,
       totalPoints: parseInt(score),
       subSubject: [],

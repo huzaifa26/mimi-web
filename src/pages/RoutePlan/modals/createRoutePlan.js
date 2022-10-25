@@ -57,6 +57,7 @@ export const CreateRoutePlanBody = props => {
     }, []);
 
     const handleSubmit = async () => {
+        const date = new Date();
         try {
             setLoading(true);
 
@@ -65,6 +66,8 @@ export const CreateRoutePlanBody = props => {
                 status: status.id,
                 startingDate: startDate,
                 endingDate: endDate,
+                date_created: date,
+
             };
 
             Schema.validateSync(payload);
