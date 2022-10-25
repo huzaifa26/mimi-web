@@ -126,6 +126,7 @@ export const ProfileBody = (props) => {
         staff,
         user,
       });
+    
 
       handleClose();
     };
