@@ -15,10 +15,9 @@ import ExpandLessIcon from "@material-ui/icons/ArrowDropDown";
 import ExpandMoreIcon from "@material-ui/icons/ArrowRight";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 import React, { Fragment, useState } from "react";
-import { useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { FormattedMessage } from "react-intl";
-import { useLocation,useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { AddIconSim, Button, Delete, SimpleModal } from "..";
 import AddIcon from "../../assets/icons/addIcon.png"; //Action Icon
 import Reset from "../../assets/icons/reset.png";
@@ -32,7 +31,6 @@ import { EditSubjectBody } from "./editSubject";
 import { EditSubSubjectBody } from "./editSubSubject";
 import { SyncSubject } from "./syncSubject";
 // import Draggable from "react-draggable";
-import { db } from "../../utils/firebase";
 
 export const GroupReportBody = (props) => {
   const location = useLocation();
@@ -63,10 +61,8 @@ export const GroupReportBody = (props) => {
   const [expanded, setExpanded] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [restoreLoading, setRestoreLoading] = React.useState(false);
-  const [oldSubjects, setOldSubjects] = useState([]);
   const [syncSubId, setSyncSubId] = useState();
   const [syncSubject, setSyncSubject] = useState();
-
 
   const [modalStates, setModalStates] = useState({
     subject: false,
@@ -112,9 +108,8 @@ export const GroupReportBody = (props) => {
 
   const totalPoints = subjects.reduce((acc, el) => (acc += +el.totalPoints), 0);
 
-
   const _handleSubSubjectDelete = (selectedSubSubjects, selectedSubject) => {
-    const subjectsCopy = [..._subjectAdded];
+    const subjectsCopy = [...subjects];
     const index = subjectsCopy.findIndex((e) => e.id == selectedSubject.id);
     const updatedSubSubjects = subjectsCopy
       .at(index)
@@ -152,84 +147,19 @@ export const GroupReportBody = (props) => {
     setExpanded(newExpanded ? panel : false);
   };
 
-
-  const params = useParams();
-  useEffect(() => {
-    (async () => {
-      const report_templates = (
-        await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("groups")
-          .doc(params.id)
-          .collection("report_templates")
-          .get()
-      ).docs.map((el) => el.data());
-      setOldSubjects(report_templates);
-    })();
-  }, []);
-
-  const handleDragEnd = async (result) => {
+  const handleDragEnd = (result) => {
     console.log(result);
     if (!result.destination) return;
 
     const list = Array.from(subjects);
     const [reorderData] = list.splice(result.source.index, 1);
+    console.log(reorderData)
     list.splice(result.destination.index, 0, reorderData);
 
     // I have to update the report_template array with 'list' array
     console.log(list)
-    
+
     setSubjects(list);
-    
-    // console.log(list);
-
-    for (let i = 0; i <= list.length; i++) {
-      if (list[i].id !== oldSubjects[i].id) {
-        // console.log('IDs are different');
-        await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("groups")
-          .doc(group.id)
-          .collection("report_templates")
-          .doc(oldSubjects[i].id)
-          .delete();
-        console.log("Deleted");
-
-        list?.map(async (sub, index) => {
-          // console.log(index);
-          const payload = {
-            id: sub.id,
-            sortedId: index,
-            name: sub.name,
-            totalPoints: sub.totalPoints,
-            subSubject: [],
-            obtainedPoints: 0,
-            hasSubSubject: false,
-          };
-          await db
-            .collection("Institution")
-            .doc(user._code)
-            .collection("groups")
-            .doc(group.id)
-            .update({
-              isSpecialReport: true,
-            });   
-          await db
-            .collection("Institution")
-            .doc(user._code)
-            .collection("groups")
-            .doc(group.id)
-            .collection("report_templates")
-            .doc(sub.id)
-            .set(payload);
-          console.log('Added');
-        })
-      }
-    }
-
-
   };
 
   const _handleSyncSubject = (id, subject) => {
@@ -245,7 +175,7 @@ export const GroupReportBody = (props) => {
   // Manage Special Reporting Modal
   const renderSubjects = (subject, idx) => {
     const expandIconProps =
-      subject?.subSubject.length > 0
+      subject.subSubject.length > 0
         ? {
           onClick: () => handleChange(`panel${idx}`),
         }
@@ -315,41 +245,6 @@ export const GroupReportBody = (props) => {
                           }));
                         })}
                       >
-                        <Box display={"flex"}>
-
-                          {/* Dragable icon */}
-                          <Typography {...provider.dragHandleProps}>
-                            <DragIndicatorIcon />
-                          </Typography>
-
-                          <Box {...expandIconProps} marginRight={1}>
-                            {expanded === `panel${idx}` ? (
-                              <ExpandLessIcon style={{ color: "#8F92A1" }} />
-                            ) : (
-                              <ExpandMoreIcon style={{ color: "#8F92A1" }} />
-                            )}
-                          </Box>
-
-                          <Typography className={classes.accordianText}>
-                            {subject?.name}
-                          </Typography>
-                        </Box>
-                      </Grid>
-                      <Grid item lg={4} md={2} sm={4} xs={3}>
-                        <Typography className={classes.accordianText}>
-                          {subject?.totalPoints}
-                        </Typography>
-                      </Grid>
-                      <Grid item lg={2} md={2} sm={2} xs={2}>
-                        <div
-                          onClick={stopEventBubble(() => {
-                            setSelectedSubject(subject);
-                            setModalStates((prev) => ({
-                              ...prev,
-                              subSubject: true,
-                            }));
-                          })}
-                        >
                         <img
                           src={AddIcon}
                           className={classes.AddImage}
@@ -433,30 +328,6 @@ export const GroupReportBody = (props) => {
                         </Typography>
                       </div>
                     </Grid>
-
-                  </AccordionSummary>
-
-                  {subject?.subSubject.map((subSubject, idx) => (
-                    <AccordionDetails>
-                      <Grid container justify="center" alignItems="center">
-                        <Grid item lg={4} md={5} sm={4} xs={5}>
-                          <div style={{ display: "flex" }}>
-                            <img
-                              src={TickIcon}
-                              style={{
-                                width: 13,
-                                height: 12,
-                                marginTop: 6,
-                                marginRight: 10,
-                              }}
-                              alt=""
-                            />
-                            <Typography className={classes.summaryTypo}>
-                              {subSubject.name}
-                            </Typography>
-                          </div>
-                        </Grid>
-
                     <Grid item lg={4} md={2} sm={4} xs={3}>
                       <Typography className={classes.accordianText}>
                         {subSubject.totalPoints}
@@ -464,7 +335,8 @@ export const GroupReportBody = (props) => {
                     </Grid>
                     <Grid item lg={2} md={2} sm={2} xs={2}></Grid>
                     <Grid item lg={2} md={2} sm={2} xs={2}>
-                      {subject.isSync && subject.isSync && location.pathname.includes("/kids") ? null : <>
+                      {subject.isSync && subject.isSync && location.pathname.includes("/kids") ? null :
+                        <>
                           <Edit
                             className={classes.editHover}
                             style={{
@@ -489,18 +361,17 @@ export const GroupReportBody = (props) => {
                               _handleSubSubjectDelete(subSubject, subject);
                             }}
                           />
-                        </Grid>
-                      </Grid>
-                    </AccordionDetails>
-                  ))}
-                </Accordion>
-                )
-              }}
-            </Draggable>
-            
-          </div>
-        
-      
+                        </>}
+                    </Grid>
+                  </Grid>
+                </AccordionDetails>
+              ))}
+            </Accordion>
+          )}
+        </Draggable>
+
+      </div>
+
 
     );
   };
@@ -542,7 +413,7 @@ export const GroupReportBody = (props) => {
         <AddSubSubjectBody
           group={group}
           selectedSubject={selectedSubject}
-          subjects={_subjectAdded}
+          subjects={subjects}
           handleClose={closeSubSubject}
           subSubjectAdded={subSubjectAdded}
         />
@@ -555,7 +426,7 @@ export const GroupReportBody = (props) => {
         <EditSubjectBody
           group={group}
           selectedSubject={selectedSubject}
-          subjects={_subjectAdded}
+          subjects={subjects}
           handleClose={closeEditSubject}
           subjectEdited={subjectEdited}
         />
@@ -570,7 +441,7 @@ export const GroupReportBody = (props) => {
           group={group}
           selectedSubject={selectedSubject}
           selectedSubSubject={selectedSubSubject}
-          subjects={_subjectAdded}
+          subjects={subjects}
           handleClose={closeEditSubSubject}
           subSubjectEdited={subSubjectEdited}
         />
@@ -668,7 +539,7 @@ export const GroupReportBody = (props) => {
               startIcon={!restoreLoading && <img src={Reset} alt="" />}
               onClick={() => {
                 setRestoreLoading(true);
-                restoreDefault(_subjectAdded);
+                restoreDefault(subjects);
               }}
               disabled={group?.isSpecialReport == false}
             >
@@ -681,7 +552,7 @@ export const GroupReportBody = (props) => {
               startIcon={!restoreLoading && <img src={Reset} alt="" />}
               onClick={() => {
                 setRestoreLoading(true);
-                restoreDefault(_subjectAdded);
+                restoreDefault(subjects);
               }}
               disabled={kid?.has_special_program == false}
             >
@@ -701,19 +572,20 @@ export const GroupReportBody = (props) => {
       </Grid>
 
 
-      <DragDropContext onDragEnd={handleDragEnd}>
-      <Droppable droppableId="subject-1">
-        {(provider) => (
-        <div {...provider.droppableProps} ref={provider.innerRef}>
-          <div className={classes.subjectsContainer}>
-          {subjects.map((el, idx) => renderSubjects(el, idx, handleDragEnd))}
-          </div>
-          {provider.placeholder}
-        </div>
-        )}
-        </Droppable>
-      </DragDropContext>
-
+      <Box className={classes.box + " " + "scrollBox"}>
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <Droppable droppableId="subject-1">
+            {(provider) => (
+              <div {...provider.droppableProps} ref={provider.innerRef}>
+                <div className={classes.subjectsContainer}>
+                  {subjects.map((el, idx) => renderSubjects(el, idx, handleDragEnd))}
+                </div>
+                {provider.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </Box>
 
 
       <div className={classes.footer}>

@@ -86,7 +86,7 @@ export const RegisterTeam = (props) => {
   const [selectedGroups, setSelectedGroups] = useState([]);
   const [role, setRole] = useState();
   const [fileUpload, setFileUpload] = useState(false);
-  // console.log({ f: fileUpload });
+  console.log({ f: fileUpload });
 
   const handleFileModalClose = () => {
     setFileUpload(false);
@@ -134,7 +134,6 @@ export const RegisterTeam = (props) => {
   }, [groups, role]);
 
   const handleSubmit = async () => {
-    
     if (loading) return;
 
     setLoading(true);
@@ -158,8 +157,6 @@ export const RegisterTeam = (props) => {
         role,
       };
 
-      console.log(payload);
-
       Schema.validateSync(payload);
 
       await FirebaseHelpers.createStaff.execute({
@@ -181,8 +178,6 @@ export const RegisterTeam = (props) => {
       setLoading(false);
     }
   };
-
-
   const handleModalOpen = () => {
     setFileUpload(true);
   };
@@ -237,7 +232,7 @@ export const RegisterTeam = (props) => {
                 autoComplete="new-password"
                 startAdornment={
                   <InputAdornment position="start">
-                    <img src={Person} alt=''/>
+                    <img src={Person} />
                   </InputAdornment>
                 }
                 fullWidth
@@ -249,7 +244,7 @@ export const RegisterTeam = (props) => {
                 autoComplete="new-password"
                 startAdornment={
                   <InputAdornment position="start">
-                    <img src={Mail} alt=''/>
+                    <img src={Mail} />
                   </InputAdornment>
                 }
                 fullWidth
