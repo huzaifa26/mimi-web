@@ -147,6 +147,17 @@ export const GroupReportBody = (props) => {
     setExpanded(newExpanded ? panel : false);
   };
 
+
+  const _handleSyncSubject = (id, subject) => {
+    let subjectCopy = [...subjects]
+    subjectCopy.map((sub) => {
+      if (sub.id === subject.id) {
+        sub.isSync = !subject.isSync
+      }
+    })
+    setSubjectLock((prev) => [...prev, subject]);
+  }
+
   const handleDragEnd = (result) => {
     console.log(result);
     if (!result.destination) return;
@@ -161,16 +172,6 @@ export const GroupReportBody = (props) => {
 
     setSubjects(list);
   };
-
-  const _handleSyncSubject = (id, subject) => {
-    let subjectCopy = [...subjects]
-    subjectCopy.map((sub) => {
-      if (sub.id === subject.id) {
-        sub.isSync = !subject.isSync
-      }
-    })
-    setSubjectLock((prev) => [...prev, subject]);
-  }
 
   // Manage Special Reporting Modal
   const renderSubjects = (subject, idx) => {
