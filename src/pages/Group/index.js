@@ -126,12 +126,10 @@ export const Group = React.memo(() => {
             </Button>
         </div>
            }
-           
         </div>
     );
 
     const renderItem = group => {
-        // console.table(group)
         return (
             <Fragment>
                 <TableCell>
@@ -168,7 +166,7 @@ export const Group = React.memo(() => {
         headers,
         loadMore,
         handleRowClick: group => {
-            history.push(`/groups/${group.id}`);
+            history.push(`/groups/${group.id}`,{group});
         },
     };
 

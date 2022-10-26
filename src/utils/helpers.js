@@ -394,6 +394,7 @@ return _query;
           storeId: [],
           isFavorite: false,
           isSpecialReport: false,
+          date_created: new Date(),
         });
 
       const reports = (
@@ -495,6 +496,7 @@ return _query;
           hasAcceptedTerms: false,
           showMedal: false,
           defaultAvatar: false,
+          date_created: new Date(),
         });
       if (type == "admin") {
         await db
@@ -698,6 +700,7 @@ return _query;
           isFavorite: false,
           isSpecialFav: false,
           hasAcceptedTerms: false,
+          date_created: new Date(),
         });
       await db
         .collection("Institution")
@@ -935,6 +938,7 @@ return _query;
             kids_access: firebase.firestore.FieldValue.arrayRemove(kid.id),
           });
       });
+
       const groups = await db
         .collection("Institution")
         .doc(user._code)
@@ -1301,7 +1305,6 @@ export const searchBy = (list, keywords, text) => {
     if (!paths.length || typeof obj !== "object" || Array.isArray(obj))
       return obj;
     const [key] = paths.splice(0, 1);
-
     return getProperty(obj[key], paths);
   };
 

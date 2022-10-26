@@ -347,6 +347,7 @@ console.log(query)
                 src={
                   (staff.favoriteBy || []).includes(user.id) ? Star : StarOut
                 }
+                alt=''
               />
             </div>
             <Box mx={1}>

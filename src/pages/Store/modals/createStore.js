@@ -98,6 +98,7 @@ export const CreateStoreBody = (props) => {
           MaxProductsKidCanBuy: limit,
           isUnlimited: unlimited,
           numberOfProducts: 0,
+          date_created: new Date(),
         });
       update()
       setLoading(false);

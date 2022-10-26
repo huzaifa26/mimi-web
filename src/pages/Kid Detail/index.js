@@ -51,6 +51,7 @@ import { AssignDaysBody } from "./modals/assignDays";
 import { VoucherBody } from "./modals/voucher";
 import { Award } from "../../components/award";
 import { GroupReportBody as KidReportBody } from "../../components/specialReportModal/specialReportModal";
+import { DeleteKid } from "./modals/deleteKid";
 
 export const KidsDetail = (props) => {
   const params = useParams();
@@ -73,6 +74,7 @@ export const KidsDetail = (props) => {
     groupTransfer: false,
     assignDays: false,
     kidReport: false,
+    deleteKid:false
   });
 
   const closeGrantScoreModal = () => {
@@ -80,6 +82,9 @@ export const KidsDetail = (props) => {
   };
   const closeKidReport = () => {
     setModalStates((prev) => ({ ...prev, kidReport: false }));
+  };
+  const closeDeleteKidModal = () => {
+    setModalStates((prev) => ({ ...prev, deleteKid: false }));
   };
   const closeChangeScoreModal = () => {
     setModalStates((prev) => ({ ...prev, changeScore: false }));
@@ -107,7 +112,8 @@ export const KidsDetail = (props) => {
           setKid(querySnapshot.data());
         });
     })();
-  }, []);
+  }, [modalStates.kidReport]);
+
   useEffect(() => {
     if (!kid) return;
 
@@ -137,6 +143,7 @@ export const KidsDetail = (props) => {
       }
     })();
   }, [modalStates.kidReport, kid]);
+
   useEffect(() => {
     if (!kid?.id) return;
     (async () => {
@@ -173,22 +180,27 @@ export const KidsDetail = (props) => {
   const handleChangePassword = () => {
     setModalStates((prev) => ({ ...prev, changePassword: true }));
   };
-  const handleAchievement = () => {};
+  const handleAchievement = () => { };
   const handleGrantScore = () => {
     setModalStates((prev) => ({ ...prev, grantScore: true }));
   };
+
   const handleHistory = () => {
     history.push(`/kids/${kid.id}/history`);
   };
+
   const handleGroupTransfer = () => {
     setModalStates((prev) => ({ ...prev, groupTransfer: true }));
   };
+
   const handleVochers = () => {
     setModalStates((prev) => ({ ...prev, voucher: true }));
   };
+
   const handleChangeScore = () => {
     setModalStates((prev) => ({ ...prev, changeScore: true }));
   };
+
   const handleProfilePic = async () => {
     console.log("button is disabled!")
     // if (!user.permissions[PERMISSIONS.picAccess])
@@ -205,28 +217,34 @@ export const KidsDetail = (props) => {
     //   } this permission`,
     // });
   };
+
   const handleSwitchSpecial = () => {
     if (!kid.has_special_program)
       return actions.alert("Kid is not in Special Program");
     history.push(`/specialProgram/${kid.id}`);
   };
+
   const handleAssginDays = () => {
     setModalStates((prev) => ({ ...prev, assignDays: true }));
   };
-  const hanldeDeleteKid = () => {
+
+  // delete kid handler
+  const hanldeDeleteKid = async() => {
     if (!user.permissions[PERMISSIONS.deleteKid])
       return actions.alert("You don't have access to perform this action");
+    setModalStates((prev) => ({ ...prev, deleteKid: true }));
 
-    actions.showDialog({
-      action: FirebaseHelpers.deleteKid.execute.bind(null, {
-        kid,
-        user,
-        history,
-      }),
-      title: `Delete ${kid.name}?`,
-      body: "Are you sure you want to delete? it cannot be undone",
-    });
+    // actions.showDialog({
+    //   action: FirebaseHelpers.deleteKid.execute.bind(null, {
+    //     kid,
+    //     user,
+    //     history,
+    //   }),
+    //   title: `Delete ${kid.name}?`,
+    //   body: "Are you sure you want to delete? it cannot be undone",
+    // });
   };
+
   const handleSpecialReportSave = async (
     subjectDeleted,
     subSubjectDeleted,
@@ -285,6 +303,8 @@ export const KidsDetail = (props) => {
           })
         );
     }
+
+    // Add subject
     let _save1 = await Promise.all(
       subjectAdded.map(async (sub) => {
         const payload = {
@@ -294,6 +314,7 @@ export const KidsDetail = (props) => {
           subSubject: [],
           obtainedPoints: 0,
           hasSubSubject: false,
+          isSync: false,
         };
         await db
           .collection("Institution")
@@ -328,6 +349,8 @@ export const KidsDetail = (props) => {
           });
       })
     );
+
+    // add sub subject
     let _save2 = await Promise.all(
       subSubjectAdded.map(async (sub) => {
         await db
@@ -358,6 +381,117 @@ export const KidsDetail = (props) => {
           });
       })
     );
+
+    // edit subject
+    let _save5 = await Promise.all(
+      subjectEdit.map(async (sub) => {
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("kid")
+          .doc(kid.id)
+          .update({
+            isSpecialReport: true,
+          });
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("kid")
+          .doc(kid.id)
+          .collection("subjects")
+          .doc(sub.id)
+          .delete();
+        const payload = {
+          id: sub.id,
+          name: sub.name,
+          totalPoints: sub.totalPoints,
+          subSubject: sub.subSubject,
+          obtainedPoints: sub.obtainedPoints,
+          hasSubSubject: sub.hasSubSubject,
+          isSync: sub.isSync,
+        };
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("kid")
+          .doc(kid.id)
+          .collection("subjects")
+          .doc(sub.id)
+          .set(payload);
+      })
+    );
+
+    // edit sub subject
+    let _save6 = await Promise.all(
+      subSubjectEdit.map(async (sub) => {
+        const payload = {
+          id: sub.id,
+          name: sub.name,
+          totalPoints: sub.totalPoints,
+          obtainedPoints: sub.obtainedPoints,
+        };
+        // const reportTemplates = await db
+        //   .collection("Institution")
+        //   .doc(user._code)
+        //   .collection("kid")
+        //   .doc(kid.id)
+        //   .collection("subjects")
+        //   .doc(sub.subjectId)
+        //   .get();
+        // let _report_templates = reportTemplates.data();
+        // _report_templates.subSubject.map((e, idx) => {
+        //   if (e.id == sub.id) {
+        //     _report_templates.subSubject[idx] = payload;
+        //   }
+        // });
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("kid")
+          .doc(kid.id)
+          .update({
+            isSpecialReport: true,
+          });
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("kid")
+          .doc(kid.id)
+          .collection("subjects")
+          .doc(sub.subjectId)
+          .delete();
+
+        // const _payload = {
+        //   id: _report_templates.id,
+        //   name: _report_templates.name,
+        //   totalPoints: _report_templates.totalPoints,
+        //   subSubject: _report_templates.subSubject,
+        //   obtainedPoints: _report_templates.obtainedPoints,
+        //   hasSubSubject: _report_templates.hasSubSubject,
+        //   isSync: _report_templates.isSync,
+        // };
+
+        const _payload = { ...sub.selectedSubject };
+
+        let totalSum = 0;
+        _payload.subSubject.forEach((subSubject) => {
+          totalSum = totalSum + subSubject.totalPoints;
+        });
+
+        _payload.totalPoints = totalSum;
+
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("kid")
+          .doc(kid.id)
+          .collection("subjects")
+          .doc(sub.subjectId)
+          .set(_payload);
+      })
+    );
+
+    // delete subject
     let _save3 = await Promise.all(
       subjectDeleted.map(async (sub) => {
         await db
@@ -391,8 +525,12 @@ export const KidsDetail = (props) => {
           });
       })
     );
+
+    // delete sub subject
     let _save4 = await Promise.all(
       subSubjectDeleted.map(async (sub) => {
+        const _payload = { ...sub.selectedSubject };
+
         await db
           .collection("Institution")
           .doc(user._code)
@@ -401,6 +539,7 @@ export const KidsDetail = (props) => {
           .update({
             has_special_program: true,
           });
+
         await db
           .collection("Institution")
           .doc(user._code)
@@ -408,13 +547,18 @@ export const KidsDetail = (props) => {
           .doc(kid.id)
           .collection("subjects")
           .doc(sub.subjectId)
-          .update({
-            subSubject: firebase.firestore.FieldValue.arrayRemove(
-              sub.subSubject
-            ),
-            totalPoints: sub.subjectPoints,
-          });
-        if (!sub.subSubjectLength) {
+          .delete();
+
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("kid")
+          .doc(kid.id)
+          .collection("subjects")
+          .doc(sub.subjectId)
+          .set(_payload);
+
+        if (_payload.subSubject.length === 0) {
           await db
             .collection("Institution")
             .doc(user._code)
@@ -425,99 +569,18 @@ export const KidsDetail = (props) => {
             .update({
               hasSubSubject: false,
             });
+        } else if (_payload.subSubject.length > 0) {
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("kid")
+            .doc(kid.id)
+            .collection("subjects")
+            .doc(sub.subjectId)
+            .update({
+              hasSubSubject: true,
+            });
         }
-      })
-    );
-    let _save5 = await Promise.all(
-      subjectEdit.map(async (sub) => {
-        await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("kid")
-          .doc(kid.id)
-          .update({
-            isSpecialReport: true,
-          });
-        await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("kid")
-          .doc(kid.id)
-          .collection("subjects")
-          .doc(sub.id)
-          .delete();
-        const payload = {
-          id: sub.id,
-          name: sub.name,
-          totalPoints: sub.totalPoints,
-          subSubject: sub.subSubject,
-          obtainedPoints: sub.obtainedPoints,
-          hasSubSubject: sub.hasSubSubject,
-        };
-        await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("kid")
-          .doc(kid.id)
-          .collection("subjects")
-          .doc(sub.id)
-          .set(payload);
-      })
-    );
-    let _save6 = await Promise.all(
-      subSubjectEdit.map(async (sub) => {
-        const payload = {
-          id: sub.id,
-          name: sub.name,
-          totalPoints: sub.totalPoints,
-          obtainedPoints: sub.obtainedPoints,
-        };
-        const reportTemplates = await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("kid")
-          .doc(kid.id)
-          .collection("subjects")
-          .doc(sub.subjectId)
-          .get();
-        let _report_templates = reportTemplates.data();
-        _report_templates.subSubject.map((e, idx) => {
-          if (e.id == sub.id) {
-            _report_templates.subSubject[idx] = payload;
-          }
-        });
-        await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("kid")
-          .doc(kid.id)
-          .update({
-            isSpecialReport: true,
-          });
-        await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("kid")
-          .doc(kid.id)
-          .collection("subjects")
-          .doc(sub.subjectId)
-          .delete();
-        const _payload = {
-          id: _report_templates.id,
-          name: _report_templates.name,
-          totalPoints: _report_templates.totalPoints,
-          subSubject: _report_templates.subSubject,
-          obtainedPoints: _report_templates.obtainedPoints,
-          hasSubSubject: _report_templates.hasSubSubject,
-        };
-        await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("kid")
-          .doc(kid.id)
-          .collection("subjects")
-          .doc(sub.subjectId)
-          .set(_payload);
       })
     );
     closeKidReport();
@@ -615,12 +678,25 @@ export const KidsDetail = (props) => {
 
   const nextAwardXp = nextPrize?.requiredLevel
     ? Number(nextPrize?.requiredLevel * institute?.points_for_next_level) -
-      Number(kid.xp)
+    Number(kid.xp)
     : null;
 
   return (
     <Fragment>
       {/* ------------------------------------- */}
+      <SimpleModal
+        title={<FormattedMessage id="delete_kid" />}
+        open={modalStates.deleteKid}
+        handleClose={closeDeleteKidModal}
+      >
+        <DeleteKid
+          kid={kid}
+          userData={user}
+          history={history}
+          handleClose={closeDeleteKidModal}
+        />
+      </SimpleModal>
+
       <SimpleModal
         disableBackdropClick
         title={<FormattedMessage id="kid_report" />}
