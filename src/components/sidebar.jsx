@@ -187,7 +187,6 @@ export function Sidebar({ children }) {
   if (!storeState.user || !uiState.sidebar) return children;
 
   const { user, defaultAvatars, orientation } = storeState;
-  console.log(user);
 
   const checkActive = (path) => {
     const [basePath] = path.split("/").filter((el) => el);

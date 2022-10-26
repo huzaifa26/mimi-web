@@ -17,6 +17,7 @@ import { CreatePrizeBody } from './createPrize';
 import { ChangeDateBody } from './changeDate';
 import { EligibleKidsBody } from './eligibleKids';
 import { ManageAccessBody } from './manageAccess';
+import { nanoid } from 'nanoid';
 
 const useStyles = makeStyles(theme => {
     return {
@@ -71,7 +72,7 @@ export const RouteDetailsBody = props => {
 
     const [searchText, setSearchText] = useState('');
     const listenerRef = useRef([]);
-
+    const routeLog = useRef(null)
     // console.log(listenerRef);
 
     const [routePlan, setRoutePlan] = useState();
@@ -87,6 +88,28 @@ export const RouteDetailsBody = props => {
         eligibleKids: false,
     });
 
+    // Log
+    useEffect(() => {
+        return async () => {
+            if (routeLog.current !== null) {
+                const subject_id = nanoid(6);
+                const payload = {
+                    id: subject_id,
+                    activity: "route plan",
+                    subActivity: routeLog?.current?.name,
+                    uid: user.id
+                }
+                console.log(payload);
+                await db
+                    .collection('Institution')
+                    .doc(user._code)
+                    .collection('log')
+                    .doc(payload.id)
+                    .set(payload)
+            }
+        }
+    }, [])
+
     useEffect(() => {
         if (!routePlanId) return;
         listenerRef.current.push(
@@ -97,6 +120,7 @@ export const RouteDetailsBody = props => {
                 .doc(routePlanId)
                 .onSnapshot(snapshot => {
                     setRoutePlan(snapshot.data());
+                    routeLog.current = snapshot.data();
                 }),
         );
 

@@ -12,6 +12,9 @@ import { usePagination } from '../../hooks/usePaginaton';
 import Star from '../../assets/icons/starIcon.png';
 import StarOut from '../../assets/icons/starOutlinned.png';
 import clsx from 'clsx';
+import { useRef } from 'react';
+import { nanoid } from "nanoid";
+
 
 const headers = [
     {
@@ -44,6 +47,29 @@ export const Kid = React.memo(() => {
     const [searchText, setSearchText] = useState('');
 
     const [groups, setGroups] = useState([]);
+    const kidLog = useRef(null);
+
+    //Log
+    useEffect(() => {
+        return async () => {
+            if(kidLog.current !== null){
+                const subject_id = nanoid(6);
+                const payload={
+                    id:subject_id,
+                    activity:"kid profile",
+                    subActivity:kidLog?.current?.name,
+                    uid:user.id
+                }
+                console.log(payload);
+                await db
+                    .collection('Institution')
+                    .doc(user._code)
+                    .collection('log')
+                    .doc(payload.id)
+                    .set(payload)
+            }
+        }
+    }, [])
 
     useEffect(() => {
         if (!data.length) return;
@@ -159,6 +185,7 @@ export const Kid = React.memo(() => {
         headers,
         loadMore,
         handleRowClick: kid => {
+            kidLog.current = kid
             history.push(`/kids/${kid.id}`);
         },
     };

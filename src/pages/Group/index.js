@@ -16,6 +16,8 @@ import { CreateGroupBody } from './modals/createGroup';
 import Star from '../../assets/icons/starIcon.png';
 import StarOut from '../../assets/icons/starOutlinned.png';
 import { ROLES } from '../../utils/constants';
+import { useRef } from 'react';
+import { nanoid } from 'nanoid';
 
 const headers = [
     {
@@ -36,6 +38,8 @@ export const Group = React.memo(() => {
     const { state: storeState } = useStore();
     const { actions } = useUi();
     const { user, orientation, defaultAvatars } = storeState;
+    // const [groupLog,setGroupLog]=useState({});
+    const groupLog = useRef()
 
     const modifier = useMemo(
         () => async list => {
@@ -44,7 +48,7 @@ export const Group = React.memo(() => {
                 const _group = { ...group };
 
                 const groupScore = (await db.collection('Institution').doc(user._code).collection('kid').where('groupId', '==', _group.id).get()).docs
-                    .map(el => el.data()) 
+                    .map(el => el.data())
                     .reduce((acc, el) => (acc += el.score), 0);
 
                 _group._score = groupScore;
@@ -63,6 +67,29 @@ export const Group = React.memo(() => {
     const [groups, setGroups] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [createGroupModalShow, setCreateGroupModalShow] = useState(false);
+
+    // Log
+    useEffect(() => {
+        return async () => {
+            if (groupLog.current !== null) {
+                const subject_id = nanoid(6);
+                const payload = {
+                    id: subject_id,
+                    activity: "group",
+                    subActivity: groupLog.current.name,
+                    uid: user.id
+                }
+                console.log(payload);
+                await db
+                    .collection('Institution')
+                    .doc(user._code)
+                    .collection('log')
+                    .doc(payload.id)
+                    .set(payload)
+            }
+        }
+    }, [])
+
 
     // console.log(groups);
     // --------- the bug seemes like here ----------
@@ -109,23 +136,23 @@ export const Group = React.memo(() => {
                 <Links links={links} />
             </div>
             <SearchBar placeholder={`Search by names`} size={'small'} handleSearch={value => setSearchText(value)} />
-           {
-            [ROLES.admin, ROLES.mngr, ROLES.crdntr].includes(user.type) &&
-            <div className={classes.default_headerSection_actionsContainer}>
-            <Button
-                startIcon={<AddIcon />}
-                onClick={() => {
-                    if ([ROLES.admin, ROLES.mngr, ROLES.crdntr].includes(user.type)) {
-                        setCreateGroupModalShow(true);
-                    } else {
-                        actions.alert('Restricted Access', 'info');
-                    }
-                }}
-            >
-                <FormattedMessage id="create_new_group"></FormattedMessage>
-            </Button>
-        </div>
-           }
+            {
+                [ROLES.admin, ROLES.mngr, ROLES.crdntr].includes(user.type) &&
+                <div className={classes.default_headerSection_actionsContainer}>
+                    <Button
+                        startIcon={<AddIcon />}
+                        onClick={() => {
+                            if ([ROLES.admin, ROLES.mngr, ROLES.crdntr].includes(user.type)) {
+                                setCreateGroupModalShow(true);
+                            } else {
+                                actions.alert('Restricted Access', 'info');
+                            }
+                        }}
+                    >
+                        <FormattedMessage id="create_new_group"></FormattedMessage>
+                    </Button>
+                </div>
+            }
         </div>
     );
 
@@ -140,7 +167,7 @@ export const Group = React.memo(() => {
                                     height: 20,
                                 }}
                                 src={(group.favoriteBy || []).includes(user.id) ? Star : StarOut}
-                            alt=''
+                                alt=''
                             />
                         </Box>
                         <Box marginX={1}>
@@ -166,7 +193,8 @@ export const Group = React.memo(() => {
         headers,
         loadMore,
         handleRowClick: group => {
-            history.push(`/groups/${group.id}`,{group});
+            groupLog.current = group
+            history.push(`/groups/${group.id}`, { group });
         },
     };
 
