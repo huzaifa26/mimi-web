@@ -249,14 +249,14 @@ export const StoreDetailsBody = (props) => {
         <TableCell>{product.price}</TableCell>
         <TableCell>
           <Edit
-            style={{ color: "#8F92A1", cursor: "pointer" }}
+            style={{ color: "#8F92A1", cursor: "pointer", margin:8 }}
             onClick={() => {
               setSelectedProduct(product);
               setModalStates((prev) => ({ ...prev, product: true }));
             }}
           />
           <Delete
-            style={{ color: "#8F92A1", cursor: "pointer" }}
+            style={{ color: "#8F92A1", cursor: "pointer", margin:8}}
             onClick={() => deleteProduct(product)}
           />
         </TableCell>

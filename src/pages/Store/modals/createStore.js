@@ -30,7 +30,7 @@ const options = [
 ];
 
 export const CreateStoreBody = (props) => {
-  const { handleClose } = props;
+  const { handleClose, update } = props;
   const classes = useStyles();
   const { state: storeState } = useStore();
   const { actions } = useUi();
@@ -99,7 +99,7 @@ export const CreateStoreBody = (props) => {
           isUnlimited: unlimited,
           numberOfProducts: 0,
         });
-
+      update()
       setLoading(false);
       handleClose();
     } catch (error) {
