@@ -185,6 +185,8 @@ export const GroupReportBody = (props) => {
           },
         };
 
+        console.log(subject)
+
     return (
       <div>
         <Draggable key={idx} draggableId={"subject-" + idx} index={idx}>
@@ -254,7 +256,7 @@ export const GroupReportBody = (props) => {
                     }
                   </Grid>
                   <Grid item lg={2} md={2} sm={2} xs={2}>
-                    {(!subject.isSync && location.pathname.includes("/kids")) || (!subject.isSync && subject.type === "basic" && location.pathname.includes("/group")) ? null :
+                    {(!subject.isSync && location.pathname.includes("/kids")) || (subject.type === "basic" && location.pathname.includes("/group")) ? null :
                       <Sync className={classes.editHover}
                         style={(subject.isSync && !location.pathname.includes("/kids") && (subject.type === "group" && location.pathname.includes("/group"))) || (subject.isSync && subject.type === "basic" && location.pathname.includes("/data")) ? {
                           color: "#685be7", //Blue
@@ -262,6 +264,10 @@ export const GroupReportBody = (props) => {
                         } : subject.isSync && location.pathname.includes("/kids") || (subject.isSync && subject.type === "basic") ? {
                           color: "#4cb763", //Green
                           marginRight: "10",
+                        } : (!subject.isSync && subject.type === "basic" && location.pathname.includes("/group")) ?{
+                          color: "#4cb763", //Green
+                          marginRight: "10",
+                          pointerEvents:"none"
                         } : {
                           color: "#8F92A1",
                           marginRight: "10",
@@ -276,8 +282,24 @@ export const GroupReportBody = (props) => {
                         })}
                       />
                     }
-                    {(subject.isSync && location.pathname.includes("/kids")) || (subject.isSync && subject.type === "basic" && !location.pathname.includes("/data")) ?
-                      null :
+                    {(subject.isSync && subject.type === "basic" && location.pathname.includes("/group")) ?
+                      <Sync className={classes.editHover}
+                        style={{
+                          color: "#4cb763", //Green
+                          pointerEvents:"none",
+                          marginRight: "10",
+                        }}
+                        onClick={stopEventBubble(() => {
+                          setSyncSubId(subject.id)
+                          setSyncSubject(subject)
+                          setModalStates((prev) => ({
+                            ...prev,
+                            sync: true,
+                          }));
+                        })}
+                      />:null
+                    }
+                    {(subject.type === "group" && location.pathname.includes("/group")) ?
                       <>
                         <Edit
                           className={classes.editHover}
@@ -303,6 +325,63 @@ export const GroupReportBody = (props) => {
                           })}
                         />
                       </>
+                      : null
+                    }
+                    {(subject.type === "kid" && location.pathname.includes("/kid")) ?
+                      <>
+                        <Edit
+                          className={classes.editHover}
+                          style={{
+                            color: "#8F92A1",
+                            marginRight: "10",
+                          }}
+                          onClick={stopEventBubble(() => {
+                            setSelectedSubject(subject);
+                            setModalStates((prev) => ({
+                              ...prev,
+                              editSubject: true,
+                            }));
+                          })}
+                        />
+                        <Delete
+                          className={classes.delHover}
+                          style={{
+                            color: "#8F92A1",
+                          }}
+                          onClick={stopEventBubble(() => {
+                            _handleSubjectDelete(subject.id, subject);
+                          })}
+                        />
+                      </>
+                      : null
+                    }
+                    {(subject.type === "basic" && location.pathname.includes("/data")) ?
+                      <>
+                        <Edit
+                          className={classes.editHover}
+                          style={{
+                            color: "#8F92A1",
+                            marginRight: "10",
+                          }}
+                          onClick={stopEventBubble(() => {
+                            setSelectedSubject(subject);
+                            setModalStates((prev) => ({
+                              ...prev,
+                              editSubject: true,
+                            }));
+                          })}
+                        />
+                        <Delete
+                          className={classes.delHover}
+                          style={{
+                            color: "#8F92A1",
+                          }}
+                          onClick={stopEventBubble(() => {
+                            _handleSubjectDelete(subject.id, subject);
+                          })}
+                        />
+                      </>
+                      : null
                     }
                   </Grid>
                 </Grid>
@@ -369,10 +448,7 @@ export const GroupReportBody = (props) => {
             </Accordion>
           )}
         </Draggable>
-
       </div>
-
-
     );
   };
 
@@ -614,6 +690,7 @@ export const GroupReportBody = (props) => {
     </Fragment>
   );
 };
+
 const useStyles = makeStyles((theme) => {
   return {
     ...getModalStyles(theme),

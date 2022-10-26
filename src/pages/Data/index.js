@@ -36,6 +36,7 @@ import { EarnedPointsBody } from "./modals/earnedPoints";
 import { GrantVoucherBody } from "./modals/grantVoucher";
 import { FileUploadBody } from "./modals/fileUpload";
 import { GroupReportBody as BasicReportBody } from "../../components/specialReportModal/specialReportModal";
+import { ContactsOutlined } from "@material-ui/icons";
 
 const headers = [
   {
@@ -201,6 +202,7 @@ export const Data = React.memo(() => {
     // add subject (WE DONT NEED TO MAKE IT WORK WITH SYNC BECAUSE BY DEFUALT SUBJECT IS NOT SYNC)
     let _save1 = await Promise.all(
       subjectAdded.map(async (sub) => {
+        console.log("In add subject");
         const payload = {
           id: sub.id,
           name: sub.name,
@@ -208,8 +210,8 @@ export const Data = React.memo(() => {
           subSubject: [],
           obtainedPoints: 0,
           hasSubSubject: false,
-          isSync: false,
-          type: "basic"
+          isSync: sub.isSync,
+          type: sub.type || "basic"
         };
 
         await db
@@ -282,11 +284,12 @@ export const Data = React.memo(() => {
             });
             await batch.commit();
           })
-        );
-      })
+        ).then(()=>console.log("END add subject"));
+      }
+      )
     );
 
-    // add sub subject //Done
+    // add sub subject 
     let _save2 = await Promise.all(
       subSubjectAdded.map(async (sub) => {
         const payload = {
@@ -324,8 +327,8 @@ export const Data = React.memo(() => {
         //   .get();
 
         // let _report_templates = reportTemplates.data();
-
         if (sub.isSync) {
+
           kidsId.map(async (kid_id) => {
             await db.collection("Institution")
               .doc(user._code)
@@ -355,7 +358,6 @@ export const Data = React.memo(() => {
           })
         }
 
-
         await Promise.all(
           groups.map(async (group) => {
             const batch = db.batch();
@@ -381,16 +383,17 @@ export const Data = React.memo(() => {
                 totalPoints: sub.subjectPoints,
               }
             );
-
             await batch.commit();
           })
         );
+        console.log("In edit subject");
       })
     );
 
-    // edit subject DONE
+    // edit subject 
     let _save5 = await Promise.all(
       subjectEdit.map(async (sub) => {
+        console.log("In edit subject");
         await db
           .collection("Institution")
           .doc(user._code)
@@ -405,9 +408,9 @@ export const Data = React.memo(() => {
           // subject: sub.subject,
           subSubject: sub.subSubject,
           obtainedPoints: sub.obtainedPoints,
-          hasSubSubject: sub.hasSubSubject,
+          hasSubSubject: sub.subSubject.length > 0,
           isSync: sub.isSync,
-          type: sub.type
+          type: sub.type || "basic"
         };
 
         await db
@@ -520,7 +523,7 @@ export const Data = React.memo(() => {
             .set(payload);
         });
       })
-    );
+    )
 
     // edit sub subject
     let _save6 = await Promise.all(

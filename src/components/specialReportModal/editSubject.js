@@ -1,5 +1,5 @@
 import { Grid, Input, makeStyles } from "@material-ui/core";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { Button, Field } from "../";
 import { getModalStyles } from "../../utils/helpers";
@@ -17,10 +17,22 @@ export const EditSubjectBody = (props) => {
   const [score, setScore] = useState(selectedSubject.totalPoints);
   const [subjectName, setSubjectName] = useState(selectedSubject.name);
   const [loading, setLoading] = useState(false);
+  const [actualSubject,setActualSubject]=useState([]);
 
   const handleScoreChange = (e) => {
     setScore(e.target.value)
   }
+
+  useEffect(()=>{
+    const subjectsCopy=[...subjects];
+    subjectsCopy.map((sub)=>{
+      if(selectedSubject.id === sub.id){
+        console.log(sub.subSubject.length);
+        console.log(selectedSubject.hasSubSubject && +actualSubject?.subSubject?.length > 0);
+        setActualSubject(sub);
+      }
+    })
+  },[])
 
   const _handleSubmit = () => {
     let subjectsCopy = [...subjects];
@@ -58,7 +70,7 @@ export const EditSubjectBody = (props) => {
           type="number"
           value={score}
           onChange={handleScoreChange}
-          disabled={selectedSubject.hasSubSubject}
+          disabled={selectedSubject.hasSubSubject && actualSubject?.subSubject?.length > 0}
         />
       </Field>
 

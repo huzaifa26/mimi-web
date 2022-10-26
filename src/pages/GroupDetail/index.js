@@ -435,7 +435,7 @@ export const GroupDetail = () => {
           totalPoints: sub.totalPoints,
           subSubject: sub.subSubject,
           obtainedPoints: sub.obtainedPoints,
-          hasSubSubject: sub.hasSubSubject,
+          hasSubSubject: sub.subSubject.length > 0,
           isSync: _report_templates.isSync,
           type: _report_templates.type,
         };

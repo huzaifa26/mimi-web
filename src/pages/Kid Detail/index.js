@@ -312,7 +312,7 @@ export const KidsDetail = (props) => {
           subSubject: [],
           obtainedPoints: 0,
           hasSubSubject: false,
-          isSync: false,
+          isSync: sub.isSync,
         };
         await db
           .collection("Institution")
@@ -405,8 +405,9 @@ export const KidsDetail = (props) => {
           totalPoints: sub.totalPoints,
           subSubject: sub.subSubject,
           obtainedPoints: sub.obtainedPoints,
-          hasSubSubject: sub.hasSubSubject,
+          hasSubSubject: sub.subSubject.length > 0,
           isSync: sub.isSync,
+          type:sub.type || "kid"
         };
         await db
           .collection("Institution")

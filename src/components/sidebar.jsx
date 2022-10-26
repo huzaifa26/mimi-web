@@ -187,6 +187,7 @@ export function Sidebar({ children }) {
   if (!storeState.user || !uiState.sidebar) return children;
 
   const { user, defaultAvatars, orientation } = storeState;
+  console.log(user);
 
   const checkActive = (path) => {
     const [basePath] = path.split("/").filter((el) => el);
@@ -198,7 +199,8 @@ export function Sidebar({ children }) {
 
   return (
     <Box display={"flex"} className={classes.root}>
-      <Drawer
+      {user?.permissions?.webPanelAccess === true &&
+        <Drawer
         variant="permanent"
         open={open}
         className={clsx(classes.drawer, {
@@ -299,7 +301,8 @@ export function Sidebar({ children }) {
             </ListItemIcon>
           )}
         </ListItem>
-      </Drawer>
+        </Drawer>
+      } 
 
       <main className={classes.content}>{children}</main>
     </Box>
