@@ -22,6 +22,7 @@ import clsx from "clsx";
 import CsvDownloader from "react-csv-downloader";
 import ScrollArea from "react-scrollbar";
 import { Button as CButton } from "../../../components/button";
+import { TextRotationAngledown } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -142,7 +143,7 @@ const useStyles = makeStyles((theme) => {
       borderRadius: 20,
       margin: 10,
       alignItems: "flex-start",
-      padding: 20,
+      padding: 30,
       width: "80%",
       backgroundColor: "#fff",
       overflowY: "auto",
@@ -281,6 +282,7 @@ const kidHeader = [
     displayName: "assignDays",
   },
 ];
+
 const kidData = [
   {
     name: "Kid Name",
@@ -290,21 +292,36 @@ const kidData = [
     assignDays: "0",
   },
 ];
+
 export const FileUploadBody = (props) => {
-  const { handleClose } = props;
+  const { handleClose, showUploadType } = props;
   const [step, setStep] = useState(0);
   const [uploadType, setUploadType] = useState();
+  const [uploadModalText, setUploadModalText] = useState('');
   const [data, setData] = useState();
   const [total, setTotal] = useState();
   const [created, setCreated] = useState([]);
   const [exists, setExists] = useState([]);
+  const [failed, setFailed] = useState([]);
+  const [allDataForFilter, setAllDataForFilter] = useState([]);
   const [prevGroup, setprevGroup] = useState([]);
   const [loading, setLoading] = useState(false);
   const { actions } = useUi();
   const { state: storeState } = useStore();
   const { user, institute } = storeState;
 
-  const handleGroupSubmit = (value) => {
+  // ** this function update modal head text with current upload type. **
+  showUploadType(uploadModalText)
+  const resetDataStates = () => {
+    setData([])
+    setCreated([])
+    setExists([])
+    setFailed([])
+    setAllDataForFilter([])
+  }
+  const handleGroupSubmit = async (value) => {
+    resetDataStates();
+
     if (loading) return;
     if (!data) {
       actions.alert("Please select a file", "error");
@@ -318,6 +335,7 @@ export const FileUploadBody = (props) => {
       );
       return;
     }
+
     value = value.filter((e, idx) => idx != 0);
 
     value.map((data, idx) => {
@@ -325,52 +343,77 @@ export const FileUploadBody = (props) => {
     });
 
     if (value.length !== new Set(value).size) {
-      actions.alert("File contains duplicate group names", "error");
-      return;
-    }
-
+    actions.alert("File contains duplicate group names","error");  
+    return;
+  }
     setLoading(true);
 
     let counter = 0;
+
+ 
     value.map(async (data) => {
-      try {
-        let name = data;
-        let groups = (
-          await db
-            .collection("Institution")
-            .doc(user._code)
-            .collection("groups")
-            .where("name", "==", name)
-            .get()
-        ).docs.map((el) => el.data());
-        if (groups.length > 0) {
-          setExists((prev) => [...prev, name]);
-        } else {
-          await FirebaseHelpers.createGroup.execute({
-            user,
-            group: {
-              name,
-            },
-          });
-          setCreated((prev) => [...prev, name]);
-        }
-        counter = counter + 1;
-        if (value.length == counter) {
-          setTotal(counter);
-          setLoading(false);
-          setStep(2);
-        }
-      } catch (error) {
-        actions.alert(error.message, "error");
-        setLoading(false);
+      let name = data?.trim();
+       let groups = (
+      await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("groups")
+          .where("name", "==", name)
+          .get()
+      ).docs.map((el) => el.data());
+      if (groups.length > 0) {
+        setExists((prev) => [...prev, name]);
       }
-    });
+      // } else {
+      //   await FirebaseHelpers.createGroup.execute({
+      //     user,
+      //     group: {
+      //       name,
+      //     },
+      //   });
+      //   setCreated((prev) => [...prev, name]);
+      // }
+
+  // setCreated((prev) => [...prev, name])
+      counter = counter + 1;
+      if (value.length == counter) {
+      
+        setTotal(counter);
+        setLoading(false);
+        setStep(2);
+        setUploadModalText(`${uploadModalText} summery`)
+        
+      }
+  })
+
+
+ setCreated( value.filter(function (obj) {
+  return ![...exists, ...failed].some(function (obj2) {
+    return obj.email.trim() == obj2.email.trim();
+  })
+}))
+  
+   
+    
+     
+   
+   
+   
+
   };
+
+
+ 
   const handleStaffSubmit = async (value) => {
+
+    resetDataStates();
+    setUploadModalText("Excel Upload Staff");
     let validation = false;
     const groups = await FirebaseHelpers.fetchGroups.execute({ user });
     if (loading) return;
+
     if (!data) {
+
       actions.alert("Please select a file", "error");
       return;
     }
@@ -429,19 +472,69 @@ export const FileUploadBody = (props) => {
 
     let counter = 0;
     value = value.filter((e, idx) => idx != 0);
+    value = value.filter((e) => !e.length == 0);
+
     console.log({ v: value });
+
     value.map(async (data) => {
+
+
       let _name = data[0]?.toString();
       let _type = data[1]?.toString();
-      let _email = data[2]?.toString();
+      let _email = data[2]?.toString().trim();
       let _password = data[3]?.toString();
-      let _group = groups?.filter((e) => e.name == data[4]);
+      let _groupWithIndividualRow = data[4]?.split(",");
+      
+
+      // ** start checking manually all conditions ** 
+      if (_type == "guide") {
+        var arr = data[4].split(",");
+        if (arr.length > 1) {
+          const _payload = {
+            name: _name,
+            type: _type,
+            email: _email,
+            error: ` Guide can not have two groups!`,
+          };
+          setFailed((prev) => [...prev, _payload])
+        }
+      }
+      let _group = groups?.filter((e) => e.name === _groupWithIndividualRow?.map(e => { return e }))
+     
+      if (data[4] === undefined) {
+        console.log("undefined")
+      } else {
+        if (_group.length === 0) {
+          const _payload = {
+            name: _name,
+            type: _type,
+            email: _email,
+            selectedGroups: _group,
+            error: ` ${data[4]} Group does not exist with name ${_name}!`,
+          };
+          setFailed((prev) => [...prev, _payload])
+        }
+      }
+
+
       if (_type == "manager") {
         _type = "mngr";
       } else if (_type == "coordinator") {
         _type = "crdntr";
       } else if (_type == "general staff") {
         _type = "gstaff";
+      } else if (_type == "guide") {
+        _type = "guide";
+      }
+      else {
+        const _payload = {
+          name: _name,
+          type: _type,
+          email: _email,
+          selectedGroups: _group,
+          error: ` ${_type} type does not exist with name ${_name}! `,
+        };
+        setFailed((prev) => [...prev, _payload])
       }
 
       const payload = {
@@ -450,41 +543,94 @@ export const FileUploadBody = (props) => {
         email: _email,
         selectedGroups: _group,
       };
-      await FirebaseHelpers.createStaff
-        .execute({
-          user,
-          institute,
-          staff: {
-            name: _name,
-            type: _type,
-            email: _email,
-            selectedGroups: [_group[0]?.id],
-            password: _password,
-          },
-        })
-        .then(() => {
-          setCreated((prev) => [...prev, payload]);
-        })
-        .catch((e) => {
-          const _payload = {
-            name: _name,
-            type: _type,
-            email: _email,
-            selectedGroups: _group,
-            error: e,
-          };
-          setExists((prev) => [...prev, _payload]);
-        });
 
+      await FirebaseHelpers.fetchAllStaffEmail.execute({ user })
+        .then(res => {
+          res.map(data => {
+            if (data.email === _email) {
+              const _payload = {
+                name: _name,
+                type: _type,
+                email: _email,
+                selectedGroups: _group,
+                error: `${_email}`,
+              };
+              setExists((prev) => [...prev, _payload]);
+
+            }
+          })
+        })
+        .catch(error => { console.log(error) })
+
+      // ** close checking manually all conditions ** 
+
+      // await FirebaseHelpers.createStaff
+      //   .execute({
+      //     user,
+      //     institute,
+      //     staff: {
+      //       name: _name,
+      //       type: _type,
+      //       email: _email,
+      //       selectedGroups: [!_group.length == 0 ? _group : []],
+
+      //       password: _password,
+      //     },
+
+      //   })
+      //   .then(() => {
+
+      //     setCreated((prev) => [...prev, payload]);
+      //   })
+      //   .catch((e) => {
+
+      //     const _payload = {
+      //       name: _name,
+      //       type: _type,
+      //       email: _email,
+      //       selectedGroups: _group,
+      //       error: e.message,
+      //     };
+      //     if (e.code === 'auth/email-already-in-use') {
+      //       setExists((prev) => [...prev, _payload]);
+      //     } else {
+      //       setFailed((prev) => [...prev, _payload])
+      //     }
+
+
+
+      //   });
+
+      setAllDataForFilter((prev) => [...prev, {
+        name: _name,
+        type: _type,
+        email: _email,
+        selectedGroups: [!_group.length == 0 ? _group : []],
+        password: _password,
+      }]);
       counter = counter + 1;
       if (value.length == counter) {
         setTotal(counter);
         setLoading(false);
         setStep(2);
+        setUploadModalText(`${uploadModalText} summery`)
       }
+
     });
+
+    // comparing issue data with all data for finding out non issue data.
+    let issueData = [...exists, ...failed];
+    setCreated(
+      allDataForFilter.filter(function (obj) {
+        return !issueData.some(function (obj2) {
+          return obj.email == obj2.email;
+        })
+      })
+    )
   };
+
   const handleKidSubmit = async (value) => {
+    resetDataStates();
     let validation = false;
     if (loading) return;
     if (!data) {
@@ -540,49 +686,64 @@ export const FileUploadBody = (props) => {
     const groups = await FirebaseHelpers.fetchGroups.execute({ user });
 
     value = value.filter((e, idx) => idx != 0);
-    value.map(async (data) => {
-      let _name = data[0];
-      let _username = data[1].toString();
-      let _password = data[2]?.toString();
-      let _group = groups.filter((e) => e.id == data[3]);
+
+    value.map(async (data, index) => {
+      let _name = data[0]?.toString()
+      let _username = data[1]?.toString()
+      let _password = data[2]?.toString()
+      let _groupWithIndividualRow = data[3]?.split(",");
+      let _group = groups.filter((e) => e.name === _groupWithIndividualRow?.map(e => { return e }));
       const arrayToObject1 = _group[0];
       let _assigned_days = data[4];
-
-      const _arr = _assigned_days.split(",");
+      const _arr = [_assigned_days?.split(",")];
+      // check assign days numbers are between 1 to 7
+      let _filteredArr = _arr.map((days) => days?.filter((e) => e !== ''))
+      
 
       const assignedDaysArray = new Array(7).fill(null).map((el, index) => {
-        const exists = _arr.find((day) => day == index);
+        const exists = _filteredArr.find((day) => day == index);
         return !!exists;
       });
 
-      const payload = {
-        password: _password,
-        name: _name,
-        username: _username.trim().toLowerCase(),
-        confirmPassword: _password,
-        group: arrayToObject1,
-        joinDate: new Date(),
-        assigned_days: assignedDaysArray,
-      };
-      console.log({
-        p: payload,
-      });
-      const kidId = nanoid(6);
+      if(data[4]===undefined){
+        console.log(data[1] +" firebase default days! ")
+      } else {
+        console.log(assignedDaysArray)
+      }
 
-      await FirebaseHelpers.createKid
-        .execute({
-          user,
-          institute,
-          kid: {
-            kidId,
-            ...payload,
-          },
+      _filteredArr.map(days => {
+        days?.map(val => {
+          if (val > 7 || val < 1) {
+            const _payload = {
+              password: _password,
+              name: _name,
+              username: _username,
+              confirmPassword: _password,
+              group: arrayToObject1,
+              joinDate: new Date(),
+              assigned_days: assignedDaysArray,
+              error: `Assigning days should be between 1 to 7, Issue with ${_username} `,
+            };
+            setFailed((prev) => [...prev, _payload]);
+          }
         })
-        .then(() => {
-          setCreated((prev) => [...prev, payload]);
-        })
-        .catch((error) => {
-          console.log(error);
+      })
+
+      // for handling group does not exist or group missing error or more than one group
+      if (data[3] === undefined) {
+        const _payload = {
+          password: _password,
+          name: _name,
+          username: _username,
+          confirmPassword: _password,
+          group: arrayToObject1,
+          joinDate: new Date(),
+          assigned_days: assignedDaysArray,
+          error: `Group Name is Missing with ${_username}`,
+        };
+        setFailed((prev) => [...prev, _payload])
+      } else {
+        if (_group.length === 0) {
           const _payload = {
             password: _password,
             name: _name,
@@ -591,24 +752,281 @@ export const FileUploadBody = (props) => {
             group: arrayToObject1,
             joinDate: new Date(),
             assigned_days: assignedDaysArray,
-            error: error,
+            error: `Group does not exist provided with ${_username}`,
           };
-          setExists((prev) => [...prev, _payload]);
-        });
+          setFailed((prev) => [...prev, _payload])
+        }
+      } if (_groupWithIndividualRow?.length > 1) {
+        const _payload = {
+          password: _password,
+          name: _name,
+          username: _username,
+          confirmPassword: _password,
+          group: arrayToObject1,
+          joinDate: new Date(),
+          assigned_days: assignedDaysArray,
+          error: `kid must have only one group provided with ${_username}`,
+        };
+        setFailed((prev) => [...prev, _payload])
+      }
+      console.log(_password)
+      if (_password === undefined) {
+        const _payload = {
+          password: _password,
+          name: _name,
+          username: _username,
+          confirmPassword: _password,
+          group: arrayToObject1,
+          joinDate: new Date(),
+          assigned_days: assignedDaysArray,
+          error: `Password is Missing with ${_username}`,
+        };
+        setFailed((prev) => [...prev, _payload])
+      } else
+        if (_password.length < 6) {
+          const _payload = {
+            password: _password,
+            name: _name,
+            username: _username,
+            confirmPassword: _password,
+            group: arrayToObject1,
+            joinDate: new Date(),
+            assigned_days: assignedDaysArray,
+            error: `Password should not be less than 6 character. ${_username} `,
+          };
+          setFailed((prev) => [...prev, _payload])
+        }
 
+      // handle error if username / name / password missing
+      if (_username === undefined) {
+        let lineNumber = index + 2;
+        console.log(index)
+        console.log(lineNumber)
+        const _payload = {
+          password: _password,
+          name: _name,
+          username: _username,
+          confirmPassword: _password,
+          group: arrayToObject1,
+          joinDate: new Date(),
+          assigned_days: assignedDaysArray,
+          error: `User Name is Missing at ${lineNumber} Line in File.`,
+        };
+        setFailed((prev) => [...prev, _payload])
+      } else {
+        const kidExists = await db
+        .collection("Institution")
+        .doc(user._code)
+        .collection("kid")
+        .where("username", "==", _username?.trim().toLowerCase())
+        .get();
+  
+      if (!kidExists.empty) {
+        let lineNumber = index + 2;
+        const _payload = {
+          password: _password,
+          name: _name,
+          username: _username,
+          confirmPassword: _password,
+          group: arrayToObject1,
+          joinDate: new Date(),
+          assigned_days: assignedDaysArray,
+          error: `Kid with same name already exists, Kindly choose a different name at ${lineNumber}`,
+        };
+        setExists((prev) => [...prev, _payload])
+      }
+      }
+
+
+      if (_name === undefined) {
+        let lineNumber = index + 2;
+        console.log(index)
+        console.log(lineNumber)
+        const _payload = {
+          password: _password,
+          name: _name,
+          username: _username,
+          confirmPassword: _password,
+          group: arrayToObject1,
+          joinDate: new Date(),
+          assigned_days: assignedDaysArray,
+          error: "Name is Missing at : " + lineNumber + "Line in File.",
+        };
+        setFailed((prev) => [...prev, _payload])
+      }
+      
+     
+
+
+      const payload = {
+        password: _password,
+        name: _name,
+        username: _username?.trim().toLowerCase(),
+        confirmPassword: _password,
+        group: arrayToObject1,
+        joinDate: new Date(),
+        assigned_days: data[4]===undefined? [true,false,true,false,true,false,false] : assignedDaysArray,
+      };
+      console.log({
+        p: payload,
+      });
+      const kidId = nanoid(6);
+
+      // await FirebaseHelpers.createKid
+      //   .execute({
+      //     user,
+      //     institute,
+      //     kid: {
+      //       kidId,
+      //       ...payload,
+      //     },
+      //   })
+      //   .then(() => {
+      //     setCreated((prev) => [...prev, payload]);
+      //   })
+      //   .catch((e) => {
+
+      //     const _payload = {
+      //       password: _password,
+      //       name: _name,
+      //       username: _username,
+      //       confirmPassword: _password,
+      //       group: arrayToObject1,
+      //       joinDate: new Date(),
+      //       assigned_days: assignedDaysArray,
+      //       error: e,
+      //     };
+      //     if (e == "Kid with same name already exists, Kindly choose a different name") {
+      //       setExists((prev) => [...prev, _payload]);
+      //     } else {
+      //       setFailed((prev) => [...prev, _payload]);
+      //     }
+
+      //   });
+      setAllDataForFilter((prev) => [...prev, payload]);
       counter = counter + 1;
       if (value.length == counter) {
         setTotal(counter);
         setStep(2);
         setLoading(false);
+        setUploadModalText(`${uploadModalText} summery`)
       }
     });
+
+  // comparing issue data with all data for finding out non issue data.
+  let issueData = [...exists, ...failed];
+  setCreated(
+    allDataForFilter.filter(function (obj) {
+      return !issueData.some(function (obj2) {
+        return obj.email == obj2.email;
+      })
+    })
+  )
   };
 
   const handleSubmit = (value) => {
     setData(value);
   };
+  const handleUploadConfirmGroup = async () => {
+    console.log(created)
+    console.log(exists)
+    console.log(failed)
+   
 
+    created.map( async(value)=>{
+      await FirebaseHelpers.createGroup.execute({
+        user,
+        group: {
+          value,
+        },
+      })
+      .then(()=>{
+        actions.alert(
+          "You data is uploaded successfully!",
+          "success"
+        )
+        resetDataStates()
+      })
+      .catch((e)=>{
+        
+        actions.alert(
+          e,
+          "error"
+        )
+        resetDataStates()
+      })
+    })
+  }
+  const handleUploadConfirmKid = async () => {
+    console.log(created)
+    console.log(exists)
+    console.log(failed)
+    created.map(async(data)=>{
+      const kidId = nanoid(6);
+
+      await FirebaseHelpers.createKid
+        .execute({
+          user,
+          institute,
+          kid: {
+            kidId,
+            ...data,
+          },
+        })
+        .then(() => {
+          actions.alert(
+            "You data is uploaded successfully!",
+            "success"
+          )
+          resetDataStates()
+        })
+        .catch((e) => {
+
+          actions.alert(
+            e,
+            "error"
+          )
+          resetDataStates()
+
+        });
+    })
+  }
+  const handleUploadConfirmStaff = async () => {
+    console.log(created)
+    created.map(async (data) => {
+      var payload = {
+        user,
+        institute,
+        staff: {
+          name: data.name,
+          type: data.type,
+          email: data.email,
+          selectedGroups: [!data.selectedGroups.length == 0 ? data.selectedGroups : []],
+          password: data.password
+        }
+      }
+      await FirebaseHelpers.createStaff
+        .execute(payload)
+        .then(() => {
+          actions.alert(
+            "You data is uploaded successfully!",
+            "success"
+          )
+          resetDataStates()
+        })
+        .catch((error) => {
+          actions.alert(
+            `${error}`,
+            "error"
+          )
+          resetDataStates()
+        })
+    })
+
+
+
+
+  }
   const classes = useStyles();
   return (
     <Fragment>
@@ -619,7 +1037,9 @@ export const FileUploadBody = (props) => {
               <div
                 className={classes.box}
                 onClick={() => {
+
                   setUploadType("staff");
+                  setUploadModalText("staff")
                   setStep(1);
                 }}
               >
@@ -638,6 +1058,7 @@ export const FileUploadBody = (props) => {
                 className={classes.box}
                 onClick={() => {
                   setUploadType("kids");
+                  setUploadModalText("kids")
                   setStep(1);
                 }}
               >
@@ -656,6 +1077,7 @@ export const FileUploadBody = (props) => {
                 className={classes.box}
                 onClick={() => {
                   setUploadType("groups");
+                  setUploadModalText("groups")
                   setStep(1);
                 }}
               >
@@ -686,6 +1108,7 @@ export const FileUploadBody = (props) => {
                 datas={groupData}
               >
                 <Button className={classes.pinkButton}>
+
                   <FormattedMessage id="download_template" />
                 </Button>
               </CsvDownloader>
@@ -720,7 +1143,12 @@ export const FileUploadBody = (props) => {
               <div className={classes.summaryHeader}>
                 <Button
                   className={classes.cancelButton}
-                  onClick={() => setStep(0)}
+                  onClick={() => {
+
+                    setUploadModalText('')
+                    resetDataStates()
+                    setStep(0)
+                  }}
                 >
                   <FormattedMessage id="back" />
                 </Button>
@@ -728,7 +1156,8 @@ export const FileUploadBody = (props) => {
             </Grid>
             <Grid item xs={6} justifyContent="center">
               <div className={classes.summaryHeader}>
-                <CButton
+
+                {/* <CButton
                   className={classes.uploadButton}
                   loading={loading}
                   disable={!data}
@@ -745,12 +1174,32 @@ export const FileUploadBody = (props) => {
                   }}
                 >
                   <FormattedMessage id="upload" />
+                </CButton> */}
+                <CButton
+                  className={classes.uploadButton}
+                  loading={loading}
+                  disable={!data}
+                  onClick={() => {
+                    {
+                      uploadType == "groups" && handleGroupSubmit(data);
+                    }
+                    {
+                      uploadType == "staff" && handleStaffSubmit(data);
+                    }
+                    {
+                      uploadType == "kids" && handleKidSubmit(data);
+                    }
+                    setUploadModalText(`${uploadModalText} summery`)
+
+                  }}>
+                  <FormattedMessage id="apply" />
                 </CButton>
               </div>
             </Grid>
           </Grid>
         </>
       )}
+
       {step == 2 && (
         <>
           <div className={classes.summaryHeader}>
@@ -761,7 +1210,7 @@ export const FileUploadBody = (props) => {
               <img src={Tick} />
             </div>
             <Typography className={classes.summaryTitle}>
-              <FormattedMessage id="upload_succeed" />
+              <FormattedMessage id="Read Succed" />
             </Typography>
           </div>
           <div className={classes.summaryDiv}>
@@ -773,35 +1222,34 @@ export const FileUploadBody = (props) => {
                   </Typography>
                   <Typography className={classes.greyText}>
                     <FormattedMessage id="total_groups_in_file: " />
-                    {total}
-                  </Typography>
-                  <Typography className={classes.greyText}>
-                    <FormattedMessage id="created: " />
-                    {created?.length}
-                  </Typography>
-                  <Typography className={classes.greyText}>
-                    <FormattedMessage id="already_exists: " />
-                    {exists?.length}
+                    {total} {" , "}
+                    <FormattedMessage id="Will_Be_Created: " />
+                    {created?.length} {" , "}
+                    <FormattedMessage id="Already_Existing: " />
+                    {exists?.length} {" , "}
+                    <FormattedMessage id="Will_Fail: " />
+                    {failed?.length}
                   </Typography>
                 </>
               )}
               {uploadType == "staff" && (
                 <>
+
                   <Typography className={classes.summaryTitle}>
                     <FormattedMessage id="staff" />
                   </Typography>
                   <Typography className={classes.greyText}>
                     <FormattedMessage id="total_staff_in_file: " />
-                    {total}
+                    {total} {" , "}
+
+                    <FormattedMessage id="Will_Be_Created: " />
+                    {created?.length} {" , "}
+                    <FormattedMessage id="Already_Existing: " />
+                    {exists?.length} {" , "}
+                    <FormattedMessage id="Will_Fail: " />
+                    {failed?.length}
                   </Typography>
-                  <Typography className={classes.greyText}>
-                    <FormattedMessage id="created: " />
-                    {created?.length}
-                  </Typography>
-                  <Typography className={classes.greyText}>
-                    <FormattedMessage id="failed: " />
-                    {exists?.length}
-                  </Typography>
+
                 </>
               )}
               {uploadType == "kids" && (
@@ -811,15 +1259,14 @@ export const FileUploadBody = (props) => {
                   </Typography>
                   <Typography className={classes.greyText}>
                     <FormattedMessage id="total_kids_in_file: " />
-                    {total}
-                  </Typography>
-                  <Typography className={classes.greyText}>
-                    <FormattedMessage id="created: " />
-                    {created?.length}
-                  </Typography>
-                  <Typography className={classes.greyText}>
-                    <FormattedMessage id="failed: " />
-                    {exists?.length}
+                    {total} {" , "}
+                    <FormattedMessage id="Will_Be_Created: " />
+                    {created?.length} {" , "}
+
+                    <FormattedMessage id="Already_Existing: " />
+                    {exists?.length} {" , "}
+                    <FormattedMessage id="Will_Fail: " />
+                    {failed?.length}
                   </Typography>
                 </>
               )}
@@ -827,83 +1274,152 @@ export const FileUploadBody = (props) => {
             {uploadType == "groups" && (
               <div className={classes.summaryMainDiv}>
                 <Typography style={{ fontWeight: 600 }}>
-                  <FormattedMessage id="created: " />
+                  {/* <FormattedMessage id="created: " /> */}
                 </Typography>
-                {created.map((el, idx) => {
-                  return (
-                    <Typography
-                      className={classes.greyText}
-                      style={{ fontSize: 16 }}
-                    >
-                      {`${idx + 1}.` + el}
-                    </Typography>
-                  );
-                })}
-                <Typography style={{ fontWeight: 600 }}>
-                  <FormattedMessage id="already_exists: " />
-                </Typography>
-                {exists.map((el, idx) => {
-                  return (
-                    <Typography
-                      className={classes.greyText}
-                      style={{ fontSize: 16 }}
-                    >
-                      {`${idx + 1}.` + el}
-                    </Typography>
-                  );
-                })}
+                <ol>
+                  
+                  {created.map((el, idx) => {
+                    return (
+                      <li className={classes.greyText}>
+                        <Typography
+                          className={classes.greyText}
+                          style={{ fontSize: 16 }}
+                        >
+                          {el}
+                        </Typography>
+                      </li>
+                    );
+                  })}
+
+
+                  {exists.map((el, idx) => {
+                    return (
+                      <li className={classes.greyText}>
+                        <Typography
+                          className={classes.greyText}
+                          style={{ fontSize: 16, color: "red" }}
+                        >
+                          {` Already Exist! ${el}`}
+                        </Typography>
+                      </li>
+
+                    );
+                  })}
+                  {failed.map((el, idx) => {
+                    return (
+                      <li className={classes.greyText}>
+                        <Typography
+                          className={classes.greyText}
+                          style={{ fontSize: 16, color: "red" }}
+                        >
+                          {` Will Fail! Cause :  ${el.error}`}
+                        </Typography>
+                      </li>
+
+                    );
+                  })}
+                </ol>
+
               </div>
             )}
             {uploadType == "staff" && (
               <div className={classes.summaryMainDiv}>
                 <Typography style={{ fontWeight: 600 }}>
-                  <FormattedMessage id="created: " />
+                  {/* <FormattedMessage id="created: " /> */}
                 </Typography>
-                {created.map((el, idx) => {
-                  if (el.type == "guide")
-                    return (
-                      <Typography
-                        className={classes.greyText}
-                        style={{ fontSize: 16 }}
-                      >
-                        {`${idx + 1}.` +
+                <ol >
+                  {created.map((el, idx) => {
+                    if (el.type == "guide")
+                      return (
+
+                        <li
+                          className={classes.greyText}
+                          style={{ fontSize: 16 }}>
+
+                          <Typography
+                            className={classes.greyText}
+                            style={{ fontSize: 16 }}
+                          >
+                            {
+                              "Email: " +
+                              el.email +
+                              ", Name: " +
+                              el.name +
+                              ", Group: " +
+                              el.selectedGroups[0]?.name +
+                              ", Role: " +
+                              el.type}
+                          </Typography>
+                        </li>
+
+                      );
+                    else
+                      return (
+                        <li
+                          className={classes.greyText}
+                          style={{ fontSize: 16 }}>
+                          <Typography
+                            className={classes.greyText}
+                            style={{ fontSize: 16 }}
+                          >
+                            {
+                              "Email: " +
+                              el.email +
+                              ", Name: " +
+                              el.name +
+                              ", Role: " +
+                              el.type}
+                          </Typography>
+                        </li>
+                      );
+                  })}
+                  {exists.map((el, idx) => {
+                    if (el.type == "guide")
+                      return (
+                        <li
+                          className={classes.greyText}
+                          style={{ fontSize: 16 }}>
+                          <Typography
+                            className={classes.greyText}
+                            style={{ fontSize: 16, color: 'red' }}
+                          >
+
+                            {` Already Exist! ${el.email}`}
+                          </Typography>
+                        </li>
+                      );
+                    else
+                      return (
+                        <li className={classes.greyText} style={{ fontSize: 16 }} >
+                          <Typography
+                            className={classes.greyText}
+                            style={{ fontSize: 16, color: 'red' }}
+                          >
+                            {/* {`${idx + 1}.` +
                           "Email: " +
                           el.email +
                           ", Name: " +
                           el.name +
-                          ", Group: " +
-                          el.selectedGroups[0]?.name +
                           ", Role: " +
-                          el.type}
-                      </Typography>
-                    );
-                  else
-                    return (
-                      <Typography
-                        className={classes.greyText}
-                        style={{ fontSize: 16 }}
-                      >
-                        {`${idx + 1}.` +
-                          "Email: " +
-                          el.email +
-                          ", Name: " +
-                          el.name +
-                          ", Role: " +
-                          el.type}
-                      </Typography>
-                    );
-                })}
-                <Typography style={{ fontWeight: 600 }}>
-                  <FormattedMessage id="failed: " />
-                </Typography>
-                {exists.map((el, idx) => {
-                  if (el.type == "guide")
-                    return (
-                      <Typography
-                        className={classes.greyText}
-                        style={{ fontSize: 16 }}
-                      >
-                        {`${idx + 1}.` +
+                          el.type +
+                          "," +
+                          el.error} */}
+                            {` Already Exist! ${el.email}`}
+                          </Typography>
+                        </li>
+                      );
+                  })}
+                  {failed.map((el, idx) => {
+                    if (el.type == "guide")
+                      return (
+                        <li
+                          className={classes.greyText}
+                          style={{ fontSize: 16 }}>
+                          <Typography
+                            className={classes.greyText}
+                            style={{ fontSize: 16, color: 'red' }}
+                          >
+                            {/* {`${idx + 1}.` +
                           "Email: " +
                           el.email +
                           ", Name: " +
@@ -913,16 +1429,21 @@ export const FileUploadBody = (props) => {
                           ", Role: " +
                           el.type +
                           ", Error: " +
-                          el.error}
-                      </Typography>
-                    );
-                  else
-                    return (
-                      <Typography
-                        className={classes.greyText}
-                        style={{ fontSize: 16 }}
-                      >
-                        {`${idx + 1}.` +
+                          el.error} */}
+                            {` Will Fail ! ${el.email}, Cause : ${el.error}`}
+                          </Typography>
+                        </li>
+                      );
+                    else
+                      return (
+                        <li
+                          className={classes.greyText}
+                          style={{ fontSize: 16, }}>
+                          <Typography
+                            className={classes.greyText}
+                            style={{ fontSize: 16, color: 'red' }}
+                          >
+                            {/* {`${idx + 1}.` +
                           "Email: " +
                           el.email +
                           ", Name: " +
@@ -930,63 +1451,184 @@ export const FileUploadBody = (props) => {
                           ", Role: " +
                           el.type +
                           "," +
-                          el.error}
-                      </Typography>
-                    );
-                })}
+                          el.error} */}
+                            {` Will Fail ! ${el.email}, Cause : ${el.error}`}
+                          </Typography>
+                        </li>
+                      );
+                  })}
+                </ol>
+
+                <Typography style={{ fontWeight: 600 }}>
+                  {/* <FormattedMessage id="failed: " /> */}
+                </Typography>
+
+
               </div>
             )}
             {uploadType == "kids" && (
               <div className={classes.summaryMainDiv}>
                 <Typography style={{ fontWeight: 600 }}>
-                  <FormattedMessage id="created: " />
+                  {/* <FormattedMessage id="created: " /> */}
                 </Typography>
-                {created.map((el, idx) => {
-                  return (
-                    <Typography
-                      className={classes.greyText}
-                      style={{ fontSize: 16 }}
-                    >
-                      {`${idx + 1}.` +
-                        "Name: " +
-                        el.name +
-                        ", UserName: " +
-                        el.username +
-                        ", Group: " +
-                        el.group?.name}
-                    </Typography>
-                  );
-                })}
-                <Typography style={{ fontWeight: 600 }}>
-                  <FormattedMessage id="failed: " />
-                </Typography>
-                {exists.map((el, idx) => {
-                  return (
-                    <Typography
-                      className={classes.greyText}
-                      style={{ fontSize: 16 }}
-                    >
-                      {`${idx + 1}.` +
-                        "Name: " +
-                        el.name +
-                        ", UserName: " +
-                        el.username +
-                        ", Group: " +
-                        el.group?.name +
-                        "," +
-                        el.error}
-                    </Typography>
-                  );
-                })}
+                <ol>
+                  {created.map((el, idx) => {
+                    return (
+                      <li className={classes.greyText}>
+                        <Typography
+                          className={classes.greyText}
+                          style={{ fontSize: 16 }}
+                        >
+                          {
+                            "Name: " +
+                            el.name +
+                            ", UserName: " +
+                            el.username +
+                            ", Group: " +
+                            el.group?.name}
+                        </Typography>
+                      </li>
+                    );
+                  })}
+
+
+                  {exists.map((el, idx) => {
+                    return (
+                      <li className={classes.greyText}>
+                        <Typography
+                          className={classes.greyText}
+                          style={{ fontSize: 16, color: "red" }}
+                        >
+                          {` Already Exist! ${el.name}`
+                          }
+                        </Typography>
+                      </li>
+
+                    );
+                  })}
+                  {failed.map((el, idx) => {
+                    return (
+                      <li className={classes.greyText}>
+                        <Typography
+                          className={classes.greyText}
+                          style={{ fontSize: 16, color: "red" }}
+                        >
+                          {el.error == "TypeError: Cannot read properties of undefined (reading 'name')" ? ` Will Fail! Cause : Group Name Doesn't exist you provided with ${el.name}` : ` Will Fail! Cause :  ${el.error}`}
+                          {
+                          }
+                        </Typography>
+                      </li>
+
+                    );
+                  })}
+                </ol>
+
               </div>
             )}
           </div>
           <Divider />
-          <div className={classes.summaryButton}>
-            <Button onClick={handleClose} className={classes.uploadButton}>
-              <FormattedMessage id="close" />
-            </Button>
+          <Grid container spacing={2} flexDirection="row" justifyContent="space-between" style={{ padding: "20px" }} >
+            <Grid item >
+
+
+
+              <Button
+                className={classes.cancelButton}
+                onClick={() => {
+                  resetDataStates()
+                  setUploadModalText(uploadType)
+                  setStep(1)
+                }}
+              >
+                <FormattedMessage id="Back" />
+              </Button>
+
+
+            </Grid>
+            <Grid item >
+
+
+
+              <Button onClick={() => {
+                setStep(3)
+              }} className={classes.uploadButton}>
+                <FormattedMessage id="Upload" />
+              </Button>
+
+
+            </Grid>
+
+          </Grid>
+
+        </>
+      )}
+      {step == 3 && (
+
+        <>
+          <div className={classes.summaryHeader}>
+            <div
+              className={classes.roundContainer}
+              style={{ backgroundColor: "red" }}
+            >
+              <Typography style={{ color: "#fff", fontSize: 30 }}>
+                !
+              </Typography>
+            </div>
+            <Typography className={classes.summaryTitle}>
+              <FormattedMessage id="ALERT" />
+            </Typography>
           </div>
+
+          <>
+
+            <Typography className={classes.greyText}>
+              {`   ${created.length} Users will be created, ${failed.length + exists.length} will not be created due to error, Are you sure you want to proceed?`}
+            </Typography>
+          </>
+
+          <Grid container spacing={2}>
+            <Grid item xs={6} justifyContent="center">
+              <div className={classes.summaryHeader}>
+                <Button
+                  className={classes.cancelButton}
+                  onClick={() => {
+                    resetDataStates()
+                    setUploadModalText('')
+                    setStep(1)
+                  }}
+                >
+                  <FormattedMessage id="NO" />
+                </Button>
+              </div>
+            </Grid>
+            <Grid item xs={6} justifyContent="center">
+              <div className={classes.summaryHeader}>
+
+
+                <CButton
+                  className={classes.uploadButton}
+                  loading={loading}
+                  disable={!data}
+                  onClick={async () => {
+                    {
+                      uploadType == "groups" && handleUploadConfirmGroup(data);
+                    }
+                    {
+                      uploadType == "staff" && handleUploadConfirmStaff();
+                    }
+                    {
+                      uploadType == "kids" && handleUploadConfirmKid(data);
+                    }
+                 
+                    setAllDataForFilter([])
+
+                  }}>
+                  <FormattedMessage id="YES" />
+                </CButton>
+              </div>
+            </Grid>
+          </Grid>
+
         </>
       )}
     </Fragment>

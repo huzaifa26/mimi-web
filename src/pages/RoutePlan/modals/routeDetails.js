@@ -68,7 +68,8 @@ export const RouteDetailsBody = props => {
     const { state: storeState } = useStore();
     const { actions } = useUi();
     const { user } = storeState;
-
+   
+    const [isHover, setIsHover] = useState();
     const [searchText, setSearchText] = useState('');
     const listenerRef = useRef([]);
 
@@ -374,6 +375,9 @@ export const RouteDetailsBody = props => {
                             component={'img'}
                             marginX={1}
                             src={Edit}
+                            style={{cursor:"pointer", color:isHover?"blue":null}}
+                           onMouseEnter={()=>{setIsHover(true)}}
+                           onMouseLeave={()=>{setIsHover(false)}}
                             onClick={() => {
                                 if (!user.permissions[PERMISSIONS.trackAccess]) {
                                     return actions.alert("You don't have access to perform this action");
@@ -402,6 +406,9 @@ export const RouteDetailsBody = props => {
                             component={'img'}
                             marginX={1}
                             src={Edit}
+                            style={{cursor:"pointer", color:isHover?"blue":null}}
+                            onMouseEnter={()=>{setIsHover(true)}}
+                            onMouseLeave={()=>{setIsHover(false)}}
                             onClick={() => {
                                 if (!user.permissions[PERMISSIONS.trackAccess]) {
                                     return actions.alert("You don't have access to perform this action");

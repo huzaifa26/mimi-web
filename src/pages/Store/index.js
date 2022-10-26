@@ -135,6 +135,24 @@ export const Store = React.memo(() => {
     }
   }, [searchText, data]);
 
+
+  const updateOnAdding = async() => {
+    var updateData = []
+   await db.collection("Institution")
+      .doc(user._code)
+      .collection("store")
+      .orderBy("id").get()
+      .then((querySnapshot)=>{
+          querySnapshot.forEach((doc)=>{
+              updateData.push(doc.data())
+              })
+      })
+      .catch((error)=>{
+        alert(error)
+      })
+
+      setStores(updateData)
+  }
   const links = [
     {
       ref: "/store",
@@ -215,7 +233,7 @@ export const Store = React.memo(() => {
         open={modalStates.newStore}
         handleClose={closeNewStore}
       >
-        <CreateStoreBody handleClose={closeNewStore} />
+        <CreateStoreBody handleClose={closeNewStore} update={updateOnAdding}/>
       </SimpleModal>
       <SimpleModal
         extended

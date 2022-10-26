@@ -132,5 +132,6 @@ export const usePagination = (query, modifier, comparator) => {
     return {
         ...state,
         loadMore: state.hasMore ? fetch : null,
+        init
     };
 };

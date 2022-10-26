@@ -66,6 +66,7 @@ export const Data = React.memo(() => {
     subDaysLeft: 0,
   });
   const [subjects, setSubjects] = useState([]);
+  const [uploadFileType, setUploadFileType] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -1137,13 +1138,14 @@ export const Data = React.memo(() => {
 
       <SimpleModal
         disableBackdropClick
-        title={<FormattedMessage id="excel_upload" />}
+        title={<FormattedMessage id={uploadFileType?`Excel Upload ${uploadFileType}`:"Excel Upload"} />}
         open={modalStates.fileUpload}
         handleClose={closeFileUploadModal}
       >
         <FileUploadBody
           open={modalStates.groupReport}
           handleClose={closeFileUploadModal}
+          showUploadType={(value)=>{setUploadFileType(value)}}
         />
       </SimpleModal>
 

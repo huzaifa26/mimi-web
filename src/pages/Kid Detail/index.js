@@ -202,18 +202,20 @@ export const KidsDetail = (props) => {
   };
 
   const handleProfilePic = async () => {
-    if (!user.permissions[PERMISSIONS.picAccess])
-      return actions.alert("You don't have access to perform this action");
+    console.log("button is disabled!")
+    // if (!user.permissions[PERMISSIONS.picAccess])
+    //   return actions.alert("You don't have access to perform this action");
 
-    actions.showDialog({
-      action: FirebaseHelpers.enableKidProfilePicture.execute.bind(null, {
-        user,
-        kid,
-      }),
-      title: `Change Profile Permission?`,
-      body: `Are you sure you want to this ${kid.profile_permission ? "disable" : "enable"
-        } this permission`,
-    });
+    // actions.showDialog({
+    //   action: FirebaseHelpers.enableKidProfilePicture.execute.bind(null, {
+    //     user,
+    //     kid,
+    //   }),
+    //   title: `Change Profile Permission?`,
+    //   body: `Are you sure you want to this ${
+    //     kid.profile_permission ? "disable" : "enable"
+    //   } this permission`,
+    // });
   };
 
   const handleSwitchSpecial = () => {
@@ -979,6 +981,7 @@ export const KidsDetail = (props) => {
                   </Grid>
                   <Grid item lg={3} md={4} sm={6} xs={12}>
                     <ToolBox
+                    
                       image={
                         <Person style={{ color: "#4FBF67" }} fontSize="large" />
                       }
@@ -989,6 +992,7 @@ export const KidsDetail = (props) => {
                           : "enable_profile_pic"
                       }
                       onClick={handleProfilePic}
+                      // onClick={()=>{console.log("button is disabled")}}
                     />
                   </Grid>
                   <Grid item lg={3} md={4} sm={6} xs={12}>

@@ -5,8 +5,27 @@ import { alpha } from "@material-ui/core/styles/colorManipulator";
 import md5 from "md5";
 import { nanoid } from "nanoid";
 import { _auth } from "../utils/firebase";
+// const deleteUser = firebase.functions().httpsCallable('deleteUser');
+
 
 export const FirebaseHelpers = {
+
+  fetchAllStaffEmail : {
+    query: (params) => {
+ 
+      const { user } = params;
+
+      let _query = db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("staff");
+      
+return _query;
+    },
+    execute: async function (params, config) {
+      return (await this.query(params).get()).docs.map((el) => el.data());
+    },
+  },
   fetchStaff: {
     query: (params) => {
       const { user } = params;
@@ -450,6 +469,7 @@ export const FirebaseHelpers = {
         password
       );
       const staffId = _staff.user.uid;
+      
       await db
         .collection("Institution")
         .doc(user._code)
@@ -466,6 +486,7 @@ export const FirebaseHelpers = {
           kids_access: [],
           group_ids: [],
           products_redeemed: [],
+          date_created : new Date(),
           permissions: defaultPermissions.permissions,
           requestingPermission: false,
           requestAccepted: false,
@@ -488,8 +509,10 @@ export const FirebaseHelpers = {
             type: type,
             email: email,
             kids_access: [],
+          
             group_ids: [],
             products_redeemed: [],
+            date_created : new Date(),
             permissions: {
               deleteGroup: true,
               assignDays: true,
@@ -534,6 +557,7 @@ export const FirebaseHelpers = {
               kids_access: [],
               group_ids: [],
               products_redeemed: [],
+              date_created : new Date(),
               permissions: {
                 deleteGroup: true,
                 assignDays: true,
@@ -620,6 +644,8 @@ export const FirebaseHelpers = {
         joinDate,
         assigned_days,
       } = kid;
+      console.log(kid)
+      console.log(user)
       const kidExists = await db
         .collection("Institution")
         .doc(user._code)
@@ -660,6 +686,7 @@ export const FirebaseHelpers = {
           products_used: [],
           special_program: [],
           storeId: [],
+          date_created : new Date(),
           level: 1,
           reported: false,
           reportedBy: "",
@@ -686,6 +713,7 @@ export const FirebaseHelpers = {
 
       await Promise.all(
         group.staffId.map(async (e) => {
+          
           await db
             .collection("Institution")
             .doc(user._code)
@@ -794,9 +822,16 @@ export const FirebaseHelpers = {
   },
   deleteStaff: {
     execute: async function (params, config) {
+      console.log(params)
       const { staff, user } = params;
-
-      const groups = (
+      await firebase.functions().httpsCallable('deleteUser')(staff)
+      .then(()=>{
+       alert("Success Alert! Staff is deleted :)")
+      })
+      .catch((error)=>{
+        alert(error)
+      })
+      const groups = (  
         await db
           .collection("Institution")
           .doc(user._code)
@@ -845,6 +880,9 @@ export const FirebaseHelpers = {
         .doc(staff.id)
         .delete();
     },
+    
+
+    
   },
   deleteKid: {
     execute: async function (params, config) {
