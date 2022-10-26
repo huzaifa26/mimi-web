@@ -347,6 +347,7 @@ export const Team = React.memo(() => {
                 src={
                   (staff.favoriteBy || []).includes(user.id) ? Star : StarOut
                 }
+                alt=''
               />
             </div>
             <Box mx={1}>
