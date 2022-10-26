@@ -87,6 +87,7 @@ export const CreateRoutePlanBody = props => {
                     id: routePlanId,
                     kids: [],
                     groups: [],
+                    date_created: new Date(),
                 });
             setLoading(false);
             handleClose();

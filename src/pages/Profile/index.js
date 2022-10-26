@@ -115,7 +115,7 @@ export const Profile = React.memo(() => {
                         }
                     }}
                     defaultValue={options.find(el => el.id === storeState.language)}
-        
+                />
             </div>
         </div>
     );

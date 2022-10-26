@@ -375,6 +375,7 @@ export const FirebaseHelpers = {
           storeId: [],
           isFavorite: false,
           isSpecialReport: false,
+          date_created: new Date(),
         });
 
       const reports = (
@@ -474,6 +475,7 @@ export const FirebaseHelpers = {
           hasAcceptedTerms: false,
           showMedal: false,
           defaultAvatar: false,
+          date_created: new Date(),
         });
       if (type == "admin") {
         await db
@@ -671,6 +673,7 @@ export const FirebaseHelpers = {
           isFavorite: false,
           isSpecialFav: false,
           hasAcceptedTerms: false,
+          date_created: new Date(),
         });
       await db
         .collection("Institution")
