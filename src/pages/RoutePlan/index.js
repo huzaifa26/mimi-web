@@ -86,7 +86,6 @@ export const RoutePlan = React.memo(() => {
         setModalStates(prev => ({ ...prev, routePlanDetail: false }));
         setSelectedRoutePlan(null);
     };
-   console.log(data)
    
     useEffect(() => {
         if (searchText) {

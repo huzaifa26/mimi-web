@@ -1,5 +1,6 @@
 import { Grid, Input, makeStyles } from "@material-ui/core";
 import React, { Fragment, useState } from "react";
+import { useEffect } from "react";
 import { FormattedMessage } from "react-intl";
 import { Button, Field } from "../";
 import { getModalStyles } from "../../utils/helpers";
@@ -47,6 +48,7 @@ export const EditSubjectBody = (props) => {
       isSync:selectedSubject.isSync,
       type:selectedSubject.type
     };
+
     const index = subjectsCopy.findIndex((e) => e.id == selectedSubject.id);
     subjectsCopy[index].name = subjectName;
     subjectsCopy[index].totalPoints = parseInt(score);

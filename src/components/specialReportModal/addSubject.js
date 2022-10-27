@@ -6,6 +6,7 @@ import { useStore, useUi } from "../../store";
 import { db } from "../../utils/firebase";
 import { nanoid } from "nanoid";
 import { getModalStyles } from "../../utils/helpers";
+import { useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -14,6 +15,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 export const AddSubjectBody = (props) => {
+  const location=useLocation()
   const { handleClose, subjects, subjectAdded } = props;
   const classes = useStyles();
   const { state: storeState } = useStore();

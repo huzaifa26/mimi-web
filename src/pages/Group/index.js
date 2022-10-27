@@ -16,6 +16,8 @@ import { CreateGroupBody } from './modals/createGroup';
 import Star from '../../assets/icons/starIcon.png';
 import StarOut from '../../assets/icons/starOutlinned.png';
 import { ROLES } from '../../utils/constants';
+import { useRef } from 'react';
+import { nanoid } from 'nanoid';
 
 const headers = [
     {
@@ -63,6 +65,30 @@ export const Group = React.memo(() => {
     const [groups, setGroups] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [createGroupModalShow, setCreateGroupModalShow] = useState(false);
+
+    const groupLog = useRef(null);
+
+    // Log
+    useEffect(() => {
+        return async () => {
+            if (groupLog.current !== null) {
+                const subject_id = nanoid(6);
+                const payload = {
+                    id: subject_id,
+                    activity: "group",
+                    subActivity: groupLog.current.name,
+                    uid: user.id
+                }
+                console.log(payload);
+                await db
+                    .collection('Institution')
+                    .doc(user._code)
+                    .collection('log')
+                    .doc(payload.id)
+                    .set(payload)
+            }
+        }
+    }, [])
 
     // console.log(groups);
     // --------- the bug seemes like here ----------
@@ -166,6 +192,7 @@ export const Group = React.memo(() => {
         headers,
         loadMore,
         handleRowClick: group => {
+            groupLog.current = group;
             history.push(`/groups/${group.id}`,{group});
         },
     };

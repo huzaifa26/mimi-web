@@ -4,6 +4,7 @@ import { FormattedMessage } from "react-intl";
 import { Button, Field } from "../";
 import { nanoid } from "nanoid";
 import { getModalStyles } from "../../utils/helpers";
+import { useStore, useUi } from "../../store";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -13,6 +14,7 @@ const useStyles = makeStyles((theme) => {
 
 export const AddSubSubjectBody = (props) => {
   const { handleClose, subSubjectAdded, selectedSubject, subjects } = props;
+  const { actions } = useUi();
   const classes = useStyles();
   const [score, setScore] = useState(0);
   const [subjectName, setSubjectName] = useState("");
@@ -79,6 +81,8 @@ export const AddSubSubjectBody = (props) => {
       subjectId: selectedSubject.id,
     };
     const subjectsCopy = [...subjects];
+    console.log(subjectsCopy);
+
     subjectsCopy.map((el) => {
       if (el.id == selectedSubject.id) {
         let isAvail=false;
