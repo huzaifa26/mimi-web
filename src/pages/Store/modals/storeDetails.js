@@ -77,7 +77,6 @@ export const StoreDetailsBody = (props) => {
   const listenerRef = useRef([]);
 
   const [searchText, setSearchText] = useState("");
-
   const [store, setStore] = useState();
   const [data, setData] = useState([]);
   const [products, setProducts] = useState([]);
