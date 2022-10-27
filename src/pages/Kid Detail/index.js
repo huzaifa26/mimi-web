@@ -74,7 +74,7 @@ export const KidsDetail = (props) => {
     groupTransfer: false,
     assignDays: false,
     kidReport: false,
-    deleteKid:false
+    deleteKid: false
   });
 
   const closeGrantScoreModal = () => {
@@ -229,7 +229,7 @@ export const KidsDetail = (props) => {
   };
 
   // delete kid handler
-  const hanldeDeleteKid = async() => {
+  const hanldeDeleteKid = async () => {
     if (!user.permissions[PERMISSIONS.deleteKid])
       return actions.alert("You don't have access to perform this action");
     setModalStates((prev) => ({ ...prev, deleteKid: true }));
@@ -314,7 +314,8 @@ export const KidsDetail = (props) => {
           subSubject: [],
           obtainedPoints: 0,
           hasSubSubject: false,
-          isSync: false,
+          isSync: sub.isSync,
+          type: sub.type || "kid"
         };
         await db
           .collection("Institution")
@@ -407,8 +408,9 @@ export const KidsDetail = (props) => {
           totalPoints: sub.totalPoints,
           subSubject: sub.subSubject,
           obtainedPoints: sub.obtainedPoints,
-          hasSubSubject: sub.hasSubSubject,
+          hasSubSubject: sub.subSubject.length > 0,
           isSync: sub.isSync,
+          type: sub.type || "kid"
         };
         await db
           .collection("Institution")
@@ -424,12 +426,12 @@ export const KidsDetail = (props) => {
     // edit sub subject
     let _save6 = await Promise.all(
       subSubjectEdit.map(async (sub) => {
-        const payload = {
-          id: sub.id,
-          name: sub.name,
-          totalPoints: sub.totalPoints,
-          obtainedPoints: sub.obtainedPoints,
-        };
+        // const payload = {
+        //   id: sub.id,
+        //   name: sub.name,
+        //   totalPoints: sub.totalPoints,
+        //   obtainedPoints: sub.obtainedPoints,
+        // };
         // const reportTemplates = await db
         //   .collection("Institution")
         //   .doc(user._code)
@@ -981,7 +983,7 @@ export const KidsDetail = (props) => {
                   </Grid>
                   <Grid item lg={3} md={4} sm={6} xs={12}>
                     <ToolBox
-                    
+
                       image={
                         <Person style={{ color: "#4FBF67" }} fontSize="large" />
                       }
@@ -992,7 +994,7 @@ export const KidsDetail = (props) => {
                           : "enable_profile_pic"
                       }
                       onClick={handleProfilePic}
-                      // onClick={()=>{console.log("button is disabled")}}
+                    // onClick={()=>{console.log("button is disabled")}}
                     />
                   </Grid>
                   <Grid item lg={3} md={4} sm={6} xs={12}>

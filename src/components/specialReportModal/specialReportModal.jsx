@@ -17,7 +17,7 @@ import React, { Fragment, useState } from "react";
 import { useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { FormattedMessage } from "react-intl";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { AddIconSim, Button, Delete, SimpleModal } from "..";
 import AddIcon from "../../assets/icons/addIcon.png"; //Action Icon
 import Reset from "../../assets/icons/reset.png";
@@ -31,6 +31,8 @@ import { EditSubjectBody } from "./editSubject";
 import { EditSubSubjectBody } from "./editSubSubject";
 // import Draggable from "react-draggable";
 import { db } from "../../utils/firebase";
+import { SyncSubject } from "./syncSubject";
+import { Sync } from "@material-ui/icons";
 
 export const GroupReportBody = (props) => {
   const {
@@ -44,6 +46,7 @@ export const GroupReportBody = (props) => {
     handleClose,
     restoreDefault,
   } = props;
+  const location = useLocation()
   const classes = useStyles();
   const { state: storeState } = useStore();
   const { user, defaultAvatars } = storeState;
@@ -56,49 +59,59 @@ export const GroupReportBody = (props) => {
   const [_subSubjectDeleted, setSubSubjectDeleted] = useState([]);
   const [_subjectEdit, setSubjectEdit] = useState([]);
   const [_subSubjectEdit, setSubSubjectEdit] = useState([]);
+  const [_subjectLock, setSubjectLock] = useState([]);
   const [expanded, setExpanded] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [restoreLoading, setRestoreLoading] = React.useState(false);
   const [oldSubjects, setOldSubjects] = useState([]);
+  const [syncSubId, setSyncSubId] = useState();
+  const [syncSubject, setSyncSubject] = useState();
 
   const [modalStates, setModalStates] = useState({
     subject: false,
     subSubject: false,
     editSubject: false,
     editSubSubject: false,
+    sync: false
   });
-  const closeSubSubject = () =>
-    setModalStates((prev) => ({ ...prev, subSubject: false }));
-  const closeEditSubject = () =>
-    setModalStates((prev) => ({ ...prev, editSubject: false }));
-  const closeEditSubSubject = () =>
-    setModalStates((prev) => ({ ...prev, editSubSubject: false }));
-  const closeSubject = () =>
-    setModalStates((prev) => ({ ...prev, subject: false }));
+  const closeSubSubject = () => setModalStates((prev) => ({ ...prev, subSubject: false }));
+
+  const closeEditSubject = () => setModalStates((prev) => ({ ...prev, editSubject: false }));
+
+  const closeEditSubSubject = () => setModalStates((prev) => ({ ...prev, editSubSubject: false }));
+
+  const closeSubject = () => setModalStates((prev) => ({ ...prev, subject: false }));
+
+  const closeSync = () => setModalStates((prev) => ({ ...prev, sync: false }));
+
   const handleChange = (panel) => {
     setExpanded((prev) => (prev === panel ? false : panel));
   };
+
   const subjectAdded = (payload, subject) => {
     setSubjects(payload);
     setSubjectAdded((prev) => [...prev, subject]);
   };
+
   const subSubjectAdded = (payload, subSubject) => {
     setSubjects(payload);
     setSubSubjectAdded((prev) => [...prev, subSubject]);
   };
+
   const subjectEdited = (payload, subSubject) => {
     setSubjects(payload);
     setSubjectEdit((prev) => [...prev, subSubject]);
   };
+
   const subSubjectEdited = (payload, subSubject) => {
     setSubjects(payload);
     setSubSubjectEdit((prev) => [...prev, subSubject]);
   };
 
-  const totalPoints = _subjectAdded.reduce((acc, el) => (acc += el.totalPoints), 0);
+  const totalPoints = subjects.reduce((acc, el) => (acc += el.totalPoints), 0);
 
   const _handleSubSubjectDelete = (selectedSubSubjects, selectedSubject) => {
-    const subjectsCopy = [..._subjectAdded];
+    const subjectsCopy = [...subjects];
     const index = subjectsCopy.findIndex((e) => e.id == selectedSubject.id);
     const updatedSubSubjects = subjectsCopy
       .at(index)
@@ -116,6 +129,8 @@ export const GroupReportBody = (props) => {
       subSubject: selectedSubSubjects,
       subjectPoints: points,
       subSubjectLength: subjectsCopy[index].subSubject.length,
+      isSync: selectedSubject.isSync,
+      selectedSubject
     };
     setSubSubjectDeleted((prev) => [...prev, subjectIds]);
   };
@@ -129,6 +144,7 @@ export const GroupReportBody = (props) => {
     setSubjects(filteredSubjects);
     setSubjectDeleted((prev) => [...prev, subject]);
   };
+
   const handleC = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
@@ -164,7 +180,7 @@ export const GroupReportBody = (props) => {
       }
     })
     setSubjects(list);
-    
+
     // console.log(list);
 
     for (let i = 0; i <= list.length; i++) {
@@ -198,7 +214,7 @@ export const GroupReportBody = (props) => {
             .doc(group.id)
             .update({
               isSpecialReport: true,
-            });   
+            });
           await db
             .collection("Institution")
             .doc(user._code)
@@ -211,91 +227,99 @@ export const GroupReportBody = (props) => {
         })
       }
     }
-
-
   };
+
+  const _handleSyncSubject = (id, subject) => {
+    let subjectCopy = [...subjects]
+    subjectCopy.map((sub) => {
+      if (sub.id === subject.id) {
+        sub.isSync = !subject.isSync
+      }
+    })
+    setSubjectLock((prev) => [...prev, subject]);
+  }
 
   const renderSubjects = (subject, idx) => {
     const expandIconProps =
       subject?.subSubject.length > 0
         ? {
-            onClick: () => handleChange(`panel${idx}`),
-          }
+          onClick: () => handleChange(`panel${idx}`),
+        }
         : {
-            style: {
-              visibility: "hidden",
-            },
-          };
+          style: {
+            visibility: "hidden",
+          },
+        };
 
     return (
-      
-          <div>
-            <Draggable key={idx} draggableId={"subject-" + idx} index={idx}>
-              {(provider, snapshot) => {
+      <div>
+        <Draggable key={idx} draggableId={"subject-" + idx} index={idx}>
+          {(provider, snapshot) => {
 
-                const getItemStyle = (isDragging, draggableStyle) => ({
-                  userSelect: "none",
-                  paddingLeft: '2%',
-                  margin: '0%',
-                  ...draggableStyle,
-                  left: snapshot.isDragging ? 20 : 0,
-                  // top: snapshot.isDragging ? '50vh' : 0,
-               });
+            const getItemStyle = (isDragging, draggableStyle) => ({
+              userSelect: "none",
+              paddingLeft: '2%',
+              margin: '0%',
+              ...draggableStyle,
+              left: snapshot.isDragging ? 20 : 0,
+              // top: snapshot.isDragging ? '50vh' : 0,
+            });
 
-                return (
-                <Accordion
-                  ref={provider.innerRef}
-                  {...provider.draggableProps}
-                  expanded={expanded === `panel${idx}`}
-                  onChange={handleC(`panel${idx}`)}
-                  // style={style}
-                  style={getItemStyle(
-                    snapshot.isDragging,
-                    provider.draggableProps.style
-                 )}
-                  >
-                  <AccordionSummary
-                    expandIcon={null}
-                    aria-controls="panel1bh-content"
-                    id="panel1bh-header"
-                    className={classes.accordionSummary}
-                  >
-                    <Grid container justify="center" alignItems="center">
+            return (
+              <Accordion
+                ref={provider.innerRef}
+                {...provider.draggableProps}
+                expanded={expanded === `panel${idx}`}
+                onChange={handleC(`panel${idx}`)}
+                // style={style}
+                style={getItemStyle(
+                  snapshot.isDragging,
+                  provider.draggableProps.style
+                )}
+              >
+                <AccordionSummary
+                  expandIcon={null}
+                  aria-controls="panel1bh-content"
+                  id="panel1bh-header"
+                  className={classes.accordionSummary}
+                >
+                  <Grid container justify="center" alignItems="center">
 
-                      <Grid
-                        item
-                        lg={4}
-                        md={5}
-                        sm={4}
-                        xs={5}
-                        
-                      >
-                        <Box display={"flex"}>
+                    <Grid
+                      item
+                      lg={4}
+                      md={5}
+                      sm={4}
+                      xs={5}
 
-                          {/* Dragable icon */}
-                          <Typography {...provider.dragHandleProps}>
-                            <DragIndicatorIcon />
-                          </Typography>
+                    >
+                      <Box display={"flex"}>
 
-                          <Box {...expandIconProps} marginRight={1}>
-                            {expanded === `panel${idx}` ? (
-                              <ExpandLessIcon style={{ color: "#8F92A1" }} />
-                            ) : (
-                              <ExpandMoreIcon style={{ color: "#8F92A1" }} />
-                            )}
-                          </Box>
-
-                          <Typography className={classes.accordianText}>
-                            {subject?.name}
-                          </Typography>
-                        </Box>
-                      </Grid>
-                      <Grid item lg={4} md={2} sm={4} xs={3}>
-                        <Typography className={classes.accordianText}>
-                          {subject?.totalPoints}
+                        {/* Dragable icon */}
+                        <Typography {...provider.dragHandleProps}>
+                          <DragIndicatorIcon />
                         </Typography>
-                      </Grid>
-                      <Grid item lg={2} md={2} sm={2} xs={2}>
+
+                        <Box {...expandIconProps} marginRight={1}>
+                          {expanded === `panel${idx}` ? (
+                            <ExpandLessIcon style={{ color: "#8F92A1" }} />
+                          ) : (
+                            <ExpandMoreIcon style={{ color: "#8F92A1" }} />
+                          )}
+                        </Box>
+
+                        <Typography className={classes.accordianText}>
+                          {subject?.name}
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    <Grid item lg={4} md={2} sm={4} xs={3}>
+                      <Typography className={classes.accordianText}>
+                        {subject?.totalPoints}
+                      </Typography>
+                    </Grid>
+                    <Grid item lg={2} md={2} sm={2} xs={2}>
+                      {subject.type === "group" && location.pathname.includes("/groups") &&
                         <div
                           onClick={stopEventBubble(() => {
                             setSelectedSubject(subject);
@@ -311,103 +335,312 @@ export const GroupReportBody = (props) => {
                             alt=""
                           />
                         </div>
-                      </Grid>
-                      <Grid item lg={2} md={2} sm={2} xs={2}>
-                        <Edit
-                          className={classes.editHover}
-                          style={{
-                            color: "#8F92A1",
-                            marginRight: "10",
-                          }}
+                      }
+                      {subject.type === "kid" && location.pathname.includes("/kids") &&
+                        <div
                           onClick={stopEventBubble(() => {
                             setSelectedSubject(subject);
                             setModalStates((prev) => ({
                               ...prev,
-                              editSubject: true,
+                              subSubject: true,
+                            }));
+                          })}
+                        >
+                          <img
+                            src={AddIcon}
+                            className={classes.AddImage}
+                            alt=""
+                          />
+                        </div>
+                      }
+                      {location.pathname.includes("/data") &&
+                        <div
+                          onClick={stopEventBubble(() => {
+                            setSelectedSubject(subject);
+                            setModalStates((prev) => ({
+                              ...prev,
+                              subSubject: true,
+                            }));
+                          })}
+                        >
+                          <img
+                            src={AddIcon}
+                            className={classes.AddImage}
+                            alt=""
+                          />
+                        </div>
+                      }
+                    </Grid>
+                    <Grid item lg={2} md={2} sm={2} xs={2}>
+                      {(!subject.isSync && location.pathname.includes("/kids")) || (subject.type === "basic" && location.pathname.includes("/group")) ? null :
+                        <Sync className={classes.editHover}
+                          style={(subject.isSync && !location.pathname.includes("/kids") && (subject.type === "group" && location.pathname.includes("/group"))) || (subject.isSync && subject.type === "basic" && location.pathname.includes("/data")) ? {
+                            color: "#685be7", //Blue
+                            marginRight: "10",
+                          } : subject.isSync && location.pathname.includes("/kids") || (subject.isSync && subject.type === "basic") ? {
+                            color: "#4cb763", //Green
+                            marginRight: "10",
+                          } : (!subject.isSync && subject.type === "basic" && location.pathname.includes("/group")) ? {
+                            color: "#4cb763", //Green
+                            marginRight: "10",
+                            pointerEvents: "none"
+                          } : {
+                            color: "#8F92A1",
+                            marginRight: "10",
+                          }}
+                          onClick={stopEventBubble(() => {
+                            setSyncSubId(subject.id)
+                            setSyncSubject(subject)
+                            setModalStates((prev) => ({
+                              ...prev,
+                              sync: true,
                             }));
                           })}
                         />
-                        <Delete
-                          className={classes.delHover}
+                      }
+                      {(subject.isSync && subject.type === "basic" && location.pathname.includes("/group")) ?
+                        <Sync className={classes.editHover}
                           style={{
-                            color: "#8F92A1",
+                            color: "#4cb763", //Green
+                            pointerEvents: "none",
+                            marginRight: "10",
                           }}
                           onClick={stopEventBubble(() => {
-                            _handleSubjectDelete(subject.id, subject);
+                            setSyncSubId(subject.id)
+                            setSyncSubject(subject)
+                            setModalStates((prev) => ({
+                              ...prev,
+                              sync: true,
+                            }));
                           })}
-                        />
-                      </Grid>
-                    </Grid>
-                  </AccordionSummary>
-
-                  {subject?.subSubject.map((subSubject, idx) => (
-                    <AccordionDetails>
-                      <Grid container justify="center" alignItems="center">
-                        <Grid item lg={4} md={5} sm={4} xs={5}>
-                          <div style={{ display: "flex" }}>
-                            <img
-                              src={TickIcon}
-                              style={{
-                                width: 13,
-                                height: 12,
-                                marginTop: 6,
-                                marginRight: 10,
-                              }}
-                              alt=""
-                            />
-                            <Typography className={classes.summaryTypo}>
-                              {subSubject.name}
-                            </Typography>
-                          </div>
-                        </Grid>
-                        <Grid item lg={4} md={2} sm={4} xs={3}>
-                          <Typography className={classes.accordianText}>
-                            {subSubject.totalPoints}
-                          </Typography>
-                        </Grid>
-                        <Grid item lg={2} md={2} sm={2} xs={2}></Grid>
-                        <Grid item lg={2} md={2} sm={2} xs={2}>
+                        /> : null
+                      }
+                      {(subject.type === "group" && location.pathname.includes("/group")) ?
+                        <>
                           <Edit
                             className={classes.editHover}
                             style={{
                               color: "#8F92A1",
                               marginRight: "10",
                             }}
-                            onClick={() => {
+                            onClick={stopEventBubble(() => {
                               setSelectedSubject(subject);
-                              setSelectedSubSubject(subSubject);
                               setModalStates((prev) => ({
                                 ...prev,
-                                editSubSubject: true,
+                                editSubject: true,
                               }));
-                            }}
+                            })}
                           />
                           <Delete
                             className={classes.delHover}
                             style={{
                               color: "#8F92A1",
                             }}
-                            onClick={() => {
-                              _handleSubSubjectDelete(subSubject, subject);
-                            }}
+                            onClick={stopEventBubble(() => {
+                              _handleSubjectDelete(subject.id, subject);
+                            })}
                           />
-                        </Grid>
+                        </>
+                        : null
+                      }
+                      {(subject.type === "kid" && location.pathname.includes("/kid")) ?
+                        <>
+                          <Edit
+                            className={classes.editHover}
+                            style={{
+                              color: "#8F92A1",
+                              marginRight: "10",
+                            }}
+                            onClick={stopEventBubble(() => {
+                              setSelectedSubject(subject);
+                              setModalStates((prev) => ({
+                                ...prev,
+                                editSubject: true,
+                              }));
+                            })}
+                          />
+                          <Delete
+                            className={classes.delHover}
+                            style={{
+                              color: "#8F92A1",
+                            }}
+                            onClick={stopEventBubble(() => {
+                              _handleSubjectDelete(subject.id, subject);
+                            })}
+                          />
+                        </>
+                        : null
+                      }
+                      {(subject.type === "basic" && location.pathname.includes("/data")) ?
+                        <>
+                          <Edit
+                            className={classes.editHover}
+                            style={{
+                              color: "#8F92A1",
+                              marginRight: "10",
+                            }}
+                            onClick={stopEventBubble(() => {
+                              setSelectedSubject(subject);
+                              setModalStates((prev) => ({
+                                ...prev,
+                                editSubject: true,
+                              }));
+                            })}
+                          />
+                          <Delete
+                            className={classes.delHover}
+                            style={{
+                              color: "#8F92A1",
+                            }}
+                            onClick={stopEventBubble(() => {
+                              _handleSubjectDelete(subject.id, subject);
+                            })}
+                          />
+                        </>
+                        : null
+                      }
+                    </Grid>
+                  </Grid>
+                </AccordionSummary>
+
+                {subject?.subSubject.map((subSubject, idx) => (
+                  <AccordionDetails>
+                    <Grid container justify="center" alignItems="center">
+                      <Grid item lg={4} md={5} sm={4} xs={5}>
+                        <div style={{ display: "flex" }}>
+                          <img
+                            src={TickIcon}
+                            style={{
+                              width: 13,
+                              height: 12,
+                              marginTop: 6,
+                              marginRight: 10,
+                            }}
+                            alt=""
+                          />
+                          <Typography className={classes.summaryTypo}>
+                            {subSubject.name}
+                          </Typography>
+                        </div>
                       </Grid>
-                    </AccordionDetails>
-                  ))}
-                </Accordion>
-                )
-              }}
-            </Draggable>
-            
-          </div>
-        
-      
+                      <Grid item lg={4} md={2} sm={4} xs={3}>
+                        <Typography className={classes.accordianText}>
+                          {subSubject.totalPoints}
+                        </Typography>
+                      </Grid>
+                      <Grid item lg={2} md={2} sm={2} xs={2}></Grid>
+                      <Grid item lg={2} md={2} sm={2} xs={2}>
+                        {subject.isSync && subject.type === "kid" && location.pathname.includes("/kids") &&
+                          <>
+                            <Edit
+                              className={classes.editHover}
+                              style={{
+                                color: "#8F92A1",
+                                marginRight: "10",
+                              }}
+                              onClick={() => {
+                                setSelectedSubject(subject);
+                                setSelectedSubSubject(subSubject);
+                                setModalStates((prev) => ({
+                                  ...prev,
+                                  editSubSubject: true,
+                                }));
+                              }}
+                            />
+                            <Delete
+                              className={classes.delHover}
+                              style={{
+                                color: "#8F92A1",
+                              }}
+                              onClick={() => {
+                                console.log("111111111111")
+                                _handleSubSubjectDelete(subSubject, subject);
+                              }}
+                            />
+                          </>}
+                        {(!subject.isSync && subject.type === "group") && (location.pathname.includes("/kids") || location.pathname.includes("/groups")) &&
+                          <>
+                            <Edit
+                              className={classes.editHover}
+                              style={{
+                                color: "#8F92A1",
+                                marginRight: "10",
+                              }}
+                              onClick={() => {
+                                setSelectedSubject(subject);
+                                setSelectedSubSubject(subSubject);
+                                setModalStates((prev) => ({
+                                  ...prev,
+                                  editSubSubject: true,
+                                }));
+                              }}
+                            />
+                            <Delete
+                              className={classes.delHover}
+                              style={{
+                                color: "#8F92A1",
+                              }}
+                              onClick={() => {
+                                console.log("111111111111")
+                                _handleSubSubjectDelete(subSubject, subject);
+                              }}
+                            />
+                          </>}
+                        {location.pathname.includes("/data") &&
+                          <>
+                            <Edit
+                              className={classes.editHover}
+                              style={{
+                                color: "#8F92A1",
+                                marginRight: "10",
+                              }}
+                              onClick={() => {
+                                setSelectedSubject(subject);
+                                setSelectedSubSubject(subSubject);
+                                setModalStates((prev) => ({
+                                  ...prev,
+                                  editSubSubject: true,
+                                }));
+                              }}
+                            />
+                            <Delete
+                              className={classes.delHover}
+                              style={{
+                                color: "#8F92A1",
+                              }}
+                              onClick={() => {
+                                console.log("111111111111")
+                                _handleSubSubjectDelete(subSubject, subject);
+                              }}
+                            />
+                          </>}
+                      </Grid>
+                    </Grid>
+                  </AccordionDetails>
+                ))}
+              </Accordion>
+            )
+          }}
+        </Draggable>
+      </div>
     );
   };
 
   return (
     <Fragment>
+      <SimpleModal
+        title={<FormattedMessage id="change_sync" />}
+        open={modalStates.sync}
+        handleClose={closeSync}
+      >
+        <SyncSubject
+          subId={syncSubId}
+          subject={syncSubject}
+          handleClose={closeSync}
+          handleSyncSubject={_handleSyncSubject}
+        />
+      </SimpleModal>
+
       <SimpleModal
         title={<FormattedMessage id="add_subject" />}
         open={modalStates.subject}
@@ -420,6 +653,7 @@ export const GroupReportBody = (props) => {
           subjectAdded={subjectAdded}
         />
       </SimpleModal>
+
       <SimpleModal
         title={<FormattedMessage id="add_sub_subjects" />}
         open={modalStates.subSubject}
@@ -428,11 +662,12 @@ export const GroupReportBody = (props) => {
         <AddSubSubjectBody
           group={group}
           selectedSubject={selectedSubject}
-          subjects={_subjectAdded}
+          subjects={subjects}
           handleClose={closeSubSubject}
           subSubjectAdded={subSubjectAdded}
         />
       </SimpleModal>
+
       <SimpleModal
         title={<FormattedMessage id="edit_subject" />}
         open={modalStates.editSubject}
@@ -441,7 +676,7 @@ export const GroupReportBody = (props) => {
         <EditSubjectBody
           group={group}
           selectedSubject={selectedSubject}
-          subjects={_subjectAdded}
+          subjects={subjects}
           handleClose={closeEditSubject}
           subjectEdited={subjectEdited}
         />
@@ -456,7 +691,7 @@ export const GroupReportBody = (props) => {
           group={group}
           selectedSubject={selectedSubject}
           selectedSubSubject={selectedSubSubject}
-          subjects={_subjectAdded}
+          subjects={subjects}
           handleClose={closeEditSubSubject}
           subSubjectEdited={subSubjectEdited}
         />
@@ -586,20 +821,20 @@ export const GroupReportBody = (props) => {
         </Grid>
       </Grid>
 
-
-      <DragDropContext onDragEnd={handleDragEnd}>
-      <Droppable droppableId="subject-1">
-        {(provider) => (
-        <div {...provider.droppableProps} ref={provider.innerRef}>
-          <div className={classes.subjectsContainer}>
-          {subjects.map((el, idx) => renderSubjects(el, idx, handleDragEnd))}
-          </div>
-          {provider.placeholder}
-        </div>
-        )}
-        </Droppable>
-      </DragDropContext>
-
+      <Box className={classes.box + " " + "scrollBox"}>
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <Droppable droppableId="subject-1">
+            {(provider) => (
+              <div {...provider.droppableProps} ref={provider.innerRef}>
+                <div className={classes.subjectsContainer}>
+                  {subjects.map((el, idx) => renderSubjects(el, idx, handleDragEnd))}
+                </div>
+                {provider.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </Box>
 
       <div className={classes.footer}>
         <Button className={classes.cancelButton} onClick={handleClose}>
@@ -616,7 +851,8 @@ export const GroupReportBody = (props) => {
               _subjectAdded,
               _subSubjectAdded,
               _subjectEdit,
-              _subSubjectEdit
+              _subSubjectEdit,
+              _subjectLock
             );
           }}
         >
@@ -631,6 +867,10 @@ const useStyles = makeStyles((theme) => {
     ...getModalStyles(theme),
     container: {
       display: "flex",
+    },
+    // To make report modal scroll
+    box: {
+      overflow: "auto",
     },
     cancelButton: {
       "&:hover": {
