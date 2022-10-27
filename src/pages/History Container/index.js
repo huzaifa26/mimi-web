@@ -8,12 +8,13 @@ import {
   MenuSingle,
   Links,
   DataTable,
+  MenuMultiple
 } from "../../components";
 import { FormattedMessage } from "react-intl";
 import { useStore } from "../../store";
 import { HISTORY_TYPES } from "../../utils/constants";
 import { FirebaseHelpers } from "../../utils/helpers";
-
+import { db } from "../../utils/firebase";
 import { usePagination } from "../../hooks/usePaginaton";
 // import { db } from "../../utils/firebase";
 
@@ -59,6 +60,7 @@ const options = [
     label: "This Week",
   },
 ];
+
 
 const ModalMappings = [
   {
@@ -261,6 +263,9 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
     })();
   }, []);
 
+
+
+
   const classes = useStyles();
 
   const { state: storeState } = useStore();
@@ -278,11 +283,21 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
   const [groups, setGroups] = useState();
   const [kids, setKids] = useState();
   const [searchText, setSearchText] = useState("");
+  const [allFilteredGroups, setAllFilteredGroups] = useState([])
+  const [groupOption, setGroupOption] = useState([])
+  const [actionOption, setActionOption] = useState([])
   const [duration, setDuration] = useState({
     id: "month",
     label: "This Month",
   });
-
+  const [groupsNames, setGroupNames] = useState({
+    id: "All",
+    label: "All Groups",
+  });
+  const [actionNames, setActionNames] = useState({
+    id: "All",
+    label: "All Actions",
+  });
   const [history, setHistory] = useState([]);
 
   const query = useMemo(() => {
@@ -297,7 +312,29 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
       (a, b) => b.time.toDate().getTime() - a.time.toDate().getTime()
     );
   });
+  useEffect(() => {
+    console.log("use effect run!")
+    var arr = [];
+    data.map(object => { arr.push(object.payload?.kid?.groupName) })
+    var groupOptions = []
+    const filteredGroupNames = [...new Set(arr)]
+    filteredGroupNames.map(value => groupOptions.push({ id: value, label: value }))
+    setGroupOption(groupOptions.filter(el => el.id !== undefined))
+  }, [data]);
 
+  useEffect(() => {
+    console.log("run action useeffect")
+    var actionArr = [];
+    data.map(object => {
+      actionArr.push(object.type)
+    });
+    var actionOptions = [];
+    const filteredActionNames = [...new Set(actionArr)]
+    filteredActionNames.map(value => actionOptions.push({ id: value, label: value }))
+ 
+    setActionOption(actionOptions)
+  }, [data])
+ 
   const renderItem = (row) => {
     const key = String(row.type).replaceAll(" ", "_");
     return (
@@ -339,8 +376,8 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
             {row.payload?.score
               ? row.payload.score
               : row.payload?.status
-              ? "True"
-              : "False"}
+                ? "True"
+                : "False"}
           </Typography>
         </TableCell>
       </Fragment>
@@ -406,6 +443,56 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
     },
   ];
 
+
+
+
+  // function for rendering data based on group drop down.
+  useMemo(() => {
+
+
+    if (groupsNames.id === "All") {
+      setHistory(data);
+      return
+    }
+
+    var filteredData = [];
+    data.map(object => {
+      if (object.payload?.kid?.groupName === groupsNames.label) {
+        filteredData.push(object)
+
+      } else {
+        console.log("dont match")
+      }
+    })
+    setHistory(filteredData)
+
+  }, [groupsNames])
+
+
+
+
+  // function for rendering data based on action drop down.
+  useMemo(() => {
+
+
+    if (actionNames.id === "All") {
+      setHistory(data);
+      return
+    }
+
+    var filteredData = [];
+    data.map(object => {
+      if (object.type === actionNames.label) {
+        filteredData.push(object)
+
+      } else {
+        console.log("don't match")
+      }
+    })
+    setHistory(filteredData)
+
+  }, [actionNames])
+
   const actionBar = (
     <div className={classes.default_headerSection_container}>
       {!hideTitle && (
@@ -431,6 +518,31 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
           label={renderLabel(duration)}
           handleChange={(value) => setDuration(value)}
           defaultValue={duration}
+        />
+      </div>
+
+      <div>
+        <MenuMultiple
+          list={groupOption}
+          entity={'Groups'}
+          handleChange={options => {
+            const groupIds = options.map(el => el.id);
+            var filtered = data.filter(el => groupIds.includes(el.payload?.kid?.groupName))
+            setHistory(filtered);
+          }}
+        />
+
+      </div>
+
+      <div className={classes.default_headerSection_actionsContainer}>
+        <MenuMultiple
+          list={actionOption}
+          entity={'Actions'}
+          handleChange={options => {
+            const actionIds = options.map(el => el.id);
+            var filtered = data.filter(el => actionIds.includes(el.type))
+            setHistory(filtered);
+          }}
         />
       </div>
     </div>
