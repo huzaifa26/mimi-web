@@ -51,12 +51,12 @@ export function Login() {
   const [showChangePassword, setShowChangePassword] = useState(false);
 
   useEffect(() => {
-    // if(user?.permissions?.webpanelAccess){
-    //   if (auth.currentUser) {
-    //     console.log("2222222222")
-    //     return history.push("/dashboard");
-    //   }
-    // }
+    if(user?.permissions?.webPanelAccess){
+      if (auth.currentUser) {
+        console.log("2222222222")
+        return history.push("/dashboard");
+      }
+    }
     
     const lang = navigator.language;
     const defaultDir = rtlDetect.getLangDir(lang);
@@ -69,6 +69,39 @@ export function Login() {
           : LANGUAGE_MAPPING.HEBREW,
     }));
   }, []);
+
+  const setLocalStorage = (institutionCode, password, language, direction) => {
+    return new Promise((resolve, reject) => {
+      localStorage.setItem("code", institutionCode.toUpperCase());
+      localStorage.setItem("password", password);
+      const bodyEl = document.getElementsByTagName("html")[0];
+      bodyEl.setAttribute("lang", language);
+      bodyEl.setAttribute("dir", direction);
+      localStorage.setItem("language", language);
+      localStorage.setItem("orientation", direction);
+      resolve(true);
+    })
+  }
+
+  useEffect(() => {
+    auth.onAuthStateChanged(async (user) => {
+      db
+        .collection("Institution")
+        .doc(institutionCode.toUpperCase())
+        .collection("staff")
+        .doc(user.uid)
+        .onSnapshot((snapshot) => {
+          let user=snapshot.data();
+          if(user.permissions.webPanelAccess === true){
+            setStoreState((prev) => ({
+              ...prev,
+              authenticated: true,
+              user: { ...user, _code: institutionCode.toUpperCase() },
+            }));
+          }
+        });
+    });
+  }, [])
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -99,19 +132,11 @@ export function Login() {
       const language = "en";
       const direction = "ltr";
 
-      localStorage.setItem("code", institutionCode.toUpperCase());
-      localStorage.setItem("password", password);
-      const bodyEl = document.getElementsByTagName("html")[0];
-      bodyEl.setAttribute("lang", language);
-      bodyEl.setAttribute("dir", direction);
-      localStorage.setItem("language", language);
-      localStorage.setItem("orientation", direction);
 
       const userCredential = await auth.signInWithEmailAndPassword(
         email,
         password
       );
-
 
       const userDocRef = await db
         .collection("Institution")
@@ -125,34 +150,33 @@ export function Login() {
         _code: institutionCode.toUpperCase(),
       };
 
-      const access = user.permissions[PERMISSIONS.webpanelAccess];
-      if (access === false){
+      const access = user.permissions[PERMISSIONS.webPanelAccess];
+
+      if (access === false) {
         localStorage.clear();
         await auth.signOut().then(
           () => {
             localStorage.clear();
-            // history.push("/");
           },
           (error) => {
             console.error("Sign Out Error", error);
           }
         );
-        return actions.alert("You are restricted from using panel","error");
-      }
+        return actions.alert("You are restricted from using panel", "error");
+      } else if (access === true) {
+        if (typeof access === "boolean" && !access)
+          return actions.alert("You account has been disabled. Please contact admin for queries", "error");
 
-      if (typeof access === "boolean" && !access)
-        return actions.alert("You account has been disabled. Please contact admin for queries","error");
-
-      if (!user.firstPasswordChanged && user.type != ROLES.admin) {
-        return setShowChangePassword(true);
-      }
-      if (access === true){
-        console.log("2222222222")
-        history.push("/dashboard");
+        if (!user.firstPasswordChanged && user.type != ROLES.admin) {
+          return setShowChangePassword(true);
+        }
+        await setLocalStorage(institutionCode, password, language, direction)
+          .then(() => {
+            history.push("/dashboard");
+          })
       }
     } catch (error) {
       console.log(error);
-
       return actions.alert(error.message, "error");
     } finally {
       setLoading(false);

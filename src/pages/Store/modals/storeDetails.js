@@ -37,6 +37,7 @@ import clsx from "clsx";
 import { ManageAccessBody } from "./manageAccess";
 import { EditStoreBody } from "./editStore";
 import { ProductBody } from "./product";
+import { nanoid } from "nanoid";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -77,10 +78,35 @@ export const StoreDetailsBody = (props) => {
   const listenerRef = useRef([]);
 
   const [searchText, setSearchText] = useState("");
+
   const [store, setStore] = useState();
   const [data, setData] = useState([]);
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState();
+
+  const storeLog=useRef(null)
+
+  useEffect(() => {
+    return async() => {
+      if (storeLog.current !== null) {
+        const subject_id = nanoid(6);
+        const payload = {
+            id: subject_id,
+            activity: "store",
+            subActivity: storeLog?.current?.store_name,
+            uid: user.id
+        }
+        console.log("store "+storeLog?.current?.store_name+" opened, uid:" + user.id);
+
+        // await db
+        //     .collection('Institution')
+        //     .doc(user._code)
+        //     .collection('log')
+        //     .doc(payload.id)
+        //     .set(payload)
+    }
+    }
+  }, [])
 
   useEffect(() => {
     if (!storeId) return;
@@ -92,6 +118,7 @@ export const StoreDetailsBody = (props) => {
         .doc(storeId)
         .onSnapshot((snapshot) => {
           setStore(snapshot.data());
+          storeLog.current=snapshot.data();
         })
     );
 

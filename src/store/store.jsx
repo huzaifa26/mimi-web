@@ -27,27 +27,29 @@ export const StoreProvidor = ({ children }) => {
     auth.onAuthStateChanged((user) => {
       if (user) {
         const code = localStorage.getItem("code");
-
-        listener.current = db
-          .collection("Institution")
-          .doc(code)
-          .collection("staff")
-          .doc(user.uid)
-          .onSnapshot((snapshot) => {
-            console.log({ user: snapshot.data() });
-
-            setState((prev) => ({
-              ...prev,
-              authenticated: true,
-              user: { ...snapshot.data(), _code: code },
-            }));
-          });
-      } else {
+        console.info(code);
+        if(code !== null){
+          listener.current = db
+            .collection("Institution")
+            .doc(code)
+            .collection("staff")
+            .doc(user.uid)
+            .onSnapshot((snapshot) => {
+              // console.log({ user: snapshot.data() });
+              setState((prev) => ({
+                ...prev,
+                authenticated: true,
+                user: { ...snapshot.data(), _code: code },
+              }));
+            });
+        }
+      } 
+      else {
         setState((prev) => ({ ...prev, user: null, authenticated: true }));
         listener.current && listener.current();
       }
     });
-  }, []);
+}, []);
 
   useEffect(() => {
     state.user &&
