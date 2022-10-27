@@ -13,7 +13,7 @@ import { FormattedMessage } from "react-intl";
 import { useStore } from "../../store";
 import { HISTORY_TYPES } from "../../utils/constants";
 import { FirebaseHelpers } from "../../utils/helpers";
-
+import { db } from "../../utils/firebase";
 import { usePagination } from "../../hooks/usePaginaton";
 // import { db } from "../../utils/firebase";
 
@@ -261,6 +261,7 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
       setKids(_kids);
     })();
   }, []);
+ 
 
   const classes = useStyles();
 
@@ -413,7 +414,7 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
   ];
   // Filtering all groups name , creating dropdowns for groups
   var arr = [];
-  history.map(object=>{
+  data.map(object=>{
     arr.push(object.payload?.kid?.groupName)
     
     
@@ -426,6 +427,27 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
   const filteredGroupNames = [...new Set(arr)]
   filteredGroupNames.map(value=>groupOptions.push({id:value,label:value}))
  console.log(groupOptions)
+
+
+useMemo(() => {
+  console.log(groupsNames)
+
+  if(groupsNames.id==="All"){
+    setHistory(data);
+    return
+  }
+  var filteredData = [];
+  data.map(object=>{
+   if(object.payload?.kid?.groupName===groupsNames.label){
+    filteredData.push(object)
+  
+   } else {
+    console.log("dont match")
+   }
+  })
+ setHistory(filteredData)
+ },[groupsNames])
+ console.log(history)
   const actionBar = (
     <div className={classes.default_headerSection_container}>
       {!hideTitle && (
@@ -457,7 +479,9 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
         <MenuSingle
           list={groupOptions}
           label={renderLabel(groupsNames)}
-          handleChange={(value) => setGroupNames(value)}
+          handleChange={async(value) => {
+            setGroupNames(value)
+          }}
           defaultValue={groupsNames}
         />
       </div>
