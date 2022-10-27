@@ -8,6 +8,7 @@ import {
   MenuSingle,
   Links,
   DataTable,
+  MenuMultiple
 } from "../../components";
 import { FormattedMessage } from "react-intl";
 import { useStore } from "../../store";
@@ -261,7 +262,9 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
       setKids(_kids);
     })();
   }, []);
- 
+
+
+
 
   const classes = useStyles();
 
@@ -281,7 +284,8 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
   const [kids, setKids] = useState();
   const [searchText, setSearchText] = useState("");
   const [allFilteredGroups, setAllFilteredGroups] = useState([])
-
+  const [groupOption, setGroupOption] = useState([])
+  const [actionOption, setActionOption] = useState([])
   const [duration, setDuration] = useState({
     id: "month",
     label: "This Month",
@@ -308,7 +312,29 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
       (a, b) => b.time.toDate().getTime() - a.time.toDate().getTime()
     );
   });
+  useEffect(() => {
+    console.log("use effect run!")
+    var arr = [];
+    data.map(object => { arr.push(object.payload?.kid?.groupName) })
+    var groupOptions = []
+    const filteredGroupNames = [...new Set(arr)]
+    filteredGroupNames.map(value => groupOptions.push({ id: value, label: value }))
+    setGroupOption(groupOptions.filter(el => el.id !== undefined))
+  }, [data]);
 
+  useEffect(() => {
+    console.log("run action useeffect")
+    var actionArr = [];
+    data.map(object => {
+      actionArr.push(object.type)
+    });
+    var actionOptions = [];
+    const filteredActionNames = [...new Set(actionArr)]
+    filteredActionNames.map(value => actionOptions.push({ id: value, label: value }))
+ 
+    setActionOption(actionOptions)
+  }, [data])
+ 
   const renderItem = (row) => {
     const key = String(row.type).replaceAll(" ", "_");
     return (
@@ -350,8 +376,8 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
             {row.payload?.score
               ? row.payload.score
               : row.payload?.status
-              ? "True"
-              : "False"}
+                ? "True"
+                : "False"}
           </Typography>
         </TableCell>
       </Fragment>
@@ -416,83 +442,56 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
       title: <FormattedMessage id="history" />,
     },
   ];
-  // Filtering all groups name , creating dropdowns for groups
-  var arr = [];
-  data.map(object=>{
-    arr.push(object.payload?.kid?.groupName)
-    
-    
-  })
-  var groupOptions = [{
-    id:"All",
-    label:"All Groups"
-  }]
-
-  const filteredGroupNames = [...new Set(arr)]
-  filteredGroupNames.map(value=>groupOptions.push({id:value,label:value}))
- console.log(groupOptions)
- 
-// function for rendering data based on group drop down.
-useMemo(() => {
-  console.log(groupsNames)
-
-  if(groupsNames.id==="All"){
-    setHistory(data);
-    return
-  }
-
-  var filteredData = [];
-  data.map(object=>{
-   if(object.payload?.kid?.groupName===groupsNames.label){
-    filteredData.push(object)
-  
-   } else {
-    console.log("dont match")
-   }
-  })
- setHistory(filteredData)
-
- },[groupsNames])
-
-// filtering actions names for actions filter drop down
-var actionArr = [];
-  data.map(object=>{
-    actionArr.push(object.type)
-    
-    
-  })
 
 
-  var actionOptions = [{
-    id:"All",
-    label:"All Actions"
-  }]
 
-  const filteredActionNames = [...new Set(actionArr)]
-  filteredActionNames.map(value=>actionOptions.push({id:value,label:value}))
- console.log(actionOptions)
 
-// function for rendering data based on action drop down.
-useMemo(() => {
-  console.log(actionNames)
+  // function for rendering data based on group drop down.
+  useMemo(() => {
 
-  if(actionNames.id==="All"){
-    setHistory(data);
-    return
-  }
 
-  var filteredData = [];
-  data.map(object=>{
-   if(object.type===actionNames.label){
-    filteredData.push(object)
-  
-   } else {
-    console.log("don't match")
-   }
-  })
- setHistory(filteredData)
+    if (groupsNames.id === "All") {
+      setHistory(data);
+      return
+    }
 
- },[actionNames])
+    var filteredData = [];
+    data.map(object => {
+      if (object.payload?.kid?.groupName === groupsNames.label) {
+        filteredData.push(object)
+
+      } else {
+        console.log("dont match")
+      }
+    })
+    setHistory(filteredData)
+
+  }, [groupsNames])
+
+
+
+
+  // function for rendering data based on action drop down.
+  useMemo(() => {
+
+
+    if (actionNames.id === "All") {
+      setHistory(data);
+      return
+    }
+
+    var filteredData = [];
+    data.map(object => {
+      if (object.type === actionNames.label) {
+        filteredData.push(object)
+
+      } else {
+        console.log("don't match")
+      }
+    })
+    setHistory(filteredData)
+
+  }, [actionNames])
 
   const actionBar = (
     <div className={classes.default_headerSection_container}>
@@ -521,24 +520,29 @@ useMemo(() => {
           defaultValue={duration}
         />
       </div>
-      <div className={classes.default_headerSection_actionsContainer}>
-        <MenuSingle
-          list={groupOptions}
-          label={renderLabel(groupsNames)}
-          handleChange={async(value) => {
-            setGroupNames(value)
+
+      <div>
+        <MenuMultiple
+          list={groupOption}
+          entity={'Groups'}
+          handleChange={options => {
+            const groupIds = options.map(el => el.id);
+            var filtered = data.filter(el => groupIds.includes(el.payload?.kid?.groupName))
+            setHistory(filtered);
           }}
-          defaultValue={groupsNames}
         />
+
       </div>
+
       <div className={classes.default_headerSection_actionsContainer}>
-        <MenuSingle
-          list={actionOptions}
-          label={renderLabel(actionNames)}
-          handleChange={async(value) => {
-            setActionNames(value)
+        <MenuMultiple
+          list={actionOption}
+          entity={'Actions'}
+          handleChange={options => {
+            const actionIds = options.map(el => el.id);
+            var filtered = data.filter(el => actionIds.includes(el.type))
+            setHistory(filtered);
           }}
-          defaultValue={actionNames}
         />
       </div>
     </div>
