@@ -60,6 +60,7 @@ const options = [
   },
 ];
 
+
 const ModalMappings = [
   {
     type: HISTORY_TYPES.Buy_Coupon,
@@ -278,11 +279,16 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
   const [groups, setGroups] = useState();
   const [kids, setKids] = useState();
   const [searchText, setSearchText] = useState("");
+  const [allFilteredGroups, setAllFilteredGroups] = useState([])
+
   const [duration, setDuration] = useState({
     id: "month",
     label: "This Month",
   });
-
+  const [groupsNames, setGroupNames] = useState({
+    id: "All",
+    label: "All Groups",
+  });
   const [history, setHistory] = useState([]);
 
   const query = useMemo(() => {
@@ -405,7 +411,21 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
       title: <FormattedMessage id="history" />,
     },
   ];
+  // Filtering all groups name , creating dropdowns for groups
+  var arr = [];
+  history.map(object=>{
+    arr.push(object.payload?.kid?.groupName)
+    
+    
+  })
+  var groupOptions = [{
+    id:"All",
+    label:"All Groups"
+  }]
 
+  const filteredGroupNames = [...new Set(arr)]
+  filteredGroupNames.map(value=>groupOptions.push({id:value,label:value}))
+ console.log(groupOptions)
   const actionBar = (
     <div className={classes.default_headerSection_container}>
       {!hideTitle && (
@@ -431,6 +451,14 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
           label={renderLabel(duration)}
           handleChange={(value) => setDuration(value)}
           defaultValue={duration}
+        />
+      </div>
+      <div className={classes.default_headerSection_actionsContainer}>
+        <MenuSingle
+          list={groupOptions}
+          label={renderLabel(groupsNames)}
+          handleChange={(value) => setGroupNames(value)}
+          defaultValue={groupsNames}
         />
       </div>
     </div>
