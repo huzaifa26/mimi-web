@@ -1,0 +1,26 @@
+{
+  "projects": {
+    "prod": "mimi-plan",
+    "dev": "mimi-plan-test",
+    "default": "mimi-plan-test"
+  },
+  "targets": {
+    "mimi-plan-test": {
+      "hosting": {
+        "test-web": [
+          "mimi-plan-test"
+        ],
+        "test-admin": [
+          "mimi-admin"
+        ]
+      }
+    },
+    "mimi-plan": {
+      "hosting": {
+        "web": [
+          "mimi-plan"
+        ]
+      }
+    }
+  }
+}

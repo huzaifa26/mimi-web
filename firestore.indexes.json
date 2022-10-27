@@ -1,0 +1,210 @@
+{
+    "indexes": [
+      {
+        "collectionGroup": "groups",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "staffId",
+            "arrayConfig": "CONTAINS"
+          },
+          {
+            "fieldPath": "id",
+            "order": "ASCENDING"
+          }
+        ]
+      },
+      {
+        "collectionGroup": "History",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "_groups",
+            "arrayConfig": "CONTAINS"
+          },
+          {
+            "fieldPath": "time",
+            "order": "ASCENDING"
+          }
+        ]
+      },
+      {
+        "collectionGroup": "History",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "_groups",
+            "arrayConfig": "CONTAINS"
+          },
+          {
+            "fieldPath": "time",
+            "order": "DESCENDING"
+          }
+        ]
+      },
+      {
+        "collectionGroup": "History",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "_kids",
+            "arrayConfig": "CONTAINS"
+          },
+          {
+            "fieldPath": "time",
+            "order": "ASCENDING"
+          }
+        ]
+      },
+      {
+        "collectionGroup": "History",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "_kids",
+            "arrayConfig": "CONTAINS"
+          },
+          {
+            "fieldPath": "time",
+            "order": "DESCENDING"
+          }
+        ]
+      },
+      {
+        "collectionGroup": "History",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "_staff",
+            "arrayConfig": "CONTAINS"
+          },
+          {
+            "fieldPath": "time",
+            "order": "ASCENDING"
+          }
+        ]
+      },
+      {
+        "collectionGroup": "History",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "_staff",
+            "arrayConfig": "CONTAINS"
+          },
+          {
+            "fieldPath": "time",
+            "order": "DESCENDING"
+          }
+        ]
+      },
+      {
+        "collectionGroup": "kid",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "has_special_program",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "id",
+            "order": "ASCENDING"
+          }
+        ]
+      },
+      {
+        "collectionGroup": "kid",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "staffId",
+            "arrayConfig": "CONTAINS"
+          },
+          {
+            "fieldPath": "id",
+            "order": "ASCENDING"
+          }
+        ]
+      },
+      {
+        "collectionGroup": "LogsFolder",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "groupIds",
+            "arrayConfig": "CONTAINS"
+          },
+          {
+            "fieldPath": "schoolId",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "date",
+            "order": "DESCENDING"
+          }
+        ]
+      },
+      {
+        "collectionGroup": "reports",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "kid_id",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "reported_by",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "date",
+            "order": "DESCENDING"
+          }
+        ]
+      },
+      {
+        "collectionGroup": "routePlan",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "status",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "id",
+            "order": "ASCENDING"
+          }
+        ]
+      },
+      {
+        "collectionGroup": "staff",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "type",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "id",
+            "order": "ASCENDING"
+          }
+        ]
+      },
+      {
+        "collectionGroup": "store",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "status",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "id",
+            "order": "ASCENDING"
+          }
+        ]
+      }
+    ],
+    "fieldOverrides": []
+  }
+  
