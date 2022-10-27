@@ -290,6 +290,10 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
     id: "All",
     label: "All Groups",
   });
+  const [actionNames, setActionNames] = useState({
+    id: "All",
+    label: "All Actions",
+  });
   const [history, setHistory] = useState([]);
 
   const query = useMemo(() => {
@@ -427,8 +431,8 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
   const filteredGroupNames = [...new Set(arr)]
   filteredGroupNames.map(value=>groupOptions.push({id:value,label:value}))
  console.log(groupOptions)
-
-
+ 
+// function for rendering data based on group drop down.
 useMemo(() => {
   console.log(groupsNames)
 
@@ -436,6 +440,7 @@ useMemo(() => {
     setHistory(data);
     return
   }
+
   var filteredData = [];
   data.map(object=>{
    if(object.payload?.kid?.groupName===groupsNames.label){
@@ -446,8 +451,49 @@ useMemo(() => {
    }
   })
  setHistory(filteredData)
+
  },[groupsNames])
- console.log(history)
+
+// filtering actions names for actions filter drop down
+var actionArr = [];
+  data.map(object=>{
+    actionArr.push(object.type)
+    
+    
+  })
+
+
+  var actionOptions = [{
+    id:"All",
+    label:"All Actions"
+  }]
+
+  const filteredActionNames = [...new Set(actionArr)]
+  filteredActionNames.map(value=>actionOptions.push({id:value,label:value}))
+ console.log(actionOptions)
+
+// function for rendering data based on action drop down.
+useMemo(() => {
+  console.log(actionNames)
+
+  if(actionNames.id==="All"){
+    setHistory(data);
+    return
+  }
+
+  var filteredData = [];
+  data.map(object=>{
+   if(object.type===actionNames.label){
+    filteredData.push(object)
+  
+   } else {
+    console.log("don't match")
+   }
+  })
+ setHistory(filteredData)
+
+ },[actionNames])
+
   const actionBar = (
     <div className={classes.default_headerSection_container}>
       {!hideTitle && (
@@ -483,6 +529,16 @@ useMemo(() => {
             setGroupNames(value)
           }}
           defaultValue={groupsNames}
+        />
+      </div>
+      <div className={classes.default_headerSection_actionsContainer}>
+        <MenuSingle
+          list={actionOptions}
+          label={renderLabel(actionNames)}
+          handleChange={async(value) => {
+            setActionNames(value)
+          }}
+          defaultValue={actionNames}
         />
       </div>
     </div>
