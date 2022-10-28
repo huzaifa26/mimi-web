@@ -22,6 +22,7 @@ export const Profile = () => {
   const [image, setImage] = useState();
   const [uploadModal, setUploadModal] = useState();
   const [groups, setGroups] = useState([]);
+  const [group, setGroup] = useState([]);
 
   console.log(user);
 
@@ -31,6 +32,7 @@ export const Profile = () => {
     setUploadModal(true);
   }, [image]);
 
+  // To get the groups
   useEffect(() => {
     (async () => {
       const totalGroups = (
@@ -43,8 +45,23 @@ export const Profile = () => {
       setGroups(totalGroups);
     })();
   }, [user._code]);
-
   // console.log(groups);
+
+  // To get a group
+  useEffect(() => {
+    (async () => {
+      const ref = (
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("groups")
+          .where("id", "==", user.group_ids[0])
+          .get()
+      ).docs.map((el) => el.data());
+      setGroup(ref);
+    })();
+  }, []);
+  // console.log(group);
 
   const closeUploadModal = () => {
     setUploadModal(false);
@@ -136,7 +153,6 @@ export const Profile = () => {
               </Typography>
             </Box>
 
-
             {user.type === "admin" ? (
               <Box marginY={1}>
                 <Typography
@@ -174,7 +190,7 @@ export const Profile = () => {
                       classes.default_typography_colorLight,
                     ])}
                   >
-                    Group: {user.group_ids[0].name}
+                    Group: {group[0].name}
                   </Typography>
                 </Box>
               )
