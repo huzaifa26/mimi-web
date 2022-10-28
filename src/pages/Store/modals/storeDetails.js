@@ -83,7 +83,6 @@ export const StoreDetailsBody = (props) => {
   const [data, setData] = useState([]);
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState();
-  const storeLog=useRef(null)
 
   useEffect(() => {
     return async() => {
