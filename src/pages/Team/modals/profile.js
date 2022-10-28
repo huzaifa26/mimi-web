@@ -220,7 +220,7 @@ export const ProfileBody = (props) => {
               classes.default_typography_heading,
             ])}
           >
-            {staff.name}
+           Name :  {staff.name}
           </Typography>
           <Typography
             className={clsx([
@@ -228,7 +228,7 @@ export const ProfileBody = (props) => {
               classes.default_typography_paragraph,
             ])}
           >
-            {staff.email}
+            Email : {staff.email}
           </Typography>
 
           <Typography
@@ -238,7 +238,7 @@ export const ProfileBody = (props) => {
               classes.default_typography_paragraph,
             ])}
           >
-            {RoleMappings[staff.type]}
+            Role : {RoleMappings[staff.type]}
           </Typography>
           <Typography
             className={clsx([
@@ -247,7 +247,7 @@ export const ProfileBody = (props) => {
               classes.default_typography_paragraph,
             ])}
           >
-            {staff._groups}
+          Group :   {staff._groups}
           </Typography>
         </Box>
 

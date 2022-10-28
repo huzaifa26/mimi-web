@@ -6,6 +6,7 @@ import {
   Checkbox,
   FormControlLabel,
   Avatar,
+  Box
 } from "@material-ui/core";
 import clsx from "clsx";
 import { nanoid } from "nanoid";
@@ -165,7 +166,14 @@ const steps = [
           }));
         }
       };
-
+      const handleSelectAll = (checked) => {
+        const groups = state.groups;
+        if (checked) {
+          setState((prev) => ({ ...prev, selectedGroups: groups }));
+        } else {
+          setState((prev) => ({ ...prev, selectedGroups: [] }));
+        }
+      };
       const renderItem = (group) => {
         return (
           <Fragment>
@@ -188,13 +196,24 @@ const steps = [
       };
 
       const actionBar = (
-        <div className={classes.default_headerSection_container}>
+        <Box display={"flex"} padding="16px" justifyContent={"space-between"}>
           <SearchBar
             placeholder={`Search by names`}
             size={"small"}
             handleSearch={(value) => setSearchText(value)}
           />
-        </div>
+          
+          <Checkbox 
+                          style={{
+                            color: "#685BE7",
+                          }}
+                        onChange={(e) => handleSelectAll(e.target.checked)}
+                        checked={selectedGroupIds.length == state.groups.length}
+                        />
+                         <Typography className={classes.selectAllTypo}>
+                        Select All
+                        </Typography>
+        </Box>
       );
 
       const tableProps = {
