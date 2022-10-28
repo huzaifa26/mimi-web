@@ -6,11 +6,14 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  TableSortLabel,
   Typography,
+  
 } from "@material-ui/core";
+
 import clsx from "clsx";
 import ScrollArea from "react-scrollbar";
-import React, { Fragment, useRef, useState } from "react";
+import React, { Fragment, useRef, useState, useEffect, useMemo } from "react";
 import { FormattedMessage } from "react-intl";
 import { useInView } from "react-intersection-observer";
 import { Button } from ".";
@@ -104,7 +107,8 @@ export const DataTable = React.forwardRef((props, ref) => {
   const { orientation } = storeState;
 
   const [loading, setLoading] = useState(false);
-
+  const [tableData, setTableData] = useState([]);
+  const [sortDirection, setSortDirection] = useState('asc');
   const counterRef = useRef(1);
 
   const {
@@ -132,6 +136,9 @@ export const DataTable = React.forwardRef((props, ref) => {
     counterRef.current += 1;
     setLoading(false);
   };
+  useMemo(()=>{
+  setTableData(data)
+  },[data])
 
   if (typeof data === "undefined") return <Loader />;
 
@@ -142,6 +149,17 @@ export const DataTable = React.forwardRef((props, ref) => {
       </Typography>
     );
 
+const sortData = (headerColValue) => {
+
+
+  if(sortDirection==='asc'){
+    setTableData(data.sort((a, b) => (a.kids_ids > b.kids_ids) ? 1 : -1))
+    setSortDirection('desc')
+  } else {
+    setTableData(data.sort((a, b) => (a.kids_ids < b.kids_ids) ? 1 : -1))
+    setSortDirection('asc')
+  }
+}
   return (
     <Fragment>
       <ScrollArea
@@ -156,25 +174,31 @@ export const DataTable = React.forwardRef((props, ref) => {
           className={classes.table}
           {...(tableProps || {})}
           aria-label="custom pagination table"
+          
         >
           <TableHead>
             <TableRow className={clsx([classes.tableHeadRow, orientation])}>
               {headers.map((el) => {
                 return (
                   <TableCell
-                    className={clsx({
-                      [classes.tableHeadCell]: true,
-                      [classes.fitContent]: !String(el.id).trim(),
-                    })}
+                  key={el.id}
+                  className={clsx({
+                    [classes.tableHeadCell]: true,
+                    [classes.fitContent]: !String(el.id).trim(),
+                  })}
+                  style={{cursor:"pointer"}}
+                  onClick={()=>{sortData(el.id)}}
+                    
                   >
                     <FormattedMessage id={el.id} />
+              
                   </TableCell>
                 );
               })}
             </TableRow>
           </TableHead>
           <TableBody className={classes.tableBody}>
-            {data.map((el) => (
+            {tableData.map((el) => (
               <TableRow
               innerRef={observerRef}
               className={clsx({
@@ -189,6 +213,8 @@ export const DataTable = React.forwardRef((props, ref) => {
             )}
           </TableBody>
         </Table>
+       
+
       </ScrollArea>
 
       <div
