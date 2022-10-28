@@ -61,6 +61,7 @@ export const ProfileBody = (props) => {
 
   const staffLog=useRef(null);
 
+  // Log
   useEffect(() => {
     return async() => {
       if (staffLog.current !== null) {
@@ -71,13 +72,13 @@ export const ProfileBody = (props) => {
             subActivity: staffLog?.current?.name,
             uid: user.id
         }
-        console.log(payload);
-        await db
-            .collection('Institution')
-            .doc(user._code)
-            .collection('log')
-            .doc(payload.id)
-            .set(payload)
+        console.log("staff "+staffLog?.current?.name+" opened, uid:" + user.id);
+        // await db
+        //     .collection('Institution')
+        //     .doc(user._code)
+        //     .collection('log')
+        //     .doc(payload.id)
+        //     .set(payload)
     }
     }
   }, [])
@@ -152,6 +153,7 @@ export const ProfileBody = (props) => {
         staff,
         user,
       });
+  
 
       handleClose();
     };

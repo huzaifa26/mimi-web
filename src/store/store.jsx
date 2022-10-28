@@ -26,32 +26,32 @@ export const StoreProvidor = ({ children }) => {
   });
 
   useEffect(() => {
-      auth.onAuthStateChanged((user) => {
-        if (user) {
-          const code = localStorage.getItem("code");
-          console.info(code);
-          if(code !== null){
-            listener.current = db
-              .collection("Institution")
-              .doc(code)
-              .collection("staff")
-              .doc(user.uid)
-              .onSnapshot((snapshot) => {
-                // console.log({ user: snapshot.data() });
-                setState((prev) => ({
-                  ...prev,
-                  authenticated: true,
-                  user: { ...snapshot.data(), _code: code },
-                }));
-              });
-          }
-        } 
-        else {
-          setState((prev) => ({ ...prev, user: null, authenticated: true }));
-          listener.current && listener.current();
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        const code = localStorage.getItem("code");
+        console.info(code);
+        if(code !== null){
+          listener.current = db
+            .collection("Institution")
+            .doc(code)
+            .collection("staff")
+            .doc(user.uid)
+            .onSnapshot((snapshot) => {
+              // console.log({ user: snapshot.data() });
+              setState((prev) => ({
+                ...prev,
+                authenticated: true,
+                user: { ...snapshot.data(), _code: code },
+              }));
+            });
         }
-      });
-  }, []);
+      } 
+      else {
+        setState((prev) => ({ ...prev, user: null, authenticated: true }));
+        listener.current && listener.current();
+      }
+    });
+}, []);
 
   useEffect(() => {
     state?.user?.permissions?.webPanelAccess &&

@@ -67,6 +67,7 @@ export const Data = React.memo(() => {
     subDaysLeft: 0,
   });
   const [subjects, setSubjects] = useState([]);
+  const [uploadFileType, setUploadFileType] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -505,12 +506,12 @@ export const Data = React.memo(() => {
             id: sub.id,
             name: sub.name,
             totalPoints: sub.totalPoints,
-            // subSubject: sub.subject,
+            // subject: sub.subject,
             subSubject: sub.subSubject,
             obtainedPoints: sub.obtainedPoints,
-            hasSubSubject: sub.hasSubSubject,
+            hasSubSubject: sub.subSubject.length > 0,
             isSync: sub.isSync,
-            type: sub.type
+            type: sub.type || "basic"
           };
 
           await db
@@ -528,7 +529,6 @@ export const Data = React.memo(() => {
     // edit sub subject
     let _save6 = await Promise.all(
       subSubjectEdit.map(async (sub) => {
-        console.log(sub.selectedSubject)
 
         const payload = {
           id: sub.id,
@@ -784,7 +784,7 @@ export const Data = React.memo(() => {
                 .doc(sub.id)
             );
           });
-          await batch.commit().then(() => console.log("kid deleted"));
+          await batch.commit();
 
           const batch1 = db.batch();
           groupsId.map(async (group_id) => {
@@ -798,7 +798,7 @@ export const Data = React.memo(() => {
                 .doc(sub.id)
             );
           })
-          await batch1.commit().then(() => console.log("group deleted"));
+          await batch1.commit()
         }
 
         let groups = (
@@ -851,8 +851,6 @@ export const Data = React.memo(() => {
     let _save4 = await Promise.all(
       subSubjectDeleted.map(async (sub) => {
         const _payload = { ...sub.selectedSubject };
-        console.log(_payload);
-
 
         await db
           .collection("Institution")
@@ -966,6 +964,7 @@ export const Data = React.memo(() => {
             .collection("groups")
             .doc(group.id)
             .collection("report_templates")
+            .doc(sub.subjectId)
             .delete();
 
           await db
@@ -1140,13 +1139,14 @@ export const Data = React.memo(() => {
 
       <SimpleModal
         disableBackdropClick
-        title={<FormattedMessage id="excel_upload" />}
+        title={<FormattedMessage id={uploadFileType ? `Excel Upload ${uploadFileType}` : "Excel Upload"} />}
         open={modalStates.fileUpload}
         handleClose={closeFileUploadModal}
       >
         <FileUploadBody
           open={modalStates.groupReport}
           handleClose={closeFileUploadModal}
+          showUploadType={(value) => { setUploadFileType(value) }}
         />
       </SimpleModal>
 

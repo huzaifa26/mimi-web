@@ -107,7 +107,8 @@ export const Profile = React.memo(() => {
                         setStoreState(prev => ({ ...prev, language: value.id, orientation: dir }));
 
                         // to change the website title as the lnguage
-                        if(value.id === 'heb'){
+                        const language = localStorage.getItem('language');
+                        if(language === 'heb'){
                             document.title = 'מימי';
                         }else{
                             document.title = 'Mimi';

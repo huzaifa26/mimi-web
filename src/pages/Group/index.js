@@ -39,7 +39,6 @@ export const Group = React.memo(() => {
     const { actions } = useUi();
     const { user, orientation, defaultAvatars } = storeState;
     // const [groupLog,setGroupLog]=useState({});
-    const groupLog = useRef()
 
     const modifier = useMemo(
         () => async list => {
@@ -68,6 +67,8 @@ export const Group = React.memo(() => {
     const [searchText, setSearchText] = useState('');
     const [createGroupModalShow, setCreateGroupModalShow] = useState(false);
 
+    const groupLog = useRef(null);
+
     // Log
     useEffect(() => {
         return async () => {
@@ -89,7 +90,6 @@ export const Group = React.memo(() => {
             }
         }
     }, [])
-
 
     // console.log(groups);
     // --------- the bug seemes like here ----------
@@ -193,8 +193,8 @@ export const Group = React.memo(() => {
         headers,
         loadMore,
         handleRowClick: group => {
-            groupLog.current = group
-            history.push(`/groups/${group.id}`, { group });
+            groupLog.current = group;
+            history.push(`/groups/${group.id}`,{group});
         },
     };
 

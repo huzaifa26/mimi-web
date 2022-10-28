@@ -4,8 +4,7 @@ import { FormattedMessage } from "react-intl";
 import { Button, Field } from "../";
 import { nanoid } from "nanoid";
 import { getModalStyles } from "../../utils/helpers";
-import { CallToActionSharp } from "@material-ui/icons";
-import { useUi } from "../../store";
+import { useStore, useUi } from "../../store";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -82,24 +81,15 @@ export const AddSubSubjectBody = (props) => {
       subjectId: selectedSubject.id,
     };
     const subjectsCopy = [...subjects];
+    console.log(subjectsCopy);
+
     subjectsCopy.map((el) => {
       if (el.id == selectedSubject.id) {
-        let isAvail=false;
-        el.subSubject.filter((subSub)=>{
-          if(subSub.name === payload.name){
-            isAvail=true;
-          }
-        })
-        if(!isAvail){
-          console.log(payload);
-          el.subSubject.push(payload);
-          el.subSubject.map((e) => {
-            points = e.totalPoints + points;
-          });
-          el.totalPoints = points;
-        }else if(isAvail){
-          return actions.alert("Sub subject with this name already exists", "error");
-        }
+        el.subSubject.push(payload);
+        el.subSubject.map((e) => {
+          points = e.totalPoints + points;
+        });
+        el.totalPoints = points;
       }
     });
 
@@ -112,9 +102,12 @@ export const AddSubSubjectBody = (props) => {
       subjectPoints: points,
       isSync:selectedSubject.isSync
     };
+    console.log(subjectsCopy);
+    console.log(finalPayload);
     subSubjectAdded(subjectsCopy, finalPayload);
     handleClose();
   };
+  
   return (
     <Fragment>
       <Field label={<FormattedMessage id="subject_name" />}>

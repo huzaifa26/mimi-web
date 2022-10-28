@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 export const AddSubjectBody = (props) => {
+  const location=useLocation()
   const { handleClose, subjects, subjectAdded } = props;
   const classes = useStyles();
   const { state: storeState } = useStore();
@@ -23,7 +24,6 @@ export const AddSubjectBody = (props) => {
   const [score, setScore] = useState(0);
   const [subjectName, setSubjectName] = useState("");
   const [loading, setLoading] = useState(false);
-  const location=useLocation();
 
   const _handleSubmit = () => {
     let subjectsCopy = [...subjects];
@@ -35,9 +35,6 @@ export const AddSubjectBody = (props) => {
     } else if(location.pathname.includes("/data")){
       type="basic"
     }
-
-
-
     const subject_id = nanoid(6);
     const payload = {
       id: subject_id,
@@ -65,7 +62,7 @@ export const AddSubjectBody = (props) => {
       handleClose();
     }
   };
-
+  
   return (
     <Fragment>
       <Field label={<FormattedMessage id="subject_name" />}>

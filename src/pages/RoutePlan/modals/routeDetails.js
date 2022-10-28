@@ -69,11 +69,10 @@ export const RouteDetailsBody = props => {
     const { state: storeState } = useStore();
     const { actions } = useUi();
     const { user } = storeState;
-
+   
+    const [isHover, setIsHover] = useState();
     const [searchText, setSearchText] = useState('');
     const listenerRef = useRef([]);
-    const routeLog = useRef(null)
-    // console.log(listenerRef);
 
     const [routePlan, setRoutePlan] = useState();
     const [data, setData] = useState([]);
@@ -88,7 +87,8 @@ export const RouteDetailsBody = props => {
         eligibleKids: false,
     });
 
-    // Log
+    const routeLog = useRef(null)
+
     useEffect(() => {
         return async () => {
             if (routeLog.current !== null) {
@@ -99,13 +99,14 @@ export const RouteDetailsBody = props => {
                     subActivity: routeLog?.current?.name,
                     uid: user.id
                 }
-                console.log(payload);
-                await db
-                    .collection('Institution')
-                    .doc(user._code)
-                    .collection('log')
-                    .doc(payload.id)
-                    .set(payload)
+                console.log("route "+routeLog?.current?.name+" opened, uid:" + user.id);
+
+                // await db
+                //     .collection('Institution')
+                //     .doc(user._code)
+                //     .collection('log')
+                //     .doc(payload.id)
+                //     .set(payload)
             }
         }
     }, [])
@@ -398,6 +399,9 @@ export const RouteDetailsBody = props => {
                             component={'img'}
                             marginX={1}
                             src={Edit}
+                            style={{cursor:"pointer", color:isHover?"blue":null}}
+                           onMouseEnter={()=>{setIsHover(true)}}
+                           onMouseLeave={()=>{setIsHover(false)}}
                             onClick={() => {
                                 if (!user.permissions[PERMISSIONS.trackAccess]) {
                                     return actions.alert("You don't have access to perform this action");
@@ -426,6 +430,9 @@ export const RouteDetailsBody = props => {
                             component={'img'}
                             marginX={1}
                             src={Edit}
+                            style={{cursor:"pointer", color:isHover?"blue":null}}
+                            onMouseEnter={()=>{setIsHover(true)}}
+                            onMouseLeave={()=>{setIsHover(false)}}
                             onClick={() => {
                                 if (!user.permissions[PERMISSIONS.trackAccess]) {
                                     return actions.alert("You don't have access to perform this action");

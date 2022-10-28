@@ -10,14 +10,14 @@ import {
   makeStyles,
   Typography
 } from "@material-ui/core";
-import { AddBox, Sync } from "@material-ui/icons";
 import ExpandLessIcon from "@material-ui/icons/ArrowDropDown";
 import ExpandMoreIcon from "@material-ui/icons/ArrowRight";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 import React, { Fragment, useState } from "react";
+import { useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { FormattedMessage } from "react-intl";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { AddIconSim, Button, Delete, SimpleModal } from "..";
 import AddIcon from "../../assets/icons/addIcon.png"; //Action Icon
 import Reset from "../../assets/icons/reset.png";
@@ -29,11 +29,12 @@ import { AddSubjectBody } from "./addSubject";
 import { AddSubSubjectBody } from "./addSubSubject";
 import { EditSubjectBody } from "./editSubject";
 import { EditSubSubjectBody } from "./editSubSubject";
-import { SyncSubject } from "./syncSubject";
 // import Draggable from "react-draggable";
+import { db } from "../../utils/firebase";
+import { SyncSubject } from "./syncSubject";
+import { Sync } from "@material-ui/icons";
 
 export const GroupReportBody = (props) => {
-  const location = useLocation();
   const {
     group,
     guides,
@@ -45,6 +46,7 @@ export const GroupReportBody = (props) => {
     handleClose,
     restoreDefault,
   } = props;
+  const location = useLocation()
   const classes = useStyles();
   const { state: storeState } = useStore();
   const { user, defaultAvatars } = storeState;
@@ -61,6 +63,7 @@ export const GroupReportBody = (props) => {
   const [expanded, setExpanded] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [restoreLoading, setRestoreLoading] = React.useState(false);
+  const [oldSubjects, setOldSubjects] = useState([]);
   const [syncSubId, setSyncSubId] = useState();
   const [syncSubject, setSyncSubject] = useState();
 
@@ -96,7 +99,6 @@ export const GroupReportBody = (props) => {
   };
 
   const subjectEdited = (payload, subSubject) => {
-    console.log({ payload, subSubject })
     setSubjects(payload);
     setSubjectEdit((prev) => [...prev, subSubject]);
   };
@@ -106,7 +108,7 @@ export const GroupReportBody = (props) => {
     setSubSubjectEdit((prev) => [...prev, subSubject]);
   };
 
-  const totalPoints = subjects.reduce((acc, el) => (acc += +el.totalPoints), 0);
+  const totalPoints = subjects.reduce((acc, el) => (acc += el.totalPoints), 0);
 
   const _handleSubSubjectDelete = (selectedSubSubjects, selectedSubject) => {
     const subjectsCopy = [...subjects];
@@ -147,19 +149,84 @@ export const GroupReportBody = (props) => {
     setExpanded(newExpanded ? panel : false);
   };
 
-  const handleDragEnd = (result) => {
+
+  const params = useParams();
+  useEffect(() => {
+    (async () => {
+      const report_templates = (
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("groups")
+          .doc(params.id)
+          .collection("report_templates")
+          .get()
+      ).docs.map((el) => el.data());
+      setOldSubjects(report_templates);
+    })();
+  }, []);
+
+  const handleDragEnd = async (result) => {
     console.log(result);
     if (!result.destination) return;
-
     const list = Array.from(subjects);
+    let newArrList = list;
+
     const [reorderData] = list.splice(result.source.index, 1);
-    console.log(reorderData)
     list.splice(result.destination.index, 0, reorderData);
-
-    // I have to update the report_template array with 'list' array
-    console.log(list)
-
+    list.forEach((el, index) => {
+      if (list[index].data().pos === newArrList[index].data().pos) {
+        console.log('Position changed for', list[index].data().name);
+      }
+    })
     setSubjects(list);
+
+    // console.log(list);
+
+    for (let i = 0; i <= list.length; i++) {
+      if (list[i].id !== oldSubjects[i].id) {
+        // console.log('IDs are different');
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("groups")
+          .doc(group.id)
+          .collection("report_templates")
+          .doc(oldSubjects[i].id)
+          .delete();
+        console.log("Deleted");
+
+        list?.map(async (sub, index) => {
+          // console.log(index);
+          const payload = {
+            id: sub.id,
+            sortedId: index,
+            name: sub.name,
+            totalPoints: sub.totalPoints,
+            subSubject: [],
+            obtainedPoints: 0,
+            hasSubSubject: false,
+          };
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("groups")
+            .doc(group.id)
+            .update({
+              isSpecialReport: true,
+            });
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("groups")
+            .doc(group.id)
+            .collection("report_templates")
+            .doc(sub.id)
+            .set(payload);
+          console.log('Added');
+        })
+      }
+    }
   };
 
   const _handleSyncSubject = (id, subject) => {
@@ -172,10 +239,9 @@ export const GroupReportBody = (props) => {
     setSubjectLock((prev) => [...prev, subject]);
   }
 
-  // Manage Special Reporting Modal
   const renderSubjects = (subject, idx) => {
     const expandIconProps =
-      subject.subSubject.length > 0
+      subject?.subSubject.length > 0
         ? {
           onClick: () => handleChange(`panel${idx}`),
         }
@@ -190,231 +256,168 @@ export const GroupReportBody = (props) => {
     return (
       <div>
         <Draggable key={idx} draggableId={"subject-" + idx} index={idx}>
-          {(provider) => (
-            <Accordion
-              ref={provider.innerRef}
-              {...provider.draggableProps}
-              expanded={expanded === `panel${idx}`}
-              onChange={handleC(`panel${idx}`)}
-            >
-              <AccordionSummary
-                expandIcon={null}
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
-                className={classes.accordionSummary}
+          {(provider, snapshot) => {
+
+            const getItemStyle = (isDragging, draggableStyle) => ({
+              userSelect: "none",
+              paddingLeft: '2%',
+              margin: '0%',
+              ...draggableStyle,
+              left: snapshot.isDragging ? 20 : 0,
+              // top: snapshot.isDragging ? '50vh' : 0,
+            });
+
+            return (
+              <Accordion
+                ref={provider.innerRef}
+                {...provider.draggableProps}
+                expanded={expanded === `panel${idx}`}
+                onChange={handleC(`panel${idx}`)}
+                // style={style}
+                style={getItemStyle(
+                  snapshot.isDragging,
+                  provider.draggableProps.style
+                )}
               >
-                <Grid container justify="center" alignItems="center">
-                  <Grid
-                    item
-                    lg={4}
-                    md={5}
-                    sm={4}
-                    xs={5}
-                  >
-                    <Box display={"flex"}>
-
-                      {/* Dragable icon */}
-                      <Typography {...provider.dragHandleProps}>
-                        <DragIndicatorIcon />
-                      </Typography>
-
-                      <Box {...expandIconProps} marginRight={1}>
-                        {expanded === `panel${idx}` ? (
-                          <ExpandLessIcon style={{ color: "#8F92A1" }} />
-                        ) : (
-                          <ExpandMoreIcon style={{ color: "#8F92A1" }} />
-                        )}
-                      </Box>
-
-                      <Typography className={classes.accordianText}>
-                        {subject.name}
-                      </Typography>
-                    </Box>
-                  </Grid>
-                  <Grid item lg={4} md={2} sm={4} xs={3}>
-                    <Typography className={classes.accordianText}>
-                      {subject.totalPoints}
-                    </Typography>
-                  </Grid>
-                  <Grid item lg={2} md={2} sm={2} xs={2}>
-                    {subject.isSync && location.pathname.includes("/kids") ? null :
-                      <div
-                        onClick={stopEventBubble(() => {
-                          setSelectedSubject(subject);
-                          setModalStates((prev) => ({
-                            ...prev,
-                            subSubject: true,
-                          }));
-                        })}
-                      >
-                        <img
-                          src={AddIcon}
-                          className={classes.AddImage}
-                          alt=""
-                        />
-                      </div>
-                    }
-                  </Grid>
-                  <Grid item lg={2} md={2} sm={2} xs={2}>
-                    {(!subject.isSync && location.pathname.includes("/kids")) || (subject.type === "basic" && location.pathname.includes("/group")) ? null :
-                      <Sync className={classes.editHover}
-                        style={(subject.isSync && !location.pathname.includes("/kids") && (subject.type === "group" && location.pathname.includes("/group"))) || (subject.isSync && subject.type === "basic" && location.pathname.includes("/data")) ? {
-                          color: "#685be7", //Blue
-                          marginRight: "10",
-                        } : subject.isSync && location.pathname.includes("/kids") || (subject.isSync && subject.type === "basic") ? {
-                          color: "#4cb763", //Green
-                          marginRight: "10",
-                        } : (!subject.isSync && subject.type === "basic" && location.pathname.includes("/group")) ?{
-                          color: "#4cb763", //Green
-                          marginRight: "10",
-                          pointerEvents:"none"
-                        } : {
-                          color: "#8F92A1",
-                          marginRight: "10",
-                        }}
-                        onClick={stopEventBubble(() => {
-                          setSyncSubId(subject.id)
-                          setSyncSubject(subject)
-                          setModalStates((prev) => ({
-                            ...prev,
-                            sync: true,
-                          }));
-                        })}
-                      />
-                    }
-                    {(subject.isSync && subject.type === "basic" && location.pathname.includes("/group")) ?
-                      <Sync className={classes.editHover}
-                        style={{
-                          color: "#4cb763", //Green
-                          pointerEvents:"none",
-                          marginRight: "10",
-                        }}
-                        onClick={stopEventBubble(() => {
-                          setSyncSubId(subject.id)
-                          setSyncSubject(subject)
-                          setModalStates((prev) => ({
-                            ...prev,
-                            sync: true,
-                          }));
-                        })}
-                      />:null
-                    }
-                    {(subject.type === "group" && location.pathname.includes("/group")) ?
-                      <>
-                        <Edit
-                          className={classes.editHover}
-                          style={{
-                            color: "#8F92A1",
-                            marginRight: "10",
-                          }}
-                          onClick={stopEventBubble(() => {
-                            setSelectedSubject(subject);
-                            setModalStates((prev) => ({
-                              ...prev,
-                              editSubject: true,
-                            }));
-                          })}
-                        />
-                        <Delete
-                          className={classes.delHover}
-                          style={{
-                            color: "#8F92A1",
-                          }}
-                          onClick={stopEventBubble(() => {
-                            _handleSubjectDelete(subject.id, subject);
-                          })}
-                        />
-                      </>
-                      : null
-                    }
-                    {(subject.type === "kid" && location.pathname.includes("/kid")) ?
-                      <>
-                        <Edit
-                          className={classes.editHover}
-                          style={{
-                            color: "#8F92A1",
-                            marginRight: "10",
-                          }}
-                          onClick={stopEventBubble(() => {
-                            setSelectedSubject(subject);
-                            setModalStates((prev) => ({
-                              ...prev,
-                              editSubject: true,
-                            }));
-                          })}
-                        />
-                        <Delete
-                          className={classes.delHover}
-                          style={{
-                            color: "#8F92A1",
-                          }}
-                          onClick={stopEventBubble(() => {
-                            _handleSubjectDelete(subject.id, subject);
-                          })}
-                        />
-                      </>
-                      : null
-                    }
-                    {(subject.type === "basic" && location.pathname.includes("/data")) ?
-                      <>
-                        <Edit
-                          className={classes.editHover}
-                          style={{
-                            color: "#8F92A1",
-                            marginRight: "10",
-                          }}
-                          onClick={stopEventBubble(() => {
-                            setSelectedSubject(subject);
-                            setModalStates((prev) => ({
-                              ...prev,
-                              editSubject: true,
-                            }));
-                          })}
-                        />
-                        <Delete
-                          className={classes.delHover}
-                          style={{
-                            color: "#8F92A1",
-                          }}
-                          onClick={stopEventBubble(() => {
-                            _handleSubjectDelete(subject.id, subject);
-                          })}
-                        />
-                      </>
-                      : null
-                    }
-                  </Grid>
-                </Grid>
-              </AccordionSummary>
-
-              {subject.subSubject.map((subSubject, idx) => (
-                <AccordionDetails>
+                <AccordionSummary
+                  expandIcon={null}
+                  aria-controls="panel1bh-content"
+                  id="panel1bh-header"
+                  className={classes.accordionSummary}
+                >
                   <Grid container justify="center" alignItems="center">
-                    <Grid item lg={4} md={5} sm={4} xs={5}>
-                      <div style={{ display: "flex" }}>
-                        <img
-                          src={TickIcon}
-                          style={{
-                            width: 13,
-                            height: 12,
-                            marginTop: 6,
-                            marginRight: 10,
-                          }}
-                          alt=""
-                        />
-                        <Typography className={classes.summaryTypo}>
-                          {subSubject.name}
+
+                    <Grid
+                      item
+                      lg={4}
+                      md={5}
+                      sm={4}
+                      xs={5}
+
+                    >
+                      <Box display={"flex"}>
+
+                        {/* Dragable icon */}
+                        <Typography {...provider.dragHandleProps}>
+                          <DragIndicatorIcon />
                         </Typography>
-                      </div>
+
+                        <Box {...expandIconProps} marginRight={1}>
+                          {expanded === `panel${idx}` ? (
+                            <ExpandLessIcon style={{ color: "#8F92A1" }} />
+                          ) : (
+                            <ExpandMoreIcon style={{ color: "#8F92A1" }} />
+                          )}
+                        </Box>
+
+                        <Typography className={classes.accordianText}>
+                          {subject?.name}
+                        </Typography>
+                      </Box>
                     </Grid>
                     <Grid item lg={4} md={2} sm={4} xs={3}>
                       <Typography className={classes.accordianText}>
-                        {subSubject.totalPoints}
+                        {subject?.totalPoints}
                       </Typography>
                     </Grid>
-                    <Grid item lg={2} md={2} sm={2} xs={2}></Grid>
                     <Grid item lg={2} md={2} sm={2} xs={2}>
-                      {subject.isSync && subject.isSync && location.pathname.includes("/kids") ? null :
+                      {subject.type === "group" && location.pathname.includes("/groups") &&
+                        <div
+                          onClick={stopEventBubble(() => {
+                            setSelectedSubject(subject);
+                            setModalStates((prev) => ({
+                              ...prev,
+                              subSubject: true,
+                            }));
+                          })}
+                        >
+                          <img
+                            src={AddIcon}
+                            className={classes.AddImage}
+                            alt=""
+                          />
+                        </div>
+                      }
+                      {subject.type === "kid" && location.pathname.includes("/kids") &&
+                        <div
+                          onClick={stopEventBubble(() => {
+                            setSelectedSubject(subject);
+                            setModalStates((prev) => ({
+                              ...prev,
+                              subSubject: true,
+                            }));
+                          })}
+                        >
+                          <img
+                            src={AddIcon}
+                            className={classes.AddImage}
+                            alt=""
+                          />
+                        </div>
+                      }
+                      {location.pathname.includes("/data") &&
+                        <div
+                          onClick={stopEventBubble(() => {
+                            setSelectedSubject(subject);
+                            setModalStates((prev) => ({
+                              ...prev,
+                              subSubject: true,
+                            }));
+                          })}
+                        >
+                          <img
+                            src={AddIcon}
+                            className={classes.AddImage}
+                            alt=""
+                          />
+                        </div>
+                      }
+                    </Grid>
+                    <Grid item lg={2} md={2} sm={2} xs={2}>
+                      {(!subject.isSync && location.pathname.includes("/kids")) || (subject.type === "basic" && location.pathname.includes("/group")) ? null :
+                        <Sync className={classes.editHover}
+                          style={(subject.isSync && !location.pathname.includes("/kids") && (subject.type === "group" && location.pathname.includes("/group"))) || (subject.isSync && subject.type === "basic" && location.pathname.includes("/data")) ? {
+                            color: "#685be7", //Blue
+                            marginRight: "10",
+                          } : subject.isSync && location.pathname.includes("/kids") || (subject.isSync && subject.type === "basic") ? {
+                            color: "#4cb763", //Green
+                            marginRight: "10",
+                          } : (!subject.isSync && subject.type === "basic" && location.pathname.includes("/group")) ? {
+                            color: "#4cb763", //Green
+                            marginRight: "10",
+                            pointerEvents: "none"
+                          } : {
+                            color: "#8F92A1",
+                            marginRight: "10",
+                          }}
+                          onClick={stopEventBubble(() => {
+                            setSyncSubId(subject.id)
+                            setSyncSubject(subject)
+                            setModalStates((prev) => ({
+                              ...prev,
+                              sync: true,
+                            }));
+                          })}
+                        />
+                      }
+                      {(subject.isSync && subject.type === "basic" && location.pathname.includes("/group")) ?
+                        <Sync className={classes.editHover}
+                          style={{
+                            color: "#4cb763", //Green
+                            pointerEvents: "none",
+                            marginRight: "10",
+                          }}
+                          onClick={stopEventBubble(() => {
+                            setSyncSubId(subject.id)
+                            setSyncSubject(subject)
+                            setModalStates((prev) => ({
+                              ...prev,
+                              sync: true,
+                            }));
+                          })}
+                        /> : null
+                      }
+                      {(subject.type === "group" && location.pathname.includes("/group")) ?
                         <>
                           <Edit
                             className={classes.editHover}
@@ -422,31 +425,204 @@ export const GroupReportBody = (props) => {
                               color: "#8F92A1",
                               marginRight: "10",
                             }}
-                            onClick={() => {
+                            onClick={stopEventBubble(() => {
                               setSelectedSubject(subject);
-                              setSelectedSubSubject(subSubject);
                               setModalStates((prev) => ({
                                 ...prev,
-                                editSubSubject: true,
+                                editSubject: true,
                               }));
-                            }}
+                            })}
                           />
                           <Delete
                             className={classes.delHover}
                             style={{
                               color: "#8F92A1",
                             }}
-                            onClick={() => {
-                              _handleSubSubjectDelete(subSubject, subject);
-                            }}
+                            onClick={stopEventBubble(() => {
+                              _handleSubjectDelete(subject.id, subject);
+                            })}
                           />
-                        </>}
+                        </>
+                        : null
+                      }
+                      {(subject.type === "kid" && location.pathname.includes("/kid")) ?
+                        <>
+                          <Edit
+                            className={classes.editHover}
+                            style={{
+                              color: "#8F92A1",
+                              marginRight: "10",
+                            }}
+                            onClick={stopEventBubble(() => {
+                              setSelectedSubject(subject);
+                              setModalStates((prev) => ({
+                                ...prev,
+                                editSubject: true,
+                              }));
+                            })}
+                          />
+                          <Delete
+                            className={classes.delHover}
+                            style={{
+                              color: "#8F92A1",
+                            }}
+                            onClick={stopEventBubble(() => {
+                              _handleSubjectDelete(subject.id, subject);
+                            })}
+                          />
+                        </>
+                        : null
+                      }
+                      {(subject.type === "basic" && location.pathname.includes("/data")) ?
+                        <>
+                          <Edit
+                            className={classes.editHover}
+                            style={{
+                              color: "#8F92A1",
+                              marginRight: "10",
+                            }}
+                            onClick={stopEventBubble(() => {
+                              setSelectedSubject(subject);
+                              setModalStates((prev) => ({
+                                ...prev,
+                                editSubject: true,
+                              }));
+                            })}
+                          />
+                          <Delete
+                            className={classes.delHover}
+                            style={{
+                              color: "#8F92A1",
+                            }}
+                            onClick={stopEventBubble(() => {
+                              _handleSubjectDelete(subject.id, subject);
+                            })}
+                          />
+                        </>
+                        : null
+                      }
                     </Grid>
                   </Grid>
-                </AccordionDetails>
-              ))}
-            </Accordion>
-          )}
+                </AccordionSummary>
+
+                {subject?.subSubject.map((subSubject, idx) => (
+                  <AccordionDetails>
+                    <Grid container justify="center" alignItems="center">
+                      <Grid item lg={4} md={5} sm={4} xs={5}>
+                        <div style={{ display: "flex" }}>
+                          <img
+                            src={TickIcon}
+                            style={{
+                              width: 13,
+                              height: 12,
+                              marginTop: 6,
+                              marginRight: 10,
+                            }}
+                            alt=""
+                          />
+                          <Typography className={classes.summaryTypo}>
+                            {subSubject.name}
+                          </Typography>
+                        </div>
+                      </Grid>
+                      <Grid item lg={4} md={2} sm={4} xs={3}>
+                        <Typography className={classes.accordianText}>
+                          {subSubject.totalPoints}
+                        </Typography>
+                      </Grid>
+                      <Grid item lg={2} md={2} sm={2} xs={2}></Grid>
+                      <Grid item lg={2} md={2} sm={2} xs={2}>
+                        {subject.isSync && subject.type === "kid" && location.pathname.includes("/kids") &&
+                          <>
+                            <Edit
+                              className={classes.editHover}
+                              style={{
+                                color: "#8F92A1",
+                                marginRight: "10",
+                              }}
+                              onClick={() => {
+                                setSelectedSubject(subject);
+                                setSelectedSubSubject(subSubject);
+                                setModalStates((prev) => ({
+                                  ...prev,
+                                  editSubSubject: true,
+                                }));
+                              }}
+                            />
+                            <Delete
+                              className={classes.delHover}
+                              style={{
+                                color: "#8F92A1",
+                              }}
+                              onClick={() => {
+                                console.log("111111111111")
+                                _handleSubSubjectDelete(subSubject, subject);
+                              }}
+                            />
+                          </>}
+                        {(!subject.isSync && subject.type === "group") && (location.pathname.includes("/kids") || location.pathname.includes("/groups")) &&
+                          <>
+                            <Edit
+                              className={classes.editHover}
+                              style={{
+                                color: "#8F92A1",
+                                marginRight: "10",
+                              }}
+                              onClick={() => {
+                                setSelectedSubject(subject);
+                                setSelectedSubSubject(subSubject);
+                                setModalStates((prev) => ({
+                                  ...prev,
+                                  editSubSubject: true,
+                                }));
+                              }}
+                            />
+                            <Delete
+                              className={classes.delHover}
+                              style={{
+                                color: "#8F92A1",
+                              }}
+                              onClick={() => {
+                                console.log("111111111111")
+                                _handleSubSubjectDelete(subSubject, subject);
+                              }}
+                            />
+                          </>}
+                        {location.pathname.includes("/data") &&
+                          <>
+                            <Edit
+                              className={classes.editHover}
+                              style={{
+                                color: "#8F92A1",
+                                marginRight: "10",
+                              }}
+                              onClick={() => {
+                                setSelectedSubject(subject);
+                                setSelectedSubSubject(subSubject);
+                                setModalStates((prev) => ({
+                                  ...prev,
+                                  editSubSubject: true,
+                                }));
+                              }}
+                            />
+                            <Delete
+                              className={classes.delHover}
+                              style={{
+                                color: "#8F92A1",
+                              }}
+                              onClick={() => {
+                                console.log("111111111111")
+                                _handleSubSubjectDelete(subSubject, subject);
+                              }}
+                            />
+                          </>}
+                      </Grid>
+                    </Grid>
+                  </AccordionDetails>
+                ))}
+              </Accordion>
+            )
+          }}
         </Draggable>
       </div>
     );
@@ -454,7 +630,6 @@ export const GroupReportBody = (props) => {
 
   return (
     <Fragment>
-
       <SimpleModal
         title={<FormattedMessage id="change_sync" />}
         open={modalStates.sync}
@@ -494,6 +669,7 @@ export const GroupReportBody = (props) => {
           subSubjectAdded={subSubjectAdded}
         />
       </SimpleModal>
+
       <SimpleModal
         title={<FormattedMessage id="edit_subject" />}
         open={modalStates.editSubject}
@@ -615,7 +791,7 @@ export const GroupReportBody = (props) => {
               startIcon={!restoreLoading && <img src={Reset} alt="" />}
               onClick={() => {
                 setRestoreLoading(true);
-                restoreDefault(subjects);
+                restoreDefault(_subjectAdded);
               }}
               disabled={group?.isSpecialReport == false}
             >
@@ -628,7 +804,7 @@ export const GroupReportBody = (props) => {
               startIcon={!restoreLoading && <img src={Reset} alt="" />}
               onClick={() => {
                 setRestoreLoading(true);
-                restoreDefault(subjects);
+                restoreDefault(_subjectAdded);
               }}
               disabled={kid?.has_special_program == false}
             >
@@ -647,7 +823,6 @@ export const GroupReportBody = (props) => {
         </Grid>
       </Grid>
 
-
       <Box className={classes.box + " " + "scrollBox"}>
         <DragDropContext onDragEnd={handleDragEnd}>
           <Droppable droppableId="subject-1">
@@ -662,7 +837,6 @@ export const GroupReportBody = (props) => {
           </Droppable>
         </DragDropContext>
       </Box>
-
 
       <div className={classes.footer}>
         <Button className={classes.cancelButton} onClick={handleClose}>
@@ -700,7 +874,6 @@ const useStyles = makeStyles((theme) => {
     // To make report modal scroll
     box: {
       overflow: "auto",
-
     },
     cancelButton: {
       "&:hover": {

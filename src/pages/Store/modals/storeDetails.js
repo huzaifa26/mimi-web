@@ -106,6 +106,30 @@ export const StoreDetailsBody = (props) => {
     }
   }, [])
 
+  const storeLog=useRef(null)
+
+  useEffect(() => {
+    return async() => {
+      if (storeLog.current !== null) {
+        const subject_id = nanoid(6);
+        const payload = {
+            id: subject_id,
+            activity: "store",
+            subActivity: storeLog?.current?.store_name,
+            uid: user.id
+        }
+        console.log("store "+storeLog?.current?.store_name+" opened, uid:" + user.id);
+
+        // await db
+        //     .collection('Institution')
+        //     .doc(user._code)
+        //     .collection('log')
+        //     .doc(payload.id)
+        //     .set(payload)
+    }
+    }
+  }, [])
+
   useEffect(() => {
     if (!storeId) return;
     listenerRef.current.push(
@@ -273,14 +297,14 @@ export const StoreDetailsBody = (props) => {
         <TableCell>{product.price}</TableCell>
         <TableCell>
           <Edit
-            style={{ color: "#8F92A1", cursor: "pointer" }}
+            style={{ color: "#8F92A1", cursor: "pointer", margin:8 }}
             onClick={() => {
               setSelectedProduct(product);
               setModalStates((prev) => ({ ...prev, product: true }));
             }}
           />
           <Delete
-            style={{ color: "#8F92A1", cursor: "pointer" }}
+            style={{ color: "#8F92A1", cursor: "pointer", margin:8}}
             onClick={() => deleteProduct(product)}
           />
         </TableCell>

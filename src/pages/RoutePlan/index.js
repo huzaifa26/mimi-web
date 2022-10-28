@@ -67,7 +67,8 @@ export const RoutePlan = React.memo(() => {
         return baseQuery.where('status', '==', status.id);
     }, [status]);
 
-    const { data, loading, loadMore } = usePagination(query, list => {
+
+    const { data, loading, loadMore, init } = usePagination(query, list => {
         if (user.type === ROLES.admin) {
             return list;
         } else {
@@ -87,7 +88,7 @@ export const RoutePlan = React.memo(() => {
         setModalStates(prev => ({ ...prev, routePlanDetail: false }));
         setSelectedRoutePlan(null);
     };
-
+   
     useEffect(() => {
         if (searchText) {
             setRoutePlans(searchBy(data, ['name'], searchText));
@@ -95,6 +96,20 @@ export const RoutePlan = React.memo(() => {
             setRoutePlans(data);
         }
     }, [searchText, data]);
+
+    const updateOnAdding = async() =>{
+        var updateData = [];
+        console.log("runooooo")
+       await db.collection('Institution').doc(user._code).collection('routePlan').orderBy('id').get()
+        .then((querySnapshot)=>{
+            querySnapshot.forEach((doc)=>{
+                updateData.push(doc.data())
+                })
+        })
+    setRoutePlans(updateData)
+       
+      
+    }
 
     const links = [
         {
@@ -163,7 +178,7 @@ export const RoutePlan = React.memo(() => {
         <Fragment>
             <section className={clsx([classes.default_page_root, classes.default_page_Bg1])}>
                 <SimpleModal title={<FormattedMessage id="add_new_route" />} open={modalStates.newRoutePlan} handleClose={closeNewRoutePlan}>
-                    <CreateRoutePlanBody handleClose={closeNewRoutePlan} />
+                    <CreateRoutePlanBody handleClose={closeNewRoutePlan} update={updateOnAdding} />
                 </SimpleModal>
                 <SimpleModal extended title={<FormattedMessage id="route_details" />} open={modalStates.routePlanDetail} handleClose={closeRoutePlanDetail}>
                     <RouteDetailsBody routePlanId={selectedRoutePlan?.id} handleClose={closeRoutePlanDetail} />

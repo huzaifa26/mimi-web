@@ -200,8 +200,8 @@ export const GroupDetail = () => {
           subSubject: [],
           obtainedPoints: 0,
           hasSubSubject: false,
-          isSync: false,
-          type: "group"
+          isSync: sub.isSync,
+          type: sub.type || "group"
         };
         await db
           .collection("Institution")
@@ -276,7 +276,6 @@ export const GroupDetail = () => {
     // Add sub subject
     let _save2 = await Promise.all(
       subSubjectAdded.map(async (sub) => {
-        console.log(sub);
         const payload = {
           id: sub.id,
           name: sub.name,
@@ -347,7 +346,6 @@ export const GroupDetail = () => {
 
         if (sub.isSync) {
           location?.state?.group.kids_ids.map(async (kid_id) => {
-            console.log(location?.state?.group.kids_ids)
             const kidSubject = await db
               .collection("Institution")
               .doc(user._code)
@@ -501,12 +499,12 @@ export const GroupDetail = () => {
     let _save6 = await Promise.all(
       // Edit sub subject inside group
       subSubjectEdit.map(async (sub) => {
-        const payload = {
-          id: sub.id,
-          name: sub.name,
-          totalPoints: sub.totalPoints,
-          obtainedPoints: sub.obtainedPoints,
-        };
+        // const payload = {
+        //   id: sub.id,
+        //   name: sub.name,
+        //   totalPoints: sub.totalPoints,
+        //   obtainedPoints: sub.obtainedPoints,
+        // };
 
         // const reportTemplates = await db
         //   .collection("Institution")
@@ -793,7 +791,6 @@ export const GroupDetail = () => {
     // delete sub subject
     let _save4 = await Promise.all(
       subSubjectDeleted.map(async (sub) => {
-        console.log(sub)
         const _payload = { ...sub.selectedSubject };
 
         // await db
@@ -918,7 +915,6 @@ export const GroupDetail = () => {
         }
       })
     );
-
     closeGroupReport();
   };
 

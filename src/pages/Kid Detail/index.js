@@ -74,7 +74,7 @@ export const KidsDetail = (props) => {
     groupTransfer: false,
     assignDays: false,
     kidReport: false,
-    deleteKid:false
+    deleteKid: false
   });
 
   const closeGrantScoreModal = () => {
@@ -202,18 +202,20 @@ export const KidsDetail = (props) => {
   };
 
   const handleProfilePic = async () => {
-    if (!user.permissions[PERMISSIONS.picAccess])
-      return actions.alert("You don't have access to perform this action");
+    console.log("button is disabled!")
+    // if (!user.permissions[PERMISSIONS.picAccess])
+    //   return actions.alert("You don't have access to perform this action");
 
-    actions.showDialog({
-      action: FirebaseHelpers.enableKidProfilePicture.execute.bind(null, {
-        user,
-        kid,
-      }),
-      title: `Change Profile Permission?`,
-      body: `Are you sure you want to this ${kid.profile_permission ? "disable" : "enable"
-        } this permission`,
-    });
+    // actions.showDialog({
+    //   action: FirebaseHelpers.enableKidProfilePicture.execute.bind(null, {
+    //     user,
+    //     kid,
+    //   }),
+    //   title: `Change Profile Permission?`,
+    //   body: `Are you sure you want to this ${
+    //     kid.profile_permission ? "disable" : "enable"
+    //   } this permission`,
+    // });
   };
 
   const handleSwitchSpecial = () => {
@@ -227,7 +229,7 @@ export const KidsDetail = (props) => {
   };
 
   // delete kid handler
-  const hanldeDeleteKid = async() => {
+  const hanldeDeleteKid = async () => {
     if (!user.permissions[PERMISSIONS.deleteKid])
       return actions.alert("You don't have access to perform this action");
     setModalStates((prev) => ({ ...prev, deleteKid: true }));
@@ -313,6 +315,7 @@ export const KidsDetail = (props) => {
           obtainedPoints: 0,
           hasSubSubject: false,
           isSync: sub.isSync,
+          type: sub.type || "kid"
         };
         await db
           .collection("Institution")
@@ -407,7 +410,7 @@ export const KidsDetail = (props) => {
           obtainedPoints: sub.obtainedPoints,
           hasSubSubject: sub.subSubject.length > 0,
           isSync: sub.isSync,
-          type:sub.type || "kid"
+          type: sub.type || "kid"
         };
         await db
           .collection("Institution")
@@ -423,12 +426,12 @@ export const KidsDetail = (props) => {
     // edit sub subject
     let _save6 = await Promise.all(
       subSubjectEdit.map(async (sub) => {
-        const payload = {
-          id: sub.id,
-          name: sub.name,
-          totalPoints: sub.totalPoints,
-          obtainedPoints: sub.obtainedPoints,
-        };
+        // const payload = {
+        //   id: sub.id,
+        //   name: sub.name,
+        //   totalPoints: sub.totalPoints,
+        //   obtainedPoints: sub.obtainedPoints,
+        // };
         // const reportTemplates = await db
         //   .collection("Institution")
         //   .doc(user._code)
@@ -980,6 +983,7 @@ export const KidsDetail = (props) => {
                   </Grid>
                   <Grid item lg={3} md={4} sm={6} xs={12}>
                     <ToolBox
+
                       image={
                         <Person style={{ color: "#4FBF67" }} fontSize="large" />
                       }
@@ -990,6 +994,7 @@ export const KidsDetail = (props) => {
                           : "enable_profile_pic"
                       }
                       onClick={handleProfilePic}
+                    // onClick={()=>{console.log("button is disabled")}}
                     />
                   </Grid>
                   <Grid item lg={3} md={4} sm={6} xs={12}>

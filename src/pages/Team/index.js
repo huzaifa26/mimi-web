@@ -94,7 +94,7 @@ export const Team = React.memo(() => {
     []
   );
   // .where('group_ids', 'array-contains-any', user.group_ids);
-
+console.log(query)
   const modifier = useMemo(
     () => async (list) => {
       console.log("this is staff list", {
@@ -347,6 +347,7 @@ export const Team = React.memo(() => {
                 src={
                   (staff.favoriteBy || []).includes(user.id) ? Star : StarOut
                 }
+                alt=''
               />
             </div>
             <Box mx={1}>

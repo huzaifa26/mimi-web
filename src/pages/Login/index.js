@@ -51,10 +51,12 @@ export function Login() {
   const [showChangePassword, setShowChangePassword] = useState(false);
 
   useEffect(() => {
-    if (auth.currentUser) {
-      return history.push("/dashboard");
+    if(user?.permissions?.webPanelAccess){
+      if (auth.currentUser) {
+        return history.push("/dashboard");
+      }
     }
-
+    
     const lang = navigator.language;
     const defaultDir = rtlDetect.getLangDir(lang);
     setStoreState((prev) => ({
