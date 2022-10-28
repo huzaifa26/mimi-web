@@ -97,13 +97,6 @@ export const StoreDetailsBody = (props) => {
             uid: user.id
         }
         console.log("store "+storeLog?.current?.store_name+" opened, uid:" + user.id);
-
-        // await db
-        //     .collection('Institution')
-        //     .doc(user._code)
-        //     .collection('log')
-        //     .doc(payload.id)
-        //     .set(payload)
     }
     }
   }, [])
