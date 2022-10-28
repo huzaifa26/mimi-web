@@ -162,13 +162,11 @@ export const Kid = React.memo(() => {
         }
     };
 
-    const renderItem = kid => {
-      
-        return (
+    const renderItem = kid =>  (
             <Fragment>
                 <TableCell>
                     <Box display={'flex'} alignItems="center">
-                        <img src={kid.favoriteBy.includes(user.id) ? Star : StarOut} onClick={stopEventBubble(() => handleFavorite(kid))} />
+                        <img src={kid.favoriteBy.includes(user.id) ? Star : StarOut} alt="pin" onClick={stopEventBubble(() => handleFavorite(kid))} />
                         <Box mx={1}>
                             <Avatar src={kid.image || defaultAvatars?.kid} />
                         </Box>
@@ -179,7 +177,7 @@ export const Kid = React.memo(() => {
                 <TableCell>{kid.score}</TableCell>
             </Fragment>
         );
-    };
+    
 
     const tableProps = {
         data: kids,
