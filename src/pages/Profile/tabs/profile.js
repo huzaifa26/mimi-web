@@ -23,8 +23,7 @@ export const Profile = () => {
   const [uploadModal, setUploadModal] = useState();
   const [groups, setGroups] = useState([]);
   const [group, setGroup] = useState([]);
-
-  console.log(user);
+  
 
   useEffect(() => {
     if (!image) return;
@@ -190,7 +189,7 @@ export const Profile = () => {
                       classes.default_typography_colorLight,
                     ])}
                   >
-                    Group: {group[0].name}
+                    Group: {group[0]?.name}
                   </Typography>
                 </Box>
               )
