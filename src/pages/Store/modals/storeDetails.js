@@ -84,6 +84,27 @@ export const StoreDetailsBody = (props) => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState();
 
+  useEffect(() => {
+    return async() => {
+      if (storeLog.current !== null) {
+        const subject_id = nanoid(6);
+        const payload = {
+            id: subject_id,
+            activity: "store",
+            subActivity: storeLog?.current?.store_name,
+            uid: user.id
+        }
+        console.log(payload);
+        await db
+            .collection('Institution')
+            .doc(user._code)
+            .collection('log')
+            .doc(payload.id)
+            .set(payload)
+    }
+    }
+  }, [])
+
   const storeLog=useRef(null)
 
   useEffect(() => {

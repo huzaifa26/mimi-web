@@ -53,7 +53,6 @@ export function Login() {
   useEffect(() => {
     if(user?.permissions?.webPanelAccess){
       if (auth.currentUser) {
-        console.log("2222222222")
         return history.push("/dashboard");
       }
     }

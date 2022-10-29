@@ -33,6 +33,7 @@ import { EditSubSubjectBody } from "./editSubSubject";
 import { db } from "../../utils/firebase";
 import { SyncSubject } from "./syncSubject";
 import { Sync } from "@material-ui/icons";
+import { useRef } from "react";
 
 export const GroupReportBody = (props) => {
   const {
@@ -60,12 +61,15 @@ export const GroupReportBody = (props) => {
   const [_subjectEdit, setSubjectEdit] = useState([]);
   const [_subSubjectEdit, setSubSubjectEdit] = useState([]);
   const [_subjectLock, setSubjectLock] = useState([]);
+  const [_subjectOrder, setSubjectOrder] = useState([]);
+
   const [expanded, setExpanded] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [restoreLoading, setRestoreLoading] = React.useState(false);
   const [oldSubjects, setOldSubjects] = useState([]);
   const [syncSubId, setSyncSubId] = useState();
   const [syncSubject, setSyncSubject] = useState();
+  const droppableRef=useRef(null);
 
   const [modalStates, setModalStates] = useState({
     subject: false,
@@ -149,7 +153,6 @@ export const GroupReportBody = (props) => {
     setExpanded(newExpanded ? panel : false);
   };
 
-
   const params = useParams();
   useEffect(() => {
     (async () => {
@@ -166,67 +169,53 @@ export const GroupReportBody = (props) => {
     })();
   }, []);
 
+  function insertAndShift(arr, from, to) {
+    let cutOut = arr.splice(from, 1) [0]; // cut the element at index 'from'
+    arr.splice(to, 0, cutOut);            // insert it at index 'to'
+}
+
   const handleDragEnd = async (result) => {
-    console.log(result);
     if (!result.destination) return;
-    const list = Array.from(subjects);
-    let newArrList = list;
+    const subjectCopy=[...subjects];
+    insertAndShift(subjectCopy,result.source.index,result.destination.index);
+    setSubjects(subjectCopy);
+    setSubjectOrder(subjectCopy);
+    console.log(subjectCopy);
 
-    const [reorderData] = list.splice(result.source.index, 1);
-    list.splice(result.destination.index, 0, reorderData);
-    list.forEach((el, index) => {
-      if (list[index].data().pos === newArrList[index].data().pos) {
-        console.log('Position changed for', list[index].data().name);
-      }
-    })
-    setSubjects(list);
-
-    // console.log(list);
-
-    for (let i = 0; i <= list.length; i++) {
-      if (list[i].id !== oldSubjects[i].id) {
-        // console.log('IDs are different');
-        await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("groups")
-          .doc(group.id)
-          .collection("report_templates")
-          .doc(oldSubjects[i].id)
-          .delete();
-        console.log("Deleted");
-
-        list?.map(async (sub, index) => {
-          // console.log(index);
-          const payload = {
-            id: sub.id,
-            sortedId: index,
-            name: sub.name,
-            totalPoints: sub.totalPoints,
-            subSubject: [],
-            obtainedPoints: 0,
-            hasSubSubject: false,
-          };
-          await db
-            .collection("Institution")
-            .doc(user._code)
-            .collection("groups")
-            .doc(group.id)
-            .update({
-              isSpecialReport: true,
-            });
-          await db
-            .collection("Institution")
-            .doc(user._code)
-            .collection("groups")
-            .doc(group.id)
-            .collection("report_templates")
-            .doc(sub.id)
-            .set(payload);
-          console.log('Added');
-        })
-      }
-    }
+    // for(let i=0; i<subjectCopy.length;i++){
+    //   if(location.pathname.includes("/kids")){
+    //     await db
+    //     .collection("Institution")
+    //     .doc(user._code)
+    //     .collection("kid")
+    //     .doc(kid.id)
+    //     .collection("subjects")
+    //     .doc(subjectCopy[i].id)
+    //     .update({
+    //       orderNo:i,
+    //     });
+    //   } else if(location.pathname.includes("/data")){
+    //     await db
+    //     .collection("Institution")
+    //     .doc(user._code)
+    //     .collection("basicReport")
+    //     .doc(subjectCopy[i].id)
+    //     .update({
+    //       orderNo:i,
+    //     });
+    //   } else if(location.pathname.includes("/groups")){
+    //     await db
+    //     .collection("Institution")
+    //     .doc(user._code)
+    //     .collection("groups")
+    //     .doc(group.id)
+    //     .collection("report_templates")
+    //     .doc(subjectCopy[i].id)
+    //     .update({
+    //       orderNo:i,
+    //     });
+    //   } 
+    // }
   };
 
   const _handleSyncSubject = (id, subject) => {
@@ -238,6 +227,13 @@ export const GroupReportBody = (props) => {
     })
     setSubjectLock((prev) => [...prev, subject]);
   }
+
+  const [dropableHeight,setDropableheight]=useState(null);
+
+  //Get height of scroll are to set position and top values.
+  useEffect(()=>{
+    setDropableheight(droppableRef.current.clientHeight)
+  },[])
 
   const renderSubjects = (subject, idx) => {
     const expandIconProps =
@@ -253,17 +249,28 @@ export const GroupReportBody = (props) => {
 
     return (
       <div>
-        <Draggable key={idx} draggableId={"subject-" + idx} index={idx}>
+        <Draggable  key={idx} draggableId={"subject-" + idx} index={idx}>
           {(provider, snapshot) => {
-
-            const getItemStyle = (isDragging, draggableStyle) => ({
-              userSelect: "none",
-              paddingLeft: '2%',
-              margin: '0%',
-              ...draggableStyle,
-              left: snapshot.isDragging ? 20 : 0,
-              // top: snapshot.isDragging ? '50vh' : 0,
-            });
+            let getItemStyle=null;
+            if(dropableHeight<500){
+              getItemStyle = (isDragging, draggableStyle) => ({
+                userSelect: "none",
+                paddingLeft: '2%',
+                margin: '0%',
+                ...draggableStyle,
+                position:dropableHeight<500 ? "relative" : "none",
+                left: snapshot.isDragging ? 10 : 0,
+                top: snapshot.isDragging && '40px',
+              });
+            }else if(dropableHeight>500){
+              getItemStyle = (isDragging, draggableStyle) => ({
+                userSelect: "none",
+                paddingLeft: '2%',
+                margin: '0%',
+                ...draggableStyle,
+                left: snapshot.isDragging ? 10 : 0,
+              });
+            }
 
             return (
               <Accordion
@@ -823,6 +830,7 @@ export const GroupReportBody = (props) => {
 
       <Box className={classes.box + " " + "scrollBox"}>
         <DragDropContext onDragEnd={handleDragEnd}>
+          <div ref={droppableRef}>
           <Droppable droppableId="subject-1">
             {(provider) => (
               <div {...provider.droppableProps} ref={provider.innerRef}>
@@ -833,6 +841,7 @@ export const GroupReportBody = (props) => {
               </div>
             )}
           </Droppable>
+          </div>
         </DragDropContext>
       </Box>
 
@@ -852,7 +861,8 @@ export const GroupReportBody = (props) => {
               _subSubjectAdded,
               _subjectEdit,
               _subSubjectEdit,
-              _subjectLock
+              _subjectLock,
+              _subjectOrder
             );
           }}
         >

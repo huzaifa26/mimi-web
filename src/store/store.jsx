@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useRef } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { LANGUAGE_MAPPING } from "../utils/constants";
 import { db, auth } from "../utils/firebase";
 
@@ -9,6 +9,7 @@ const ctx = React.createContext();
 export const useStore = () => useContext(ctx);
 
 export const StoreProvidor = ({ children }) => {
+  const location=useLocation()
   const history = useHistory();
 
   const listener = useRef();
@@ -23,6 +24,7 @@ export const StoreProvidor = ({ children }) => {
       authenticated: false,
     };
   });
+
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -52,7 +54,7 @@ export const StoreProvidor = ({ children }) => {
 }, []);
 
   useEffect(() => {
-    state.user &&
+    state?.user?.permissions?.webPanelAccess &&
       (async () => {
         const institutionDocs = await db
           .collection("Institution")
@@ -93,16 +95,17 @@ export const StoreProvidor = ({ children }) => {
   };
 
   return (
-    <ctx.Provider
-      value={{
-        state,
-        setState,
-        actions: {
-          handleSignOut,
-        },
-      }}
-    >
-      {children}
-    </ctx.Provider>
+      <ctx.Provider
+        value={{
+          state,
+          setState,
+          actions: {
+            handleSignOut,
+          },
+        }}
+      >
+        {(state?.user === null && !location.pathname === "/")? null:children}
+      </ctx.Provider>
+    
   );
 };

@@ -47,6 +47,28 @@ export const Kid = React.memo(() => {
 
     const [groups, setGroups] = useState([]);
 
+    //Log
+    useEffect(() => {
+        return async () => {
+            if(kidLog.current !== null){
+                const subject_id = nanoid(6);
+                const payload={
+                    id:subject_id,
+                    activity:"kid profile",
+                    subActivity:kidLog?.current?.name,
+                    uid:user.id
+                }
+                console.log(payload);
+                await db
+                    .collection('Institution')
+                    .doc(user._code)
+                    .collection('log')
+                    .doc(payload.id)
+                    .set(payload)
+            }
+        }
+    }, [])
+
     const kidLog = useRef(null);
 
     //Log

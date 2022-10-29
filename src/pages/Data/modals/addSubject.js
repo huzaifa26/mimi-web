@@ -38,7 +38,10 @@ export const AddSubjectBody = props => {
             subSubject: [],
             obtainedPoints: 0,
             hasSubSubject: false,
+            // isSync:false,
+            // type:"basic"
         };
+        console.log(payload)
 
         await db.collection('Institution').doc(user._code).collection('basicReport').doc(subject_id).set(payload);
 

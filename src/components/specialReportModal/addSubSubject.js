@@ -14,13 +14,11 @@ const useStyles = makeStyles((theme) => {
 
 export const AddSubSubjectBody = (props) => {
   const { handleClose, subSubjectAdded, selectedSubject, subjects } = props;
-  const { actions } = useUi();
   const classes = useStyles();
   const [score, setScore] = useState(0);
   const [subjectName, setSubjectName] = useState("");
   const [loading, setLoading] = useState(false);
-
-  // const handleTotalPoints = () => {
+  const {actions}=useUi();
   //   if (subject.subSubject.length > 0) {
   //     const updatedTotalPoints = Number(subject.totalPoints) + Number(score);
   //     return updatedTotalPoints;

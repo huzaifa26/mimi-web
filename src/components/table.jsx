@@ -176,15 +176,15 @@ export const DataTable = React.forwardRef((props, ref) => {
           <TableBody className={classes.tableBody}>
             {data.map((el) => (
               <TableRow
-              innerRef={observerRef}
-              className={clsx({
-                [classes.tableBodyRow]: true,
-                [classes.pointer]: !!handleRowClick,
-              })}
-              onClick={() => handleRowClick && handleRowClick(el)}
-            >
-              {renderItem(el)}
-            </TableRow>
+                innerRef={observerRef}
+                className={clsx({
+                  [classes.tableBodyRow]: true,
+                  [classes.pointer]: !!handleRowClick,
+                })}
+                onClick={() => handleRowClick && handleRowClick(el)}
+              >
+                {renderItem(el)}
+              </TableRow>
             )
             )}
           </TableBody>
