@@ -29,12 +29,11 @@ export const Routes = React.memo(() => {
         });
 
     }, [state.orientation]);
-    useEffect(() => {
 
+    useEffect(() => {
         const bodyEl = document.getElementsByTagName('html')[0];
         bodyEl.setAttribute('lang',state.language);
         bodyEl.setAttribute('dir', state.orientation);
-       
     }, [state.orientation]);
 
     const renderRoutes = () => {

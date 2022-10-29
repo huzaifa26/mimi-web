@@ -197,7 +197,8 @@ export const Data = React.memo(() => {
     subSubjectAdded,
     subjectEdit,
     subSubjectEdit,
-    subjectLock
+    subjectLock,
+    subjectOrder
   ) => {
 
     // add subject (WE DONT NEED TO MAKE IT WORK WITH SYNC BECAUSE BY DEFUALT SUBJECT IS NOT SYNC)
@@ -642,6 +643,20 @@ export const Data = React.memo(() => {
         }
       })
     );
+
+    //Change order of report.
+    let _save = await Promise.all(
+      subjectOrder.map(async(sub,index) => {
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("basicReport")
+          .doc(sub.id)
+          .update({
+            orderNo: index,
+          });
+      })
+    )
 
     // Sync subject
     let _save7 = await Promise.all(

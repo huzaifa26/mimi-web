@@ -61,6 +61,8 @@ export const GroupReportBody = (props) => {
   const [_subjectEdit, setSubjectEdit] = useState([]);
   const [_subSubjectEdit, setSubSubjectEdit] = useState([]);
   const [_subjectLock, setSubjectLock] = useState([]);
+  const [_subjectOrder, setSubjectOrder] = useState([]);
+
   const [expanded, setExpanded] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [restoreLoading, setRestoreLoading] = React.useState(false);
@@ -175,44 +177,45 @@ export const GroupReportBody = (props) => {
   const handleDragEnd = async (result) => {
     if (!result.destination) return;
     const subjectCopy=[...subjects];
-    const selectedSubject=subjectCopy[result.source.index];
     insertAndShift(subjectCopy,result.source.index,result.destination.index);
     setSubjects(subjectCopy);
+    setSubjectOrder(subjectCopy);
+    console.log(subjectCopy);
 
-    for(let i=0; i<subjectCopy.length;i++){
-      if(location.pathname.includes("/kids")){
-        await db
-        .collection("Institution")
-        .doc(user._code)
-        .collection("kid")
-        .doc(kid.id)
-        .collection("subjects")
-        .doc(subjectCopy[i].id)
-        .update({
-          orderNo:i,
-        });
-      } else if(location.pathname.includes("/data")){
-        await db
-        .collection("Institution")
-        .doc(user._code)
-        .collection("basicReport")
-        .doc(subjectCopy[i].id)
-        .update({
-          orderNo:i,
-        });
-      } else if(location.pathname.includes("/groups")){
-        await db
-        .collection("Institution")
-        .doc(user._code)
-        .collection("groups")
-        .doc(group.id)
-        .collection("report_templates")
-        .doc(subjectCopy[i].id)
-        .update({
-          orderNo:i,
-        });
-      } 
-    }
+    // for(let i=0; i<subjectCopy.length;i++){
+    //   if(location.pathname.includes("/kids")){
+    //     await db
+    //     .collection("Institution")
+    //     .doc(user._code)
+    //     .collection("kid")
+    //     .doc(kid.id)
+    //     .collection("subjects")
+    //     .doc(subjectCopy[i].id)
+    //     .update({
+    //       orderNo:i,
+    //     });
+    //   } else if(location.pathname.includes("/data")){
+    //     await db
+    //     .collection("Institution")
+    //     .doc(user._code)
+    //     .collection("basicReport")
+    //     .doc(subjectCopy[i].id)
+    //     .update({
+    //       orderNo:i,
+    //     });
+    //   } else if(location.pathname.includes("/groups")){
+    //     await db
+    //     .collection("Institution")
+    //     .doc(user._code)
+    //     .collection("groups")
+    //     .doc(group.id)
+    //     .collection("report_templates")
+    //     .doc(subjectCopy[i].id)
+    //     .update({
+    //       orderNo:i,
+    //     });
+    //   } 
+    // }
   };
 
   const _handleSyncSubject = (id, subject) => {
@@ -227,9 +230,9 @@ export const GroupReportBody = (props) => {
 
   const [dropableHeight,setDropableheight]=useState(null);
 
+  //Get height of scroll are to set position and top values.
   useEffect(()=>{
     setDropableheight(droppableRef.current.clientHeight)
-
   },[])
 
   const renderSubjects = (subject, idx) => {
@@ -858,7 +861,8 @@ export const GroupReportBody = (props) => {
               _subSubjectAdded,
               _subjectEdit,
               _subSubjectEdit,
-              _subjectLock
+              _subjectLock,
+              _subjectOrder
             );
           }}
         >

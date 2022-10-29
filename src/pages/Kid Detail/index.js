@@ -52,7 +52,7 @@ import { VoucherBody } from "./modals/voucher";
 import { Award } from "../../components/award";
 import { GroupReportBody as KidReportBody } from "../../components/specialReportModal/specialReportModal";
 import { DeleteKid } from "./modals/deleteKid";
-import { orderBy } from "firebase/firestore";  
+import { orderBy } from "firebase/firestore";
 
 export const KidsDetail = (props) => {
   const params = useParams();
@@ -254,7 +254,9 @@ export const KidsDetail = (props) => {
     subjectAdded,
     subSubjectAdded,
     subjectEdit,
-    subSubjectEdit
+    subSubjectEdit,
+    subjectLock,
+    subjectOrder
   ) => {
     if (kid.has_special_program == false) {
       db.collection("Institution")
@@ -319,7 +321,7 @@ export const KidsDetail = (props) => {
           hasSubSubject: false,
           isSync: sub.isSync,
           type: sub.type || "kid",
-          orderNo:sub.orderNo
+          orderNo: sub.orderNo
         };
 
         await db
@@ -416,7 +418,7 @@ export const KidsDetail = (props) => {
           hasSubSubject: sub.subSubject.length > 0,
           isSync: sub.isSync,
           type: sub.type || "kid",
-          orderNo:sub.orderNo
+          orderNo: sub.orderNo
         };
         await db
           .collection("Institution")
@@ -498,6 +500,23 @@ export const KidsDetail = (props) => {
           .set(_payload);
       })
     );
+
+    //Change order of report.
+    let _save = await Promise.all(
+      subjectOrder.map(async (sub, index) => {
+        console.log("11111111111111111111111111111111111111")
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("kid")
+          .doc(kid.id)
+          .collection("subjects")
+          .doc(sub.id)
+          .update({
+            orderNo: index,
+          });
+      })
+    )
 
     // delete subject
     let _save3 = await Promise.all(

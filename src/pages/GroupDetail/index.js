@@ -104,6 +104,7 @@ export const GroupDetail = () => {
         .collection("groups")
         .doc(params.id)
         .collection("report_templates")
+        .orderBy("orderNo")
         .onSnapshot((querySnapshot) => {
           const reports = querySnapshot.docs.map((el) => el.data());
           setSubjects(reports);
@@ -188,7 +189,8 @@ export const GroupDetail = () => {
     subSubjectAdded,
     subjectEdit,
     subSubjectEdit,
-    subjectLock
+    subjectLock,
+    subjectOrder
   ) => {
 
     // Add subject
@@ -203,7 +205,7 @@ export const GroupDetail = () => {
           hasSubSubject: false,
           isSync: sub.isSync,
           type: sub.type || "group",
-          orderNo:sub.orderNo
+          orderNo: sub.orderNo
         };
         await db
           .collection("Institution")
@@ -369,7 +371,7 @@ export const GroupDetail = () => {
           hasSubSubject: sub.hasSubSubject,
           isSync: _report_templates.isSync,
           type: _report_templates.type,
-          orderNo:sub.orderNo,
+          orderNo: sub.orderNo,
         };
 
         await db
@@ -517,6 +519,22 @@ export const GroupDetail = () => {
         }
       })
     );
+
+    //Change order of report.
+    let _save = await Promise.all(
+      subjectOrder.map(async (sub, index) => {
+        await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("groups")
+            .doc(group.id)
+            .collection("report_templates")
+            .doc(sub.id)
+            .update({
+              orderNo: index,
+            });
+      })
+    )
 
     // Sync subject
     let _save7 = await Promise.all(
@@ -801,15 +819,15 @@ export const GroupDetail = () => {
                   });
               } else if (_payload.subSubject.length > 0) {
                 await db
-                .collection("Institution")
-                .doc(user._code)
-                .collection("kid")
-                .doc(kid_id)
-                .collection("subjects")
-                .doc(sub.subjectId)
-                .update({
-                  hasSubSubject: true,
-                });
+                  .collection("Institution")
+                  .doc(user._code)
+                  .collection("kid")
+                  .doc(kid_id)
+                  .collection("subjects")
+                  .doc(sub.subjectId)
+                  .update({
+                    hasSubSubject: true,
+                  });
               }
             }
           })
