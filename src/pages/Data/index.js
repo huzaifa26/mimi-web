@@ -36,7 +36,6 @@ import { EarnedPointsBody } from "./modals/earnedPoints";
 import { GrantVoucherBody } from "./modals/grantVoucher";
 import { FileUploadBody } from "./modals/fileUpload";
 import { GroupReportBody as BasicReportBody } from "../../components/specialReportModal/specialReportModal";
-import { ContactsOutlined } from "@material-ui/icons";
 
 const headers = [
   {
@@ -127,6 +126,7 @@ export const Data = React.memo(() => {
           .collection("Institution")
           .doc(user._code)
           .collection("basicReport")
+          .orderBy("orderNo")
           .get()
       ).docs.map((el) => el.data());
       setSubjects(report_templates);
@@ -203,7 +203,6 @@ export const Data = React.memo(() => {
     // add subject (WE DONT NEED TO MAKE IT WORK WITH SYNC BECAUSE BY DEFUALT SUBJECT IS NOT SYNC)
     let _save1 = await Promise.all(
       subjectAdded.map(async (sub) => {
-        console.log("In add subject");
         const payload = {
           id: sub.id,
           name: sub.name,
@@ -212,7 +211,8 @@ export const Data = React.memo(() => {
           obtainedPoints: 0,
           hasSubSubject: false,
           isSync: sub.isSync,
-          type: sub.type || "basic"
+          type: sub.type || "basic",
+          orderNo: sub.orderNo
         };
 
         await db
@@ -285,12 +285,11 @@ export const Data = React.memo(() => {
             });
             await batch.commit();
           })
-        ).then(()=>console.log("END add subject"));
-      }
-      )
+        );
+      })
     );
 
-    // add sub subject 
+    // add sub subject //Done
     let _save2 = await Promise.all(
       subSubjectAdded.map(async (sub) => {
         const payload = {
@@ -328,8 +327,8 @@ export const Data = React.memo(() => {
         //   .get();
 
         // let _report_templates = reportTemplates.data();
-        if (sub.isSync) {
 
+        if (sub.isSync) {
           kidsId.map(async (kid_id) => {
             await db.collection("Institution")
               .doc(user._code)
@@ -387,14 +386,12 @@ export const Data = React.memo(() => {
             await batch.commit();
           })
         );
-        console.log("In edit subject");
       })
     );
 
-    // edit subject 
+    // edit subject DONE
     let _save5 = await Promise.all(
       subjectEdit.map(async (sub) => {
-        console.log("In edit subject");
         await db
           .collection("Institution")
           .doc(user._code)
@@ -411,7 +408,8 @@ export const Data = React.memo(() => {
           obtainedPoints: sub.obtainedPoints,
           hasSubSubject: sub.subSubject.length > 0,
           isSync: sub.isSync,
-          type: sub.type || "basic"
+          type: sub.type || "basic",
+          orderNo: sub.orderNo
         };
 
         await db
@@ -524,18 +522,11 @@ export const Data = React.memo(() => {
             .set(payload);
         });
       })
-    )
+    );
 
     // edit sub subject
     let _save6 = await Promise.all(
       subSubjectEdit.map(async (sub) => {
-
-        const payload = {
-          id: sub.id,
-          name: sub.name,
-          totalPoints: sub.totalPoints,
-          obtainedPoints: sub.obtainedPoints,
-        };
 
         let groups = (
           await db
@@ -546,21 +537,6 @@ export const Data = React.memo(() => {
             .get()
         ).docs.map((el) => el.data());
 
-        // const reportTemplates = await db
-        //   .collection("Institution")
-        //   .doc(user._code)
-        //   .collection("basicReport")
-        //   .doc(sub.subjectId)
-        //   .get();
-
-        // let _report_templates = reportTemplates.data();
-
-        // _report_templates.subSubject.map((e, idx) => {
-        //   if (e.id === sub.id) {
-        //     _report_templates.subSubject[idx] = payload;
-        //   }
-        // });
-
         groups.map(async (group) => {
           await db
             .collection("Institution")
@@ -570,16 +546,6 @@ export const Data = React.memo(() => {
             .collection("report_templates")
             .doc(sub.subjectId)
             .delete();
-
-          // const _payload = {
-          //   id: _report_templates.id,
-          //   name: _report_templates.name,
-          //   totalPoints: _report_templates.totalPoints,
-          //   subSubject: _report_templates.subSubject,
-          //   obtainedPoints: _report_templates.obtainedPoints,
-          //   hasSubSubject: _report_templates.hasSubSubject,
-          //   isSync: _report_templates.isSync
-          // };
 
           const _payload = { ...sub.selectedSubject };
 
@@ -599,16 +565,6 @@ export const Data = React.memo(() => {
           .collection("basicReport")
           .doc(sub.subjectId)
           .delete();
-
-        // const _payload = {
-        //   id: _report_templates.id,
-        //   name: _report_templates.name,
-        //   totalPoints: _report_templates.totalPoints,
-        //   subSubject: _report_templates.subSubject,
-        //   obtainedPoints: _report_templates.obtainedPoints,
-        //   hasSubSubject: _report_templates.hasSubSubject,
-        //   isSync: _report_templates.isSync
-        // };
 
         const _payload = { ...sub.selectedSubject };
 

@@ -149,7 +149,6 @@ export const GroupReportBody = (props) => {
     setExpanded(newExpanded ? panel : false);
   };
 
-
   const params = useParams();
   useEffect(() => {
     (async () => {
@@ -166,66 +165,51 @@ export const GroupReportBody = (props) => {
     })();
   }, []);
 
+  function insertAndShift(arr, from, to) {
+    let cutOut = arr.splice(from, 1) [0]; // cut the element at index 'from'
+    arr.splice(to, 0, cutOut);            // insert it at index 'to'
+}
+
   const handleDragEnd = async (result) => {
-    console.log(result);
     if (!result.destination) return;
-    const list = Array.from(subjects);
-    let newArrList = list;
+    const subjectCopy=[...subjects];
+    const selectedSubject=subjectCopy[result.source.index];
+    insertAndShift(subjectCopy,result.source.index,result.destination.index);
+    setSubjects(subjectCopy);
 
-    const [reorderData] = list.splice(result.source.index, 1);
-    list.splice(result.destination.index, 0, reorderData);
-    list.forEach((el, index) => {
-      if (list[index].data().pos === newArrList[index].data().pos) {
-        console.log('Position changed for', list[index].data().name);
-      }
-    })
-    setSubjects(list);
-
-    // console.log(list);
-
-    for (let i = 0; i <= list.length; i++) {
-      if (list[i].id !== oldSubjects[i].id) {
-        // console.log('IDs are different');
+    for(let i=0; i<subjectCopy.length;i++){
+      if(location.pathname.includes("/kids")){
         await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("groups")
-          .doc(group.id)
-          .collection("report_templates")
-          .doc(oldSubjects[i].id)
-          .delete();
-        console.log("Deleted");
-
-        list?.map(async (sub, index) => {
-          // console.log(index);
-          const payload = {
-            id: sub.id,
-            sortedId: index,
-            name: sub.name,
-            totalPoints: sub.totalPoints,
-            subSubject: [],
-            obtainedPoints: 0,
-            hasSubSubject: false,
-          };
-          await db
-            .collection("Institution")
-            .doc(user._code)
-            .collection("groups")
-            .doc(group.id)
-            .update({
-              isSpecialReport: true,
-            });
-          await db
-            .collection("Institution")
-            .doc(user._code)
-            .collection("groups")
-            .doc(group.id)
-            .collection("report_templates")
-            .doc(sub.id)
-            .set(payload);
-          console.log('Added');
-        })
-      }
+        .collection("Institution")
+        .doc(user._code)
+        .collection("kid")
+        .doc(kid.id)
+        .collection("subjects")
+        .doc(subjectCopy[i].id)
+        .update({
+          orderNo:i,
+        });
+      } else if(location.pathname.includes("/data")){
+        await db
+        .collection("Institution")
+        .doc(user._code)
+        .collection("basicReport")
+        .doc(subjectCopy[i].id)
+        .update({
+          orderNo:i,
+        });
+      } else if(location.pathname.includes("/groups")){
+        await db
+        .collection("Institution")
+        .doc(user._code)
+        .collection("groups")
+        .doc(group.id)
+        .collection("report_templates")
+        .doc(subjectCopy[i].id)
+        .update({
+          orderNo:i,
+        });
+      } 
     }
   };
 
@@ -251,8 +235,6 @@ export const GroupReportBody = (props) => {
           },
         };
 
-        console.log(subject)
-
     return (
       <div>
         <Draggable key={idx} draggableId={"subject-" + idx} index={idx}>
@@ -263,8 +245,9 @@ export const GroupReportBody = (props) => {
               paddingLeft: '2%',
               margin: '0%',
               ...draggableStyle,
-              left: snapshot.isDragging ? 20 : 0,
-              // top: snapshot.isDragging ? '50vh' : 0,
+              position:"relative",
+              left: snapshot.isDragging ? 10 : 0,
+              top: snapshot.isDragging ? '40px' : 0,
             });
 
             return (
@@ -864,7 +847,6 @@ export const GroupReportBody = (props) => {
     </Fragment>
   );
 };
-
 const useStyles = makeStyles((theme) => {
   return {
     ...getModalStyles(theme),

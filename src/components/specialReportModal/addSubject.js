@@ -44,7 +44,8 @@ export const AddSubjectBody = (props) => {
       obtainedPoints: 0,
       hasSubSubject: false,
       isSync:false,
-      type:type
+      type:type,
+      orderNo:subjects.length
     };
 
     let isAvail=false;

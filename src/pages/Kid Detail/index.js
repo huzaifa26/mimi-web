@@ -52,6 +52,7 @@ import { VoucherBody } from "./modals/voucher";
 import { Award } from "../../components/award";
 import { GroupReportBody as KidReportBody } from "../../components/specialReportModal/specialReportModal";
 import { DeleteKid } from "./modals/deleteKid";
+import { orderBy } from "firebase/firestore";  
 
 export const KidsDetail = (props) => {
   const params = useParams();
@@ -108,6 +109,7 @@ export const KidsDetail = (props) => {
         .doc(user._code)
         .collection("kid")
         .doc(params.id)
+        // .orderBy("orderNo")
         .onSnapshot(async (querySnapshot) => {
           setKid(querySnapshot.data());
         });
@@ -126,6 +128,7 @@ export const KidsDetail = (props) => {
             .collection("kid")
             .doc(kid.id)
             .collection("subjects")
+            .orderBy("orderNo")
             .get()
         ).docs.map((el) => el.data());
         setSubjects(report_templates);
@@ -315,8 +318,10 @@ export const KidsDetail = (props) => {
           obtainedPoints: 0,
           hasSubSubject: false,
           isSync: sub.isSync,
-          type: sub.type || "kid"
+          type: sub.type || "kid",
+          orderNo:sub.orderNo
         };
+
         await db
           .collection("Institution")
           .doc(user._code)
@@ -410,7 +415,8 @@ export const KidsDetail = (props) => {
           obtainedPoints: sub.obtainedPoints,
           hasSubSubject: sub.subSubject.length > 0,
           isSync: sub.isSync,
-          type: sub.type || "kid"
+          type: sub.type || "kid",
+          orderNo:sub.orderNo
         };
         await db
           .collection("Institution")
