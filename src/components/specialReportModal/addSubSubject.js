@@ -19,8 +19,6 @@ export const AddSubSubjectBody = (props) => {
   const [subjectName, setSubjectName] = useState("");
   const [loading, setLoading] = useState(false);
   const {actions}=useUi();
-
-  // const handleTotalPoints = () => {
   //   if (subject.subSubject.length > 0) {
   //     const updatedTotalPoints = Number(subject.totalPoints) + Number(score);
   //     return updatedTotalPoints;
@@ -85,11 +83,22 @@ export const AddSubSubjectBody = (props) => {
 
     subjectsCopy.map((el) => {
       if (el.id == selectedSubject.id) {
-        el.subSubject.push(payload);
-        el.subSubject.map((e) => {
-          points = e.totalPoints + points;
-        });
-        el.totalPoints = points;
+        let isAvail=false;
+        el.subSubject.filter((subSub)=>{
+          if(subSub.name === payload.name){
+            isAvail=true;
+          }
+        })
+        if(!isAvail){
+          console.log(payload);
+          el.subSubject.push(payload);
+          el.subSubject.map((e) => {
+            points = e.totalPoints + points;
+          });
+          el.totalPoints = points;
+        }else if(isAvail){
+          return actions.alert("Sub subject with this name already exists", "error");
+        }
       }
     });
 
@@ -102,8 +111,6 @@ export const AddSubSubjectBody = (props) => {
       subjectPoints: points,
       isSync:selectedSubject.isSync
     };
-    console.log(subjectsCopy);
-    console.log(finalPayload);
     subSubjectAdded(subjectsCopy, finalPayload);
     handleClose();
   };
