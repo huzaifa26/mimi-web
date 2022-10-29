@@ -33,6 +33,7 @@ import { EditSubSubjectBody } from "./editSubSubject";
 import { db } from "../../utils/firebase";
 import { SyncSubject } from "./syncSubject";
 import { Sync } from "@material-ui/icons";
+import { useRef } from "react";
 
 export const GroupReportBody = (props) => {
   const {
@@ -66,6 +67,7 @@ export const GroupReportBody = (props) => {
   const [oldSubjects, setOldSubjects] = useState([]);
   const [syncSubId, setSyncSubId] = useState();
   const [syncSubject, setSyncSubject] = useState();
+  const droppableRef=useRef(null);
 
   const [modalStates, setModalStates] = useState({
     subject: false,
@@ -223,6 +225,13 @@ export const GroupReportBody = (props) => {
     setSubjectLock((prev) => [...prev, subject]);
   }
 
+  const [dropableHeight,setDropableheight]=useState(null);
+
+  useEffect(()=>{
+    setDropableheight(droppableRef.current.clientHeight)
+
+  },[])
+
   const renderSubjects = (subject, idx) => {
     const expandIconProps =
       subject?.subSubject.length > 0
@@ -237,18 +246,28 @@ export const GroupReportBody = (props) => {
 
     return (
       <div>
-        <Draggable key={idx} draggableId={"subject-" + idx} index={idx}>
+        <Draggable  key={idx} draggableId={"subject-" + idx} index={idx}>
           {(provider, snapshot) => {
-
-            const getItemStyle = (isDragging, draggableStyle) => ({
-              userSelect: "none",
-              paddingLeft: '2%',
-              margin: '0%',
-              ...draggableStyle,
-              position:"relative",
-              left: snapshot.isDragging ? 10 : 0,
-              top: snapshot.isDragging ? '40px' : 0,
-            });
+            let getItemStyle=null;
+            if(dropableHeight<500){
+              getItemStyle = (isDragging, draggableStyle) => ({
+                userSelect: "none",
+                paddingLeft: '2%',
+                margin: '0%',
+                ...draggableStyle,
+                position:dropableHeight<500 ? "relative" : "none",
+                left: snapshot.isDragging ? 10 : 0,
+                top: snapshot.isDragging && '40px',
+              });
+            }else if(dropableHeight>500){
+              getItemStyle = (isDragging, draggableStyle) => ({
+                userSelect: "none",
+                paddingLeft: '2%',
+                margin: '0%',
+                ...draggableStyle,
+                left: snapshot.isDragging ? 10 : 0,
+              });
+            }
 
             return (
               <Accordion
@@ -808,6 +827,7 @@ export const GroupReportBody = (props) => {
 
       <Box className={classes.box + " " + "scrollBox"}>
         <DragDropContext onDragEnd={handleDragEnd}>
+          <div ref={droppableRef}>
           <Droppable droppableId="subject-1">
             {(provider) => (
               <div {...provider.droppableProps} ref={provider.innerRef}>
@@ -818,6 +838,7 @@ export const GroupReportBody = (props) => {
               </div>
             )}
           </Droppable>
+          </div>
         </DragDropContext>
       </Box>
 
