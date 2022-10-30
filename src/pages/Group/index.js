@@ -135,6 +135,9 @@ export const Group = React.memo(() => {
             }
         </div>
     );
+    const closeModal = () => {
+        setCreateGroupModalShow(false);
+    };
     const handleFavorite = async group => {
         if ((group.favoriteBy || []).includes(user.id)) {
             await db
@@ -212,7 +215,8 @@ export const Group = React.memo(() => {
                 <DataTable {...tableProps} />
             </section>
         );
-    });
+    }
+});
 
 const useStyles = makeStyles(theme => {
     return {
