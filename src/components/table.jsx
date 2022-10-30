@@ -8,7 +8,6 @@ import {
   TableRow,
   TableSortLabel,
   Typography,
-  
 } from "@material-ui/core";
 
 import clsx from "clsx";
@@ -17,7 +16,7 @@ import React, { Fragment, useRef, useState, useEffect, useMemo } from "react";
 import { FormattedMessage } from "react-intl";
 import { useInView } from "react-intersection-observer";
 import { Button } from ".";
-import Icons from "./Icons";
+import Icons, { UpIcon, DownIcon } from "./Icons";
 import { Loader } from "./loader";
 import { useStore } from "../store";
 
@@ -108,7 +107,8 @@ export const DataTable = React.forwardRef((props, ref) => {
 
   const [loading, setLoading] = useState(false);
   const [tableData, setTableData] = useState([]);
-  const [sortDirection, setSortDirection] = useState('asc');
+  const [sortDirection, setSortDirection] = useState("asc");
+  const [sortDirectionCol, setSortDirectionCol] = useState("");
   const counterRef = useRef(1);
 
   const {
@@ -136,9 +136,9 @@ export const DataTable = React.forwardRef((props, ref) => {
     counterRef.current += 1;
     setLoading(false);
   };
-  useMemo(()=>{
-  setTableData(data)
-  },[data])
+  useMemo(() => {
+    setTableData(data);
+  }, [data]);
 
   if (typeof data === "undefined") return <Loader />;
 
@@ -149,17 +149,17 @@ export const DataTable = React.forwardRef((props, ref) => {
       </Typography>
     );
 
-const sortData = (headerColValue) => {
+  const sortData = (headerColValue) => {
+    setSortDirectionCol(headerColValue);
 
-
-  if(sortDirection==='asc'){
-    setTableData(data.sort((a, b) => (a.kids_ids > b.kids_ids) ? 1 : -1))
-    setSortDirection('desc')
-  } else {
-    setTableData(data.sort((a, b) => (a.kids_ids < b.kids_ids) ? 1 : -1))
-    setSortDirection('asc')
-  }
-}
+    if (sortDirection === "asc") {
+      setTableData(data.sort((a, b) => (a.kids_ids > b.kids_ids ? 1 : -1)));
+      setSortDirection("desc");
+    } else {
+      setTableData(data.sort((a, b) => (a.kids_ids < b.kids_ids ? 1 : -1)));
+      setSortDirection("asc");
+    }
+  };
   return (
     <Fragment>
       <ScrollArea
@@ -174,24 +174,38 @@ const sortData = (headerColValue) => {
           className={classes.table}
           {...(tableProps || {})}
           aria-label="custom pagination table"
-          
         >
           <TableHead>
             <TableRow className={clsx([classes.tableHeadRow, orientation])}>
               {headers.map((el) => {
                 return (
                   <TableCell
-                  key={el.id}
-                  className={clsx({
-                    [classes.tableHeadCell]: true,
-                    [classes.fitContent]: !String(el.id).trim(),
-                  })}
-                  style={{cursor:"pointer"}}
-                  onClick={()=>{sortData(el.id)}}
-                    
+                    key={el.id}
+                    className={clsx({
+                      [classes.tableHeadCell]: true,
+                      [classes.fitContent]: !String(el.id).trim(),
+                    })}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      sortData(el.id);
+                    }}
                   >
                     <FormattedMessage id={el.id} />
-              
+                    {sortDirectionCol === el.id ? (
+                      sortDirection === "asc" ? (
+                        <>
+                          <UpIcon fontSize="small" />
+                        </>
+                      ) : (
+                        <>
+                          <DownIcon fontSize="small" />
+                        </>
+                      )
+                    ) : (
+                      <>
+                        <UpIcon fontSize="small" />
+                      </>
+                    )}
                   </TableCell>
                 );
               })}
@@ -200,21 +214,18 @@ const sortData = (headerColValue) => {
           <TableBody className={classes.tableBody}>
             {tableData.map((el) => (
               <TableRow
-              innerRef={observerRef}
-              className={clsx({
-                [classes.tableBodyRow]: true,
-                [classes.pointer]: !!handleRowClick,
-              })}
-              onClick={() => handleRowClick && handleRowClick(el)}
-            >
-              {renderItem(el)}
-            </TableRow>
-            )
-            )}
+                innerRef={observerRef}
+                className={clsx({
+                  [classes.tableBodyRow]: true,
+                  [classes.pointer]: !!handleRowClick,
+                })}
+                onClick={() => handleRowClick && handleRowClick(el)}
+              >
+                {renderItem(el)}
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
-       
-
       </ScrollArea>
 
       <div
