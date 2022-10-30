@@ -46,9 +46,9 @@ export const Group = React.memo(() => {
     //         for (const group of list) {
     //             const _group = { ...group };
 
-    //             const groupScore = (await db.collection('Institution').doc(user._code).collection('kid').where('groupId', '==', _group.id).get()).docs
-    //                 .map(el => el.data())
-    //                 .reduce((acc, el) => (acc += el.score), 0);
+    const groupScore = (await db.collection('Institution').doc(user._code).collection('kid').where('groupId', '==', _group.id).get()).docs
+        .map(el => el.data())
+        .reduce((acc, el) => (acc += el.score), 0);
 
     //             _group._score = groupScore;
 
