@@ -3,8 +3,8 @@ import "firebase/auth";
 import "firebase/firestore";
 
 // const envoirnment = process.env.REACT_APP_ENVIRONMENT || "DEV";
-const envoirnment = "PROD";
-// const envoirnment = "DEV";
+// const envoirnment = "PROD";
+const envoirnment = "DEV";
 // console.log({ e: process.env });
 const firebaseConfig = {
   apiKey: process.env[`REACT_APP_${envoirnment}_FIREBASE_API_KEY`],
