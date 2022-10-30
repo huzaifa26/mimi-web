@@ -126,6 +126,7 @@ export const Data = React.memo(() => {
           .collection("Institution")
           .doc(user._code)
           .collection("basicReport")
+          .orderBy("orderNo")
           .get()
       ).docs.map((el) => el.data());
       setSubjects(report_templates);
@@ -196,7 +197,8 @@ export const Data = React.memo(() => {
     subSubjectAdded,
     subjectEdit,
     subSubjectEdit,
-    subjectLock
+    subjectLock,
+    subjectOrder
   ) => {
 
     // add subject (WE DONT NEED TO MAKE IT WORK WITH SYNC BECAUSE BY DEFUALT SUBJECT IS NOT SYNC)
@@ -210,7 +212,8 @@ export const Data = React.memo(() => {
           obtainedPoints: 0,
           hasSubSubject: false,
           isSync: sub.isSync,
-          type: sub.type || "basic"
+          type: sub.type || "basic",
+          orderNo: sub.orderNo
         };
 
         await db
@@ -406,7 +409,8 @@ export const Data = React.memo(() => {
           obtainedPoints: sub.obtainedPoints,
           hasSubSubject: sub.subSubject.length > 0,
           isSync: sub.isSync,
-          type: sub.type || "basic"
+          type: sub.type || "basic",
+          orderNo: sub.orderNo
         };
 
         await db
@@ -525,13 +529,6 @@ export const Data = React.memo(() => {
     let _save6 = await Promise.all(
       subSubjectEdit.map(async (sub) => {
 
-        const payload = {
-          id: sub.id,
-          name: sub.name,
-          totalPoints: sub.totalPoints,
-          obtainedPoints: sub.obtainedPoints,
-        };
-
         let groups = (
           await db
             .collection("Institution")
@@ -540,21 +537,6 @@ export const Data = React.memo(() => {
             .where("isSpecialReport", "==", false)
             .get()
         ).docs.map((el) => el.data());
-
-        // const reportTemplates = await db
-        //   .collection("Institution")
-        //   .doc(user._code)
-        //   .collection("basicReport")
-        //   .doc(sub.subjectId)
-        //   .get();
-
-        // let _report_templates = reportTemplates.data();
-
-        // _report_templates.subSubject.map((e, idx) => {
-        //   if (e.id === sub.id) {
-        //     _report_templates.subSubject[idx] = payload;
-        //   }
-        // });
 
         groups.map(async (group) => {
           await db
@@ -565,16 +547,6 @@ export const Data = React.memo(() => {
             .collection("report_templates")
             .doc(sub.subjectId)
             .delete();
-
-          // const _payload = {
-          //   id: _report_templates.id,
-          //   name: _report_templates.name,
-          //   totalPoints: _report_templates.totalPoints,
-          //   subSubject: _report_templates.subSubject,
-          //   obtainedPoints: _report_templates.obtainedPoints,
-          //   hasSubSubject: _report_templates.hasSubSubject,
-          //   isSync: _report_templates.isSync
-          // };
 
           const _payload = { ...sub.selectedSubject };
 
@@ -594,16 +566,6 @@ export const Data = React.memo(() => {
           .collection("basicReport")
           .doc(sub.subjectId)
           .delete();
-
-        // const _payload = {
-        //   id: _report_templates.id,
-        //   name: _report_templates.name,
-        //   totalPoints: _report_templates.totalPoints,
-        //   subSubject: _report_templates.subSubject,
-        //   obtainedPoints: _report_templates.obtainedPoints,
-        //   hasSubSubject: _report_templates.hasSubSubject,
-        //   isSync: _report_templates.isSync
-        // };
 
         const _payload = { ...sub.selectedSubject };
 
@@ -681,6 +643,20 @@ export const Data = React.memo(() => {
         }
       })
     );
+
+    //Change order of report.
+    let _save = await Promise.all(
+      subjectOrder.map(async(sub,index) => {
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("basicReport")
+          .doc(sub.id)
+          .update({
+            orderNo: index,
+          });
+      })
+    )
 
     // Sync subject
     let _save7 = await Promise.all(

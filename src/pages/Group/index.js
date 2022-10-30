@@ -38,6 +38,7 @@ export const Group = React.memo(() => {
     const { state: storeState } = useStore();
     const { actions } = useUi();
     const { user, orientation, defaultAvatars } = storeState;
+    // const [groupLog,setGroupLog]=useState({});
 
     // const modifier = useMemo(
     //     () => async list => {
@@ -46,7 +47,7 @@ export const Group = React.memo(() => {
     //             const _group = { ...group };
 
     //             const groupScore = (await db.collection('Institution').doc(user._code).collection('kid').where('groupId', '==', _group.id).get()).docs
-    //                 .map(el => el.data()) 
+    //                 .map(el => el.data())
     //                 .reduce((acc, el) => (acc += el.score), 0);
 
     //             _group._score = groupScore;
@@ -159,53 +160,59 @@ export const Group = React.memo(() => {
 
         }
 
-    };
-    const closeModal = () => {
-        setCreateGroupModalShow(false);
-    };
-    const renderItem = group => (
-        <Fragment>
-            <TableCell>
-                <Box display={'flex'} alignItems="center">
-                    <img src={group.favoriteBy?.includes(user.id) ? Star : StarOut} alt="pin" onClick={stopEventBubble(() => handleFavorite(group))} />
-                    <Box marginX={1}>
-                        <Avatar src={group.image || defaultAvatars?.group} />
-                    </Box>
-                    <Typography>{group.name}</Typography>
-                </Box>
-            </TableCell>
-            <TableCell>{group.kids_ids.length}</TableCell>
-            <TableCell>{group._score}</TableCell>
-        </Fragment>
-    );
+        const renderItem = group => {
+            return (
+                <Fragment>
+                    <TableCell>
+                        <Box display={'flex'} alignItems="center">
+                            <Box onClick={stopEventBubble(() => handleFavorite(group))}>
+                                <img
+                                    style={{
+                                        height: 20,
+                                    }}
+                                    src={(group.favoriteBy || []).includes(user.id) ? Star : StarOut}
+                                    alt=''
+                                />
+                            </Box>
+                            <Box marginX={1}>
+                                <Avatar src={group?.image || defaultAvatars?.group} />
+                            </Box>
+
+                            <Typography>{group.name}</Typography>
+                        </Box>
+                    </TableCell>
+                    <TableCell>{group.kids_ids.length}</TableCell>
+                    <TableCell>{group._score}</TableCell>
+                </Fragment>
+            );
+        };
 
 
+        const tableProps = {
+            data: groups,
+            renderItem,
+            headers,
+            loadMore,
+            handleRowClick: group => {
+                groupLog.current = group;
+                history.push(`/groups/${group.id}`, { group });
+            },
+        };
 
-    const tableProps = {
-        data: groups,
-        renderItem,
-        headers,
-        loadMore,
-        handleRowClick: group => {
-            groupLog.current = group;
-            history.push(`/groups/${group.id}`, { group });
-        },
-    };
+        return loading ? (
+            <Loader />
+        ) : (
+            <section className={clsx([classes.default_page_root, classes.default_page_Bg1])}>
+                <SimpleModal title={<FormattedMessage id="create_new_group" />} open={createGroupModalShow} handleClose={closeModal}>
+                    <CreateGroupBody handleClose={closeModal} />
+                </SimpleModal>
 
-    return loading ? (
-        <Loader />
-    ) : (
-        <section className={clsx([classes.default_page_root, classes.default_page_Bg1])}>
-            <SimpleModal title={<FormattedMessage id="create_new_group" />} open={createGroupModalShow} handleClose={closeModal}>
-                <CreateGroupBody handleClose={closeModal} />
-            </SimpleModal>
+                {actionBar}
 
-            {actionBar}
-
-            <DataTable {...tableProps} />
-        </section>
-    );
-});
+                <DataTable {...tableProps} />
+            </section>
+        );
+    });
 
 const useStyles = makeStyles(theme => {
     return {

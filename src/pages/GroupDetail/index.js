@@ -104,6 +104,7 @@ export const GroupDetail = () => {
         .collection("groups")
         .doc(params.id)
         .collection("report_templates")
+        .orderBy("orderNo")
         .onSnapshot((querySnapshot) => {
           const reports = querySnapshot.docs.map((el) => el.data());
           setSubjects(reports);
@@ -131,6 +132,7 @@ export const GroupDetail = () => {
             .collection("groups")
             .doc(params.id)
             .collection("report_templates")
+            .orderBy("orderNo")
             .get()
         ).docs.map((el) => el.data());
         setSubjects(report_templates);
@@ -187,7 +189,8 @@ export const GroupDetail = () => {
     subSubjectAdded,
     subjectEdit,
     subSubjectEdit,
-    subjectLock
+    subjectLock,
+    subjectOrder
   ) => {
 
     // Add subject
@@ -201,7 +204,8 @@ export const GroupDetail = () => {
           obtainedPoints: 0,
           hasSubSubject: false,
           isSync: sub.isSync,
-          type: sub.type || "group"
+          type: sub.type || "group",
+          orderNo: sub.orderNo
         };
         await db
           .collection("Institution")
@@ -220,27 +224,6 @@ export const GroupDetail = () => {
           .collection("report_templates")
           .doc(sub.id)
           .set(payload);
-
-        // location?.state?.group.kids_ids.map(async (kid_id) => {
-        //   console.log(payload)
-        //   await db
-        //   .collection("Institution")
-        //   .doc(user._code)
-        //   .collection("kid")
-        //   .doc(kid_id)
-        //   .update({
-        //     isSpecialReport: true,
-        //   });
-
-        //   await db
-        //     .collection("Institution")
-        //     .doc(user._code)
-        //     .collection("kid")
-        //     .doc(kid_id)
-        //     .collection("subjects")
-        //     .doc(sub.id)
-        //     .set(payload);
-        // })
 
         const kids = (
           await db
@@ -283,18 +266,6 @@ export const GroupDetail = () => {
           obtainedPoints: sub.obtainedPoints,
         };
 
-        // const reportTemplates = await db
-        //   .collection("Institution")
-        //   .doc(user._code)
-        //   .collection("groups")
-        //   .doc(group.id)
-        //   .collection("report_templates")
-        //   .doc(sub.subjectId)
-        //   .get();
-
-        // let _report_templates = reportTemplates.data();
-        // _report_templates.subSubject.push(payload);
-
         await db
           .collection("Institution")
           .doc(user._code)
@@ -303,33 +274,6 @@ export const GroupDetail = () => {
           .update({
             isSpecialReport: true,
           });
-
-        // await db
-        //   .collection("Institution")
-        //   .doc(user._code)
-        //   .collection("groups")
-        //   .doc(group.id)
-        //   .collection("report_templates")
-        //   .doc(sub.subjectId)
-        //   .delete();
-
-        // const _payload = {
-        //   id: _report_templates.id,
-        //   name: _report_templates.name,
-        //   totalPoints: _report_templates.totalPoints,
-        //   subSubject: _report_templates.subSubject,
-        //   obtainedPoints: _report_templates.obtainedPoints,
-        //   hasSubSubject: _report_templates.hasSubSubject,
-        //   isSync: _report_templates.isSync,
-        //   type:_report_templates.type
-        // };
-
-        // let totalSum = 0;
-        // _payload.subSubject.forEach((subSubject) => {
-        //   totalSum = totalSum + subSubject.totalPoints;
-        // });
-
-        // _payload.totalPoints = totalSum;
 
         await db
           .collection("Institution")
@@ -367,15 +311,6 @@ export const GroupDetail = () => {
                 .update({
                   isSpecialReport: true,
                 });
-
-              // await db
-              //   .collection("Institution")
-              //   .doc(user._code)
-              //   .collection("kid")
-              //   .doc(kid_id)
-              //   .collection("subjects")
-              //   .doc(sub.subjectId)
-              //   .delete();
 
               await db
                 .collection("Institution")
@@ -436,6 +371,7 @@ export const GroupDetail = () => {
           hasSubSubject: sub.hasSubSubject,
           isSync: _report_templates.isSync,
           type: _report_templates.type,
+          orderNo: sub.orderNo,
         };
 
         await db
@@ -499,29 +435,7 @@ export const GroupDetail = () => {
     let _save6 = await Promise.all(
       // Edit sub subject inside group
       subSubjectEdit.map(async (sub) => {
-        // const payload = {
-        //   id: sub.id,
-        //   name: sub.name,
-        //   totalPoints: sub.totalPoints,
-        //   obtainedPoints: sub.obtainedPoints,
-        // };
 
-        // const reportTemplates = await db
-        //   .collection("Institution")
-        //   .doc(user._code)
-        //   .collection("groups")
-        //   .doc(group.id)
-        //   .collection("report_templates")
-        //   .doc(sub.subjectId)
-        //   .get();
-
-        // let _report_templates = reportTemplates.data();
-
-        // _report_templates.subSubject.map((e, idx) => {
-        //   if (e.id == sub.id) {
-        //     _report_templates.subSubject[idx] = payload;
-        //   }
-        // });
         await db
           .collection("Institution")
           .doc(user._code)
@@ -539,17 +453,6 @@ export const GroupDetail = () => {
           .collection("report_templates")
           .doc(sub.subjectId)
           .delete();
-
-        // const _payload = {
-        //   id: _report_templates.id,
-        //   name: _report_templates.name,
-        //   totalPoints: _report_templates.totalPoints,
-        //   subSubject: _report_templates.subSubject,
-        //   obtainedPoints: _report_templates.obtainedPoints,
-        //   hasSubSubject: _report_templates.hasSubSubject,
-        //   isSync: _report_templates.isSync,
-        //   type: _report_templates.type,
-        // };
 
         const _payload = { ...sub.selectedSubject };
 
@@ -616,6 +519,22 @@ export const GroupDetail = () => {
         }
       })
     );
+
+    //Change order of report.
+    let _save = await Promise.all(
+      subjectOrder.map(async (sub, index) => {
+        await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("groups")
+            .doc(group.id)
+            .collection("report_templates")
+            .doc(sub.id)
+            .update({
+              orderNo: index,
+            });
+      })
+    )
 
     // Sync subject
     let _save7 = await Promise.all(
@@ -900,15 +819,15 @@ export const GroupDetail = () => {
                   });
               } else if (_payload.subSubject.length > 0) {
                 await db
-                .collection("Institution")
-                .doc(user._code)
-                .collection("kid")
-                .doc(kid_id)
-                .collection("subjects")
-                .doc(sub.subjectId)
-                .update({
-                  hasSubSubject: true,
-                });
+                  .collection("Institution")
+                  .doc(user._code)
+                  .collection("kid")
+                  .doc(kid_id)
+                  .collection("subjects")
+                  .doc(sub.subjectId)
+                  .update({
+                    hasSubSubject: true,
+                  });
               }
             }
           })

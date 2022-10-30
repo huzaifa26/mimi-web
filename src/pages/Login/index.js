@@ -51,13 +51,12 @@ export function Login() {
   const [showChangePassword, setShowChangePassword] = useState(false);
 
   useEffect(() => {
-    if(user?.permissions?.webPanelAccess){
+    if (user?.permissions?.webPanelAccess) {
       if (auth.currentUser) {
-        console.log("2222222222")
         return history.push("/dashboard");
       }
     }
-    
+
     const lang = navigator.language;
     const defaultDir = rtlDetect.getLangDir(lang);
     setStoreState((prev) => ({
@@ -91,8 +90,8 @@ export function Login() {
         .collection("staff")
         .doc(user.uid)
         .onSnapshot((snapshot) => {
-          let user=snapshot.data();
-          if(user.permissions.webPanelAccess === true){
+          let user = snapshot.data();
+          if (user.permissions.webPanelAccess === true) {
             setStoreState((prev) => ({
               ...prev,
               authenticated: true,
@@ -170,6 +169,17 @@ export function Login() {
         if (!user.firstPasswordChanged && user.type != ROLES.admin) {
           return setShowChangePassword(true);
         }
+
+        console.log(user)
+        await db
+          .collection("Institution")
+          .doc(institutionCode.toUpperCase())
+          .collection("staff")
+          .doc(user.id)
+          .update({
+            web_last_login: new Date(),
+          });
+
         await setLocalStorage(institutionCode, password, language, direction)
           .then(() => {
             history.push("/dashboard");

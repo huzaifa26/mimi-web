@@ -13,6 +13,7 @@ import { getPageStyles, getSectionHeaderStyles, searchBy } from '../../utils/hel
 import clsx from 'clsx';
 import { CreateRoutePlanBody } from './modals/createRoutePlan';
 import { RouteDetailsBody } from './modals/routeDetails';
+import { useRef } from 'react';
 
 const headers = [
     {
@@ -58,6 +59,7 @@ export const RoutePlan = React.memo(() => {
         id: null,
         label: <FormattedMessage id={'all'} />,
     });
+    const routeLog=useRef(null)
 
     const query = useMemo(() => {
         const baseQuery = db.collection('Institution').doc(user._code).collection('routePlan').orderBy('id');

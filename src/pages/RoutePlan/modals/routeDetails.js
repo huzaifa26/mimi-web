@@ -74,8 +74,6 @@ export const RouteDetailsBody = props => {
     const [searchText, setSearchText] = useState('');
     const listenerRef = useRef([]);
 
-    // console.log(listenerRef);
-
     const [routePlan, setRoutePlan] = useState();
     const [data, setData] = useState([]);
     const [prizes, setPrizes] = useState([]);
