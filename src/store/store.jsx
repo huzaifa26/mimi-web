@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from "react";
 import { useRef } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { LANGUAGE_MAPPING } from "../utils/constants";
 import { db, auth } from "../utils/firebase";
 
@@ -10,6 +10,7 @@ const ctx = React.createContext();
 export const useStore = () => useContext(ctx);
 
 export const StoreProvidor = ({ children }) => {
+  const location=useLocation()
   const history = useHistory();
 
   const listener = useRef();
@@ -24,34 +25,46 @@ export const StoreProvidor = ({ children }) => {
       authenticated: false,
     };
   });
+
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
+    auth.onAuthStateChanged(async(user) => {
       if (user) {
         const code = localStorage.getItem("code");
 
-        listener.current = db
+        console.log(user)
+        await db
           .collection("Institution")
-          .doc(code)
+          .doc(code.toUpperCase())
           .collection("staff")
           .doc(user.uid)
-          .onSnapshot((snapshot) => {
-            console.log({ user: snapshot.data() });
-
-            setState((prev) => ({
-              ...prev,
-              authenticated: true,
-              user: { ...snapshot.data(), _code: code },
-            }));
+          .update({
+            web_last_login: new Date(),
           });
-      } else {
+        if(code !== null){
+          listener.current = db
+            .collection("Institution")
+            .doc(code)
+            .collection("staff")
+            .doc(user.uid)
+            .onSnapshot((snapshot) => {
+              // console.log({ user: snapshot.data() });
+              setState((prev) => ({
+                ...prev,
+                authenticated: true,
+                user: { ...snapshot.data(), _code: code },
+              }));
+            });
+        }
+      } 
+      else {
         setState((prev) => ({ ...prev, user: null, authenticated: true }));
         listener.current && listener.current();
       }
     });
-  }, []);
+}, []);
 
   useEffect(() => {
-    state.user &&
+    state?.user?.permissions?.webPanelAccess &&
       (async () => {
         const institutionDocs = await db
           .collection("Institution")
@@ -92,16 +105,17 @@ export const StoreProvidor = ({ children }) => {
   };
 
   return (
-    <ctx.Provider
-      value={{
-        state,
-        setState,
-        actions: {
-          handleSignOut,
-        },
-      }}
-    >
-      {children}
-    </ctx.Provider>
+      <ctx.Provider
+        value={{
+          state,
+          setState,
+          actions: {
+            handleSignOut,
+          },
+        }}
+      >
+        {(state?.user === null && !location.pathname === "/")? null:children}
+      </ctx.Provider>
+    
   );
 };

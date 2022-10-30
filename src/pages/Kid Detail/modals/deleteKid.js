@@ -24,6 +24,7 @@ export const DeleteKid = (props) => {
   const [password,setPassword]=useState('');
 
   const _handleSubmit = async() => {
+    setLoading(true);
     try{
     const userCredential = await auth.signInWithEmailAndPassword(user.email,password);
     await FirebaseHelpers.deleteKid.execute({
@@ -38,7 +39,9 @@ export const DeleteKid = (props) => {
         if(e.code === "auth/too-many-requests"){
             actions.alert("Too many attempts. Please try again later.","error");
         }
+        setLoading(false);
     }
+    setLoading(false);
     handleClose();
   };
   return (
@@ -54,8 +57,10 @@ export const DeleteKid = (props) => {
         <Field label={<FormattedMessage id="password" />}>
             <Input
               value={password}
+              type="password"
               fullWidth
               size="small"
+              type="password"
               onChange={(e) => setPassword(e.target.value)}
             />
           </Field>

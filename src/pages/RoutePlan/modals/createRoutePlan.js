@@ -27,7 +27,7 @@ const options = [
 ];
 
 export const CreateRoutePlanBody = props => {
-    const { handleClose } = props;
+    const { handleClose, update } = props;
     const classes = useStyles();
     const { state: storeState } = useStore();
     const { actions } = useUi();
@@ -91,6 +91,7 @@ export const CreateRoutePlanBody = props => {
                 });
             setLoading(false);
             handleClose();
+            update()
         } catch (error) {
             actions.alert(error.message, 'error');
         } finally {

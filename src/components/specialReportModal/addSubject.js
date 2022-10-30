@@ -6,6 +6,7 @@ import { useStore, useUi } from "../../store";
 import { db } from "../../utils/firebase";
 import { nanoid } from "nanoid";
 import { getModalStyles } from "../../utils/helpers";
+import { useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -14,6 +15,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 export const AddSubjectBody = (props) => {
+  const location=useLocation()
   const { handleClose, subjects, subjectAdded } = props;
   const classes = useStyles();
   const { state: storeState } = useStore();
@@ -25,6 +27,14 @@ export const AddSubjectBody = (props) => {
 
   const _handleSubmit = () => {
     let subjectsCopy = [...subjects];
+    let type=''
+    if(location.pathname.includes("/groups")){
+      type="group"
+    } else if(location.pathname.includes("/kids")){
+      type="kid"
+    } else if(location.pathname.includes("/data")){
+      type="basic"
+    }
     const subject_id = nanoid(6);
     const payload = {
       id: subject_id,
@@ -33,11 +43,27 @@ export const AddSubjectBody = (props) => {
       subSubject: [],
       obtainedPoints: 0,
       hasSubSubject: false,
+      isSync:false,
+      type:type,
+      orderNo:subjects.length
     };
-    subjectsCopy.push(payload);
-    subjectAdded(subjectsCopy, payload);
-    handleClose();
+
+    let isAvail=false;
+    subjectsCopy.filter((sub)=>{
+      if(sub.name === subjectName){
+        isAvail=true;
+      }
+    })
+    if(isAvail){
+      return actions.alert("Subject with this name already exists.","error");
+    }else if(!isAvail){
+      console.log(payload);
+      subjectsCopy.push(payload);
+      subjectAdded(subjectsCopy, payload);
+      handleClose();
+    }
   };
+  
   return (
     <Fragment>
       <Field label={<FormattedMessage id="subject_name" />}>

@@ -38,6 +38,8 @@ import { ManageAccessBody } from "./manageAccess";
 import { ReportBody } from "./addReport";
 import { HistoryBody } from "./history";
 import { RoleMappings, ROLES } from "../../../utils/constants";
+import { useRef } from "react";
+import { nanoid } from "nanoid";
 
 export const ProfileBody = (props) => {
   const { handleClose, staffId } = props;
@@ -57,6 +59,30 @@ export const ProfileBody = (props) => {
     report: false,
   });
 
+  const staffLog = useRef(null);
+
+  // Log
+  useEffect(() => {
+    return async () => {
+      if (staffLog.current !== null) {
+        const subject_id = nanoid(6);
+        const payload = {
+          id: subject_id,
+          activity: "staff",
+          subActivity: staffLog?.current?.name,
+          uid: user.id
+        }
+        console.log("staff " + staffLog?.current?.name + " opened, uid:" + user.id);
+        // await db
+        //     .collection('Institution')
+        //     .doc(user._code)
+        //     .collection('log')
+        //     .doc(payload.id)
+        //     .set(payload)
+      }
+    }
+  }, [])
+
   useEffect(() => {
     db.collection("Institution")
       .doc(user._code)
@@ -64,6 +90,7 @@ export const ProfileBody = (props) => {
       .doc(staffId)
       .onSnapshot(async (snapshot) => {
         const _staff = snapshot.data();
+        staffLog.current = snapshot.data()
 
         const canAccessKids = [ROLES.gStaff].includes(_staff.type);
 
@@ -74,9 +101,8 @@ export const ProfileBody = (props) => {
             if (!_staff.kids_access?.length) {
               _staff._groups = intl.formatMessage({ id: "no_kids" });
             } else {
-              _staff._groups = `${
-                _staff.kids_access.length
-              } ${intl.formatMessage({ id: "kids" })}`;
+              _staff._groups = `${_staff.kids_access.length
+                } ${intl.formatMessage({ id: "kids" })}`;
             }
           }
         } else {
@@ -126,6 +152,7 @@ export const ProfileBody = (props) => {
         staff,
         user,
       });
+
 
       handleClose();
     };
@@ -200,7 +227,7 @@ export const ProfileBody = (props) => {
               classes.default_typography_paragraph,
             ])}
           >
-            {staff.email}
+            Email : {staff.email}
           </Typography>
 
           <Typography
@@ -210,7 +237,7 @@ export const ProfileBody = (props) => {
               classes.default_typography_paragraph,
             ])}
           >
-            {RoleMappings[staff.type]}
+            Role : {RoleMappings[staff.type]}
           </Typography>
           <Typography
             className={clsx([
@@ -219,7 +246,7 @@ export const ProfileBody = (props) => {
               classes.default_typography_paragraph,
             ])}
           >
-            {staff._groups}
+            Group :   {staff._groups}
           </Typography>
         </Box>
 

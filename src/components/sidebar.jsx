@@ -198,7 +198,8 @@ export function Sidebar({ children }) {
 
   return (
     <Box display={"flex"} className={classes.root}>
-      <Drawer
+      {user?.permissions?.webPanelAccess === true &&
+        <Drawer
         variant="permanent"
         open={open}
         className={clsx(classes.drawer, {
@@ -299,7 +300,8 @@ export function Sidebar({ children }) {
             </ListItemIcon>
           )}
         </ListItem>
-      </Drawer>
+        </Drawer>
+      } 
 
       <main className={classes.content}>{children}</main>
     </Box>

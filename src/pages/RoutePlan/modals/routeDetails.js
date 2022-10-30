@@ -17,6 +17,7 @@ import { CreatePrizeBody } from './createPrize';
 import { ChangeDateBody } from './changeDate';
 import { EligibleKidsBody } from './eligibleKids';
 import { ManageAccessBody } from './manageAccess';
+import { nanoid } from 'nanoid';
 
 const useStyles = makeStyles(theme => {
     return {
@@ -68,11 +69,10 @@ export const RouteDetailsBody = props => {
     const { state: storeState } = useStore();
     const { actions } = useUi();
     const { user } = storeState;
-
+   
+    const [isHover, setIsHover] = useState();
     const [searchText, setSearchText] = useState('');
     const listenerRef = useRef([]);
-
-    // console.log(listenerRef);
 
     const [routePlan, setRoutePlan] = useState();
     const [data, setData] = useState([]);
@@ -87,6 +87,30 @@ export const RouteDetailsBody = props => {
         eligibleKids: false,
     });
 
+    const routeLog = useRef(null)
+
+    useEffect(() => {
+        return async () => {
+            if (routeLog.current !== null) {
+                const subject_id = nanoid(6);
+                const payload = {
+                    id: subject_id,
+                    activity: "route plan",
+                    subActivity: routeLog?.current?.name,
+                    uid: user.id
+                }
+                console.log("route "+routeLog?.current?.name+" opened, uid:" + user.id);
+
+                // await db
+                //     .collection('Institution')
+                //     .doc(user._code)
+                //     .collection('log')
+                //     .doc(payload.id)
+                //     .set(payload)
+            }
+        }
+    }, [])
+
     useEffect(() => {
         if (!routePlanId) return;
         listenerRef.current.push(
@@ -97,6 +121,7 @@ export const RouteDetailsBody = props => {
                 .doc(routePlanId)
                 .onSnapshot(snapshot => {
                     setRoutePlan(snapshot.data());
+                    routeLog.current = snapshot.data();
                 }),
         );
 
@@ -374,6 +399,9 @@ export const RouteDetailsBody = props => {
                             component={'img'}
                             marginX={1}
                             src={Edit}
+                            style={{cursor:"pointer", color:isHover?"blue":null}}
+                           onMouseEnter={()=>{setIsHover(true)}}
+                           onMouseLeave={()=>{setIsHover(false)}}
                             onClick={() => {
                                 if (!user.permissions[PERMISSIONS.trackAccess]) {
                                     return actions.alert("You don't have access to perform this action");
@@ -402,6 +430,9 @@ export const RouteDetailsBody = props => {
                             component={'img'}
                             marginX={1}
                             src={Edit}
+                            style={{cursor:"pointer", color:isHover?"blue":null}}
+                            onMouseEnter={()=>{setIsHover(true)}}
+                            onMouseLeave={()=>{setIsHover(false)}}
                             onClick={() => {
                                 if (!user.permissions[PERMISSIONS.trackAccess]) {
                                     return actions.alert("You don't have access to perform this action");
