@@ -68,6 +68,8 @@ export const Data = React.memo(() => {
   const [subjects, setSubjects] = useState([]);
   const [uploadFileType, setUploadFileType] = useState("");
 
+  console.log(institute);
+
   useEffect(() => {
     (async () => {
       const _groups = (
@@ -1041,7 +1043,7 @@ export const Data = React.memo(() => {
         <Button
           className={classes.buttonSubscription}
           disableRipple
-          startIcon={<img src={Clock} />}
+          startIcon={<img src={Clock} alt=''/>}
         >
           <FormattedMessage id="subscription_ends_in" />
           <Box marginX={1} color="#685BE7">
@@ -1210,8 +1212,11 @@ export const Data = React.memo(() => {
                     ])}
                     component={"span"}
                   >
-                    #{institute?.reference_code}
+
+                    #{institute?.code}
                   </Box>
+
+                  
                 </Typography>
               </div>
 
@@ -1361,7 +1366,7 @@ export const Data = React.memo(() => {
                       }));
                     }}
                   >
-                    <img src={ExcelUpload} />
+                    <img src={ExcelUpload} alt=''/>
                     <Typography className={classes.toolTitle}>
                       <FormattedMessage id="load_users_from_excel" />
                     </Typography>
@@ -1377,7 +1382,7 @@ export const Data = React.memo(() => {
                       }));
                     }}
                   >
-                    <img src={Points} />
+                    <img src={Points} alt=''/>
                     <Typography className={classes.toolTitle}>
                       <FormattedMessage id="change_total_points_earned" />
                     </Typography>

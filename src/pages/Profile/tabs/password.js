@@ -28,6 +28,7 @@ const defaultSchema = {
 };
 
 export const ChangePassword = (props) => {
+  const {handleChange} = props;
   const classes = useStyles();
 
   const { actions } = useUi();
@@ -37,14 +38,18 @@ export const ChangePassword = (props) => {
     localStorage.getItem("password")
   );
   const [state, setState] = useState(defaultSchema);
+  // const [value, setValue] = useState(1)
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
     if (state.currentPaswsword != oldPassword) {
       actions.alert("Current password is not correct", "error");
       return;
     }
+    if (loading) return;
     try {
       await auth.currentUser.updatePassword(state.password);
+      setLoading(true);
       await db
         .collection("Institution")
         .doc(user._code)
@@ -54,9 +59,14 @@ export const ChangePassword = (props) => {
 
       actions.alert(Responses.passwordChangeSuccess, "success");
       setState(defaultSchema);
+
+      handleChange(0);
+
     } catch (error) {
       actions.alert(Responses.passwordChangeRelogin, "info");
       storeActions.handleSignOut();
+    } finally{
+      setLoading(false);
     }
   };
 
@@ -113,7 +123,7 @@ export const ChangePassword = (props) => {
             <PasswordStrengthBar password={state.password} />
           </Box>
 
-          <Button onClick={handleSubmit}>
+          <Button loading={loading} disabled={loading} onClick={handleSubmit}>
             <FormattedMessage id="change_password" />
           </Button>
         </Form>
