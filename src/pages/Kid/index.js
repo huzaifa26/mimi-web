@@ -74,15 +74,15 @@ export const Kid = React.memo(() => {
     //Log
     useEffect(() => {
         return async () => {
-            if(kidLog.current !== null){
+            if (kidLog.current !== null) {
                 const subject_id = nanoid(6);
-                const payload={
-                    id:subject_id,
-                    activity:"kid profile",
-                    subActivity:kidLog?.current?.name,
-                    uid:user.id
+                const payload = {
+                    id: subject_id,
+                    activity: "kid profile",
+                    subActivity: kidLog?.current?.name,
+                    uid: user.id
                 }
-                console.log("kid "+kidLog?.current?.name+" opened, uid:" + user.id);
+                console.log("kid " + kidLog?.current?.name + " opened, uid:" + user.id);
 
                 // await db
                 //     .collection('Institution')
@@ -184,23 +184,22 @@ export const Kid = React.memo(() => {
         }
     };
 
-    const renderItem = kid => {
-        return (
-            <Fragment>
-                <TableCell>
-                    <Box display={'flex'} alignItems="center">
-                        <img src={(kid.favoriteBy || []).includes(user.id) ? Star : StarOut} onClick={stopEventBubble(() => handleFavorite(kid))} />
-                        <Box mx={1}>
-                            <Avatar src={kid.image || defaultAvatars?.kid} />
-                        </Box>
-                        <Typography>{kid.name}</Typography>
+    const renderItem = kid => (
+        <Fragment>
+            <TableCell>
+                <Box display={'flex'} alignItems="center">
+                    <img src={kid.favoriteBy?.includes(user.id) ? Star : StarOut} alt="pin" onClick={stopEventBubble(() => handleFavorite(kid))} />
+                    <Box mx={1}>
+                        <Avatar src={kid.image || defaultAvatars?.kid} />
                     </Box>
-                </TableCell>
-                <TableCell>{kid.groupName}</TableCell>
-                <TableCell>{kid.score}</TableCell>
-            </Fragment>
-        );
-    };
+                    <Typography>{kid.name}</Typography>
+                </Box>
+            </TableCell>
+            <TableCell>{kid.groupName}</TableCell>
+            <TableCell>{kid.score}</TableCell>
+        </Fragment>
+    );
+
 
     const tableProps = {
         data: kids,

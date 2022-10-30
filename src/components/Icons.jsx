@@ -88,6 +88,8 @@ export const Pause = PauseCircleOutlineIcon;
 export const DotIcon = FiberManualRecordIcon;
 export const PlayArrow = PlayArrowIcon;
 export const Active = NotificationsActiveIcon;
+export const UpIcon = ArrowUpwardIcon;
+export const DownIcon = ArrowDownwardIcon;
 
 const icons = {
     menu: <MenuIcon style={{ color: '#ffffff' }} />,

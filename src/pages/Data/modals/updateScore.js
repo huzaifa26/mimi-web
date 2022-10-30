@@ -6,6 +6,7 @@ import {
   Checkbox,
   FormControlLabel,
   Avatar,
+  Box
 } from "@material-ui/core";
 import clsx from "clsx";
 import { nanoid } from "nanoid";
@@ -99,7 +100,14 @@ const steps = [
       });
 
       const selectedGroupIds = state.selectedGroups.map((el) => el.id);
-
+      const handleSelectAll = (checked) => {
+        const groups = state.groups;
+        if (checked) {
+          setState((prev) => ({ ...prev, selectedGroups: groups }));
+        } else {
+          setState((prev) => ({ ...prev, selectedGroups: [] }));
+        }
+      };
       const headers = useMemo(
         () => [
           {
@@ -188,13 +196,32 @@ const steps = [
       };
 
       const actionBar = (
-        <div className={classes.default_headerSection_container}>
+        
+         <Box display={"flex"} padding="10px">
           <SearchBar
+          
             placeholder={`Search by names`}
-            size={"small"}
+            size={"sm"}
             handleSearch={(value) => setSearchText(value)}
           />
-        </div>
+          
+       
+        <Checkbox
+        style={{
+          color: "#685BE7",
+        }}
+          onChange={(e) => handleSelectAll(e.target.checked)}
+          checked={selectedGroupIds.length == state.groups.length}
+        />
+      
+         <Typography className={classes.selectAllTypo} style={{fontSize:16}}>
+          Select All
+        </Typography>
+      
+        </Box>
+      
+        
+       
       );
 
       const tableProps = {
@@ -315,6 +342,7 @@ const steps = [
       }, [searchText, state.filteredKids]);
 
       const handleChange = (kid) => {
+       
         const exists = state.selectedKids.find((el) => el.id === kid.id);
 
         if (exists) {

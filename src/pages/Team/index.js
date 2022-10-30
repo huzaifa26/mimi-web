@@ -93,8 +93,9 @@ export const Team = React.memo(() => {
         .where("id", "!=", user.id),
     []
   );
+
   // .where('group_ids', 'array-contains-any', user.group_ids);
-console.log(query)
+
   const modifier = useMemo(
     () => async (list) => {
       console.log("this is staff list", {
@@ -167,7 +168,7 @@ console.log(query)
     []
   );
 
-  const { data, loading, loadMore } = usePagination(query, modifier, (list) =>
+  const { data, loading, loadMore } = usePagination(query, null, (list) =>
     sortByFavorite(list, user.id)
   );
   const [searchText, setSearchText] = useState("");
