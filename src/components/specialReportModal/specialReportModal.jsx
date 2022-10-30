@@ -273,7 +273,8 @@ export const GroupReportBody = (props) => {
                 paddingLeft: '2%',
                 margin: '0%',
                 ...draggableStyle,
-                left: snapshot.isDragging ? 10 : 0,
+                marginTop: snapshot.isDragging ? -20 : 0,
+                left: snapshot.isDragging ? 23 : 0,
               });
             }
 
@@ -886,7 +887,7 @@ const useStyles = makeStyles((theme) => {
     // To make report modal scroll
     box: {
       overflowY: "auto",
-      overflowX: "hidden"
+      overflowX: "hidden",
     },
     cancelButton: {
       "&:hover": {
