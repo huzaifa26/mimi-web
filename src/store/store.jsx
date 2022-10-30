@@ -26,10 +26,19 @@ export const StoreProvidor = ({ children }) => {
   });
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
+    auth.onAuthStateChanged(async(user) => {
       if (user) {
         const code = localStorage.getItem("code");
-        console.info(code);
+
+        console.log(user)
+        await db
+          .collection("Institution")
+          .doc(code.toUpperCase())
+          .collection("staff")
+          .doc(user.uid)
+          .update({
+            web_last_login: new Date(),
+          });
         if(code !== null){
           listener.current = db
             .collection("Institution")
