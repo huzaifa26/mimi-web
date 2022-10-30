@@ -258,24 +258,25 @@ export const GroupReportBody = (props) => {
       <div>
         <Draggable key={idx} draggableId={"subject-" + idx} index={idx}>
           {(provider, snapshot) => {
-            let getItemStyle = (isDragging, draggableStyle) => ({
-              userSelect: "none",
-              paddingLeft: '2%',
-              margin: '0%',
-              ...draggableStyle,
-              position: dropableHeight < 400 ? "relative" : "none",
-              left: snapshot.isDragging ? 0 : 0,
-              top: snapshot.isDragging && '40px',
-            });
-            if (dropableHeight > boxOffSetHeight) {
-              getItemStyle = (isDragging, draggableStyle) => ({
+            // let getItemStyle = (isDragging, draggableStyle) => ({
+            //   userSelect: "none",
+            //   paddingLeft: '2%',
+            //   margin: '0%',
+            //   ...draggableStyle,
+              // position: dropableHeight < 400 ? "relative" : "none",
+            //   left: snapshot.isDragging ? 0 : 0,
+            //   top: snapshot.isDragging && '40px',
+            // });
+            // if (dropableHeight > boxOffSetHeight) {
+              let getItemStyle = (isDragging, draggableStyle) => ({
                 userSelect: "none",
                 paddingLeft: '2%',
                 margin: '0%',
                 ...draggableStyle,
-                left: snapshot.isDragging ? 10 : 0,
+                marginTop: snapshot.isDragging ? -20 : 0,
+                left: snapshot.isDragging ? 23 : 0,
               });
-            }
+            // }
 
             return (
               <Accordion
@@ -886,7 +887,8 @@ const useStyles = makeStyles((theme) => {
     // To make report modal scroll
     box: {
       overflowY: "auto",
-      overflowX: "hidden"
+      overflowX: "hidden",
+      height:"1000px"
     },
     cancelButton: {
       "&:hover": {
