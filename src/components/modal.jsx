@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     minWidth: 600,
     width: "auto",
-    maxHeight: "80vh",
+    maxHeight: "81vh",
     paddingTop: "10px !important",
     paddingBottom: "10px !important",
     overflow: "hidden",

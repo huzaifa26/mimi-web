@@ -69,7 +69,8 @@ export const GroupReportBody = (props) => {
   const [oldSubjects, setOldSubjects] = useState([]);
   const [syncSubId, setSyncSubId] = useState();
   const [syncSubject, setSyncSubject] = useState();
-  const droppableRef=useRef(null);
+  const droppableRef = useRef(null);
+  const boxRef = useRef(null);
 
   const [modalStates, setModalStates] = useState({
     subject: false,
@@ -170,14 +171,14 @@ export const GroupReportBody = (props) => {
   }, []);
 
   function insertAndShift(arr, from, to) {
-    let cutOut = arr.splice(from, 1) [0]; // cut the element at index 'from'
+    let cutOut = arr.splice(from, 1)[0]; // cut the element at index 'from'
     arr.splice(to, 0, cutOut);            // insert it at index 'to'
-}
+  }
 
   const handleDragEnd = async (result) => {
     if (!result.destination) return;
-    const subjectCopy=[...subjects];
-    insertAndShift(subjectCopy,result.source.index,result.destination.index);
+    const subjectCopy = [...subjects];
+    insertAndShift(subjectCopy, result.source.index, result.destination.index);
     setSubjects(subjectCopy);
     setSubjectOrder(subjectCopy);
     console.log(subjectCopy);
@@ -228,12 +229,18 @@ export const GroupReportBody = (props) => {
     setSubjectLock((prev) => [...prev, subject]);
   }
 
-  const [dropableHeight,setDropableheight]=useState(null);
+  const [dropableHeight, setDropableheight] = useState(null);
+  const [boxOffSetHeight, setBoxOffSetHeight] = useState(null);
 
-  //Get height of scroll are to set position and top values.
-  useEffect(()=>{
-    setDropableheight(droppableRef.current.clientHeight)
-  },[])
+  //Get height of scroll area to set different getItemList.
+  useEffect(() => {
+    setDropableheight(droppableRef?.current?.scrollHeight)
+  }, [subjects])
+
+  //Get height of Box covering scroll area to set different getItemList.
+  useEffect(() => {
+    setBoxOffSetHeight(boxRef?.current?.offsetHeight)
+  }, [subjects])
 
   const renderSubjects = (subject, idx) => {
     const expandIconProps =
@@ -249,20 +256,18 @@ export const GroupReportBody = (props) => {
 
     return (
       <div>
-        <Draggable  key={idx} draggableId={"subject-" + idx} index={idx}>
+        <Draggable key={idx} draggableId={"subject-" + idx} index={idx}>
           {(provider, snapshot) => {
-            let getItemStyle=null;
-            if(dropableHeight<500){
-              getItemStyle = (isDragging, draggableStyle) => ({
-                userSelect: "none",
-                paddingLeft: '2%',
-                margin: '0%',
-                ...draggableStyle,
-                position:dropableHeight<500 ? "relative" : "none",
-                left: snapshot.isDragging ? 10 : 0,
-                top: snapshot.isDragging && '40px',
-              });
-            }else if(dropableHeight>500){
+            let getItemStyle = (isDragging, draggableStyle) => ({
+              userSelect: "none",
+              paddingLeft: '2%',
+              margin: '0%',
+              ...draggableStyle,
+              position: dropableHeight < 400 ? "relative" : "none",
+              left: snapshot.isDragging ? 0 : 0,
+              top: snapshot.isDragging && '40px',
+            });
+            if (dropableHeight > boxOffSetHeight) {
               getItemStyle = (isDragging, draggableStyle) => ({
                 userSelect: "none",
                 paddingLeft: '2%',
@@ -828,19 +833,19 @@ export const GroupReportBody = (props) => {
         </Grid>
       </Grid>
 
-      <Box className={classes.box + " " + "scrollBox"}>
+      <Box ref={boxRef} className={classes.box + " " + "scrollBox"}>
         <DragDropContext onDragEnd={handleDragEnd}>
           <div ref={droppableRef}>
-          <Droppable droppableId="subject-1">
-            {(provider) => (
-              <div {...provider.droppableProps} ref={provider.innerRef}>
-                <div className={classes.subjectsContainer}>
-                  {subjects.map((el, idx) => renderSubjects(el, idx, handleDragEnd))}
+            <Droppable droppableId="subject-1">
+              {(provider) => (
+                <div {...provider.droppableProps} ref={provider.innerRef}>
+                  <div className={classes.subjectsContainer}>
+                    {subjects.map((el, idx) => renderSubjects(el, idx, handleDragEnd))}
+                  </div>
+                  {provider.placeholder}
                 </div>
-                {provider.placeholder}
-              </div>
-            )}
-          </Droppable>
+              )}
+            </Droppable>
           </div>
         </DragDropContext>
       </Box>
@@ -880,7 +885,8 @@ const useStyles = makeStyles((theme) => {
     },
     // To make report modal scroll
     box: {
-      overflow: "auto",
+      overflowY: "auto",
+      overflowX: "hidden"
     },
     cancelButton: {
       "&:hover": {
