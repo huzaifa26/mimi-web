@@ -434,6 +434,7 @@ return _query;
           .doc(user.id)
           .update({
             group_ids: firebase.firestore.FieldValue.arrayUnion(groupId),
+            group_name: group.name,
           });
       }
     },
@@ -598,6 +599,7 @@ return _query;
             .doc(staffId)
             .update({
               group_ids: firebase.firestore.FieldValue.arrayUnion(e.id),
+              // group_name: group.name,
             });
           await db
             .collection("Institution")

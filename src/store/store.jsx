@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from "react";
 import { useRef } from "react";
 import { useHistory, useLocation } from "react-router-dom";

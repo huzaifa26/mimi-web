@@ -38,7 +38,7 @@ export const usePagination = (query, modifier, comparator) => {
                                 .docChanges()
                                 .filter(change => change.type === 'added')
                                 .forEach(el => el.doc.data());
-                            // console.log(additions);
+                            console.log(additions);
 
 
                             if (modifier) {

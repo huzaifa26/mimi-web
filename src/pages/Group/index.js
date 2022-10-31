@@ -40,29 +40,29 @@ export const Group = React.memo(() => {
     const { user, orientation, defaultAvatars } = storeState;
     // const [groupLog,setGroupLog]=useState({});
 
-    const modifier = useMemo(
-        () => async list => {
-            const temp = [];
-            for (const group of list) {
-                const _group = { ...group };
+    // const modifier = useMemo(
+    //     () => async list => {
+    //         const temp = [];
+    //         for (const group of list) {
+    //             const _group = { ...group };
 
-                const groupScore = (await db.collection('Institution').doc(user._code).collection('kid').where('groupId', '==', _group.id).get()).docs
-                    .map(el => el.data())
-                    .reduce((acc, el) => (acc += el.score), 0);
+    //             const groupScore = (await db.collection('Institution').doc(user._code).collection('kid').where('groupId', '==', _group.id).get()).docs
+    //                 .map(el => el.data())
+    //                 .reduce((acc, el) => (acc += el.score), 0);
 
-                _group._score = groupScore;
+    //             _group._score = groupScore;
 
-                temp.push(_group);
-            }
+    //             temp.push(_group);
+    //         }
 
-            return temp;
-        },
-        [],
-    );
+    //         return temp;
+    //     },
+    //     [],
+    // );
 
     const query = useMemo(() => FirebaseHelpers.fetchGroups.query({ user }).orderBy('id'), []);
 
-    const { data, loading, loadMore } = usePagination(query, modifier, list => sortByFavorite(list, user.id));
+    const { data, loading, loadMore } = usePagination(query, null, list => sortByFavorite(list, user.id));
     const [groups, setGroups] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [createGroupModalShow, setCreateGroupModalShow] = useState(false);
@@ -99,7 +99,7 @@ export const Group = React.memo(() => {
         } else {
             setGroups(data);
         }
-    }, [searchText, data]);
+    }, [searchText, data,]);
 
     const links = [
         {
@@ -108,27 +108,7 @@ export const Group = React.memo(() => {
         },
     ];
 
-    const handleFavorite = async group => {
-        if ((group.favoriteBy || []).includes(user.id)) {
-            await db
-                .collection('Institution')
-                .doc(user._code)
-                .collection('groups')
-                .doc(group.id)
-                .update({
-                    favoriteBy: firebase.firestore.FieldValue.arrayRemove(user.id),
-                });
-        } else {
-            await db
-                .collection('Institution')
-                .doc(user._code)
-                .collection('groups')
-                .doc(group.id)
-                .update({
-                    favoriteBy: firebase.firestore.FieldValue.arrayUnion(user.id),
-                });
-        }
-    };
+
 
     const actionBar = (
         <div className={classes.default_headerSection_container}>
@@ -155,62 +135,87 @@ export const Group = React.memo(() => {
             }
         </div>
     );
-
-    const renderItem = group => {
-        return (
-            <Fragment>
-                <TableCell>
-                    <Box display={'flex'} alignItems="center">
-                        <Box onClick={stopEventBubble(() => handleFavorite(group))}>
-                            <img
-                                style={{
-                                    height: 20,
-                                }}
-                                src={(group.favoriteBy || []).includes(user.id) ? Star : StarOut}
-                                alt=''
-                            />
-                        </Box>
-                        <Box marginX={1}>
-                            <Avatar src={group?.image || defaultAvatars?.group} />
-                        </Box>
-
-                        <Typography>{group.name}</Typography>
-                    </Box>
-                </TableCell>
-                <TableCell>{group.kids_ids.length}</TableCell>
-                <TableCell>{group._score}</TableCell>
-            </Fragment>
-        );
-    };
-
     const closeModal = () => {
         setCreateGroupModalShow(false);
     };
+    const handleFavorite = async group => {
+        if ((group.favoriteBy || []).includes(user.id)) {
+            await db
+                .collection('Institution')
+                .doc(user._code)
+                .collection('groups')
+                .doc(group.id)
+                .update({
+                    favoriteBy: firebase.firestore.FieldValue.arrayRemove(user.id),
+                });
 
-    const tableProps = {
-        data: groups,
-        renderItem,
-        headers,
-        loadMore,
-        handleRowClick: group => {
-            groupLog.current = group;
-            history.push(`/groups/${group.id}`,{group});
-        },
-    };
 
-    return loading ? (
-        <Loader />
-    ) : (
-        <section className={clsx([classes.default_page_root, classes.default_page_Bg1])}>
-            <SimpleModal title={<FormattedMessage id="create_new_group" />} open={createGroupModalShow} handleClose={closeModal}>
-                <CreateGroupBody handleClose={closeModal} />
-            </SimpleModal>
+        } else {
+            await db
+                .collection('Institution')
+                .doc(user._code)
+                .collection('groups')
+                .doc(group.id)
+                .update({
+                    favoriteBy: firebase.firestore.FieldValue.arrayUnion(user.id),
+                });
 
-            {actionBar}
 
-            <DataTable {...tableProps} />
-        </section>
-    );
+        }
+
+        const renderItem = group => {
+            return (
+                <Fragment>
+                    <TableCell>
+                        <Box display={'flex'} alignItems="center">
+                            <Box onClick={stopEventBubble(() => handleFavorite(group))}>
+                                <img
+                                    style={{
+                                        height: 20,
+                                    }}
+                                    src={(group.favoriteBy || []).includes(user.id) ? Star : StarOut}
+                                    alt=''
+                                />
+                            </Box>
+                            <Box marginX={1}>
+                                <Avatar src={group?.image || defaultAvatars?.group} />
+                            </Box>
+
+                            <Typography>{group.name}</Typography>
+                        </Box>
+                    </TableCell>
+                    <TableCell>{group.kids_ids.length}</TableCell>
+                    <TableCell>{group._score}</TableCell>
+                </Fragment>
+            );
+        };
+
+
+        const tableProps = {
+            data: groups,
+            renderItem,
+            headers,
+            loadMore,
+            handleRowClick: group => {
+                groupLog.current = group;
+                history.push(`/groups/${group.id}`, { group });
+            },
+        };
+
+        return loading ? (
+            <Loader />
+        ) : (
+            <section className={clsx([classes.default_page_root, classes.default_page_Bg1])}>
+                <SimpleModal title={<FormattedMessage id="create_new_group" />} open={createGroupModalShow} handleClose={closeModal}>
+                    <CreateGroupBody handleClose={closeModal} />
+                </SimpleModal>
+
+                {actionBar}
+
+                <DataTable {...tableProps} />
+            </section>
+        );
+    }
 });
 
 const useStyles = makeStyles(theme => {
