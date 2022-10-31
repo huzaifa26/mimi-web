@@ -47,7 +47,6 @@ export function Login() {
   const [password, setPassword] = useState("123123");
   const [institutionCode, setInstitutionCode] = useState("TEST");
   const [rememberMe, setRememberMe] = useState(false);
-
   const [showChangePassword, setShowChangePassword] = useState(false);
 
   useEffect(() => {
@@ -71,7 +70,7 @@ export function Login() {
 
   const setLocalStorage = (institutionCode, password, language, direction) => {
     return new Promise((resolve, reject) => {
-      localStorage.setItem("code", institutionCode.toUpperCase());
+      // localStorage.setItem("code", institutionCode.toUpperCase());
       localStorage.setItem("password", password);
       const bodyEl = document.getElementsByTagName("html")[0];
       bodyEl.setAttribute("lang", language);
@@ -82,25 +81,15 @@ export function Login() {
     })
   }
 
-  useEffect(() => {
-    auth.onAuthStateChanged(async (user) => {
-      db
-        .collection("Institution")
-        .doc(institutionCode.toUpperCase())
-        .collection("staff")
-        .doc(user.uid)
-        .onSnapshot((snapshot) => {
-          let user = snapshot.data();
-          if (user.permissions.webPanelAccess === true) {
-            setStoreState((prev) => ({
-              ...prev,
-              authenticated: true,
-              user: { ...user, _code: institutionCode.toUpperCase() },
-            }));
-          }
-        });
-    });
-  }, [])
+  const handleSignout = async () => {
+    await auth.signOut().then(() => {
+      localStorage.clear();
+    },
+      (error) => {
+        console.error("Sign Out Error", error);
+      })
+  }
+
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -114,23 +103,15 @@ export function Login() {
       if (institutionDocs.empty)
         return actions.alert("No Institution code found", "error");
 
+      localStorage.setItem("code", institutionCode.toUpperCase());
+
       const institution = institutionDocs.docs[0].data();
 
-      const subEndDate = new Date(
-        new Date(institution.subscription_end_date).setHours(0, 0, 0, 0)
-      ).getTime();
-
+      const subEndDate = new Date(new Date(institution.subscription_end_date).setHours(0, 0, 0, 0)).getTime();
       const todayDate = new Date(new Date().setHours(0, 0, 0, 0)).getTime();
-
-      if (todayDate > subEndDate)
-        return actions.alert("Subscription Expired", "error");
-
-      if (!institution.enabled)
-        return actions.alert("Institution Disabled", "error");
 
       const language = "en";
       const direction = "ltr";
-
 
       const userCredential = await auth.signInWithEmailAndPassword(
         email,
@@ -149,28 +130,29 @@ export function Login() {
         _code: institutionCode.toUpperCase(),
       };
 
-      const access = user.permissions[PERMISSIONS.webPanelAccess];
+      const access = user?.permissions[PERMISSIONS.webPanelAccess];
 
       if (access === false) {
-        localStorage.clear();
-        await auth.signOut().then(
-          () => {
-            localStorage.clear();
-          },
-          (error) => {
-            console.error("Sign Out Error", error);
-          }
-        );
-        return actions.alert("You are restricted from using panel", "error");
+        handleSignout()
+        return actions.alert("You account has been disabled. Please contact admin for queries", "error");
       } else if (access === true) {
-        if (typeof access === "boolean" && !access)
-          return actions.alert("You account has been disabled. Please contact admin for queries", "error");
-
-        if (!user.firstPasswordChanged && user.type != ROLES.admin) {
-          return setShowChangePassword(true);
+        // If institute subscription end. Only admin can login.
+        console.log(todayDate > subEndDate && user.type !== ROLES.admin)
+        if (todayDate > subEndDate) {
+          handleSignout()
+          return actions.alert("Subscription Expired", "error");
         }
 
-        console.log(user)
+        // If institute is disabled. Only admin can login.
+        if (institution.enabled === false && user.type !== ROLES.admin) {
+          handleSignout()
+          return actions.alert("Institution Disabled", "error");
+        }
+
+        // if (!user.firstPasswordChanged && user.type != ROLES.admin) {
+        //   return setShowChangePassword(true);
+        // }
+
         await db
           .collection("Institution")
           .doc(institutionCode.toUpperCase())

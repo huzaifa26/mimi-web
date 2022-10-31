@@ -174,7 +174,7 @@ export const DataTable = React.forwardRef((props, ref) => {
             </TableRow>
           </TableHead>
           <TableBody className={classes.tableBody}>
-            {data.map((el) => (
+            {data?.map((el) => (
               <TableRow
                 innerRef={observerRef}
                 className={clsx({
