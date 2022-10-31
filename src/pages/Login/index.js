@@ -32,6 +32,13 @@ import {
 } from "../../utils/helpers";
 import md5 from "md5";
 import { ChangePasswordBody } from "./modals/changePassword";
+import CryptoJS from "crypto-js";
+
+let key = process.env.REACT_APP_ENCRYPT_KEY;
+key = CryptoJS.enc.Utf8.parse(key);
+
+let iv = process.env.REACT_APP_ENCRYPT_IV;
+iv = CryptoJS.enc.Utf8.parse(iv);
 
 export function Login() {
   const history = useHistory();
@@ -71,7 +78,8 @@ export function Login() {
   const setLocalStorage = (institutionCode, password, language, direction) => {
     return new Promise((resolve, reject) => {
       localStorage.setItem("code", institutionCode.toUpperCase());
-      localStorage.setItem("password", password);
+      let encrypted = CryptoJS.AES.encrypt(password, key, { iv: iv });
+      localStorage.setItem("password", encrypted);
       const bodyEl = document.getElementsByTagName("html")[0];
       bodyEl.setAttribute("lang", language);
       bodyEl.setAttribute("dir", direction);
