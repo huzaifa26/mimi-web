@@ -149,9 +149,9 @@ export function Login() {
           return actions.alert("Institution Disabled", "error");
         }
 
-        // if (!user.firstPasswordChanged && user.type != ROLES.admin) {
-        //   return setShowChangePassword(true);
-        // }
+        if (!user.firstPasswordChanged && user.type != ROLES.admin) {
+          return setShowChangePassword(true);
+        }
 
         await db
           .collection("Institution")
