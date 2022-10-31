@@ -71,7 +71,7 @@ export function Login() {
   const setLocalStorage = (institutionCode, password, language, direction) => {
     return new Promise((resolve, reject) => {
       localStorage.setItem("code", institutionCode.toUpperCase());
-      // localStorage.setItem("password", password);
+      localStorage.setItem("password", password);
       const bodyEl = document.getElementsByTagName("html")[0];
       bodyEl.setAttribute("lang", language);
       bodyEl.setAttribute("dir", direction);
