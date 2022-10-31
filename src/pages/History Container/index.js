@@ -313,7 +313,6 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
     );
   });
   useEffect(() => {
-    console.log("use effect run!")
     var arr = [];
     data.map(object => { arr.push(object.payload?.kid?.groupName) })
     var groupOptions = []
@@ -323,7 +322,6 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
   }, [data]);
 
   useEffect(() => {
-    console.log("run action useeffect")
     var actionArr = [];
     data.map(object => {
       actionArr.push(object.type)
