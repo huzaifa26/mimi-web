@@ -79,7 +79,7 @@ export function Login() {
     return new Promise((resolve, reject) => {
       localStorage.setItem("code", institutionCode.toUpperCase());
       let encrypted = CryptoJS.AES.encrypt(password, key, { iv: iv });
-      localStorage.setItem("password", encrypted);
+      localStorage.setItem("web_session_key", encrypted);
       const bodyEl = document.getElementsByTagName("html")[0];
       bodyEl.setAttribute("lang", language);
       bodyEl.setAttribute("dir", direction);

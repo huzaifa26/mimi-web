@@ -42,7 +42,7 @@ export const ChangePassword = (props) => {
   const { state: storeState, actions: storeActions } = useStore();
   const { user } = storeState;
   const [oldPassword, setOldPassword] = useState(()=>{
-    let password = localStorage.getItem("password");
+    let password = localStorage.getItem("web_session_key");
     password=password.toString()
     let decrypted = CryptoJS.AES.decrypt(password, key, { iv: iv });
     decrypted = decrypted.toString(CryptoJS.enc.Utf8);
