@@ -8,7 +8,6 @@ import {
   Box,
   Input,
 } from "@material-ui/core";
-import TextField from "@material-ui/core/TextField";
 import PasswordStrengthBar from "react-password-strength-bar";
 import md5 from "md5";
 import { FormattedMessage } from "react-intl"; //Used for dual language text
@@ -20,6 +19,14 @@ import { Button, Field, Form } from "../../../components";
 import clsx from "clsx";
 import { getTypographyStyles } from "../../../utils/helpers";
 import { Responses } from "../../../utils/responses";
+import CryptoJS from "crypto-js";
+
+
+let key = process.env.REACT_APP_ENCRYPT_KEY;
+key = CryptoJS.enc.Utf8.parse(key);
+
+let iv = process.env.REACT_APP_ENCRYPT_IV;
+iv = CryptoJS.enc.Utf8.parse(iv);
 
 const defaultSchema = {
   password: "",
@@ -34,18 +41,25 @@ export const ChangePassword = (props) => {
   const { actions } = useUi();
   const { state: storeState, actions: storeActions } = useStore();
   const { user } = storeState;
-  const [oldPassword, setOldPassword] = useState(
-    localStorage.getItem("password")
+  const [oldPassword, setOldPassword] = useState(()=>{
+    let password = localStorage.getItem("password");
+    password=password.toString()
+    let decrypted = CryptoJS.AES.decrypt(password, key, { iv: iv });
+    decrypted = decrypted.toString(CryptoJS.enc.Utf8);
+    return decrypted;
+  }
   );
   const [state, setState] = useState(defaultSchema);
   // const [value, setValue] = useState(1)
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
+    console.log(state.currentPaswsword, oldPassword)
     if (state.currentPaswsword != oldPassword) {
       actions.alert("Current password is not correct", "error");
       return;
     }
+
     if (loading) return;
     try {
       await auth.currentUser.updatePassword(state.password);
