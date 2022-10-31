@@ -67,8 +67,14 @@ export const Profile = React.memo(() => {
 
     const [value, setValue] = React.useState(0);
     const handleChange = (event, newValue) => {
+        console.log(newValue)
         setValue(newValue);
     };
+
+
+    
+
+
 
     const links = [
         {
@@ -135,7 +141,7 @@ export const Profile = React.memo(() => {
                         <ProfileTab />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <ChangePassword />
+                        <ChangePassword handleChange={setValue}/>
                     </TabPanel>
                 </div>
             </section>

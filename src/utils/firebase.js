@@ -4,6 +4,7 @@ import "firebase/firestore";
 import "firebase/firebase-functions"
 
 // const envoirnment = process.env.REACT_APP_ENVIRONMENT || "DEV";
+// const envoirnment = "PROD";
 const envoirnment = "DEV";
 console.log(`REACT_APP_${envoirnment}_FIREBASE_API_KEY`)
 

@@ -1,15 +1,15 @@
-import React, { Fragment, useEffect, useMemo, useState } from "react";
+import { Box, Input, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Box, Input } from "@material-ui/core";
+import React, { Fragment, useEffect, useMemo, useState } from "react";
 
 import { FormattedMessage } from "react-intl"; //Used for dual language text
 
-import { db } from "../../../utils/firebase";
 import { useStore, useUi } from "../../../store";
+import { db } from "../../../utils/firebase";
 
-import { getPageStyles, getTypographyStyles } from "../../../utils/helpers";
 import clsx from "clsx";
 import { Button, HistoryTable, SimpleModal } from "../../../components";
+import { getPageStyles, getTypographyStyles } from "../../../utils/helpers";
 import { UploadImageBody } from "../modals/uploadImage";
 
 export const Profile = () => {
@@ -21,12 +21,46 @@ export const Profile = () => {
 
   const [image, setImage] = useState();
   const [uploadModal, setUploadModal] = useState();
+  const [groups, setGroups] = useState([]);
+  const [group, setGroup] = useState([]);
+  
 
   useEffect(() => {
     if (!image) return;
 
     setUploadModal(true);
   }, [image]);
+
+  // To get the groups
+  useEffect(() => {
+    (async () => {
+      const totalGroups = (
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("groups")
+          .get()
+      ).docs.map((el) => el.data());
+      setGroups(totalGroups);
+    })();
+  }, [user._code]);
+  // console.log(groups);
+
+  // To get a group
+  useEffect(() => {
+    (async () => {
+      const ref = (
+        await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("groups")
+          .where("id", "==", user.group_ids[0])
+          .get()
+      ).docs.map((el) => el.data());
+      setGroup(ref);
+    })();
+  }, []);
+  // console.log(group);
 
   const closeUploadModal = () => {
     setUploadModal(false);
@@ -89,6 +123,7 @@ export const Profile = () => {
             <img
               src={user.image || defaultAvatars?.staff}
               className={classes.profileImage}
+              alt=""
             />
           </Box>
           <Box marginX={2} marginY={1}>
@@ -103,6 +138,7 @@ export const Profile = () => {
                 {user?.name}
               </Typography>
             </Box>
+
             <Box marginY={1}>
               <Typography
                 className={clsx([
@@ -115,6 +151,51 @@ export const Profile = () => {
                 {user?.email}
               </Typography>
             </Box>
+
+            {user.type === "admin" ? (
+              <Box marginY={1}>
+                <Typography
+                  className={clsx([
+                    classes.default_typography_capitalize,
+                    classes.default_typography_bold,
+                    classes.default_typography_paragraph,
+                    classes.default_typography_colorLight,
+                  ])}
+                >
+                  Groups: {groups.length}
+                </Typography>
+              </Box>
+            ) : user.group_ids.length !== 0 ? (
+              user.group_ids.length > 1 ? (
+                <Box marginY={1}>
+                  <Typography
+                    className={clsx([
+                      classes.default_typography_capitalize,
+                      classes.default_typography_bold,
+                      classes.default_typography_paragraph,
+                      classes.default_typography_colorLight,
+                    ])}
+                  >
+                    Groups: {user.group_ids.length}
+                  </Typography>
+                </Box>
+              ) : (
+                <Box marginY={1}>
+                  <Typography
+                    className={clsx([
+                      classes.default_typography_capitalize,
+                      classes.default_typography_bold,
+                      classes.default_typography_paragraph,
+                      classes.default_typography_colorLight,
+                    ])}
+                  >
+                    Group: {group[0]?.name}
+                  </Typography>
+                </Box>
+              )
+            ) : (
+              console.log("no group")
+            )}
           </Box>
           <Box marginX={2} marginY={1}>
             <Box marginY={1}>
