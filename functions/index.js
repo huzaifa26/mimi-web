@@ -44,26 +44,38 @@ exports.disableRoutePlan = functions.https.onCall((data, context) => {
 
 
       await admin.firestore().collection("Institution").doc(data.doc).collection("routePlan").get().then(querySnapshot => {
-        querySnapshot.forEach((doc) => {
-          routePlanDoc.push(doc.id)
+        querySnapshot.forEach(async (doc) => {
+
+          admin.firestore().collection("Institution")
+            .doc(data.doc)
+            .collection("routePlan")
+            .doc(doc.id)
+            .onSnapshot((snapshot) => {
+              if (snapshot.data().endingDate._seconds == "1666957926") {
+                admin.firestore().collection('Institution').doc(data.doc).collection('routePlan').doc(snapshot.data().id).update({
+                  status: true,
+                }).then((res => {
+                  resolve("Route is disabled")
+                }))
+
+
+              }
+
+            })
 
         });
 
 
       })
-      await new Promise(() => {
-        routePlanDoc.map((routeDoc) => {
-          admin.firestore().collection("Institution")
-            .doc(doc)
-            .collection("routePlan")
-            .doc(routeDoc)
-            .onSnapshot((snapshot) => {
-              allRoutes.push(snapshot.data());
-            })
-        })
-      })
-      console.log(allRoutes)
-      resolve(allRoutes)
+
+
+
+
+
+
+
+
+
 
 
 
@@ -74,7 +86,7 @@ exports.disableRoutePlan = functions.https.onCall((data, context) => {
       }
 
     }
-    resolve(routePlanDoc)
+
 
   });
 });
