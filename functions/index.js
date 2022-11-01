@@ -51,12 +51,13 @@ exports.disableRoutePlan = functions.https.onCall((data, context) => {
             .collection("routePlan")
             .doc(doc.id)
             .onSnapshot((snapshot) => {
-              if (snapshot.data().endingDate._seconds == "1666957926") {
-                admin.firestore().collection('Institution').doc(data.doc).collection('routePlan').doc(snapshot.data().id).update({
-                  status: true,
-                }).then((res => {
-                  resolve("Route is disabled")
-                }))
+              if (snapshot.data().id == "0Pgsfy") {
+                // admin.firestore().collection('Institution').doc(data.doc).collection('routePlan').doc(snapshot.data().id).update({
+                //   status: true,
+                // }).then((res => {
+                //   resolve("Route is disabled")
+                // }))
+                resolve(snapshot.data())
 
 
               }
