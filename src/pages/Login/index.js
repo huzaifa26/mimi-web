@@ -146,8 +146,11 @@ export function Login() {
         return actions.alert("You account has been disabled. Please contact admin for queries", "error");
       } else if (access === true) {
         // If institute subscription end. Only admin can login.
+        console.log(new Date(todayDate));
+        console.log(new Date(subEndDate));
+        console.log(todayDate > subEndDate)
         console.log(todayDate > subEndDate && user.type !== ROLES.admin)
-        if (todayDate > subEndDate) {
+        if (todayDate > subEndDate && user.type !== ROLES.admin) {
           handleSignout()
           return actions.alert("Subscription Expired", "error");
         }
