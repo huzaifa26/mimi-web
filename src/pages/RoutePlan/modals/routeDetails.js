@@ -318,23 +318,8 @@ export const RouteDetailsBody = (props) => {
         [["Prize Name", "Level", "Groups", "Kids"]],
         { origin: "A1" }
       );
-      const max_widthA = rows.reduce(
-        (w, r) => Math.max(w, r.prizeName.length),
-        10
-      );
-      const max_widthB = rows.reduce((w, r) => Math.max(w, r.level.length), 10);
-      const max_widthC = rows.reduce(
-        (w, r) => Math.max(w, r.groups.length),
-        10
-      );
-      const max_widthD = rows.reduce((w, r) => Math.max(w, r.kids.length), 10);
-
-      worksheet["!cols"] = [
-        { wch: max_widthA },
-        { wch: max_widthB },
-        { wch: max_widthC },
-        { wch: max_widthD },
-      ];
+      
+     
       return XLSX.writeFile(workbook, "EligibleKids.xlsx", {
         compression: true,
       });
