@@ -16,8 +16,6 @@ import { CreateGroupBody } from './modals/createGroup';
 import Star from '../../assets/icons/starIcon.png';
 import StarOut from '../../assets/icons/starOutlinned.png';
 import { ROLES } from '../../utils/constants';
-import { useRef } from 'react';
-import { nanoid } from 'nanoid';
 
 const headers = [
     {
@@ -38,7 +36,6 @@ export const Group = React.memo(() => {
     const { state: storeState } = useStore();
     const { actions } = useUi();
     const { user, orientation, defaultAvatars } = storeState;
-    // const [groupLog,setGroupLog]=useState({});
 
     // const modifier = useMemo(
     //     () => async list => {
@@ -67,30 +64,6 @@ export const Group = React.memo(() => {
     const [searchText, setSearchText] = useState('');
     const [createGroupModalShow, setCreateGroupModalShow] = useState(false);
 
-    const groupLog = useRef(null);
-
-    // Log
-    useEffect(() => {
-        return async () => {
-            if (groupLog.current !== null) {
-                const subject_id = nanoid(6);
-                const payload = {
-                    id: subject_id,
-                    activity: "group",
-                    subActivity: groupLog.current.name,
-                    uid: user.id
-                }
-                console.log(payload);
-                await db
-                    .collection('Institution')
-                    .doc(user._code)
-                    .collection('log')
-                    .doc(payload.id)
-                    .set(payload)
-            }
-        }
-    }, [])
-
     // console.log(groups);
     // --------- the bug seemes like here ----------
     useEffect(() => {
@@ -99,7 +72,7 @@ export const Group = React.memo(() => {
         } else {
             setGroups(data);
         }
-    }, [searchText, data,]);
+    }, [searchText, data]);
 
     const links = [
         {
@@ -108,7 +81,27 @@ export const Group = React.memo(() => {
         },
     ];
 
-
+    const handleFavorite = async group => {
+        if ((group.favoriteBy || []).includes(user.id)) {
+            await db
+                .collection('Institution')
+                .doc(user._code)
+                .collection('groups')
+                .doc(group.id)
+                .update({
+                    favoriteBy: firebase.firestore.FieldValue.arrayRemove(user.id),
+                });
+        } else {
+            await db
+                .collection('Institution')
+                .doc(user._code)
+                .collection('groups')
+                .doc(group.id)
+                .update({
+                    favoriteBy: firebase.firestore.FieldValue.arrayUnion(user.id),
+                });
+        }
+    };
 
     const actionBar = (
         <div className={classes.default_headerSection_container}>
@@ -135,87 +128,61 @@ export const Group = React.memo(() => {
             }
         </div>
     );
+
+    const renderItem = group => {
+        return (
+            <Fragment>
+                <TableCell>
+                    <Box display={'flex'} alignItems="center">
+                        <Box onClick={stopEventBubble(() => handleFavorite(group))}>
+                            <img
+                                style={{
+                                    height: 20,
+                                }}
+                                src={(group.favoriteBy || []).includes(user.id) ? Star : StarOut}
+                                alt=''
+                            />
+                        </Box>
+                        <Box marginX={1}>
+                            <Avatar src={group?.image || defaultAvatars?.group} />
+                        </Box>
+
+                        <Typography>{group.name}</Typography>
+                    </Box>
+                </TableCell>
+                <TableCell>{group.kids_ids.length}</TableCell>
+                <TableCell>{group._score}</TableCell>
+            </Fragment>
+        );
+    };
+
     const closeModal = () => {
         setCreateGroupModalShow(false);
     };
-    const handleFavorite = async group => {
-        if ((group.favoriteBy || []).includes(user.id)) {
-            await db
-                .collection('Institution')
-                .doc(user._code)
-                .collection('groups')
-                .doc(group.id)
-                .update({
-                    favoriteBy: firebase.firestore.FieldValue.arrayRemove(user.id),
-                });
 
+    const tableProps = {
+        data: groups,
+        renderItem,
+        headers,
+        loadMore,
+        handleRowClick: group => {
+            history.push(`/groups/${group.id}`, { group });
+        },
+    };
 
-        } else {
-            await db
-                .collection('Institution')
-                .doc(user._code)
-                .collection('groups')
-                .doc(group.id)
-                .update({
-                    favoriteBy: firebase.firestore.FieldValue.arrayUnion(user.id),
-                });
+    return loading ? (
+        <Loader />
+    ) : (
+        <section className={clsx([classes.default_page_root, classes.default_page_Bg1])}>
+            <SimpleModal title={<FormattedMessage id="create_new_group" />} open={createGroupModalShow} handleClose={closeModal}>
+                <CreateGroupBody handleClose={closeModal} />
+            </SimpleModal>
 
+            {actionBar}
 
-        }
-
-        const renderItem = group => {
-            return (
-                <Fragment>
-                    <TableCell>
-                        <Box display={'flex'} alignItems="center">
-                            <Box onClick={stopEventBubble(() => handleFavorite(group))}>
-                                <img
-                                    style={{
-                                        height: 20,
-                                    }}
-                                    src={(group.favoriteBy || []).includes(user.id) ? Star : StarOut}
-                                    alt=''
-                                />
-                            </Box>
-                            <Box marginX={1}>
-                                <Avatar src={group?.image || defaultAvatars?.group} />
-                            </Box>
-
-                            <Typography>{group.name}</Typography>
-                        </Box>
-                    </TableCell>
-                    <TableCell>{group.kids_ids.length}</TableCell>
-                    <TableCell>{group._score}</TableCell>
-                </Fragment>
-            );
-        };
-
-
-        const tableProps = {
-            data: groups,
-            renderItem,
-            headers,
-            loadMore,
-            handleRowClick: group => {
-                groupLog.current = group;
-                history.push(`/groups/${group.id}`, { group });
-            },
-        };
-
-        return loading ? (
-            <Loader />
-        ) : (
-            <section className={clsx([classes.default_page_root, classes.default_page_Bg1])}>
-                <SimpleModal title={<FormattedMessage id="create_new_group" />} open={createGroupModalShow} handleClose={closeModal}>
-                    <CreateGroupBody handleClose={closeModal} />
-                </SimpleModal>
-
-                {actionBar}
-
-                <DataTable {...tableProps} />
-            </section>
-        );
-    }
+            <DataTable {...tableProps} />
+        </section>
+    );
 });
 
 const useStyles = makeStyles(theme => {
