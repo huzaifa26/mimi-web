@@ -10,7 +10,7 @@ const ctx = React.createContext();
 
 export const useStore = () => useContext(ctx);
 
-export const StoreProvidor = ({ children }) => {
+export const  StoreProvidor = ({ children }) => {
   const location = useLocation()
   const history = useHistory();
 

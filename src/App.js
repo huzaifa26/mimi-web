@@ -10,9 +10,7 @@ export const App = () => {
     const content = useMemo(() => {
         return (
             <StoreProvidor>
-                <UiProvidor>
-                    <Routes />
-                </UiProvidor>
+                <Routes />
             </StoreProvidor>
         );
     }, []);

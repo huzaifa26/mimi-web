@@ -10,6 +10,8 @@ import { IntlProvider } from 'react-intl';
 import { LANGUAGE_MAPPING, ROLES } from './utils/constants';
 import { useStore } from './store';
 import { Sidebar } from './components';
+import { UiProvidor } from './store';
+
 
 const LanugageFiles = {
     [LANGUAGE_MAPPING.ENGLISH]: english,
@@ -17,7 +19,7 @@ const LanugageFiles = {
 };
 
 export const Routes = React.memo(() => {
-    const { state ,setState: setStoreState} = useStore();
+    const { state, setState: setStoreState } = useStore();
 
     const { user } = state;
     const theme = useMemo(() => {
@@ -32,7 +34,7 @@ export const Routes = React.memo(() => {
 
     useEffect(() => {
         const bodyEl = document.getElementsByTagName('html')[0];
-        bodyEl.setAttribute('lang',state.language);
+        bodyEl.setAttribute('lang', state.language);
         bodyEl.setAttribute('dir', state.orientation);
     }, [state.orientation]);
 
@@ -63,9 +65,11 @@ export const Routes = React.memo(() => {
     return (
         <IntlProvider messages={LanugageFiles[state.language] || english} locale={state.language} defaultLocale={LANGUAGE_MAPPING.ENGLISH}>
             <ThemeProvider theme={theme}>
-                <Sidebar>
-                    <Switch>{renderRoutes()}</Switch>
-                </Sidebar>
+                    <UiProvidor>
+                        <Sidebar>
+                            <Switch>{renderRoutes()}</Switch>
+                        </Sidebar>
+                    </UiProvidor>
             </ThemeProvider>
         </IntlProvider>
     );
