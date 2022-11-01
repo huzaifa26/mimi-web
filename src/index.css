@@ -20,7 +20,9 @@
 }
 
 /* Report modal scrollbar */
-.scrollBox {}
+.scrollBox {
+  opacity: 1;
+}
 
 /* width */
 .scrollBox::-webkit-scrollbar {

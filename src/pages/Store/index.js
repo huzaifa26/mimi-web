@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useMemo, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import { TableCell, makeStyles, Box } from "@material-ui/core";
 import { FormattedMessage } from "react-intl";
 import {
@@ -73,18 +73,22 @@ export const Store = React.memo(() => {
     label: <FormattedMessage id={"all"} />,
   });
 
+  const showDropDownHanlder = useCallback((value) => { return setStatus(value) }, [status])
+
   const query = useMemo(() => {
     const baseQuery = db
       .collection("Institution")
       .doc(user._code)
       .collection("store")
       .orderBy("id");
-    if (typeof status.id !== "boolean" && !status.id) return baseQuery;
-    return baseQuery.where("status", "==", status.id);
-  }, [status]);
 
-  const { data, loading, loadMore, hasMore } = usePagination(
-    query,
+    if (typeof (status.id) !== "boolean" && !status.id) return baseQuery;
+
+    return baseQuery.where("status", "==", status.id);
+  }, [status, showDropDownHanlder]);
+
+
+  const { data, loading, loadMore, hasMore } = usePagination(query,
     (list) => {
       if (user.type === ROLES.admin) {
         return list;
@@ -98,10 +102,8 @@ export const Store = React.memo(() => {
       }
     },
     (list) => {
-      if (typeof status.id === "boolean") return list;
-
-      // default sort
-
+      if (typeof(status.id) === "boolean") return list;
+      // default sort if status.id === null ie (All)
       return list.sort((a, b) => {
         const first = Boolean(a.status);
         const second = Boolean(b.status);
@@ -133,32 +135,34 @@ export const Store = React.memo(() => {
     } else {
       setStores(data);
     }
-  }, [searchText, data]);
+  }, [searchText, data, status]);
 
 
-  const updateOnAdding = async() => {
+  const updateOnAdding = async () => {
     var updateData = []
-   await db.collection("Institution")
+    await db.collection("Institution")
       .doc(user._code)
       .collection("store")
       .orderBy("id").get()
-      .then((querySnapshot)=>{
-          querySnapshot.forEach((doc)=>{
-              updateData.push(doc.data())
-              })
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          updateData.push(doc.data())
+        })
       })
-      .catch((error)=>{
+      .catch((error) => {
         alert(error)
       })
 
-      setStores(updateData)
+    setStores(updateData)
   }
+
   const links = [
     {
       ref: "/store",
       title: <FormattedMessage id="store" />,
     },
   ];
+
 
   const renderLabel = (status) => {
     return (
@@ -187,7 +191,7 @@ export const Store = React.memo(() => {
         <Links links={links} />
       </div>
       <SearchBar
-        placeholder={`Search by names`}
+        placeholder={`Search`}
         size={"small"}
         handleSearch={(value) => setSearchText(value)}
       />
@@ -204,7 +208,7 @@ export const Store = React.memo(() => {
         <MenuSingle
           list={options}
           label={renderLabel(status)}
-          handleChange={(value) => setStatus(value)}
+          handleChange={(value) => showDropDownHanlder(value)}
           defaultValue={status}
         />
       </div>
@@ -233,7 +237,7 @@ export const Store = React.memo(() => {
         open={modalStates.newStore}
         handleClose={closeNewStore}
       >
-        <CreateStoreBody handleClose={closeNewStore} update={updateOnAdding}/>
+        <CreateStoreBody handleClose={closeNewStore} update={updateOnAdding} />
       </SimpleModal>
       <SimpleModal
         extended
