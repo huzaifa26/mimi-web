@@ -192,3 +192,1119 @@ Issues? Report them at https://github.com/firebase/firebase-tools/issues and att
 [debug] [2022-11-01T16:10:55.775Z] File E:\frontend\reactJS\mimi-web\functions\package.json changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\package.json changed, reloading triggers"}}
 [debug] [2022-11-01T16:10:55.799Z] DEBUG: File E:\frontend\reactJS\mimi-web\functions\yarn.lock changed, reloading triggers
 [debug] [2022-11-01T16:10:55.811Z] DEBUG: File E:\frontend\reactJS\mimi-web\functions\package.json changed, reloading triggers
+[debug] [2022-11-01T16:10:56.808Z] Validating nodejs source
+[debug] [2022-11-01T16:10:56.846Z] Validating nodejs source
+[debug] [2022-11-01T16:11:04.125Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:11:04.125Z] Building nodejs source
+[debug] [2022-11-01T16:11:04.125Z] Analyzing nodejs backend spec
+[debug] [2022-11-01T16:11:04.127Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:11:04.358Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:11:04.359Z] Building nodejs source
+[debug] [2022-11-01T16:11:04.359Z] Analyzing nodejs backend spec
+[error] !!  functions: Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: connect ECONNREFUSED 127.0.0.1:9005 {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: connect ECONNREFUSED 127.0.0.1:9005"}}
+[debug] [2022-11-01T16:11:04.361Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:11:04.733Z] Serving at port 9005
+
+[debug] [2022-11-01T16:11:04.909Z] Serving at port 9005
+
+[debug] [2022-11-01T16:11:05.161Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"helloWorld"},"addData":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"addData"},"deleteUser":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"deleteUser"},"disableRoutePlan":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"disableRoutePlan"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-11-01T16:11:05.169Z] shutdown requested via /__/quitquitquit
+
+[debug] [2022-11-01T16:12:06.261Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-11-01T16:12:06.261Z] DEBUG: File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers
+[debug] [2022-11-01T16:12:06.424Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-11-01T16:12:06.423Z] DEBUG: File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers
+[debug] [2022-11-01T16:12:07.436Z] Validating nodejs source
+[debug] [2022-11-01T16:12:07.436Z] Validating nodejs source
+[debug] [2022-11-01T16:12:15.444Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:12:15.445Z] Building nodejs source
+[debug] [2022-11-01T16:12:15.445Z] Analyzing nodejs backend spec
+[debug] [2022-11-01T16:12:15.445Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:12:15.521Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:12:15.522Z] Building nodejs source
+[debug] [2022-11-01T16:12:15.522Z] Analyzing nodejs backend spec
+[error] !!  functions: Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: connect ECONNREFUSED 127.0.0.1:9005 {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: connect ECONNREFUSED 127.0.0.1:9005"}}
+[debug] [2022-11-01T16:12:15.522Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:12:15.997Z] Serving at port 9005
+
+[debug] [2022-11-01T16:12:16.056Z] Serving at port 9005
+
+[debug] [2022-11-01T16:12:16.480Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"helloWorld"},"addData":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"addData"},"deleteUser":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"deleteUser"},"disableRoutePlan":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"disableRoutePlan"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-11-01T16:12:16.493Z] shutdown requested via /__/quitquitquit
+
+[debug] [2022-11-01T16:13:45.112Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-11-01T16:13:45.113Z] DEBUG: File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers
+[debug] [2022-11-01T16:13:46.125Z] Validating nodejs source
+[debug] [2022-11-01T16:13:46.125Z] Validating nodejs source
+[debug] [2022-11-01T16:13:52.588Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:13:52.589Z] Building nodejs source
+[debug] [2022-11-01T16:13:52.589Z] Analyzing nodejs backend spec
+[debug] [2022-11-01T16:13:52.590Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:13:52.617Z] DEBUG: File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers
+[debug] [2022-11-01T16:13:52.655Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:13:52.656Z] Building nodejs source
+[debug] [2022-11-01T16:13:52.657Z] Analyzing nodejs backend spec
+[error] !!  functions: Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: connect ECONNREFUSED 127.0.0.1:9005 {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: connect ECONNREFUSED 127.0.0.1:9005"}}
+[debug] [2022-11-01T16:13:52.660Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:13:52.685Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-11-01T16:13:53.271Z] DEBUG: File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers
+[debug] [2022-11-01T16:13:53.274Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-11-01T16:13:53.422Z] DEBUG: File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers
+[debug] [2022-11-01T16:13:53.434Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-11-01T16:13:53.496Z] Serving at port 9005
+
+[debug] [2022-11-01T16:13:53.562Z] Serving at port 9005
+
+[debug] [2022-11-01T16:13:54.134Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"helloWorld"},"addData":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"addData"},"deleteUser":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"deleteUser"},"disableRoutePlan":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"disableRoutePlan"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-11-01T16:13:54.145Z] shutdown requested via /__/quitquitquit
+
+[debug] [2022-11-01T16:13:54.436Z] Validating nodejs source
+[debug] [2022-11-01T16:13:54.452Z] Validating nodejs source
+[debug] [2022-11-01T16:14:03.932Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:14:03.932Z] Building nodejs source
+[debug] [2022-11-01T16:14:03.932Z] Analyzing nodejs backend spec
+[debug] [2022-11-01T16:14:03.933Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:14:04.293Z] Serving at port 9005
+
+[debug] [2022-11-01T16:14:04.678Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"helloWorld"},"addData":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"addData"},"deleteUser":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"deleteUser"},"disableRoutePlan":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"disableRoutePlan"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-11-01T16:14:04.687Z] shutdown requested via /__/quitquitquit
+
+[info] +  functions: Loaded functions definitions from source: helloWorld, addData, deleteUser, disableRoutePlan. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: helloWorld, addData, deleteUser, disableRoutePlan."}}
+[debug] [2022-11-01T16:14:05.188Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:14:05.189Z] Building nodejs source
+[debug] [2022-11-01T16:14:05.189Z] Analyzing nodejs backend spec
+[debug] [2022-11-01T16:14:05.190Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:14:05.553Z] Serving at port 9005
+
+[debug] [2022-11-01T16:14:05.921Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"helloWorld"},"addData":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"addData"},"deleteUser":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"deleteUser"},"disableRoutePlan":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"disableRoutePlan"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-11-01T16:14:05.926Z] shutdown requested via /__/quitquitquit
+
+[debug] [2022-11-01T16:14:05.946Z] [functions] Loaded functions definitions from source: helloWorld, addData, deleteUser, disableRoutePlan.
+[debug] [2022-11-01T16:14:05.946Z] DEBUG: [worker-pool] Shutting down IDLE worker (us-central1-disableRoutePlan)
+[debug] [2022-11-01T16:14:05.946Z] DEBUG: [worker-us-central1-disableRoutePlan-392cda46-4a1d-4352-ac7f-711d27e9d6fe]: FINISHING
+[debug] [2022-11-01T16:14:05.956Z] DEBUG: [worker-us-central1-disableRoutePlan-392cda46-4a1d-4352-ac7f-711d27e9d6fe]: exited
+[debug] [2022-11-01T16:14:05.957Z] DEBUG: [worker-us-central1-disableRoutePlan-392cda46-4a1d-4352-ac7f-711d27e9d6fe]: FINISHED
+[debug] [2022-11-01T16:14:20.326Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2022-11-01T16:14:20.326Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2022-11-01T16:14:20.326Z] Accepted request POST /mimi-plan-test/us-central1/disableRoutePlan --> us-central1-disableRoutePlan
+[debug] [2022-11-01T16:14:20.331Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2022-11-01T16:14:20.331Z] DEBUG: [functions] Got req.url=/mimi-plan-test/us-central1/disableRoutePlan, mapping to path=/
+[debug] [2022-11-01T16:14:20.331Z] DEBUG: [worker-pool] Cleaned up workers for us-central1-disableRoutePlan: 1 --> 0
+[debug] [2022-11-01T16:14:20.340Z] DEBUG: [worker-pool] addWorker(us-central1-disableRoutePlan)
+[debug] [2022-11-01T16:14:20.340Z] DEBUG: [worker-pool] Adding worker with key us-central1-disableRoutePlan, total=1
+[debug] [2022-11-01T16:14:22.000Z] DEBUG: [runtime-status] [1620] Resolved module firebase-admin {"declared":true,"installed":true,"version":"11.2.0","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\index.js"}
+[debug] [2022-11-01T16:14:22.005Z] DEBUG: [runtime-status] [1620] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.0.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\v1\\index.js"}
+[debug] [2022-11-01T16:14:22.006Z] DEBUG: [runtime-status] [1620] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2022-11-01T16:14:22.008Z] DEBUG: [runtime-status] [1620] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.0.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\v1\\index.js"}
+[debug] [2022-11-01T16:14:22.282Z] DEBUG: [runtime-status] [1620] Checked functions.config() {"config":{}}
+[debug] [2022-11-01T16:14:22.283Z] DEBUG: [runtime-status] [1620] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"4.0.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\v1\\index.js"}}
+[debug] [2022-11-01T16:14:22.286Z] DEBUG: [runtime-status] [1620] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.0.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\v1\\index.js"}
+[debug] [2022-11-01T16:14:22.289Z] DEBUG: [runtime-status] [1620] Resolved module firebase-admin {"declared":true,"installed":true,"version":"11.2.0","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\index.js"}
+[debug] [2022-11-01T16:14:22.293Z] DEBUG: [runtime-status] [1620] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.0.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\v1\\index.js"}
+[debug] [2022-11-01T16:14:22.294Z] DEBUG: [runtime-status] [1620] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"11.2.0","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\index.js"}}
+[debug] [2022-11-01T16:14:22.358Z] DEBUG: [runtime-status] [1620] initializeApp(DEFAULT) {"credential":{"implicit":false,"projectId":"mimi-plan-test","privateKey":"-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC4FtcaGkBBL0MI\nT8OPxdDeZj0Tov0cr0n7PxE7A52YjbVhjfF+hmetHzD7WXf4ukWMZa78GgGjBgWY\nZ5H6ISHnDltL97Rlj2xLOktxbzSTTzNI61NImDzZ/7X3DkZjf3mFoSmPtYijyHau\nKBuWwN8fCKz4xiKc8HzIgby+pSeAIQsmHFM1TeNnby7IS7oHCB+Rgb4Io0lsNnRV\nDmNL62dbLSvTCJHMJhDvGncAe3gOJiuHlVWGjGGXjtliqBH3nZgJ7aeFVUVxga+B\nvYqT8sppREARSZaTgdXVdZgN4YRp9QCBXFB6CkwW9mtx0dDWd/PU+OfA0vP8GVvf\nRRDfasTdAgMBAAECggEALHSjlHOjcbpqmy68ANPaGWMiO8RAELXKDWkRDanVXJpY\nI4tmNtJZZibiqshT3xaIphuGMu5K1+Yj4sacK4XlzIkchg93GpGUquQUhPvAfBSD\nw4fE0IKnK1QDyvpBCFUn8RvW0BQcP8Uw1+TqqLDCERoEv30FrdWrpLYj8PwsOlYW\nNsj53DlRF8flemShwCq4+WYgGPHJvLxFKfRHt2c42Afigpb9efJvg9fdfNgbDK/p\n3bCX/JjjDSA4GFj+4bS0Yyn/vSC7PIa/QSobtNChOfQtExg8bJtGJiXoJHy/YKp5\nkKZ9BCACAG/pEeKcBIIlB0fFxGdM5Ak1t6aajGdQcQKBgQD/+ZHcV0RZ466F5t2R\nqGPRoj6J7amNy73BnYiDKJo6jaJcaCbF5FxeoJkSTn4P+dI0uGcVn0jxrc3EF6oB\nvZaEgVhNOOQ2O+SFIZ45ZjrwrFMEaMr+O0wm2lf8cmPzoAd/YB+nRi+l2yQ1J1Bq\nyxyGVH/gi1ReJ7dnbmDeQeqE5QKBgQC4G3b0VjGAX7z70sgdZ/FvPvLzB9Vy1D2g\njm4kug6BDGNXcekEi2tvWidW6yTmiLHFwXbuUdQ6lzcBoXLQUHxc1aDxqGpbXfzt\nbZD5xJjNGo0KybSnKe29Qcj7RTqV3oeOIgEh/ZPAIaJ0PwKLamzpqlqmZXYnM1rZ\niROWor54mQKBgQC+43WD1MxTIHigwJbRLbsqtQxgPYzpAlxDC+Cmttu0+LRwpvbr\nMq4znx4nycM21L2OtUmilUOHf25oYqFUZPbfX7ni9J8zVpzHL1fYREWF/2x1aFSh\nHMVgYAmnaALjxp5wvdU9IBkeXXr17JiK22ctQcyPPjgvcvzRtD2m4Y8rhQKBgQCU\numMzabodmbniuVm+H600EGdVm3t8gyax4L3r334+FBLgnn3+lN6amvryxY0Oy1jJ\nh8ubJPHMz0G5iIJm9M4ydMXK0yHwY5IjAANBMue5sXxFPcM5065h2JYTHs8AKT/a\nu2+s1NwaN1G0lP5qP/RyI5ONnqN/cYYv/AOeCiTS6QKBgQCZbCF1szMiH3Fk05o0\nj0JUlHFe4OcwejMsD/CFov79fhQ0rGbAJ8ulZGLiqLhmnQH8eoZKxPz57mi91jWG\nA4Ojw23wK1v/mnJSREW7Yskh8tpubESuXc3STc/uFVBMF2yomyjHmL0XPC6E+r6m\n+Y1nNL0X16QnUissNFRwrn10Cw==\n-----END PRIVATE KEY-----\n","clientEmail":"firebase-adminsdk-ze8iq@mimi-plan-test.iam.gserviceaccount.com","httpClient":{"retry":{"maxRetries":4,"statusCodes":[503],"ioErrorCodes":["ECONNRESET","ETIMEDOUT"],"backOffFactor":0.5,"maxDelayInMillis":60000}}}}
+[debug] [2022-11-01T16:14:22.365Z] DEBUG: [runtime-status] [1620] Functions runtime initialized. {"cwd":"E:\\frontend\\reactJS\\mimi-web\\functions","node_version":"16.15.1"}
+[debug] [2022-11-01T16:14:22.366Z] DEBUG: [runtime-status] [1620] Listening to port: \\?\pipe\fire_emu_db207c914877d0b2
+[debug] [2022-11-01T16:14:22.428Z] DEBUG: [worker-pool] submitRequest(triggerId=us-central1-disableRoutePlan)
+[debug] [2022-11-01T16:14:22.429Z] DEBUG: [worker-us-central1-disableRoutePlan-58bae465-9657-442e-b2c5-8b26a2f2f50e]: BUSY
+[debug] [2022-11-01T16:14:22.446Z] [functions] Beginning execution of "disableRoutePlan"
+[info] >  {"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"} {"user":{"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-disableRoutePlan"},"extension":{},"message":"\u001b[90m> \u001b[39m {\"verifications\":{\"app\":\"MISSING\",\"auth\":\"MISSING\"},\"logging.googleapis.com/labels\":{\"firebase-log-type\":\"callable-request-verification\"},\"severity\":\"DEBUG\",\"message\":\"Callable request verification passed\"}"}}
+[debug] [2022-11-01T16:14:22.450Z] DEBUG: [runtime-status] [1620] No callable functions auth found
+[debug] [2022-11-01T16:14:26.069Z] DEBUG: [worker-us-central1-disableRoutePlan-58bae465-9657-442e-b2c5-8b26a2f2f50e]: IDLE
+[debug] [2022-11-01T16:14:26.070Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2022-11-01T16:14:26.077Z] [functions] Finished "disableRoutePlan" in 3629.6633ms
+[debug] [2022-11-01T16:15:47.642Z] DEBUG: File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers
+[debug] [2022-11-01T16:15:47.642Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-11-01T16:15:48.658Z] Validating nodejs source
+[debug] [2022-11-01T16:15:48.658Z] Validating nodejs source
+[debug] [2022-11-01T16:15:56.058Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:15:56.059Z] Building nodejs source
+[debug] [2022-11-01T16:15:56.059Z] Analyzing nodejs backend spec
+[debug] [2022-11-01T16:15:56.060Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:15:56.089Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-11-01T16:15:56.172Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:15:56.173Z] Building nodejs source
+[debug] [2022-11-01T16:15:56.173Z] Analyzing nodejs backend spec
+[error] !!  functions: Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: write ECONNRESET {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: write ECONNRESET"}}
+[debug] [2022-11-01T16:15:56.173Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:15:56.209Z] DEBUG: File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers
+[debug] [2022-11-01T16:15:56.644Z] Serving at port 9005
+
+[debug] [2022-11-01T16:15:56.730Z] Serving at port 9005
+
+[debug] [2022-11-01T16:15:57.092Z] Validating nodejs source
+[debug] [2022-11-01T16:15:57.203Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"helloWorld"},"addData":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"addData"},"deleteUser":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"deleteUser"},"disableRoutePlan":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"disableRoutePlan"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-11-01T16:15:57.211Z] Validating nodejs source
+[debug] [2022-11-01T16:16:03.015Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:16:03.015Z] Building nodejs source
+[debug] [2022-11-01T16:16:03.015Z] Analyzing nodejs backend spec
+[debug] [2022-11-01T16:16:03.015Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:16:03.044Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2022-11-01T16:16:03.044Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2022-11-01T16:16:03.044Z] Accepted request POST /mimi-plan-test/us-central1/disableRoutePlan --> us-central1-disableRoutePlan
+[debug] [2022-11-01T16:16:03.051Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2022-11-01T16:16:03.052Z] DEBUG: [functions] Got req.url=/mimi-plan-test/us-central1/disableRoutePlan, mapping to path=/
+[debug] [2022-11-01T16:16:03.052Z] DEBUG: [worker-pool] submitRequest(triggerId=us-central1-disableRoutePlan)
+[debug] [2022-11-01T16:16:03.052Z] DEBUG: [worker-us-central1-disableRoutePlan-58bae465-9657-442e-b2c5-8b26a2f2f50e]: BUSY
+[debug] [2022-11-01T16:16:03.058Z] [functions] Beginning execution of "disableRoutePlan"
+[info] >  {"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"} {"user":{"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-disableRoutePlan"},"extension":{},"message":"\u001b[90m> \u001b[39m {\"verifications\":{\"app\":\"MISSING\",\"auth\":\"MISSING\"},\"logging.googleapis.com/labels\":{\"firebase-log-type\":\"callable-request-verification\"},\"severity\":\"DEBUG\",\"message\":\"Callable request verification passed\"}"}}
+[debug] [2022-11-01T16:16:03.062Z] DEBUG: [runtime-status] [1620] No callable functions auth found
+[debug] [2022-11-01T16:16:03.396Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:16:03.396Z] Building nodejs source
+[debug] [2022-11-01T16:16:03.396Z] Analyzing nodejs backend spec
+[error] !!  functions: Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: connect ECONNREFUSED 127.0.0.1:9005 {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: connect ECONNREFUSED 127.0.0.1:9005"}}
+[debug] [2022-11-01T16:16:03.397Z] shutdown requested via /__/quitquitquit
+
+[debug] [2022-11-01T16:16:03.397Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:16:03.546Z] Serving at port 9005
+
+[debug] [2022-11-01T16:16:03.755Z] Serving at port 9005
+
+[debug] [2022-11-01T16:16:03.971Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"helloWorld"},"addData":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"addData"},"deleteUser":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"deleteUser"},"disableRoutePlan":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"disableRoutePlan"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-11-01T16:16:03.977Z] shutdown requested via /__/quitquitquit
+
+[debug] [2022-11-01T16:16:05.666Z] DEBUG: [worker-us-central1-disableRoutePlan-58bae465-9657-442e-b2c5-8b26a2f2f50e]: IDLE
+[debug] [2022-11-01T16:16:05.667Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2022-11-01T16:16:05.675Z] [functions] Finished "disableRoutePlan" in 2609.9521ms
+[debug] [2022-11-01T16:16:08.077Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2022-11-01T16:16:08.078Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2022-11-01T16:16:08.078Z] Accepted request POST /mimi-plan-test/us-central1/disableRoutePlan --> us-central1-disableRoutePlan
+[debug] [2022-11-01T16:16:08.083Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2022-11-01T16:16:08.084Z] DEBUG: [functions] Got req.url=/mimi-plan-test/us-central1/disableRoutePlan, mapping to path=/
+[debug] [2022-11-01T16:16:08.084Z] DEBUG: [worker-pool] submitRequest(triggerId=us-central1-disableRoutePlan)
+[debug] [2022-11-01T16:16:08.084Z] DEBUG: [worker-us-central1-disableRoutePlan-58bae465-9657-442e-b2c5-8b26a2f2f50e]: BUSY
+[debug] [2022-11-01T16:16:08.086Z] [functions] Beginning execution of "disableRoutePlan"
+[info] >  {"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"} {"user":{"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-disableRoutePlan"},"extension":{},"message":"\u001b[90m> \u001b[39m {\"verifications\":{\"app\":\"MISSING\",\"auth\":\"MISSING\"},\"logging.googleapis.com/labels\":{\"firebase-log-type\":\"callable-request-verification\"},\"severity\":\"DEBUG\",\"message\":\"Callable request verification passed\"}"}}
+[debug] [2022-11-01T16:16:08.088Z] DEBUG: [runtime-status] [1620] No callable functions auth found
+[debug] [2022-11-01T16:16:08.758Z] DEBUG: [worker-us-central1-disableRoutePlan-58bae465-9657-442e-b2c5-8b26a2f2f50e]: IDLE
+[debug] [2022-11-01T16:16:08.759Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2022-11-01T16:16:08.767Z] [functions] Finished "disableRoutePlan" in 679.7759ms
+[debug] [2022-11-01T16:16:16.722Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-11-01T16:16:16.723Z] DEBUG: File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers
+[debug] [2022-11-01T16:16:17.729Z] Validating nodejs source
+[debug] [2022-11-01T16:16:17.729Z] Validating nodejs source
+[debug] [2022-11-01T16:16:27.391Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:16:27.391Z] Building nodejs source
+[debug] [2022-11-01T16:16:27.391Z] Analyzing nodejs backend spec
+[debug] [2022-11-01T16:16:27.392Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:16:27.414Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-11-01T16:16:27.662Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:16:27.663Z] Building nodejs source
+[debug] [2022-11-01T16:16:27.663Z] Analyzing nodejs backend spec
+[error] !!  functions: Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: connect ECONNREFUSED 127.0.0.1:9005 {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: connect ECONNREFUSED 127.0.0.1:9005"}}
+[debug] [2022-11-01T16:16:27.668Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:16:27.693Z] DEBUG: File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers
+[debug] [2022-11-01T16:16:28.049Z] Serving at port 9005
+
+[debug] [2022-11-01T16:16:28.273Z] Serving at port 9005
+
+[debug] [2022-11-01T16:16:28.420Z] Validating nodejs source
+[debug] [2022-11-01T16:16:28.668Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"helloWorld"},"addData":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"addData"},"deleteUser":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"deleteUser"},"disableRoutePlan":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"disableRoutePlan"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-11-01T16:16:28.708Z] Validating nodejs source
+[debug] [2022-11-01T16:16:34.808Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:16:34.808Z] Building nodejs source
+[debug] [2022-11-01T16:16:34.808Z] Analyzing nodejs backend spec
+[debug] [2022-11-01T16:16:34.809Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:16:34.830Z] shutdown requested via /__/quitquitquit
+
+[debug] [2022-11-01T16:16:35.154Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:16:35.155Z] Building nodejs source
+[debug] [2022-11-01T16:16:35.155Z] Analyzing nodejs backend spec
+[error] !!  functions: Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: connect ECONNREFUSED 127.0.0.1:9005 {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: connect ECONNREFUSED 127.0.0.1:9005"}}
+[debug] [2022-11-01T16:16:35.156Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:16:35.373Z] Serving at port 9005
+
+[debug] [2022-11-01T16:16:35.703Z] Serving at port 9005
+
+[debug] [2022-11-01T16:16:35.954Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"helloWorld"},"addData":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"addData"},"deleteUser":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"deleteUser"},"disableRoutePlan":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"disableRoutePlan"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-11-01T16:16:35.962Z] shutdown requested via /__/quitquitquit
+
+[debug] [2022-11-01T16:16:47.832Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-11-01T16:16:47.833Z] DEBUG: File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers
+[debug] [2022-11-01T16:16:48.839Z] Validating nodejs source
+[debug] [2022-11-01T16:16:48.839Z] Validating nodejs source
+[debug] [2022-11-01T16:16:56.256Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:16:56.256Z] Building nodejs source
+[debug] [2022-11-01T16:16:56.256Z] Analyzing nodejs backend spec
+[debug] [2022-11-01T16:16:56.257Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:16:56.472Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:16:56.472Z] Building nodejs source
+[debug] [2022-11-01T16:16:56.473Z] Analyzing nodejs backend spec
+[error] !!  functions: Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: connect ECONNREFUSED 127.0.0.1:9005 {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: connect ECONNREFUSED 127.0.0.1:9005"}}
+[debug] [2022-11-01T16:16:56.474Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:16:56.850Z] Serving at port 9005
+
+[debug] [2022-11-01T16:16:57.038Z] Serving at port 9005
+
+[debug] [2022-11-01T16:16:57.640Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"helloWorld"},"addData":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"addData"},"deleteUser":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"deleteUser"},"disableRoutePlan":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"disableRoutePlan"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-11-01T16:16:57.656Z] shutdown requested via /__/quitquitquit
+
+[debug] [2022-11-01T16:17:00.415Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-11-01T16:17:00.417Z] DEBUG: File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers
+[debug] [2022-11-01T16:17:01.426Z] Validating nodejs source
+[debug] [2022-11-01T16:17:01.427Z] Validating nodejs source
+[debug] [2022-11-01T16:17:08.988Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:17:08.988Z] Building nodejs source
+[debug] [2022-11-01T16:17:08.988Z] Analyzing nodejs backend spec
+[debug] [2022-11-01T16:17:09.008Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:17:09.009Z] Building nodejs source
+[debug] [2022-11-01T16:17:09.009Z] Analyzing nodejs backend spec
+[debug] [2022-11-01T16:17:08.989Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:17:09.010Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:17:10.048Z] Serving at port 9005
+
+[debug] [2022-11-01T16:17:10.086Z] Serving at port 9005
+
+[debug] [2022-11-01T16:17:10.484Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"helloWorld"},"addData":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"addData"},"deleteUser":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"deleteUser"},"disableRoutePlan":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"disableRoutePlan"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-11-01T16:17:10.489Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"helloWorld"},"addData":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"addData"},"deleteUser":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"deleteUser"},"disableRoutePlan":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"disableRoutePlan"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[error] !!  functions: Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: read ECONNRESET {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: read ECONNRESET"}}
+[debug] [2022-11-01T16:17:10.495Z] shutdown requested via /__/quitquitquit
+
+[debug] [2022-11-01T16:17:35.587Z] DEBUG: File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers
+[debug] [2022-11-01T16:17:35.586Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-11-01T16:17:36.590Z] Validating nodejs source
+[debug] [2022-11-01T16:17:36.591Z] Validating nodejs source
+[debug] [2022-11-01T16:17:43.232Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:17:43.232Z] Building nodejs source
+[debug] [2022-11-01T16:17:43.233Z] Analyzing nodejs backend spec
+[debug] [2022-11-01T16:17:43.234Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:17:43.595Z] Serving at port 9005
+
+[debug] [2022-11-01T16:17:43.604Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:17:43.605Z] Building nodejs source
+[debug] [2022-11-01T16:17:43.605Z] Analyzing nodejs backend spec
+[debug] [2022-11-01T16:17:43.607Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:17:44.072Z] Serving at port 9006
+
+[debug] [2022-11-01T16:17:44.219Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"helloWorld"},"addData":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"addData"},"deleteUser":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"deleteUser"},"disableRoutePlan":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"disableRoutePlan"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-11-01T16:17:44.227Z] shutdown requested via /__/quitquitquit
+
+[info] +  functions: Loaded functions definitions from source: helloWorld, addData, deleteUser, disableRoutePlan. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: helloWorld, addData, deleteUser, disableRoutePlan."}}
+[debug] [2022-11-01T16:17:44.500Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"helloWorld"},"addData":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"addData"},"deleteUser":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"deleteUser"},"disableRoutePlan":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"disableRoutePlan"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-11-01T16:17:44.506Z] shutdown requested via /__/quitquitquit
+
+[debug] [2022-11-01T16:17:44.524Z] [functions] Loaded functions definitions from source: helloWorld, addData, deleteUser, disableRoutePlan.
+[debug] [2022-11-01T16:17:44.524Z] DEBUG: [worker-pool] Shutting down IDLE worker (us-central1-disableRoutePlan)
+[debug] [2022-11-01T16:17:44.524Z] DEBUG: [worker-us-central1-disableRoutePlan-58bae465-9657-442e-b2c5-8b26a2f2f50e]: FINISHING
+[debug] [2022-11-01T16:17:44.536Z] DEBUG: [worker-us-central1-disableRoutePlan-58bae465-9657-442e-b2c5-8b26a2f2f50e]: exited
+[debug] [2022-11-01T16:17:44.536Z] DEBUG: [worker-us-central1-disableRoutePlan-58bae465-9657-442e-b2c5-8b26a2f2f50e]: FINISHED
+[debug] [2022-11-01T16:18:02.715Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2022-11-01T16:18:02.715Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2022-11-01T16:18:02.715Z] Accepted request POST /mimi-plan-test/us-central1/disableRoutePlan --> us-central1-disableRoutePlan
+[debug] [2022-11-01T16:18:02.721Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2022-11-01T16:18:02.722Z] DEBUG: [functions] Got req.url=/mimi-plan-test/us-central1/disableRoutePlan, mapping to path=/
+[debug] [2022-11-01T16:18:02.722Z] DEBUG: [worker-pool] Cleaned up workers for us-central1-disableRoutePlan: 1 --> 0
+[debug] [2022-11-01T16:18:02.731Z] DEBUG: [worker-pool] addWorker(us-central1-disableRoutePlan)
+[debug] [2022-11-01T16:18:02.731Z] DEBUG: [worker-pool] Adding worker with key us-central1-disableRoutePlan, total=1
+[debug] [2022-11-01T16:18:05.134Z] DEBUG: [runtime-status] [8500] Resolved module firebase-admin {"declared":true,"installed":true,"version":"11.2.0","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\index.js"}
+[debug] [2022-11-01T16:18:05.137Z] DEBUG: [runtime-status] [8500] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.0.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\v1\\index.js"}
+[debug] [2022-11-01T16:18:05.137Z] DEBUG: [runtime-status] [8500] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2022-11-01T16:18:05.141Z] DEBUG: [runtime-status] [8500] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.0.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\v1\\index.js"}
+[debug] [2022-11-01T16:18:05.408Z] DEBUG: [runtime-status] [8500] Checked functions.config() {"config":{}}
+[debug] [2022-11-01T16:18:05.408Z] DEBUG: [runtime-status] [8500] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"4.0.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\v1\\index.js"}}
+[debug] [2022-11-01T16:18:05.409Z] DEBUG: [runtime-status] [8500] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.0.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\v1\\index.js"}
+[debug] [2022-11-01T16:18:05.411Z] DEBUG: [runtime-status] [8500] Resolved module firebase-admin {"declared":true,"installed":true,"version":"11.2.0","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\index.js"}
+[debug] [2022-11-01T16:18:05.414Z] DEBUG: [runtime-status] [8500] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.0.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\v1\\index.js"}
+[debug] [2022-11-01T16:18:05.414Z] DEBUG: [runtime-status] [8500] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"11.2.0","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\index.js"}}
+[debug] [2022-11-01T16:18:05.473Z] DEBUG: [runtime-status] [8500] initializeApp(DEFAULT) {"credential":{"implicit":false,"projectId":"mimi-plan-test","privateKey":"-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC4FtcaGkBBL0MI\nT8OPxdDeZj0Tov0cr0n7PxE7A52YjbVhjfF+hmetHzD7WXf4ukWMZa78GgGjBgWY\nZ5H6ISHnDltL97Rlj2xLOktxbzSTTzNI61NImDzZ/7X3DkZjf3mFoSmPtYijyHau\nKBuWwN8fCKz4xiKc8HzIgby+pSeAIQsmHFM1TeNnby7IS7oHCB+Rgb4Io0lsNnRV\nDmNL62dbLSvTCJHMJhDvGncAe3gOJiuHlVWGjGGXjtliqBH3nZgJ7aeFVUVxga+B\nvYqT8sppREARSZaTgdXVdZgN4YRp9QCBXFB6CkwW9mtx0dDWd/PU+OfA0vP8GVvf\nRRDfasTdAgMBAAECggEALHSjlHOjcbpqmy68ANPaGWMiO8RAELXKDWkRDanVXJpY\nI4tmNtJZZibiqshT3xaIphuGMu5K1+Yj4sacK4XlzIkchg93GpGUquQUhPvAfBSD\nw4fE0IKnK1QDyvpBCFUn8RvW0BQcP8Uw1+TqqLDCERoEv30FrdWrpLYj8PwsOlYW\nNsj53DlRF8flemShwCq4+WYgGPHJvLxFKfRHt2c42Afigpb9efJvg9fdfNgbDK/p\n3bCX/JjjDSA4GFj+4bS0Yyn/vSC7PIa/QSobtNChOfQtExg8bJtGJiXoJHy/YKp5\nkKZ9BCACAG/pEeKcBIIlB0fFxGdM5Ak1t6aajGdQcQKBgQD/+ZHcV0RZ466F5t2R\nqGPRoj6J7amNy73BnYiDKJo6jaJcaCbF5FxeoJkSTn4P+dI0uGcVn0jxrc3EF6oB\nvZaEgVhNOOQ2O+SFIZ45ZjrwrFMEaMr+O0wm2lf8cmPzoAd/YB+nRi+l2yQ1J1Bq\nyxyGVH/gi1ReJ7dnbmDeQeqE5QKBgQC4G3b0VjGAX7z70sgdZ/FvPvLzB9Vy1D2g\njm4kug6BDGNXcekEi2tvWidW6yTmiLHFwXbuUdQ6lzcBoXLQUHxc1aDxqGpbXfzt\nbZD5xJjNGo0KybSnKe29Qcj7RTqV3oeOIgEh/ZPAIaJ0PwKLamzpqlqmZXYnM1rZ\niROWor54mQKBgQC+43WD1MxTIHigwJbRLbsqtQxgPYzpAlxDC+Cmttu0+LRwpvbr\nMq4znx4nycM21L2OtUmilUOHf25oYqFUZPbfX7ni9J8zVpzHL1fYREWF/2x1aFSh\nHMVgYAmnaALjxp5wvdU9IBkeXXr17JiK22ctQcyPPjgvcvzRtD2m4Y8rhQKBgQCU\numMzabodmbniuVm+H600EGdVm3t8gyax4L3r334+FBLgnn3+lN6amvryxY0Oy1jJ\nh8ubJPHMz0G5iIJm9M4ydMXK0yHwY5IjAANBMue5sXxFPcM5065h2JYTHs8AKT/a\nu2+s1NwaN1G0lP5qP/RyI5ONnqN/cYYv/AOeCiTS6QKBgQCZbCF1szMiH3Fk05o0\nj0JUlHFe4OcwejMsD/CFov79fhQ0rGbAJ8ulZGLiqLhmnQH8eoZKxPz57mi91jWG\nA4Ojw23wK1v/mnJSREW7Yskh8tpubESuXc3STc/uFVBMF2yomyjHmL0XPC6E+r6m\n+Y1nNL0X16QnUissNFRwrn10Cw==\n-----END PRIVATE KEY-----\n","clientEmail":"firebase-adminsdk-ze8iq@mimi-plan-test.iam.gserviceaccount.com","httpClient":{"retry":{"maxRetries":4,"statusCodes":[503],"ioErrorCodes":["ECONNRESET","ETIMEDOUT"],"backOffFactor":0.5,"maxDelayInMillis":60000}}}}
+[debug] [2022-11-01T16:18:05.481Z] DEBUG: [runtime-status] [8500] Functions runtime initialized. {"cwd":"E:\\frontend\\reactJS\\mimi-web\\functions","node_version":"16.15.1"}
+[debug] [2022-11-01T16:18:05.482Z] DEBUG: [runtime-status] [8500] Listening to port: \\?\pipe\fire_emu_62d20c4d0a78b435
+[debug] [2022-11-01T16:18:05.579Z] DEBUG: [worker-pool] submitRequest(triggerId=us-central1-disableRoutePlan)
+[debug] [2022-11-01T16:18:05.579Z] DEBUG: [worker-us-central1-disableRoutePlan-dae41a94-24b2-4b65-82b3-1b4be163bdf4]: BUSY
+[debug] [2022-11-01T16:18:05.607Z] [functions] Beginning execution of "disableRoutePlan"
+[info] >  {"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"} {"user":{"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-disableRoutePlan"},"extension":{},"message":"\u001b[90m> \u001b[39m {\"verifications\":{\"app\":\"MISSING\",\"auth\":\"MISSING\"},\"logging.googleapis.com/labels\":{\"firebase-log-type\":\"callable-request-verification\"},\"severity\":\"DEBUG\",\"message\":\"Callable request verification passed\"}"}}
+[debug] [2022-11-01T16:18:05.611Z] DEBUG: [runtime-status] [8500] No callable functions auth found
+[debug] [2022-11-01T16:18:11.507Z] DEBUG: [worker-us-central1-disableRoutePlan-dae41a94-24b2-4b65-82b3-1b4be163bdf4]: IDLE
+[debug] [2022-11-01T16:18:11.508Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2022-11-01T16:18:11.523Z] [functions] Finished "disableRoutePlan" in 5916.0064ms
+[debug] [2022-11-01T16:19:44.749Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-11-01T16:19:44.749Z] DEBUG: File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers
+[debug] [2022-11-01T16:19:45.780Z] Validating nodejs source
+[debug] [2022-11-01T16:19:45.782Z] Validating nodejs source
+[debug] [2022-11-01T16:19:53.106Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:19:53.106Z] Building nodejs source
+[debug] [2022-11-01T16:19:53.106Z] Analyzing nodejs backend spec
+[debug] [2022-11-01T16:19:53.107Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:19:53.574Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:19:53.575Z] Building nodejs source
+[debug] [2022-11-01T16:19:53.575Z] Analyzing nodejs backend spec
+[debug] [2022-11-01T16:19:53.576Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:19:53.606Z] Serving at port 9005
+
+[debug] [2022-11-01T16:19:54.029Z] Serving at port 9005
+
+[debug] [2022-11-01T16:19:54.203Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"helloWorld"},"addData":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"addData"},"deleteUser":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"deleteUser"},"disableRoutePlan":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"disableRoutePlan"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-11-01T16:19:54.209Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"helloWorld"},"addData":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"addData"},"deleteUser":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"deleteUser"},"disableRoutePlan":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"disableRoutePlan"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[error] !!  functions: Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: read ECONNRESET {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: read ECONNRESET"}}
+[debug] [2022-11-01T16:19:54.215Z] shutdown requested via /__/quitquitquit
+
+[debug] [2022-11-01T16:23:18.730Z] DEBUG: File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers
+[debug] [2022-11-01T16:23:18.743Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-11-01T16:23:19.741Z] Validating nodejs source
+[debug] [2022-11-01T16:23:19.749Z] Validating nodejs source
+[debug] [2022-11-01T16:23:26.764Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:23:26.764Z] Building nodejs source
+[debug] [2022-11-01T16:23:26.764Z] Analyzing nodejs backend spec
+[debug] [2022-11-01T16:23:26.765Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:23:26.910Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:23:26.910Z] Building nodejs source
+[debug] [2022-11-01T16:23:26.911Z] Analyzing nodejs backend spec
+[error] !!  functions: Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: connect ECONNREFUSED 127.0.0.1:9005 {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: connect ECONNREFUSED 127.0.0.1:9005"}}
+[debug] [2022-11-01T16:23:26.911Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:23:27.311Z] Serving at port 9005
+
+[debug] [2022-11-01T16:23:27.472Z] Serving at port 9005
+
+[debug] [2022-11-01T16:23:27.877Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"helloWorld"},"addData":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"addData"},"deleteUser":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"deleteUser"},"disableRoutePlan":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"disableRoutePlan"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-11-01T16:23:27.885Z] shutdown requested via /__/quitquitquit
+
+[debug] [2022-11-01T16:23:30.665Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-11-01T16:23:30.666Z] DEBUG: File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers
+[debug] [2022-11-01T16:23:31.679Z] Validating nodejs source
+[debug] [2022-11-01T16:23:31.679Z] Validating nodejs source
+[debug] [2022-11-01T16:23:39.417Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:23:39.417Z] Building nodejs source
+[debug] [2022-11-01T16:23:39.417Z] Analyzing nodejs backend spec
+[debug] [2022-11-01T16:23:39.418Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:23:39.647Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T16:23:39.648Z] Building nodejs source
+[debug] [2022-11-01T16:23:39.648Z] Analyzing nodejs backend spec
+[error] !!  functions: Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: connect ECONNREFUSED 127.0.0.1:9005 {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FetchError: request to http://localhost:9005/__/quitquitquit failed, reason: connect ECONNREFUSED 127.0.0.1:9005"}}
+[debug] [2022-11-01T16:23:39.648Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T16:23:40.057Z] Serving at port 9005
+
+[debug] [2022-11-01T16:23:40.149Z] Serving at port 9005
+
+[debug] [2022-11-01T16:23:40.561Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"helloWorld"},"addData":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"addData"},"deleteUser":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"deleteUser"},"disableRoutePlan":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"disableRoutePlan"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-11-01T16:23:40.609Z] shutdown requested via /__/quitquitquit
+
+[debug] [2022-11-01T16:32:11.410Z] File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File E:\\frontend\\reactJS\\mimi-web\\functions\\index.js changed, reloading triggers"}}
+[debug] [2022-11-01T16:32:11.422Z] DEBUG: File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers

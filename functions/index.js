@@ -3,6 +3,7 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const serviceAccount = require("./mimi-plan-test.json");
+const moment = require("moment");
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
@@ -34,9 +35,7 @@ exports.deleteUser = functions.https.onCall((data, context) => {
 
 exports.disableRoutePlan = functions.https.onCall((data, context) => {
   return new Promise(async (resolve, reject) => {
-    var arr = [];
-    var allRoutes = [];
-    var routePlanDoc = [];
+
     try {
 
 
@@ -51,13 +50,14 @@ exports.disableRoutePlan = functions.https.onCall((data, context) => {
             .collection("routePlan")
             .doc(doc.id)
             .onSnapshot((snapshot) => {
-              if (snapshot.data().id == "0Pgsfy") {
-                // admin.firestore().collection('Institution').doc(data.doc).collection('routePlan').doc(snapshot.data().id).update({
-                //   status: true,
-                // }).then((res => {
-                //   resolve("Route is disabled")
-                // }))
-                resolve(snapshot.data())
+              if (moment(snapshot.data().endingDate?.toDate()).format('DD-MM-YYYY') <= moment(new Date()).format('DD-MM-YYYY')) {
+
+
+                admin.firestore().collection('Institution').doc(data.doc).collection('routePlan').doc(snapshot.data().id).update({
+                  status: false,
+                }).then((res => {
+                  resolve("Route is disabled")
+                }))
 
 
               }

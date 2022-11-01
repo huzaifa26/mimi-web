@@ -235,7 +235,9 @@ export const RouteDetailsBody = props => {
         });
     };
 
+
     const handleStatus = async () => {
+
         if (!user.permissions[PERMISSIONS.trackAccess]) {
             return actions.alert("You don't have access to perform this action");
         }
@@ -297,7 +299,8 @@ export const RouteDetailsBody = props => {
             </Fragment>
         );
     };
-
+    console.log(moment(new Date()).format('DD-MM-YYYY') >= moment(routePlan?.endingDate.toDate()).format('DD-MM-YYYY'))
+    console.log(moment(routePlan?.endingDate.toDate()).format('DD-MM-YYYY'))
     const actionBar = (
         <div className={classes.default_headerSection_container}>
             <div
@@ -424,6 +427,8 @@ export const RouteDetailsBody = props => {
                             classes.default_typography_capitalize,
                         )}
                     >
+
+
                         {moment(routePlan.startingDate?.toDate()).format('DD-MM-YYYY')}
                     </Typography>
                 </Grid>
