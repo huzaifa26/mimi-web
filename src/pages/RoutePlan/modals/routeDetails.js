@@ -100,13 +100,6 @@ export const RouteDetailsBody = props => {
                     uid: user.id
                 }
                 console.log("route " + routeLog?.current?.name + " opened, uid:" + user.id);
-
-                // await db
-                //     .collection('Institution')
-                //     .doc(user._code)
-                //     .collection('log')
-                //     .doc(payload.id)
-                //     .set(payload)
             }
         }
     }, [])
@@ -114,9 +107,6 @@ export const RouteDetailsBody = props => {
 
 
     useEffect(() => {
-
-
-
         if (!routePlanId) return;
         listenerRef.current.push(
             db
