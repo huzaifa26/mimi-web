@@ -107,8 +107,9 @@ export const DataTable = React.forwardRef((props, ref) => {
 
   const [loading, setLoading] = useState(false);
   const [tableData, setTableData] = useState([]);
-  const [sortDirection, setSortDirection] = useState("asc");
+  const [sortDirection, setSortDirection] = useState("desc");
   const [sortDirectionCol, setSortDirectionCol] = useState("");
+  const [defaultColSortFirst, setdefaultColSortFirst] = useState(true);
   const counterRef = useRef(1);
 
   const {
@@ -150,6 +151,7 @@ export const DataTable = React.forwardRef((props, ref) => {
     );
 
   const sortData = (headerColValue) => {
+    setdefaultColSortFirst(false);
     setSortDirectionCol(headerColValue);
 
     if (sortDirection === "asc") {
@@ -177,7 +179,7 @@ export const DataTable = React.forwardRef((props, ref) => {
         >
           <TableHead>
             <TableRow className={clsx([classes.tableHeadRow, orientation])}>
-              {headers.map((el) => {
+              {headers.map((el, index) => {
                 return (
                   <TableCell
                     key={el.id}
@@ -201,11 +203,17 @@ export const DataTable = React.forwardRef((props, ref) => {
                           <DownIcon fontSize="small" />
                         </>
                       )
-                    ) : (
-                      <>
-                        <UpIcon fontSize="small" />
-                      </>
-                    )}
+                    ) : defaultColSortFirst === true && index === 0 ? (
+                      sortDirection === "asc" ? (
+                        <>
+                          <UpIcon fontSize="small" />
+                        </>
+                      ) : (
+                        <>
+                          <DownIcon fontSize="small" />
+                        </>
+                      )
+                    ) : null}
                   </TableCell>
                 );
               })}
