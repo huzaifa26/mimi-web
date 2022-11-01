@@ -10,7 +10,7 @@ import { IntlProvider } from 'react-intl';
 import { LANGUAGE_MAPPING, ROLES } from './utils/constants';
 import { useStore } from './store';
 import { Sidebar } from './components';
-
+import firebase from "firebase/app";
 const LanugageFiles = {
     [LANGUAGE_MAPPING.ENGLISH]: english,
     [LANGUAGE_MAPPING.HEBREW]: hebrew,
@@ -20,6 +20,8 @@ export const Routes = React.memo(() => {
     const { state ,setState: setStoreState} = useStore();
 
     const { user } = state;
+    
+
     const theme = useMemo(() => {
         return createTheme({
             typography: {
@@ -36,7 +38,21 @@ export const Routes = React.memo(() => {
         bodyEl.setAttribute('dir', state.orientation);
     }, [state.orientation]);
 
+    const checkAndDisableRoutes = async() => {
+       await firebase.functions().httpsCallable('disableRoutePlan')({doc:user._code})
+        .then(()=>{
+         console.log("Auto Disable run success)")
+        })
+        .catch((error)=>{
+          console.log(error)
+        })
+    }
+    useEffect(()=>{
+        checkAndDisableRoutes();
+    })
+
     const renderRoutes = () => {
+    
         return routesConfig.map(el => {
             const { component, ...otherProps } = el;
             const Component = component;

@@ -1,7 +1,6 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const serviceAccount = require("./mimi-plan-test.json");
-const moment = require("moment");
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
@@ -41,9 +40,7 @@ exports.disableRoutePlan = functions.https.onCall((data, context) => {
               .doc(doc.id)
               .onSnapshot((snapshot) => {
                 if (
-                  moment(snapshot.data().endingDate?.toDate()).format(
-                    "DD-MM-YYYY"
-                  ) <= moment(new Date()).format("DD-MM-YYYY")
+                  new Date().getTime()/1000 >= snapshot.data().endingDate.seconds
                 ) {
                   admin
 

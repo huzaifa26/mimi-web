@@ -299,8 +299,8 @@ export const RouteDetailsBody = props => {
             </Fragment>
         );
     };
-    console.log(moment(new Date()).format('DD-MM-YYYY') >= moment(routePlan?.endingDate.toDate()).format('DD-MM-YYYY'))
-    console.log(moment(routePlan?.endingDate.toDate()).format('DD-MM-YYYY'))
+    console.log(new Date().getTime()/1000 >= routePlan?.endingDate.seconds)
+    
     const actionBar = (
         <div className={classes.default_headerSection_container}>
             <div
