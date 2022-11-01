@@ -129,7 +129,6 @@ export const Group = React.memo(() => {
         </div>
     );
 
-
     const renderItem = group => {
         return (
             <Fragment>

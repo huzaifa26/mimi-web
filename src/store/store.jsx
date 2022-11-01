@@ -2,6 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useRef } from "react";
 import { useHistory, useLocation } from "react-router-dom";
+import { date } from "yup";
 import { LANGUAGE_MAPPING, ROLES } from "../utils/constants";
 import { db, auth } from "../utils/firebase";
 
@@ -9,7 +10,7 @@ const ctx = React.createContext();
 
 export const useStore = () => useContext(ctx);
 
-export const StoreProvidor = ({ children }) => {
+export const  StoreProvidor = ({ children }) => {
   const location = useLocation()
   const history = useHistory();
 
@@ -32,10 +33,23 @@ export const StoreProvidor = ({ children }) => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
-        console.log("running onAuthStateChanged");
+        let last_login=localStorage.getItem("last_login");
+        console.log(last_login)
+        if(last_login !== null){
+          let minus4Hours=new Date();
+          last_login = new Date(new Date(last_login).setHours(new Date().getHours())).getTime();
+          minus4Hours = new Date().setHours(new Date().getHours()-4);
+  
+          if(last_login<minus4Hours){
+            handleSignOut();
+            setState((prev) => ({ ...prev, user: null, authenticated: true }));
+            unsubscribe();
+            return
+          }
+        }
+        
         const code = localStorage.getItem("code");
         if (code !== null) {
-          console.log("running code section");
           let _user_Data = await db
             .collection("Institution")
             .doc(code)
@@ -45,7 +59,6 @@ export const StoreProvidor = ({ children }) => {
 
           let userData = _user_Data.data();
           if (userData.permissions.webPanelAccess === true) {
-            console.log("running permission === true")
             await db
               .collection("Institution")
               .doc(code?.toUpperCase())
@@ -62,7 +75,6 @@ export const StoreProvidor = ({ children }) => {
               .collection("staff")
               .doc(userData?.id)
               .onSnapshot((snapshot) => {
-                console.log("running snapshot code");
                 if (snapshot.data().permissions.webPanelAccess === false) {
                   setState((prev) => ({ ...prev, user: null, authenticated: true }));
                   listener.current && listener.current();
@@ -70,6 +82,7 @@ export const StoreProvidor = ({ children }) => {
                   unsubscribe()
                   handleSignOut();
                 }
+                localStorage.setItem("last_login", new Date());
                 setState((prev) => ({
                   ...prev,
                   authenticated: true,
@@ -82,7 +95,6 @@ export const StoreProvidor = ({ children }) => {
               .collection("Institution")
               .doc(code)
               .onSnapshot((snapshot) => {
-                console.log("Listening to institute enabled");
                 let institute = snapshot.data();
                 const subEndDate = new Date(new Date(institute.subscription_end_date).setHours(0, 0, 0, 0)).getTime();
                 const todayDate = new Date(new Date().setHours(0, 0, 0, 0)).getTime();
@@ -93,12 +105,12 @@ export const StoreProvidor = ({ children }) => {
                   unsubscribe()
                   handleSignOut();
                 }
-                
-                if(todayDate > subEndDate && userData.type !== ROLES.admin){
+
+                if (todayDate > subEndDate && userData.type !== ROLES.admin) {
                   setState((prev) => ({ ...prev, user: null, authenticated: true }));
                   listener.current && listener.current();
                   instituteListener.current && instituteListener.current();
-                  unsubscribe()
+                  unsubscribe();
                   handleSignOut();
                 }
               })
