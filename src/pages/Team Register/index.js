@@ -86,7 +86,6 @@ export const RegisterTeam = (props) => {
   const [selectedGroups, setSelectedGroups] = useState([]);
   const [role, setRole] = useState();
   const [fileUpload, setFileUpload] = useState(false);
-  console.log({ f: fileUpload });
 
   const handleFileModalClose = () => {
     setFileUpload(false);
@@ -94,9 +93,7 @@ export const RegisterTeam = (props) => {
 
   const Schema = useMemo(() => {
     return yup.object().shape({
-      confirmPassword: yup
-        .string()
-        .test("passwords-match", "Passwords must match", function (value) {
+      confirmPassword: yup.string().test("passwords-match", "Passwords must match", function (value) {
           return this.parent.password === value;
         }),
       password: yup.string().min(6).required(),
@@ -135,16 +132,11 @@ export const RegisterTeam = (props) => {
 
   const handleSubmit = async () => {
     if (loading) return;
-
     setLoading(true);
-
     try {
       if ([ROLES.guide].some((el) => el === role.id)) {
         if (selectedGroups.length > 1) {
-          return actions.alert(
-            "Only one group can be assigned to Guide",
-            "error"
-          );
+          return actions.alert("Only one group can be assigned to Guide","error");
         }
       }
 
@@ -178,6 +170,8 @@ export const RegisterTeam = (props) => {
       setLoading(false);
     }
   };
+
+
   const handleModalOpen = () => {
     setFileUpload(true);
   };

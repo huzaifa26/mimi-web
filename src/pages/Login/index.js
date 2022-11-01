@@ -80,7 +80,6 @@ export function Login() {
       localStorage.setItem("code", institutionCode.toUpperCase());
       let encrypted = CryptoJS.AES.encrypt(password, key, { iv: iv });
       localStorage.setItem("web_session_key", encrypted);
-      localStorage.setItem("last_login",new Date());
       const bodyEl = document.getElementsByTagName("html")[0];
       bodyEl.setAttribute("lang", language);
       bodyEl.setAttribute("dir", direction);
@@ -112,15 +111,20 @@ export function Login() {
       if (institutionDocs.empty)
         return actions.alert("No Institution code found", "error");
 
+      const language = "en";
+      const direction = "ltr";
+
       localStorage.setItem("code", institutionCode.toUpperCase());
+      const bodyEl = document.getElementsByTagName("html")[0];
+      bodyEl.setAttribute("lang", language);
+      bodyEl.setAttribute("dir", direction);
+      localStorage.setItem("language", language);
+      localStorage.setItem("orientation", direction);
 
       const institution = institutionDocs.docs[0].data();
 
       const subEndDate = new Date(new Date(institution.subscription_end_date).setHours(0, 0, 0, 0)).getTime();
       const todayDate = new Date(new Date().setHours(0, 0, 0, 0)).getTime();
-
-      const language = "en";
-      const direction = "ltr";
 
       const userCredential = await auth.signInWithEmailAndPassword(
         email,
@@ -146,10 +150,6 @@ export function Login() {
         return actions.alert("You account has been disabled. Please contact admin for queries", "error");
       } else if (access === true) {
         // If institute subscription end. Only admin can login.
-        console.log(new Date(todayDate));
-        console.log(new Date(subEndDate));
-        console.log(todayDate > subEndDate)
-        console.log(todayDate > subEndDate && user.type !== ROLES.admin)
         if (todayDate > subEndDate && user.type !== ROLES.admin) {
           handleSignout()
           return actions.alert("Subscription Expired", "error");
@@ -177,7 +177,7 @@ export function Login() {
         await setLocalStorage(institutionCode, password, language, direction)
           .then(() => {
             history.push("/dashboard");
-          })
+          }).then(() => localStorage.setItem("last_login", new Date()))
       }
     } catch (error) {
       console.log(error);
