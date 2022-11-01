@@ -290,14 +290,6 @@ export const Team = React.memo(() => {
         >
           <FormattedMessage id="add_new_staff"></FormattedMessage>
         </Button>
-        {/* <Button
-          onClick={() => {
-            setAddSchoolShow(true);
-          }}
-        >
-          <FormattedMessage id="add_new_boardingschool"></FormattedMessage>
-        </Button> */}
-
         <MenuMultiple
           list={state.roleOptions}
           entity={"Roles"}
