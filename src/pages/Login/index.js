@@ -80,6 +80,7 @@ export function Login() {
       localStorage.setItem("code", institutionCode.toUpperCase());
       let encrypted = CryptoJS.AES.encrypt(password, key, { iv: iv });
       localStorage.setItem("web_session_key", encrypted);
+      localStorage.setItem("last_login",new Date());
       const bodyEl = document.getElementsByTagName("html")[0];
       bodyEl.setAttribute("lang", language);
       bodyEl.setAttribute("dir", direction);
