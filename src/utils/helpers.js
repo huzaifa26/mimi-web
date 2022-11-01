@@ -10,17 +10,17 @@ import { _auth } from "../utils/firebase";
 
 export const FirebaseHelpers = {
 
-  fetchAllStaffEmail : {
+  fetchAllStaffEmail: {
     query: (params) => {
- 
+
       const { user } = params;
 
       let _query = db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("staff");
-      
-return _query;
+        .collection("Institution")
+        .doc(user._code)
+        .collection("staff");
+
+      return _query;
     },
     execute: async function (params, config) {
       return (await this.query(params).get()).docs.map((el) => el.data());
@@ -439,6 +439,8 @@ return _query;
       }
     },
   },
+
+  // create staff
   createStaff: {
     execute: async function (params, config) {
       const { user, institute, staff } = params;
@@ -465,12 +467,37 @@ return _query;
         }
       }
 
-      const _staff = await _auth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
+      let _staff;
+      try {
+        _staff = await _auth.createUserWithEmailAndPassword(
+          email,
+          password
+        );
+      } catch (e) {
+        if (e.code === "auth/email-already-in-use" && user.type !== ROLES.admin) {
+          throw new Error(e);
+        }
+
+        const _user=(await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("staff")
+          .where("email", "==", email)
+          .get())
+          .docs.map((el) => el.data());
+
+        if(_user.length>0){
+          throw new Error(e);
+        }
+
+        _staff = await _auth.signInWithEmailAndPassword(
+          email,
+          password
+        );
+      }
+
       const staffId = _staff.user.uid;
-      
+
       await db
         .collection("Institution")
         .doc(user._code)
@@ -487,7 +514,7 @@ return _query;
           kids_access: [],
           group_ids: [],
           products_redeemed: [],
-          date_created : new Date(),
+          date_created: new Date(),
           permissions: defaultPermissions.permissions,
           requestingPermission: false,
           requestAccepted: false,
@@ -510,10 +537,10 @@ return _query;
             type: type,
             email: email,
             kids_access: [],
-          
+
             group_ids: [],
             products_redeemed: [],
-            date_created : new Date(),
+            date_created: new Date(),
             permissions: {
               deleteGroup: true,
               assignDays: true,
@@ -558,7 +585,7 @@ return _query;
               kids_access: [],
               group_ids: [],
               products_redeemed: [],
-              date_created : new Date(),
+              date_created: new Date(),
               permissions: {
                 deleteGroup: true,
                 assignDays: true,
@@ -633,6 +660,8 @@ return _query;
       }
     },
   },
+
+
   createKid: {
     execute: async function (params, config) {
       const { user, institute, kid } = params;
@@ -688,7 +717,7 @@ return _query;
           products_used: [],
           special_program: [],
           storeId: [],
-          date_created : new Date(),
+          date_created: new Date(),
           level: 1,
           reported: false,
           reportedBy: "",
@@ -715,7 +744,7 @@ return _query;
 
       await Promise.all(
         group.staffId.map(async (e) => {
-          
+
           await db
             .collection("Institution")
             .doc(user._code)
@@ -827,13 +856,13 @@ return _query;
       console.log(params)
       const { staff, user } = params;
       await firebase.functions().httpsCallable('deleteUser')(staff)
-      .then(()=>{
-       alert("Success Alert! Staff is deleted :)")
-      })
-      .catch((error)=>{
-        alert(error)
-      })
-      const groups = (  
+        .then(() => {
+          alert("Success Alert! Staff is deleted :)")
+        })
+        .catch((error) => {
+          alert(error)
+        })
+      const groups = (
         await db
           .collection("Institution")
           .doc(user._code)
@@ -882,9 +911,9 @@ return _query;
         .doc(staff.id)
         .delete();
     },
-    
 
-    
+
+
   },
   deleteKid: {
     execute: async function (params, config) {
