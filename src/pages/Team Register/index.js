@@ -96,11 +96,11 @@ export const RegisterTeam = (props) => {
       confirmPassword: yup.string().test("passwords-match", "Passwords must match", function (value) {
           return this.parent.password === value;
         }),
-      password: yup.string().min(6).required(),
+      password: yup.string().min(4).max(16).required(),
       selectedGroups: yup.array(),
       role: yup.object().nullable(false).required(),
-      email: yup.string().email().required(),
-      name: yup.string().min(2).required(),
+      email: yup.string().email().max(30).required(),
+      name: yup.string().min(2).max(20).required(),
     });
   }, []);
 
