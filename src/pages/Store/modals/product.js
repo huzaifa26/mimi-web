@@ -87,8 +87,7 @@ export const ProductBody = (props) => {
         .doc(store.id)
         .collection("products")
         .doc(product?.id || productId)
-        .set(
-          {
+        .set({
             storeId: store.id,
             name,
             price,
@@ -99,8 +98,8 @@ export const ProductBody = (props) => {
           },
           {
             merge: true,
-          }
-        );
+          });
+          
       await db
         .collection("Institution")
         .doc(user._code)
