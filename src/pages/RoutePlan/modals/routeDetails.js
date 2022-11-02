@@ -336,7 +336,7 @@ export const RouteDetailsBody = (props) => {
             classes.default_typography_capitalize
           )}
         >
-          <FormattedMessage id={"active"} />
+          <FormattedMessage id="active" />
         </Typography>
       );
     } else {
@@ -349,7 +349,7 @@ export const RouteDetailsBody = (props) => {
             classes.default_typography_capitalize,
           ])}
         >
-          <FormattedMessage id={"disabled"} />
+          <FormattedMessage id="disabled" />
         </Typography>
       );
     }
