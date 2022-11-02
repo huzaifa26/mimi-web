@@ -63,7 +63,6 @@ export const RoutePlan = React.memo(() => {
     const [changeState,setChangeState]=useState(false);
 
     const closeRoutePlanDetail = useCallback(() => {
-        console.log("=============================================")
         setModalStates(prev => ({ ...prev, routePlanDetail: false }));
         setSelectedRoutePlan(null);
         setChangeState(!changeState);
