@@ -184,7 +184,7 @@ export const ManagePermissionsBody = (props) => {
                   <Typography className={classes.headerText}>
                     {el.label}
                   </Typography>
-                  <Tooltip  title={el.tooltip}>
+                  <Tooltip  title={<FormattedMessage id={el.tooltip} />}>
                     {/* <IconButton> */}
                       <InfoOutlinedIcon fontSize="small"/>
                     {/* </IconButton> */}
