@@ -68,3 +68,7 @@ exports.disableRoutePlan = functions.https.onCall((data, context) => {
   });
 });
 
+exports.scheduledFunction = functions.pubsub.schedule('*/2 * * * *').onRun((context) => {
+  console.log("HELLO WORLD!")
+  return null;
+});  
