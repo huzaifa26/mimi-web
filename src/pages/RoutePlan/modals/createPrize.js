@@ -28,7 +28,7 @@ export const CreatePrizeBody = props => {
 
     const Schema = useMemo(() => {
         return yup.object().shape({
-            name: yup.string().required().min(2),
+            name: yup.string().required().min(2).max(20),
             requiredLevel: yup
                 .number()
                 .transform(value => (isNaN(value) ? 0 : value))
