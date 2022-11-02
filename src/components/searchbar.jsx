@@ -27,6 +27,9 @@ const useStyles = makeStyles(theme => {
             '& input::placeholder': {
                 fontSize: '14px',
             },
+            "& input::-webkit-clear-button": {
+                display: "none",
+         },
             [theme.breakpoints.only('xs')]: {},
         },
         
@@ -42,8 +45,8 @@ export const SearchBar = props => {
         <div className={classes.root} style={{marginBottom:10}}> 
             <TextField
                 className={classes.textField}
-                type="search"
-                
+                type="text"
+                value={value}
                 placeholder={placeholder}
                 size={size}
                 style={{
@@ -60,6 +63,14 @@ export const SearchBar = props => {
                             {Icon.search}
                         </InputAdornment>
                     ),
+                   
+                    endAdornment:(
+                      ( value?
+                        <IconButton  onClick={()=>{handleSearch('')}}>
+                            {Icon.close}
+                        </IconButton>
+                        : null)
+                    )
                    
                    
                    

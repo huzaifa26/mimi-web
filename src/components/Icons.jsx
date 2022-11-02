@@ -61,7 +61,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import DoneIcon from '@material-ui/icons/Done';
 import EditIcon from '@material-ui/icons/Edit';
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
-
+import CloseIcon from '@material-ui/icons/Close';
 export const TickIcon = DoneIcon;
 export const Attach = AttachFileIcon;
 export const Send = SendIcon;
@@ -139,6 +139,7 @@ const icons = {
     yellowDot: <FiberManualRecordIcon style={{ color: '#FF991F', fontSize: 8, marginTop: 9, marginRight: 9, marginLeft: 9 }} />,
     greenDot: <FiberManualRecordIcon style={{ color: '#4FBF67', fontSize: 10, marginLeft: 9 }} />,
     redDot: <FiberManualRecordIcon style={{ color: '#FF4031', fontSize: 10, marginLeft: 9 }} />,
+    close : <CloseIcon style={{ color: '#FF4031', fontSize: 12, marginLeft: 9 }} />,
 };
 
 export default icons;
