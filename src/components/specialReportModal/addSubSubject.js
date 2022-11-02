@@ -1,11 +1,11 @@
 import { Grid, Input, makeStyles } from "@material-ui/core";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useMemo } from "react";
 import { FormattedMessage } from "react-intl";
 import { Button, Field } from "../";
 import { nanoid } from "nanoid";
 import { getModalStyles } from "../../utils/helpers";
 import { useStore, useUi } from "../../store";
-
+import * as yup from "yup";
 const useStyles = makeStyles((theme) => {
   return {
     ...getModalStyles(theme),
@@ -66,53 +66,73 @@ export const AddSubSubjectBody = (props) => {
   //   setLoading(false);
   //   handleClose();
   // };
-
-  const _handleSubmit = () => {
-    const id = nanoid();
-    let points = 0;
-
-    const payload = {
-      id: id,
-      name: subjectName,
-      totalPoints: parseInt(score),
-      obtainedPoints: 0,
-      subjectId: selectedSubject.id,
-    };
-    const subjectsCopy = [...subjects];
-    console.log(subjectsCopy);
-
-    subjectsCopy.map((el) => {
-      if (el.id == selectedSubject.id) {
-        let isAvail=false;
-        el.subSubject.filter((subSub)=>{
-          if(subSub.name === payload.name){
-            isAvail=true;
-          }
-        })
-        if(!isAvail){
-          console.log(payload);
-          el.subSubject.push(payload);
-          el.subSubject.map((e) => {
-            points = e.totalPoints + points;
-          });
-          el.totalPoints = points;
-        }else if(isAvail){
-          return actions.alert("Sub subject with this name already exists", "error");
-        }
-      }
+  const Schema = useMemo(() => {
+    return yup.object().shape({
+      name: yup.string().required().min(2).max(20),
+      totalPoints: yup
+        .number()
+        .transform((value) => (isNaN(value) ? 0 : value))
+        .positive()
+        .min(1)
+        .max(9999)
+        .required(),
     });
+  }, []);
+  const _handleSubmit = () => {
 
-    const finalPayload = {
-      id: id,
-      name: subjectName,
-      totalPoints: parseInt(score),
-      obtainedPoints: 0,
-      subjectId: selectedSubject.id,
-      subjectPoints: points,
-      isSync:selectedSubject.isSync
-    };
-    subSubjectAdded(subjectsCopy, finalPayload);
-    handleClose();
+    try{
+      const id = nanoid();
+      let points = 0;
+  
+      const payload = {
+        id: id,
+        name: subjectName,
+        totalPoints: parseInt(score),
+        obtainedPoints: 0,
+        subjectId: selectedSubject.id,
+      };
+      Schema.validateSync(payload)
+      const subjectsCopy = [...subjects];
+      console.log(subjectsCopy);
+  
+      subjectsCopy.map((el) => {
+        if (el.id == selectedSubject.id) {
+          let isAvail=false;
+          el.subSubject.filter((subSub)=>{
+            if(subSub.name === payload.name){
+              isAvail=true;
+            }
+          })
+          if(!isAvail){
+            console.log(payload);
+            el.subSubject.push(payload);
+            el.subSubject.map((e) => {
+              points = e.totalPoints + points;
+            });
+            el.totalPoints = points;
+          }else if(isAvail){
+            return actions.alert("Sub subject with this name already exists", "error");
+          }
+        }
+      });
+  
+      const finalPayload = {
+        id: id,
+        name: subjectName,
+        totalPoints: parseInt(score),
+        obtainedPoints: 0,
+        subjectId: selectedSubject.id,
+        subjectPoints: points,
+        isSync:selectedSubject.isSync
+      };
+    
+      subSubjectAdded(subjectsCopy, finalPayload);
+      handleClose();
+    }
+    catch(error){
+      actions.alert(error.message, "error");
+    }
+
   };
   
   return (
