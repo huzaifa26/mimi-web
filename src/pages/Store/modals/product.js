@@ -36,18 +36,20 @@ export const ProductBody = (props) => {
 
   const Schema = useMemo(() => {
     return yup.object().shape({
-      name: yup.string().required().min(2),
+      name: yup.string().required().min(2).max(20),
       price: yup
         .number()
         .transform((value) => (isNaN(value) ? 0 : value))
         .positive()
         .min(1)
+        .max(6)
         .required(),
       quantity: yup
         .number()
         .transform((value) => (isNaN(value) ? -1 : value))
         .positive()
         .min(0)
+        .max(9999)
         .required(),
       unlimited: yup.boolean().required(),
     });
