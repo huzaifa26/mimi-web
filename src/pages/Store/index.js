@@ -57,10 +57,8 @@ const options = [
 
 export const Store = React.memo(() => {
   const classes = useStyles();
-
   const { state: storeState } = useStore();
   const { user, orientation, defaultAvatars } = storeState;
-
   const [stores, setStores] = useState([]);
   const [selectedStore, setSelectedStore] = useState();
   const [searchText, setSearchText] = useState("");
@@ -73,7 +71,20 @@ export const Store = React.memo(() => {
     label: <FormattedMessage id={"all"} />,
   });
 
+
   const showDropDownHanlder = useCallback((value) => { return setStatus(value) }, [status])
+
+  const closeNewStore = () => {
+    setModalStates((prev) => ({ ...prev, newStore: false }));
+  };
+
+  const [changeState,setChangeState]=useState(false);
+
+  const closeStoreDetail = useCallback(() => {
+    setModalStates((prev) => ({ ...prev, storeDetail: false }));
+    setSelectedStore(null);
+    setChangeState(!changeState);
+  }, [changeState])
 
   const query = useMemo(() => {
     const baseQuery = db
@@ -85,7 +96,7 @@ export const Store = React.memo(() => {
     if (typeof (status.id) !== "boolean" && !status.id) return baseQuery;
 
     return baseQuery.where("status", "==", status.id);
-  }, [status, showDropDownHanlder]);
+  }, [status, showDropDownHanlder, closeStoreDetail]);
 
 
   const { data, loading, loadMore, hasMore } = usePagination(query,
@@ -102,7 +113,7 @@ export const Store = React.memo(() => {
       }
     },
     (list) => {
-      if (typeof(status.id) === "boolean") return list;
+      if (typeof (status.id) === "boolean") return list;
       // default sort if status.id === null ie (All)
       return list.sort((a, b) => {
         const first = Boolean(a.status);
@@ -114,30 +125,22 @@ export const Store = React.memo(() => {
         if (!second) {
           return 1;
         }
-
         return 0;
       });
     }
   );
 
-  const closeNewStore = () => {
-    setModalStates((prev) => ({ ...prev, newStore: false }));
-  };
-
-  const closeStoreDetail = () => {
-    setModalStates((prev) => ({ ...prev, storeDetail: false }));
-    setSelectedStore(null);
-  };
-
   useEffect(() => {
+    console.log(data);
     if (searchText) {
       setStores(searchBy(data, ["store_name"], searchText));
     } else {
       setStores(data);
     }
-  }, [searchText, data, status]);
+  }, [searchText, data, status,closeStoreDetail]);
 
 
+  // create store
   const updateOnAdding = async () => {
     var updateData = []
     await db.collection("Institution")
@@ -153,7 +156,7 @@ export const Store = React.memo(() => {
         alert(error)
       })
 
-    setStores(updateData)
+    setStores(updateData);
   }
 
   const links = [
@@ -248,6 +251,7 @@ export const Store = React.memo(() => {
         <StoreDetailsBody
           storeId={selectedStore?.id}
           handleClose={closeStoreDetail}
+          // changeStateAfterProductAdded={changeStateAfterProductAdded}
         />
       </SimpleModal>
       {actionBar}

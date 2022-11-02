@@ -1,5 +1,5 @@
 import { Box, makeStyles, TableCell } from '@material-ui/core';
-import React, { Fragment, useEffect, useMemo, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { FormattedMessage } from 'react-intl';
 import { AddIcon, Button, DataTable, Links, Loader, MenuSingle, SearchBar, SimpleModal, Status } from '../../components';
@@ -59,13 +59,23 @@ export const RoutePlan = React.memo(() => {
         id: null,
         label: <FormattedMessage id={'all'} />,
     });
-    const routeLog=useRef(null)
+
+    const [changeState,setChangeState]=useState(false);
+
+    const closeRoutePlanDetail = useCallback(() => {
+        console.log("=============================================")
+        setModalStates(prev => ({ ...prev, routePlanDetail: false }));
+        setSelectedRoutePlan(null);
+        setChangeState(!changeState);
+    },[changeState])
+
+    const routeLog=useRef(null);
 
     const query = useMemo(() => {
         const baseQuery = db.collection('Institution').doc(user._code).collection('routePlan').orderBy('id');
         if (typeof status?.id != 'boolean' && !status.id) return baseQuery;
         return baseQuery.where('status', '==', status.id);
-    }, [status]);
+    }, [status,closeRoutePlanDetail]);
 
 
     const { data, loading, loadMore, init } = usePagination(query, list => {
@@ -83,11 +93,6 @@ export const RoutePlan = React.memo(() => {
     const closeNewRoutePlan = () => {
         setModalStates(prev => ({ ...prev, newRoutePlan: false }));
     };
-
-    const closeRoutePlanDetail = () => {
-        setModalStates(prev => ({ ...prev, routePlanDetail: false }));
-        setSelectedRoutePlan(null);
-    };
    
     useEffect(() => {
         if (searchText) {
@@ -95,7 +100,7 @@ export const RoutePlan = React.memo(() => {
         } else {
             setRoutePlans(data);
         }
-    }, [searchText, data]);
+    }, [searchText, data,closeRoutePlanDetail]);
 
     const updateOnAdding = async() =>{
         var updateData = [];

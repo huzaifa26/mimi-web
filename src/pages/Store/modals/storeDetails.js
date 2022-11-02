@@ -85,40 +85,40 @@ export const StoreDetailsBody = (props) => {
   const [selectedProduct, setSelectedProduct] = useState();
 
   useEffect(() => {
-    return async() => {
+    return async () => {
       if (storeLog.current !== null) {
         const subject_id = nanoid(6);
         const payload = {
-            id: subject_id,
-            activity: "store",
-            subActivity: storeLog?.current?.store_name,
-            uid: user.id
+          id: subject_id,
+          activity: "store",
+          subActivity: storeLog?.current?.store_name,
+          uid: user.id
         }
-        console.log(payload);
+
         await db
-            .collection('Institution')
-            .doc(user._code)
-            .collection('log')
-            .doc(payload.id)
-            .set(payload)
-    }
+          .collection('Institution')
+          .doc(user._code)
+          .collection('log')
+          .doc(payload.id)
+          .set(payload)
+      }
     }
   }, [])
 
-  const storeLog=useRef(null)
+  const storeLog = useRef(null)
 
   useEffect(() => {
-    return async() => {
+    return async () => {
       if (storeLog.current !== null) {
         const subject_id = nanoid(6);
         const payload = {
-            id: subject_id,
-            activity: "store",
-            subActivity: storeLog?.current?.store_name,
-            uid: user.id
+          id: subject_id,
+          activity: "store",
+          subActivity: storeLog?.current?.store_name,
+          uid: user.id
         }
-        console.log("store "+storeLog?.current?.store_name+" opened, uid:" + user.id);
-    }
+        console.log("store " + storeLog?.current?.store_name + " opened, uid:" + user.id);
+      }
     }
   }, [])
 
@@ -132,7 +132,7 @@ export const StoreDetailsBody = (props) => {
         .doc(storeId)
         .onSnapshot((snapshot) => {
           setStore(snapshot.data());
-          storeLog.current=snapshot.data();
+          storeLog.current = snapshot.data();
         })
     );
 
@@ -173,6 +173,7 @@ export const StoreDetailsBody = (props) => {
 
   const closeProduct = () => {
     setModalStates((prev) => ({ ...prev, product: false }));
+    // props.changeStateAfterProductAdded();
   };
 
   const closeManageAccess = () => {
@@ -289,14 +290,14 @@ export const StoreDetailsBody = (props) => {
         <TableCell>{product.price}</TableCell>
         <TableCell>
           <Edit
-            style={{ color: "#8F92A1", cursor: "pointer", margin:8 }}
+            style={{ color: "#8F92A1", cursor: "pointer", margin: 8 }}
             onClick={() => {
               setSelectedProduct(product);
               setModalStates((prev) => ({ ...prev, product: true }));
             }}
           />
           <Delete
-            style={{ color: "#8F92A1", cursor: "pointer", margin:8}}
+            style={{ color: "#8F92A1", cursor: "pointer", margin: 8 }}
             onClick={() => deleteProduct(product)}
           />
         </TableCell>
