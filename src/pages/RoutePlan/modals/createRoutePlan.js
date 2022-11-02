@@ -44,7 +44,7 @@ export const CreateRoutePlanBody = props => {
 
     const Schema = useMemo(() => {
         return yup.object().shape({
-            name: yup.string().required().min(2),
+            name: yup.string().required().min(2).max(20),
             status: yup.boolean().required(),
             startingDate: yup
                 .date()
