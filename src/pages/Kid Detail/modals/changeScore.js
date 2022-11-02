@@ -31,7 +31,8 @@ export const ChangeScoreBody = props => {
                 .number()
                 .transform(value => (isNaN(value) ? 0 : value))
                 .positive()
-                .min(1)
+                .min(0)
+                .max(999999)
                 .required(),
         });
     }, []);

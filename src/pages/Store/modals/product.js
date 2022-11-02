@@ -78,8 +78,10 @@ export const ProductBody = (props) => {
         quantity,
       };
 
-      Schema.validateSync(payload);
-
+    Schema.validateSync(payload);
+  
+    
+   
       const productId = nanoid(6);
 
       await db

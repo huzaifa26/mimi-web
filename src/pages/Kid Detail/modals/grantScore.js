@@ -26,8 +26,9 @@ export const GrantScoreBody = props => {
                 .transform(value => (isNaN(value) ? 0 : value))
                 .positive()
                 .min(1)
+                .max(999999)
                 .required(),
-            topicName: yup.string().min(2).required(),
+            topicName: yup.string().min(2).max(20).required(),
         });
     }, []);
 
