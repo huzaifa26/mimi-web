@@ -105,10 +105,11 @@ export const RegisterKid = (props) => {
 
   const Schema = useMemo(() => {
     return yup.object().shape({
-      name: yup.string().min(2).required(),
+      name: yup.string().min(2).max(16).required(),
       username: yup
         .string()
         .min(2)
+        .max(16)
         .test("whitespace", "no spaces allowed in username", function (value) {
           return !/\s/.test(value.trim());
         })
@@ -118,7 +119,7 @@ export const RegisterKid = (props) => {
         .test("passwords-match", "Passwords must match", function (value) {
           return this.parent.password === value;
         }),
-      password: yup.string().min(4).required(),
+      password: yup.string().min(4).max(16).required(),
       assigned_days: yup
         .array()
         .test(
