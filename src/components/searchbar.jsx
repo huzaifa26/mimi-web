@@ -35,16 +35,21 @@ export const SearchBar = props => {
     const { handleSearch, placeholder, size } = props;
 
     return (
-        <div className={classes.root}>
+        <div className={classes.root} style={{marginBottom:10}}> 
             <TextField
                 className={classes.textField}
                 type="search"
                 placeholder={placeholder}
                 size={size}
+                style={{
+                    paddingRight:15,
+                    
+                }}
                 InputProps={{
+                   
                     disableUnderline: true,
                     startAdornment: (
-                        <InputAdornment className={classes.icon} position="start">
+                        <InputAdornment>
                             {Icon.search}
                         </InputAdornment>
                     ),

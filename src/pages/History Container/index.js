@@ -512,6 +512,7 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
       </div>
       <div className={classes.default_headerSection_actionsContainer}>
         <MenuSingle
+        
           list={options}
           label={renderLabel(duration)}
           handleChange={(value) => setDuration(value)}
