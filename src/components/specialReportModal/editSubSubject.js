@@ -1,9 +1,10 @@
 import { Grid, Input, makeStyles } from "@material-ui/core";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useMemo } from "react";
 import { FormattedMessage } from "react-intl";
 import { Button, Field } from "../";
 import { getModalStyles } from "../../utils/helpers";
-
+import { useStore, useUi } from "../../store";
+import * as yup from "yup";
 const useStyles = makeStyles((theme) => {
   return {
     ...getModalStyles(theme),
@@ -23,8 +24,23 @@ export const EditSubSubjectBody = (props) => {
   const [score, setScore] = useState(selectedSubSubject.totalPoints);
   const [subjectName, setSubjectName] = useState(selectedSubSubject.name);
   const [loading, setLoading] = useState(false);
-
+  const Schema = useMemo(() => {
+    return yup.object().shape({
+      name: yup.string().required().min(2).max(20),
+      totalPoints: yup
+        .number()
+        .transform((value) => (isNaN(value) ? 0 : value))
+        .positive()
+        .min(1)
+        .max(9999)
+        .required(),
+    });
+  }, []);
+  const {actions}=useUi();
   const _handleSubmit = () => {
+
+    try{
+      
     let subjectsCopy = [...subjects];
     const payload = {
       id: selectedSubSubject.id,
@@ -34,6 +50,7 @@ export const EditSubSubjectBody = (props) => {
       subjectId: selectedSubject.id,
       // isSync:selectedSubject.isSync,
     };
+    Schema.validateSync(payload)
     const index = subjectsCopy.findIndex((e) => e.id == selectedSubject.id);
     const subIndex = subjectsCopy[index].subSubject.findIndex(
       (e) => e.id == selectedSubSubject.id
@@ -54,6 +71,12 @@ export const EditSubSubjectBody = (props) => {
     })
     subSubjectEdited(subjectsCopy, _payload);
     handleClose();
+    }
+    catch(error){
+      actions.alert(error.message, "error");
+    }
+
+
   };
 
   return (
