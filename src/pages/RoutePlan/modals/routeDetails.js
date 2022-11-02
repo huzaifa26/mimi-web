@@ -445,7 +445,6 @@ export const RouteDetailsBody = props => {
                             classes.default_typography_capitalize,
                         )}
                     >
-                        {console.log(routePlan.endingDate)}
                         {moment(routePlan.endingDate.toDate()).format('DD-MM-YYYY')}
                     </Typography>
                 </Grid>
