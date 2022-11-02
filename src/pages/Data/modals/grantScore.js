@@ -29,7 +29,7 @@ import {
   getPageStyles,
   searchBy,
 } from "../../../utils/helpers";
-
+import * as yup from "yup";
 const useStyles = makeStyles((theme) => {
   return {
     ...getModalStyles(theme),
@@ -502,11 +502,19 @@ export const GrantScoreBody = (props) => {
     selectedGroups: [],
     selectedKids: [],
   });
-
+  const Schema = useMemo(() => {
+    return yup.object().shape({
+      score:yup.number().required().min(0).max(99999)
+    });
+  }, []);
   const handleSubmit = async () => {
-    if (state.score <= 0)
-      return actions.alert("Please Enter a valid score", "error");
 
+    try{
+      if (state.score <= 0)
+      return actions.alert("Please Enter a valid score", "error");
+      Schema.validateSync({
+        score: state.score
+      });
     const historyId = nanoid(6);
     const batch = db.batch();
 
@@ -550,6 +558,11 @@ export const GrantScoreBody = (props) => {
     await batch.commit();
 
     handleClose();
+    }
+    catch(error){
+      actions.alert(error.message, "error");
+    }
+
   };
 
   return (
