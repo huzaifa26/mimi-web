@@ -50,9 +50,7 @@ export const Routes = React.memo(() => {
           console.log(error)
         })
     }
-    useEffect(()=>{
-        checkAndDisableRoutes();
-    })
+    
 
     const renderRoutes = () => {
     
