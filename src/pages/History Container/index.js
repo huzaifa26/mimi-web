@@ -519,7 +519,7 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
         />
       </div>
 
-      <div>
+      <div className={classes.default_headerSection_actionsContainer}>
         <MenuMultiple
           list={groupOption}
           entity={'Groups'}
