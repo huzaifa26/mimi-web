@@ -1,6 +1,8 @@
-import { makeStyles, TextField, InputAdornment, alpha } from '@material-ui/core';
+import { makeStyles, TextField, InputAdornment, alpha, IconButton } from '@material-ui/core';
 import React from 'react';
 import Icon from './Icons';
+
+    
 
 const useStyles = makeStyles(theme => {
     return {
@@ -27,24 +29,29 @@ const useStyles = makeStyles(theme => {
             },
             [theme.breakpoints.only('xs')]: {},
         },
+        
     };
 });
 
 export const SearchBar = props => {
+    
     const classes = useStyles();
-    const { handleSearch, placeholder, size } = props;
+    const { handleSearch, placeholder, size, value } = props;
 
     return (
         <div className={classes.root} style={{marginBottom:10}}> 
             <TextField
                 className={classes.textField}
                 type="search"
+                
                 placeholder={placeholder}
                 size={size}
                 style={{
                     paddingRight:15,
+                  
                     
                 }}
+               
                 InputProps={{
                    
                     disableUnderline: true,
@@ -53,6 +60,10 @@ export const SearchBar = props => {
                             {Icon.search}
                         </InputAdornment>
                     ),
+                   
+                   
+                   
+                    
                 }}
                 onChange={e => handleSearch(e.target.value)}
             />

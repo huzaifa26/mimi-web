@@ -505,7 +505,8 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
         }}
       >
         <SearchBar
-          placeholder={`Search by names`}
+          placeholder={`Search by Action, Date etc…`}
+          value={searchText}
           size={"small"}
           handleSearch={(value) => setSearchText(value)}
         />
