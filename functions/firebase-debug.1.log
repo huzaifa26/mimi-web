@@ -1,0 +1,243 @@
+[debug] [2022-11-01T07:35:02.823Z] ----------------------------------------------------------------------
+[debug] [2022-11-01T07:35:02.828Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\muham\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js functions:shell
+[debug] [2022-11-01T07:35:02.829Z] CLI Version:   11.15.0
+[debug] [2022-11-01T07:35:02.829Z] Platform:      win32
+[debug] [2022-11-01T07:35:02.829Z] Node Version:  v16.15.1
+[debug] [2022-11-01T07:35:02.831Z] Time:          Tue Nov 01 2022 12:35:02 GMT+0500 (Pakistan Standard Time)
+[debug] [2022-11-01T07:35:02.831Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-11-01T07:35:03.101Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-11-01T07:35:03.102Z] > authorizing via signed-in user (muhammad1azhar2@gmail.com)
+[debug] [2022-11-01T07:35:03.103Z] [iam] checking project mimi-plan-test for permissions ["firebase.projects.get"]
+[debug] [2022-11-01T07:35:03.107Z] > refreshing access token with scopes: []
+[debug] [2022-11-01T07:35:03.113Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2022-11-01T07:35:03.120Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2022-11-01T07:35:03.626Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2022-11-01T07:35:03.626Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2022-11-01T07:35:03.642Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/mimi-plan-test:testIamPermissions [none]
+[debug] [2022-11-01T07:35:03.642Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/mimi-plan-test:testIamPermissions x-goog-quota-user=projects/mimi-plan-test
+[debug] [2022-11-01T07:35:03.643Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mimi-plan-test:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2022-11-01T07:35:05.267Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/mimi-plan-test:testIamPermissions 200
+[debug] [2022-11-01T07:35:05.267Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mimi-plan-test:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2022-11-01T07:35:05.268Z] >>> [apiv2][query] GET http://127.0.0.1:4400/emulators [none]
+[debug] [2022-11-01T07:35:08.390Z] <<< [apiv2][status] GET http://127.0.0.1:4400/emulators 200
+[debug] [2022-11-01T07:35:08.390Z] <<< [apiv2][body] GET http://127.0.0.1:4400/emulators {"hub":{"listen":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"name":"hub","host":"127.0.0.1","port":4400},"ui":{"listen":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"name":"ui","host":"127.0.0.1","port":4000,"pid":7204},"logging":{"listen":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"name":"logging","host":"127.0.0.1","port":4500},"functions":{"name":"functions","host":"127.0.0.1","port":5001},"eventarc":{"name":"eventarc","host":"127.0.0.1","port":9299}}
+[debug] [2022-11-01T07:35:08.390Z] Running emulators:  {"hub":{"listen":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"name":"hub","host":"127.0.0.1","port":4400},"ui":{"listen":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"name":"ui","host":"127.0.0.1","port":4000,"pid":7204},"logging":{"listen":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"name":"logging","host":"127.0.0.1","port":4500},"functions":{"name":"functions","host":"127.0.0.1","port":5001},"eventarc":{"name":"eventarc","host":"127.0.0.1","port":9299}}
+[warn] !  functions: You are already running the Cloud Functions emulator on port 5001. Running the emulator and the Functions shell simultaenously can result in unexpected behavior. 
+[debug] [2022-11-01T07:35:08.403Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-11-01T07:35:08.484Z] [functions] Using node@16 from host.
+[debug] [2022-11-01T07:35:08.485Z] defaultcredentials: writing to file C:\Users\muham\AppData\Roaming\firebase\muhammad1azhar2_gmail_com_application_default_credentials.json
+[debug] [2022-11-01T07:35:08.488Z] DEBUG: Setting GAC to C:\Users\muham\AppData\Roaming\firebase\muhammad1azhar2_gmail_com_application_default_credentials.json
+[debug] [2022-11-01T07:35:08.489Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/mimi-plan-test/adminSdkConfig [none]
+[debug] [2022-11-01T07:35:09.558Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/mimi-plan-test/adminSdkConfig 200
+[debug] [2022-11-01T07:35:09.558Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/mimi-plan-test/adminSdkConfig {"projectId":"mimi-plan-test","storageBucket":"mimi-plan-test.appspot.com","locationId":"us-central"}
+[debug] [2022-11-01T07:35:09.576Z] [functions] Watching "E:\frontend\reactJS\mimi-web\functions" for Cloud Functions...
+[debug] [2022-11-01T07:35:09.584Z] Validating nodejs source
+[debug] [2022-11-01T07:35:14.633Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T07:35:14.634Z] Building nodejs source
+[debug] [2022-11-01T07:35:14.634Z] Analyzing nodejs backend spec
+[debug] [2022-11-01T07:35:14.636Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T07:35:15.088Z] Serving at port 9005
+
+[debug] [2022-11-01T07:35:15.500Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"helloWorld"},"addData":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"addData"},"deleteUser":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"deleteUser"},"disableRoutePlan":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"disableRoutePlan"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-11-01T07:35:15.510Z] shutdown requested via /__/quitquitquit
+
+[debug] [2022-11-01T07:35:15.531Z] [functions] Loaded functions definitions from source: helloWorld, addData, deleteUser, disableRoutePlan.
+[debug] [2022-11-01T07:35:15.532Z] [functions[us-central1-helloWorld]] http function initialized (http://127.0.0.1:5000/mimi-plan-test/us-central1/helloWorld).
+[debug] [2022-11-01T07:35:15.533Z] [functions[us-central1-addData]] http function initialized (http://127.0.0.1:5000/mimi-plan-test/us-central1/addData).
+[debug] [2022-11-01T07:35:15.533Z] [functions[us-central1-deleteUser]] http function initialized (http://127.0.0.1:5000/mimi-plan-test/us-central1/deleteUser).
+[debug] [2022-11-01T07:35:15.533Z] [functions[us-central1-disableRoutePlan]] http function initialized (http://127.0.0.1:5000/mimi-plan-test/us-central1/disableRoutePlan).
+[info] i  functions: Loaded functions: helloWorld, addData, deleteUser, disableRoutePlan 
+[info] i  functions: Connected to running eventarc emulator at 127.0.0.1:9299, calls to this service will affect the emulator 
+[warn] !  functions: The following emulators are not running, calls to these services will affect production: firestore, database, pubsub, storage 
+[debug] [2022-11-01T07:35:35.705Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2022-11-01T07:35:35.706Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2022-11-01T07:35:35.707Z] Accepted request POST /mimi-plan-test/us-central1/disableRoutePlan --> us-central1-disableRoutePlan
+[debug] [2022-11-01T07:35:35.716Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2022-11-01T07:35:35.716Z] DEBUG: [functions] Got req.url=/mimi-plan-test/us-central1/disableRoutePlan, mapping to path=/
+[debug] [2022-11-01T07:35:35.728Z] DEBUG: [worker-pool] addWorker(us-central1-disableRoutePlan)
+[debug] [2022-11-01T07:35:35.728Z] DEBUG: [worker-pool] Adding worker with key us-central1-disableRoutePlan, total=1
+[debug] [2022-11-01T07:35:37.404Z] DEBUG: [runtime-status] [6712] Resolved module firebase-admin {"declared":true,"installed":true,"version":"11.2.0","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\index.js"}
+[debug] [2022-11-01T07:35:37.408Z] DEBUG: [runtime-status] [6712] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.0.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\v1\\index.js"}
+[debug] [2022-11-01T07:35:37.409Z] DEBUG: [runtime-status] [6712] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2022-11-01T07:35:37.410Z] DEBUG: [runtime-status] [6712] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.0.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\v1\\index.js"}
+[debug] [2022-11-01T07:35:37.694Z] DEBUG: [runtime-status] [6712] Checked functions.config() {"config":{}}
+[debug] [2022-11-01T07:35:37.695Z] DEBUG: [runtime-status] [6712] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"4.0.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\v1\\index.js"}}
+[debug] [2022-11-01T07:35:37.696Z] DEBUG: [runtime-status] [6712] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.0.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\v1\\index.js"}
+[debug] [2022-11-01T07:35:37.698Z] DEBUG: [runtime-status] [6712] Resolved module firebase-admin {"declared":true,"installed":true,"version":"11.2.0","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\index.js"}
+[debug] [2022-11-01T07:35:37.701Z] DEBUG: [runtime-status] [6712] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.0.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\v1\\index.js"}
+[debug] [2022-11-01T07:35:37.701Z] DEBUG: [runtime-status] [6712] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"11.2.0","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\index.js"}}
+[debug] [2022-11-01T07:35:37.757Z] DEBUG: [runtime-status] [6712] initializeApp(DEFAULT) {"credential":{"implicit":false,"projectId":"mimi-plan-test","privateKey":"-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC4FtcaGkBBL0MI\nT8OPxdDeZj0Tov0cr0n7PxE7A52YjbVhjfF+hmetHzD7WXf4ukWMZa78GgGjBgWY\nZ5H6ISHnDltL97Rlj2xLOktxbzSTTzNI61NImDzZ/7X3DkZjf3mFoSmPtYijyHau\nKBuWwN8fCKz4xiKc8HzIgby+pSeAIQsmHFM1TeNnby7IS7oHCB+Rgb4Io0lsNnRV\nDmNL62dbLSvTCJHMJhDvGncAe3gOJiuHlVWGjGGXjtliqBH3nZgJ7aeFVUVxga+B\nvYqT8sppREARSZaTgdXVdZgN4YRp9QCBXFB6CkwW9mtx0dDWd/PU+OfA0vP8GVvf\nRRDfasTdAgMBAAECggEALHSjlHOjcbpqmy68ANPaGWMiO8RAELXKDWkRDanVXJpY\nI4tmNtJZZibiqshT3xaIphuGMu5K1+Yj4sacK4XlzIkchg93GpGUquQUhPvAfBSD\nw4fE0IKnK1QDyvpBCFUn8RvW0BQcP8Uw1+TqqLDCERoEv30FrdWrpLYj8PwsOlYW\nNsj53DlRF8flemShwCq4+WYgGPHJvLxFKfRHt2c42Afigpb9efJvg9fdfNgbDK/p\n3bCX/JjjDSA4GFj+4bS0Yyn/vSC7PIa/QSobtNChOfQtExg8bJtGJiXoJHy/YKp5\nkKZ9BCACAG/pEeKcBIIlB0fFxGdM5Ak1t6aajGdQcQKBgQD/+ZHcV0RZ466F5t2R\nqGPRoj6J7amNy73BnYiDKJo6jaJcaCbF5FxeoJkSTn4P+dI0uGcVn0jxrc3EF6oB\nvZaEgVhNOOQ2O+SFIZ45ZjrwrFMEaMr+O0wm2lf8cmPzoAd/YB+nRi+l2yQ1J1Bq\nyxyGVH/gi1ReJ7dnbmDeQeqE5QKBgQC4G3b0VjGAX7z70sgdZ/FvPvLzB9Vy1D2g\njm4kug6BDGNXcekEi2tvWidW6yTmiLHFwXbuUdQ6lzcBoXLQUHxc1aDxqGpbXfzt\nbZD5xJjNGo0KybSnKe29Qcj7RTqV3oeOIgEh/ZPAIaJ0PwKLamzpqlqmZXYnM1rZ\niROWor54mQKBgQC+43WD1MxTIHigwJbRLbsqtQxgPYzpAlxDC+Cmttu0+LRwpvbr\nMq4znx4nycM21L2OtUmilUOHf25oYqFUZPbfX7ni9J8zVpzHL1fYREWF/2x1aFSh\nHMVgYAmnaALjxp5wvdU9IBkeXXr17JiK22ctQcyPPjgvcvzRtD2m4Y8rhQKBgQCU\numMzabodmbniuVm+H600EGdVm3t8gyax4L3r334+FBLgnn3+lN6amvryxY0Oy1jJ\nh8ubJPHMz0G5iIJm9M4ydMXK0yHwY5IjAANBMue5sXxFPcM5065h2JYTHs8AKT/a\nu2+s1NwaN1G0lP5qP/RyI5ONnqN/cYYv/AOeCiTS6QKBgQCZbCF1szMiH3Fk05o0\nj0JUlHFe4OcwejMsD/CFov79fhQ0rGbAJ8ulZGLiqLhmnQH8eoZKxPz57mi91jWG\nA4Ojw23wK1v/mnJSREW7Yskh8tpubESuXc3STc/uFVBMF2yomyjHmL0XPC6E+r6m\n+Y1nNL0X16QnUissNFRwrn10Cw==\n-----END PRIVATE KEY-----\n","clientEmail":"firebase-adminsdk-ze8iq@mimi-plan-test.iam.gserviceaccount.com","httpClient":{"retry":{"maxRetries":4,"statusCodes":[503],"ioErrorCodes":["ECONNRESET","ETIMEDOUT"],"backOffFactor":0.5,"maxDelayInMillis":60000}}}}
+[debug] [2022-11-01T07:35:37.765Z] DEBUG: [runtime-status] [6712] Functions runtime initialized. {"cwd":"E:\\frontend\\reactJS\\mimi-web\\functions","node_version":"16.15.1"}
+[debug] [2022-11-01T07:35:37.765Z] DEBUG: [runtime-status] [6712] Listening to port: \\?\pipe\fire_emu_dc31ab59d44c1bc6
+[debug] [2022-11-01T07:35:37.830Z] DEBUG: [worker-pool] submitRequest(triggerId=us-central1-disableRoutePlan)
+[debug] [2022-11-01T07:35:37.831Z] DEBUG: [worker-us-central1-disableRoutePlan-b4795e61-5739-43bf-bca9-397c98b1342c]: BUSY
+[debug] [2022-11-01T07:35:37.848Z] [functions] Beginning execution of "disableRoutePlan"
+[info] >  {"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"} {"user":{"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-disableRoutePlan"},"extension":{},"message":"\u001b[90m> \u001b[39m {\"verifications\":{\"app\":\"MISSING\",\"auth\":\"MISSING\"},\"logging.googleapis.com/labels\":{\"firebase-log-type\":\"callable-request-verification\"},\"severity\":\"DEBUG\",\"message\":\"Callable request verification passed\"}"}}
+[debug] [2022-11-01T07:35:37.852Z] DEBUG: [runtime-status] [6712] No callable functions auth found
+[warn] !  functions: The Cloud Firestore emulator is not running, so calls to Firestore will affect production. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-disableRoutePlan"},"extension":{},"message":"The Cloud Firestore emulator is not running, so calls to Firestore will affect production."}}
+[warn] !  functions: Your function timed out after ~60s. To configure this timeout, see
+      https://firebase.google.com/docs/functions/manage-functions#set_timeout_and_memory_allocation. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-disableRoutePlan"},"extension":{},"message":"Your function timed out after ~60s. To configure this timeout, see\n      https://firebase.google.com/docs/functions/manage-functions#set_timeout_and_memory_allocation."}}
+[warn] !  Your function was killed because it raised an unhandled error. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-disableRoutePlan"},"extension":{},"message":"Your function was killed because it raised an unhandled error."}}
+[debug] [2022-11-01T07:36:37.874Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2022-11-01T07:36:37.904Z] DEBUG: [worker-us-central1-disableRoutePlan-b4795e61-5739-43bf-bca9-397c98b1342c]: exited
+[debug] [2022-11-01T07:36:37.904Z] DEBUG: [worker-us-central1-disableRoutePlan-b4795e61-5739-43bf-bca9-397c98b1342c]: FINISHED
+[debug] [2022-11-01T07:37:56.192Z] DEBUG: File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers
+[debug] [2022-11-01T07:37:57.212Z] Validating nodejs source
+[debug] [2022-11-01T07:38:04.304Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T07:38:04.305Z] Building nodejs source
+[debug] [2022-11-01T07:38:04.306Z] Analyzing nodejs backend spec
+[debug] [2022-11-01T07:38:04.309Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T07:38:04.387Z] DEBUG: File E:\frontend\reactJS\mimi-web\functions\index.js changed, reloading triggers
+[debug] [2022-11-01T07:38:05.389Z] Validating nodejs source
+[debug] [2022-11-01T08:03:06.075Z] ----------------------------------------------------------------------
+[debug] [2022-11-01T08:03:06.078Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\muham\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js functions:shell
+[debug] [2022-11-01T08:03:06.078Z] CLI Version:   11.15.0
+[debug] [2022-11-01T08:03:06.078Z] Platform:      win32
+[debug] [2022-11-01T08:03:06.079Z] Node Version:  v16.15.1
+[debug] [2022-11-01T08:03:06.080Z] Time:          Tue Nov 01 2022 13:03:06 GMT+0500 (Pakistan Standard Time)
+[debug] [2022-11-01T08:03:06.080Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-11-01T08:03:06.174Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-11-01T08:03:06.175Z] > authorizing via signed-in user (muhammad1azhar2@gmail.com)
+[debug] [2022-11-01T08:03:06.175Z] [iam] checking project mimi-plan-test for permissions ["firebase.projects.get"]
+[debug] [2022-11-01T08:03:06.178Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/mimi-plan-test:testIamPermissions [none]
+[debug] [2022-11-01T08:03:06.179Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/mimi-plan-test:testIamPermissions x-goog-quota-user=projects/mimi-plan-test
+[debug] [2022-11-01T08:03:06.179Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mimi-plan-test:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2022-11-01T08:03:08.433Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/mimi-plan-test:testIamPermissions 200
+[debug] [2022-11-01T08:03:08.433Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mimi-plan-test:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2022-11-01T08:03:08.435Z] >>> [apiv2][query] GET http://127.0.0.1:4400/emulators [none]
+[debug] [2022-11-01T08:03:08.442Z] <<< [apiv2][status] GET http://127.0.0.1:4400/emulators 200
+[debug] [2022-11-01T08:03:08.442Z] <<< [apiv2][body] GET http://127.0.0.1:4400/emulators {"hub":{"listen":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"name":"hub","host":"127.0.0.1","port":4400},"ui":{"listen":[{"address":"127.0.0.1","family":"IPv4","port":4003},{"address":"::1","family":"IPv6","port":4003}],"name":"ui","host":"127.0.0.1","port":4003,"pid":12428},"logging":{"listen":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"name":"logging","host":"127.0.0.1","port":4500},"functions":{"name":"functions","host":"127.0.0.1","port":5001},"eventarc":{"name":"eventarc","host":"127.0.0.1","port":9299}}
+[debug] [2022-11-01T08:03:08.442Z] Running emulators:  {"hub":{"listen":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"name":"hub","host":"127.0.0.1","port":4400},"ui":{"listen":[{"address":"127.0.0.1","family":"IPv4","port":4003},{"address":"::1","family":"IPv6","port":4003}],"name":"ui","host":"127.0.0.1","port":4003,"pid":12428},"logging":{"listen":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"name":"logging","host":"127.0.0.1","port":4500},"functions":{"name":"functions","host":"127.0.0.1","port":5001},"eventarc":{"name":"eventarc","host":"127.0.0.1","port":9299}}
+[warn] !  functions: You are already running the Cloud Functions emulator on port 5001. Running the emulator and the Functions shell simultaenously can result in unexpected behavior. 
+[debug] [2022-11-01T08:03:08.452Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2022-11-01T08:03:08.484Z] [functions] Using node@16 from host.
+[debug] [2022-11-01T08:03:08.485Z] defaultcredentials: writing to file C:\Users\muham\AppData\Roaming\firebase\muhammad1azhar2_gmail_com_application_default_credentials.json
+[debug] [2022-11-01T08:03:08.487Z] DEBUG: Setting GAC to C:\Users\muham\AppData\Roaming\firebase\muhammad1azhar2_gmail_com_application_default_credentials.json
+[debug] [2022-11-01T08:03:08.488Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/mimi-plan-test/adminSdkConfig [none]
+[debug] [2022-11-01T08:03:20.939Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/mimi-plan-test/adminSdkConfig 200
+[debug] [2022-11-01T08:03:20.939Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/mimi-plan-test/adminSdkConfig {"projectId":"mimi-plan-test","storageBucket":"mimi-plan-test.appspot.com","locationId":"us-central"}
+[debug] [2022-11-01T08:03:20.980Z] [functions] Watching "E:\frontend\reactJS\mimi-web\functions" for Cloud Functions...
+[debug] [2022-11-01T08:03:20.994Z] Validating nodejs source
+[debug] [2022-11-01T08:03:25.359Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-11-01T08:03:25.359Z] Building nodejs source
+[debug] [2022-11-01T08:03:25.359Z] Analyzing nodejs backend spec
+[debug] [2022-11-01T08:03:25.362Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-11-01T08:03:25.763Z] Serving at port 9006
+
+[debug] [2022-11-01T08:03:26.126Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"helloWorld"},"addData":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"addData"},"deleteUser":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"deleteUser"},"disableRoutePlan":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"disableRoutePlan"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-11-01T08:03:26.137Z] shutdown requested via /__/quitquitquit
+
+[debug] [2022-11-01T08:03:26.157Z] [functions] Loaded functions definitions from source: helloWorld, addData, deleteUser, disableRoutePlan.
+[debug] [2022-11-01T08:03:26.158Z] [functions[us-central1-helloWorld]] http function initialized (http://127.0.0.1:5000/mimi-plan-test/us-central1/helloWorld).
+[debug] [2022-11-01T08:03:26.158Z] [functions[us-central1-addData]] http function initialized (http://127.0.0.1:5000/mimi-plan-test/us-central1/addData).
+[debug] [2022-11-01T08:03:26.158Z] [functions[us-central1-deleteUser]] http function initialized (http://127.0.0.1:5000/mimi-plan-test/us-central1/deleteUser).
+[debug] [2022-11-01T08:03:26.158Z] [functions[us-central1-disableRoutePlan]] http function initialized (http://127.0.0.1:5000/mimi-plan-test/us-central1/disableRoutePlan).
+[info] i  functions: Loaded functions: helloWorld, addData, deleteUser, disableRoutePlan 
+[info] i  functions: Connected to running eventarc emulator at 127.0.0.1:9299, calls to this service will affect the emulator 
+[warn] !  functions: The following emulators are not running, calls to these services will affect production: firestore, database, pubsub, storage 
+[debug] [2022-11-01T08:03:37.810Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2022-11-01T08:03:37.811Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2022-11-01T08:03:37.811Z] Accepted request POST /mimi-plan-test/us-central1/disableRoutePlan --> us-central1-disableRoutePlan
+[debug] [2022-11-01T08:03:37.820Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2022-11-01T08:03:37.821Z] DEBUG: [functions] Got req.url=/mimi-plan-test/us-central1/disableRoutePlan, mapping to path=/
+[debug] [2022-11-01T08:03:37.836Z] DEBUG: [worker-pool] addWorker(us-central1-disableRoutePlan)
+[debug] [2022-11-01T08:03:37.837Z] DEBUG: [worker-pool] Adding worker with key us-central1-disableRoutePlan, total=1
+[debug] [2022-11-01T08:03:39.590Z] DEBUG: [runtime-status] [6272] Resolved module firebase-admin {"declared":true,"installed":true,"version":"11.2.0","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\index.js"}
+[debug] [2022-11-01T08:03:39.592Z] DEBUG: [runtime-status] [6272] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.0.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\v1\\index.js"}
+[debug] [2022-11-01T08:03:39.592Z] DEBUG: [runtime-status] [6272] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2022-11-01T08:03:39.596Z] DEBUG: [runtime-status] [6272] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.0.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\v1\\index.js"}
+[debug] [2022-11-01T08:03:39.872Z] DEBUG: [runtime-status] [6272] Checked functions.config() {"config":{}}
+[debug] [2022-11-01T08:03:39.872Z] DEBUG: [runtime-status] [6272] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"4.0.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\v1\\index.js"}}
+[debug] [2022-11-01T08:03:39.874Z] DEBUG: [runtime-status] [6272] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.0.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\v1\\index.js"}
+[debug] [2022-11-01T08:03:39.875Z] DEBUG: [runtime-status] [6272] Resolved module firebase-admin {"declared":true,"installed":true,"version":"11.2.0","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\index.js"}
+[debug] [2022-11-01T08:03:39.878Z] DEBUG: [runtime-status] [6272] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.0.1","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-functions\\lib\\v1\\index.js"}
+[debug] [2022-11-01T08:03:39.879Z] DEBUG: [runtime-status] [6272] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"11.2.0","resolution":"E:\\frontend\\reactJS\\mimi-web\\functions\\node_modules\\firebase-admin\\lib\\index.js"}}
+[debug] [2022-11-01T08:03:39.930Z] DEBUG: [runtime-status] [6272] initializeApp(DEFAULT) {"credential":{"implicit":false,"projectId":"mimi-plan-test","privateKey":"-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC4FtcaGkBBL0MI\nT8OPxdDeZj0Tov0cr0n7PxE7A52YjbVhjfF+hmetHzD7WXf4ukWMZa78GgGjBgWY\nZ5H6ISHnDltL97Rlj2xLOktxbzSTTzNI61NImDzZ/7X3DkZjf3mFoSmPtYijyHau\nKBuWwN8fCKz4xiKc8HzIgby+pSeAIQsmHFM1TeNnby7IS7oHCB+Rgb4Io0lsNnRV\nDmNL62dbLSvTCJHMJhDvGncAe3gOJiuHlVWGjGGXjtliqBH3nZgJ7aeFVUVxga+B\nvYqT8sppREARSZaTgdXVdZgN4YRp9QCBXFB6CkwW9mtx0dDWd/PU+OfA0vP8GVvf\nRRDfasTdAgMBAAECggEALHSjlHOjcbpqmy68ANPaGWMiO8RAELXKDWkRDanVXJpY\nI4tmNtJZZibiqshT3xaIphuGMu5K1+Yj4sacK4XlzIkchg93GpGUquQUhPvAfBSD\nw4fE0IKnK1QDyvpBCFUn8RvW0BQcP8Uw1+TqqLDCERoEv30FrdWrpLYj8PwsOlYW\nNsj53DlRF8flemShwCq4+WYgGPHJvLxFKfRHt2c42Afigpb9efJvg9fdfNgbDK/p\n3bCX/JjjDSA4GFj+4bS0Yyn/vSC7PIa/QSobtNChOfQtExg8bJtGJiXoJHy/YKp5\nkKZ9BCACAG/pEeKcBIIlB0fFxGdM5Ak1t6aajGdQcQKBgQD/+ZHcV0RZ466F5t2R\nqGPRoj6J7amNy73BnYiDKJo6jaJcaCbF5FxeoJkSTn4P+dI0uGcVn0jxrc3EF6oB\nvZaEgVhNOOQ2O+SFIZ45ZjrwrFMEaMr+O0wm2lf8cmPzoAd/YB+nRi+l2yQ1J1Bq\nyxyGVH/gi1ReJ7dnbmDeQeqE5QKBgQC4G3b0VjGAX7z70sgdZ/FvPvLzB9Vy1D2g\njm4kug6BDGNXcekEi2tvWidW6yTmiLHFwXbuUdQ6lzcBoXLQUHxc1aDxqGpbXfzt\nbZD5xJjNGo0KybSnKe29Qcj7RTqV3oeOIgEh/ZPAIaJ0PwKLamzpqlqmZXYnM1rZ\niROWor54mQKBgQC+43WD1MxTIHigwJbRLbsqtQxgPYzpAlxDC+Cmttu0+LRwpvbr\nMq4znx4nycM21L2OtUmilUOHf25oYqFUZPbfX7ni9J8zVpzHL1fYREWF/2x1aFSh\nHMVgYAmnaALjxp5wvdU9IBkeXXr17JiK22ctQcyPPjgvcvzRtD2m4Y8rhQKBgQCU\numMzabodmbniuVm+H600EGdVm3t8gyax4L3r334+FBLgnn3+lN6amvryxY0Oy1jJ\nh8ubJPHMz0G5iIJm9M4ydMXK0yHwY5IjAANBMue5sXxFPcM5065h2JYTHs8AKT/a\nu2+s1NwaN1G0lP5qP/RyI5ONnqN/cYYv/AOeCiTS6QKBgQCZbCF1szMiH3Fk05o0\nj0JUlHFe4OcwejMsD/CFov79fhQ0rGbAJ8ulZGLiqLhmnQH8eoZKxPz57mi91jWG\nA4Ojw23wK1v/mnJSREW7Yskh8tpubESuXc3STc/uFVBMF2yomyjHmL0XPC6E+r6m\n+Y1nNL0X16QnUissNFRwrn10Cw==\n-----END PRIVATE KEY-----\n","clientEmail":"firebase-adminsdk-ze8iq@mimi-plan-test.iam.gserviceaccount.com","httpClient":{"retry":{"maxRetries":4,"statusCodes":[503],"ioErrorCodes":["ECONNRESET","ETIMEDOUT"],"backOffFactor":0.5,"maxDelayInMillis":60000}}}}
+[debug] [2022-11-01T08:03:39.937Z] DEBUG: [runtime-status] [6272] Functions runtime initialized. {"cwd":"E:\\frontend\\reactJS\\mimi-web\\functions","node_version":"16.15.1"}
+[debug] [2022-11-01T08:03:39.938Z] DEBUG: [runtime-status] [6272] Listening to port: \\?\pipe\fire_emu_71ebf96195c29bc1
+[debug] [2022-11-01T08:03:40.044Z] DEBUG: [worker-pool] submitRequest(triggerId=us-central1-disableRoutePlan)
+[debug] [2022-11-01T08:03:40.045Z] DEBUG: [worker-us-central1-disableRoutePlan-65d114a4-f2b0-41d6-bcf6-348cd6724bbf]: BUSY
+[debug] [2022-11-01T08:03:40.064Z] [functions] Beginning execution of "disableRoutePlan"
+[info] >  {"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"} {"user":{"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-disableRoutePlan"},"extension":{},"message":"\u001b[90m> \u001b[39m {\"verifications\":{\"app\":\"MISSING\",\"auth\":\"MISSING\"},\"logging.googleapis.com/labels\":{\"firebase-log-type\":\"callable-request-verification\"},\"severity\":\"DEBUG\",\"message\":\"Callable request verification passed\"}"}}
+[debug] [2022-11-01T08:03:40.068Z] DEBUG: [runtime-status] [6272] No callable functions auth found
+[warn] !  functions: The Cloud Firestore emulator is not running, so calls to Firestore will affect production. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-disableRoutePlan"},"extension":{},"message":"The Cloud Firestore emulator is not running, so calls to Firestore will affect production."}}
+[debug] [2022-11-01T08:03:47.519Z] DEBUG: [worker-us-central1-disableRoutePlan-65d114a4-f2b0-41d6-bcf6-348cd6724bbf]: IDLE
+[debug] [2022-11-01T08:03:47.520Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2022-11-01T08:03:47.529Z] [functions] Finished "disableRoutePlan" in 7461.3647ms
