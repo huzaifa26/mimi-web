@@ -6,7 +6,6 @@ import { useStore, useUi } from "../../../store";
 import { db, auth } from "../../../utils/firebase";
 import { nanoid } from "nanoid";
 import { getModalStyles } from "../../../utils/helpers";
-// import { getAuth,sendPasswordResetEmail } from "@firebase/auth";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -15,7 +14,6 @@ const useStyles = makeStyles((theme) => {
 });
 
 export const ForgotPassword = (props) => {
-    console.log(auth);
     const { handleClose } = props;
     const classes = useStyles();
     const { state: storeState } = useStore();
@@ -29,12 +27,12 @@ export const ForgotPassword = (props) => {
         auth.sendPasswordResetEmail(email)
             .then(() => {
                 console.log("email send");
+                actions.alert("Password reset email sent.", "success");
+                setLoading(false);
+                handleClose();
             })
             .catch((error) => {
-                console.log("email send");
-            }).then(() => {
-                actions.alert("Password reset email sent.","success");
-                setLoading(false);
+                actions.alert(error?.message, "error");
                 handleClose();
             })
     };

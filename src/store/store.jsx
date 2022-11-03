@@ -10,7 +10,7 @@ const ctx = React.createContext();
 
 export const useStore = () => useContext(ctx);
 
-export const  StoreProvidor = ({ children }) => {
+export const StoreProvidor = ({ children }) => {
   const location = useLocation()
   const history = useHistory();
 
@@ -33,21 +33,21 @@ export const  StoreProvidor = ({ children }) => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
-        let last_login=localStorage.getItem("last_login");
+        let last_login = localStorage.getItem("last_login");
         console.log(last_login)
-        if(last_login !== null){
-          let minus4Hours=new Date();
+        if (last_login !== null) {
+          let minus4Hours = new Date();
           last_login = new Date(new Date(last_login).setHours(new Date().getHours())).getTime();
-          minus4Hours = new Date().setHours(new Date().getHours()-4);
-  
-          if(last_login<minus4Hours){
+          minus4Hours = new Date().setHours(new Date().getHours() - 4);
+
+          if (last_login < minus4Hours) {
             handleSignOut();
             setState((prev) => ({ ...prev, user: null, authenticated: true }));
             unsubscribe();
             return
           }
         }
-        
+
         const code = localStorage.getItem("code");
         if (code !== null) {
           let _user_Data = await db
@@ -59,61 +59,75 @@ export const  StoreProvidor = ({ children }) => {
 
           let userData = _user_Data.data();
           if (userData.permissions.webPanelAccess === true) {
-            await db
-              .collection("Institution")
-              .doc(code?.toUpperCase())
-              .collection("staff")
-              .doc(userData?.id)
-              .update({
-                web_last_login: new Date(),
-              });
-
-            // Listening to user webPanelAccess field
-            listener.current = db
-              .collection("Institution")
-              .doc(code)
-              .collection("staff")
-              .doc(userData?.id)
-              .onSnapshot((snapshot) => {
-                if (snapshot.data().permissions.webPanelAccess === false) {
-                  setState((prev) => ({ ...prev, user: null, authenticated: true }));
-                  listener.current && listener.current();
-                  instituteListener.current && instituteListener.current();
-                  unsubscribe()
-                  handleSignOut();
-                }
-                localStorage.setItem("last_login", new Date());
-                setState((prev) => ({
-                  ...prev,
-                  authenticated: true,
-                  user: { ...snapshot.data(), _code: code },
-                }));
-              });
-
-            // Listening to institute enabled field
-            instituteListener.current = db
-              .collection("Institution")
-              .doc(code)
-              .onSnapshot((snapshot) => {
-                let institute = snapshot.data();
-                const subEndDate = new Date(new Date(institute.subscription_end_date).setHours(0, 0, 0, 0)).getTime();
-                const todayDate = new Date(new Date().setHours(0, 0, 0, 0)).getTime();
-                if (institute.enabled === false && userData.type !== ROLES.admin) {
-                  setState((prev) => ({ ...prev, user: null, authenticated: true }));
-                  listener.current && listener.current();
-                  instituteListener.current && instituteListener.current();
-                  unsubscribe()
-                  handleSignOut();
-                }
-
-                if (todayDate > subEndDate && userData.type !== ROLES.admin) {
-                  setState((prev) => ({ ...prev, user: null, authenticated: true }));
-                  listener.current && listener.current();
-                  instituteListener.current && instituteListener.current();
-                  unsubscribe();
-                  handleSignOut();
-                }
-              })
+            console.log(userData.type, userData.firstPasswordChanged);
+            console.log(!(userData.type !== ROLES.admin && userData.firstPasswordChanged === false));
+            if(!(userData.type !== ROLES.admin && userData.firstPasswordChanged === false)){
+              let last_login=new Date();
+              await db
+                .collection("Institution")
+                .doc(code?.toUpperCase())
+                .collection("staff")
+                .doc(userData?.id)
+                .update({
+                  web_last_login: last_login,
+                });
+              if (userData.type === ROLES.admin) {
+                await db
+                  .collection("admins")
+                  .doc(userData?.id)
+                  .update({
+                    web_last_login: last_login,
+                  });
+              }
+  
+              // Listening to user webPanelAccess field
+              listener.current = db
+                .collection("Institution")
+                .doc(code)
+                .collection("staff")
+                .doc(userData?.id)
+                .onSnapshot((snapshot) => {
+                  if (snapshot.data().permissions.webPanelAccess === false) {
+                    setState((prev) => ({ ...prev, user: null, authenticated: true }));
+                    listener.current && listener.current();
+                    instituteListener.current && instituteListener.current();
+                    unsubscribe()
+                    handleSignOut();
+                  }
+                  localStorage.setItem("last_login", new Date());
+                  console.log(snapshot.data());
+                  setState((prev) => ({
+                    ...prev,
+                    authenticated: true,
+                    user: { ...snapshot.data(), _code: code },
+                  }));
+                });
+  
+              // Listening to institute enabled field
+              instituteListener.current = db
+                .collection("Institution")
+                .doc(code)
+                .onSnapshot((snapshot) => {
+                  let institute = snapshot.data();
+                  const subEndDate = new Date(new Date(institute.subscription_end_date).setHours(0, 0, 0, 0)).getTime();
+                  const todayDate = new Date(new Date().setHours(0, 0, 0, 0)).getTime();
+                  if (institute.enabled === false && userData.type !== ROLES.admin) {
+                    setState((prev) => ({ ...prev, user: null, authenticated: true }));
+                    listener.current && listener.current();
+                    instituteListener.current && instituteListener.current();
+                    unsubscribe()
+                    handleSignOut();
+                  }
+  
+                  if (todayDate > subEndDate && userData.type !== ROLES.admin) {
+                    setState((prev) => ({ ...prev, user: null, authenticated: true }));
+                    listener.current && listener.current();
+                    instituteListener.current && instituteListener.current();
+                    unsubscribe();
+                    handleSignOut();
+                  }
+                })
+            }
           } else if (userData.permissions.webPanelAccess === false) {
             setState((prev) => ({ ...prev, user: null, authenticated: true }));
           }

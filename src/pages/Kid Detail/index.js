@@ -206,6 +206,7 @@ export const KidsDetail = (props) => {
 
   const handleProfilePic = async () => {
     console.log("button is disabled!")
+    actions.alert("This feature is not available","info");
     // if (!user.permissions[PERMISSIONS.picAccess])
     //   return actions.alert("You don't have access to perform this action");
 
@@ -880,22 +881,22 @@ export const KidsDetail = (props) => {
           <div>
             <Box display={"flex"} alignItems="center" marginY={2}>
               <Box marginX={1}>
+                <div className={classes.greenDot}></div>
+              </Box>
+              <Typography>
+                <FormattedMessage id="current_point" />:{" "}
+                <strong>{kid.xp}</strong>
+              </Typography>
+            </Box>
+
+            <Box display={"flex"} alignItems="center" marginY={2}>
+              <Box marginX={1}>
                 <div className={classes.greyDot}></div>
               </Box>
 
               <Typography>
                 <FormattedMessage id="point_goal" /> :{" "}
                 <strong>{kid.xpForNextLevel}</strong>
-              </Typography>
-            </Box>
-
-            <Box display={"flex"} alignItems="center" marginY={2}>
-              <Box marginX={1}>
-                <div className={classes.greenDot}></div>
-              </Box>
-              <Typography>
-                <FormattedMessage id="current_point" />:{" "}
-                <strong>{kid.xp}</strong>
               </Typography>
             </Box>
           </div>
@@ -1008,7 +1009,7 @@ export const KidsDetail = (props) => {
                   </Grid>
                   <Grid item lg={3} md={4} sm={6} xs={12}>
                     <ToolBox
-
+                      style={{cursor:"pointer"}}
                       image={
                         <Person style={{ color: "#4FBF67" }} fontSize="large" />
                       }
@@ -1035,7 +1036,7 @@ export const KidsDetail = (props) => {
                         )
                       }
                       background={alpha("#FF991F", 0.2)}
-                      label={"special_program"}
+                      label={"special_report"}
                       onClick={() => {
                         setModalStates((prev) => ({
                           ...prev,
