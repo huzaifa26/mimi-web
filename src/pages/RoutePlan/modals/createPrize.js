@@ -39,42 +39,42 @@ export const CreatePrizeBody = props => {
     }, []);
 
     const handleSubmit = async () => {
-        console.log("handleSubmit")
-        // try {
-        //     setLoading(true);
+       
+        try {
+            setLoading(true);
 
-        //     const payload = {
-        //         name,
-        //         requiredLevel: level,
-        //     };
+            const payload = {
+                name,
+                requiredLevel: level,
+            };
 
-        //     Schema.validateSync(payload);
+            Schema.validateSync(payload);
 
-        //     const existsForLevel = prizes.find(el => el.requiredLevel === level);
+            const existsForLevel = prizes.find(el => el.requiredLevel === level);
 
-        //     if (existsForLevel) throw new Error('a prize exists for the desired level');
+            if (existsForLevel) throw new Error('a prize exists for the desired level');
 
-        //     const prizeId = nanoid(6);
-        //     await db
-        //         .collection('Institution')
-        //         .doc(user._code)
-        //         .collection('routePlan')
-        //         .doc(routePlan.id)
-        //         .collection('prizes')
-        //         .doc(prizeId)
-        //         .set({
-        //             ...payload,
-        //             id: prizeId,
-        //             routeId: routePlan.id,
-        //         });
+            const prizeId = nanoid(6);
+            await db
+                .collection('Institution')
+                .doc(user._code)
+                .collection('routePlan')
+                .doc(routePlan.id)
+                .collection('prizes')
+                .doc(prizeId)
+                .set({
+                    ...payload,
+                    id: prizeId,
+                    routeId: routePlan.id,
+                });
 
-        //     setLoading(false);
-        //     handleClose();
-        // } catch (error) {
-        //     actions.alert(error.message, 'error');
-        // } finally {
-        //     setLoading(false);
-        // }
+            setLoading(false);
+            handleClose();
+        } catch (error) {
+            actions.alert(error.message, 'error');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
