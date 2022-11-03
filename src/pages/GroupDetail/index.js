@@ -1161,22 +1161,22 @@ export const GroupDetail = () => {
           <div>
             <Box display={"flex"} alignItems="center" marginY={2}>
               <Box marginX={1}>
+                <div className={classes.greenDot}></div>
+              </Box>
+              <Typography>
+                <FormattedMessage id="current_point" />:{" "}
+                <strong>{stats.totalGroupXp}</strong>
+              </Typography>
+            </Box>
+
+            <Box display={"flex"} alignItems="center" marginY={2}>
+              <Box marginX={1}>
                 <div className={classes.greyDot}></div>
               </Box>
 
               <Typography>
                 <FormattedMessage id="point_goal" /> :{" "}
                 <strong>{stats.xpNext}</strong>
-              </Typography>
-            </Box>
-
-            <Box display={"flex"} alignItems="center" marginY={2}>
-              <Box marginX={1}>
-                <div className={classes.greenDot}></div>
-              </Box>
-              <Typography>
-                <FormattedMessage id="current_point" />:{" "}
-                <strong>{stats.totalGroupXp}</strong>
               </Typography>
             </Box>
           </div>

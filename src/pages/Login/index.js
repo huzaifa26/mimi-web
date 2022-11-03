@@ -34,6 +34,9 @@ import md5 from "md5";
 import { ChangePasswordBody } from "./modals/changePassword";
 import CryptoJS from "crypto-js";
 import { ForgotPassword } from "./modals/forgotpassword";
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import { TermAndPolicy } from "./modals/termAndPolicy";
 
 let key = process.env.REACT_APP_ENCRYPT_KEY;
 key = CryptoJS.enc.Utf8.parse(key);
@@ -59,6 +62,7 @@ export function Login() {
 
   const [modalStates, setModalStates] = useState({
     forgotPassword: false,
+    termAndPolicy:false
   });
 
   useEffect(() => {
@@ -105,6 +109,8 @@ export function Login() {
 
 
   const handleSubmit = async () => {
+    setModalStates((prev) => ({ ...prev, termAndPolicy: true }));
+    return
     setLoading(true);
 
     try {
@@ -150,6 +156,12 @@ export function Login() {
 
       const access = user?.permissions[PERMISSIONS.webPanelAccess];
 
+      if (!user.firstPasswordChanged && user.type !== ROLES.admin) {
+        localStorage.clear();
+        setShowChangePassword(true);
+        return
+      }
+
       if (access === false) {
         handleSignout()
         return actions.alert("You account doesn't have access permission to the console", "error");
@@ -162,12 +174,8 @@ export function Login() {
 
         // If institute is disabled. Only admin can login.
         if (institution.enabled === false && user.type !== ROLES.admin) {
-          handleSignout()
+          handleSignout();
           return actions.alert("Institution Disabled", "error");
-        }
-
-        if (!user.firstPasswordChanged && user.type != ROLES.admin) {
-          return setShowChangePassword(true);
         }
 
         await db
@@ -199,8 +207,7 @@ export function Login() {
         user,
         institute: {
           id: "DEV",
-          image:
-            "https://firebasestorage.googleapis.com/v0/b/mimi-plan.appspot.com/o/images%2FdefaultAvatar.png?alt=media&token=d8133d4a-1874-4462-9b3b-3e24baefa6b9",
+          image: "https://firebasestorage.googleapis.com/v0/b/mimi-plan.appspot.com/o/images%2FdefaultAvatar.png?alt=media&token=d8133d4a-1874-4462-9b3b-3e24baefa6b9",
           name: "newBoardingDev",
           expireDate: "2023-07-27",
           language: "English",
@@ -215,7 +222,7 @@ export function Login() {
 
   const handleUpdatePassword = async (newPassword) => {
     const encryptPass = md5(newPassword);
-    await auth.currentUser.updatenewPassword(newPassword);
+    await auth.currentUser.updatePassword(newPassword);
     await db
       .collection("Institution")
       .doc(institutionCode)
@@ -229,6 +236,8 @@ export function Login() {
   };
 
   const closeForgotPassword = () => setModalStates((prev) => ({ ...prev, forgotPassword: false }));
+  const closeTermAndPolicy = () => setModalStates((prev) => ({ ...prev, termAndPolicy: false }));
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <Fragment>
@@ -249,6 +258,16 @@ export function Login() {
       >
         <ForgotPassword
           handleClose={closeForgotPassword}
+        />
+      </SimpleModal>
+
+      <SimpleModal
+        title={<FormattedMessage id="term_and_policy" />}
+        open={modalStates.termAndPolicy}
+        handleClose={closeTermAndPolicy}
+      >
+        <TermAndPolicy
+          handleClose={closeTermAndPolicy}
         />
       </SimpleModal>
 
@@ -289,13 +308,19 @@ export function Login() {
             />
           </Field>
           <Field label={<FormattedMessage id="password" />}>
-            <Input
-              value={password}
-              fullWidth
-              type="password"
-              size="small"
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <Box sx={{ display: "flex" }}>
+              <Input
+                value={password}
+                fullWidth
+                type={showPassword === false ? "password" : "text"}
+                size="small"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              {showPassword === false ?
+                <VisibilityIcon onClick={() => { setShowPassword(true) }} style={{ position: "absolute", left: "84%", color: "#8f92a1", cursor: "pointer" }} />
+                : <VisibilityOffIcon onClick={() => { setShowPassword(false) }} style={{ position: "absolute", left: "84%", color: "#8f92a1", cursor: "pointer" }} />
+              }
+            </Box>
           </Field>
           <Field label={<FormattedMessage id="institution_code" />}>
             <Input
@@ -307,22 +332,16 @@ export function Login() {
           </Field>
 
           <Field label={null}>
-            <Box sx={{justifyContent:"space-between"}} display={"flex"} justifyContent="flex-end">
+            <Box sx={{ justifyContent: "space-between" }} display={"flex"} justifyContent="flex-end">
               <Typography
                 align="center"
                 className={classes.forgotPassword}
-                onClick={()=>{
-                  // actions.showDialog({
-                  //   action:"action",
-                  //   title: `Forgot password?`,
-                  //   body: "Enter your mail to recieve password reset link.",
-                  // });
+                onClick={() => {
                   setModalStates((prev) => ({ ...prev, forgotPassword: true }))
                 }}
               >
                 <FormattedMessage id={"forgot_password"} />?
               </Typography>
-
               <FormControlLabel
                 control={
                   <Checkbox
@@ -392,10 +411,10 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
-  forgotPassword:{
-    fontSize:"16px",
-    alignSelf:"center",
-    cursor:"pointer",
-    color:"#8f92a1",
+  forgotPassword: {
+    fontSize: "16px",
+    alignSelf: "center",
+    cursor: "pointer",
+    color: "#8f92a1",
   }
 }));

@@ -336,5 +336,8 @@
   "no":"No",
   "delete_kid_password":"Please enter password to proceed.",
   "delete":"Delete",
-  "teams":"Teams"
+  "teams":"Teams",
+  "term_and_policy":"Term and Policy",
+  "term_and_policy_message":"Please read the *privacy policy* and the *terms of use* in order to proceed",
+  "accept_term":"I have read and agree with the terms of use and privacy policy."
 }
