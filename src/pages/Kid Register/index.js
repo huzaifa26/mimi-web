@@ -34,11 +34,7 @@ import * as yup from "yup";
 import { FileUploadBody } from "./modals/fileUpload";
 
 const days = [
-  {
-    id: "6",
-    name: <FormattedMessage id="sunday" />,
-    label: <FormattedMessage id="sunday" />,
-  },
+  
   {
     id: "0",
     name: <FormattedMessage id="monday" />,
@@ -68,6 +64,11 @@ const days = [
     id: "5",
     name: <FormattedMessage id="saturday" />,
     label: <FormattedMessage id="saturday" />,
+  },
+  {
+    id: "6",
+    name: <FormattedMessage id="sunday" />,
+    label: <FormattedMessage id="sunday" />,
   },
 ];
 
