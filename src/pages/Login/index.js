@@ -33,6 +33,7 @@ import {
 import md5 from "md5";
 import { ChangePasswordBody } from "./modals/changePassword";
 import CryptoJS from "crypto-js";
+import { ForgotPassword } from "./modals/forgotpassword";
 
 let key = process.env.REACT_APP_ENCRYPT_KEY;
 key = CryptoJS.enc.Utf8.parse(key);
@@ -55,6 +56,10 @@ export function Login() {
   const [institutionCode, setInstitutionCode] = useState("TEST");
   const [rememberMe, setRememberMe] = useState(false);
   const [showChangePassword, setShowChangePassword] = useState(false);
+
+  const [modalStates, setModalStates] = useState({
+    forgotPassword: false,
+  });
 
   useEffect(() => {
     if (user?.permissions?.webPanelAccess) {
@@ -147,7 +152,7 @@ export function Login() {
 
       if (access === false) {
         handleSignout()
-        return actions.alert("You account has been disabled. Please contact admin for queries", "error");
+        return actions.alert("You account doesn't have access permission to the console", "error");
       } else if (access === true) {
         // If institute subscription end. Only admin can login.
         if (todayDate > subEndDate && user.type !== ROLES.admin) {
@@ -223,6 +228,8 @@ export function Login() {
     setShowChangePassword(false);
   };
 
+  const closeForgotPassword = () => setModalStates((prev) => ({ ...prev, forgotPassword: false }));
+
   return (
     <Fragment>
       <SimpleModal
@@ -234,6 +241,17 @@ export function Login() {
           changePasswordHandler={handleUpdatePassword}
         />
       </SimpleModal>
+
+      <SimpleModal
+        title={<FormattedMessage id="forgot_password" />}
+        open={modalStates.forgotPassword}
+        handleClose={closeForgotPassword}
+      >
+        <ForgotPassword
+          handleClose={closeForgotPassword}
+        />
+      </SimpleModal>
+
       <div className={classes.backgroundconatiner}>
         <Form>
           <img src={KidPic1} className={classes.kidImage1} />
@@ -289,7 +307,22 @@ export function Login() {
           </Field>
 
           <Field label={null}>
-            <Box display={"flex"} justifyContent="flex-end">
+            <Box sx={{justifyContent:"space-between"}} display={"flex"} justifyContent="flex-end">
+              <Typography
+                align="center"
+                className={classes.forgotPassword}
+                onClick={()=>{
+                  // actions.showDialog({
+                  //   action:"action",
+                  //   title: `Forgot password?`,
+                  //   body: "Enter your mail to recieve password reset link.",
+                  // });
+                  setModalStates((prev) => ({ ...prev, forgotPassword: true }))
+                }}
+              >
+                <FormattedMessage id={"forgot_password"} />?
+              </Typography>
+
               <FormControlLabel
                 control={
                   <Checkbox
@@ -359,4 +392,10 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  forgotPassword:{
+    fontSize:"16px",
+    alignSelf:"center",
+    cursor:"pointer",
+    color:"#8f92a1",
+  }
 }));
