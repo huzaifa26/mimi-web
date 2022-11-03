@@ -185,8 +185,8 @@ export const RegisterKid = (props) => {
         .where("username", "==", username.toLowerCase())
         .get();
       if (!kidExists.empty)
-        throw new Error(
-          "Kid with same name already exists, Kindly choose a different name"
+       actions.alert(
+          "Kid with same name already exists, Kindly choose a different name", "error"
         );
 
       const payload = {

@@ -10,7 +10,6 @@ import { FormattedMessage } from "react-intl";
 import {
   Button,
   SearchBar,
-  Cockpit,
   SimpleModal,
   DataTable,
   Loader,
@@ -295,9 +294,7 @@ export const RouteDetailsBody = (props) => {
   const handleGenEligibleKidsFile = async (data) => {
     console.log(data);
     return new Promise((resolve, reject) => {
-      // var prizeName = data.map((e)=>{
-      //    return  [e.name, e.requiredLevel, ...e.eligibleKids.map(el=>el.groupName), ...e.eligibleKids.map(el=>el.name) ]
-      // })
+      
       var prizeName = data.map((e) => {
         return {
           prizeName: e.name,
@@ -378,7 +375,7 @@ export const RouteDetailsBody = (props) => {
           />
         </TableCell>
       
-            <SimpleModal extended title={<FormattedMessage id="manage_access" />} open={modalStates.manageAccess} handleClose={closeManageAccess}>
+            <SimpleModal extended title={<FormattedMessage id="manage-access" />} open={modalStates.manageAccess} handleClose={closeManageAccess}>
                 <ManageAccessBody routePlan={routePlan} handleClose={closeManageAccess} />
             </SimpleModal>
             <SimpleModal title={<FormattedMessage id="add_prize" />} open={modalStates.createPrize} handleClose={closeCreatePrize}>
@@ -388,7 +385,7 @@ export const RouteDetailsBody = (props) => {
                 <EligibleKidsBody kids={eligibleKids} handleClose={closeEligibleKids} />
             </SimpleModal>
 
-            <SimpleModal title={<FormattedMessage id="change_date" />} open={modalStates.changeStartDate} handleClose={closeStartDate}>
+            <SimpleModal title={<FormattedMessage id="change-date" />} open={modalStates.changeStartDate} handleClose={closeStartDate}>
                 <ChangeDateBody
                     defaultDate={routePlan.startingDate.toDate()}
                     routePlan={routePlan}
@@ -401,7 +398,7 @@ export const RouteDetailsBody = (props) => {
                 />
             </SimpleModal>
 
-            <SimpleModal title={<FormattedMessage id="change_date" />} open={modalStates.changeEndDate} handleClose={closeEndDate}>
+            <SimpleModal title={<FormattedMessage id="change-date" />} open={modalStates.changeEndDate} handleClose={closeEndDate}>
                 <ChangeDateBody
                     defaultDate={routePlan.endingDate.toDate()}
                     handleClose={closeEndDate}
@@ -417,7 +414,7 @@ export const RouteDetailsBody = (props) => {
             <Grid container>
                 <Grid item md={3} xs={6}>
                     <Typography className={clsx(classes.default_typography_label, classes.default_typography_colorLight, classes.default_typography_bold)}>
-                        <FormattedMessage id="ROUTE_NAME" />
+                        <FormattedMessage id="ROUTE-NAME" />
                     </Typography>
                     <Typography
                         className={clsx(
@@ -438,7 +435,7 @@ export const RouteDetailsBody = (props) => {
                 </Grid>
                 <Grid item md={3} xs={6}>
                     <Typography className={clsx(classes.default_typography_label, classes.default_typography_colorLight, classes.default_typography_bold)}>
-                        <FormattedMessage id="STARTING_DATE" />
+                        <FormattedMessage id="STARTING-DATE" />
                         <Box
                             component={'img'}
                             marginX={1}
@@ -468,7 +465,7 @@ export const RouteDetailsBody = (props) => {
                 </Grid>
                 <Grid item md={3} xs={6}>
                     <Typography className={clsx(classes.default_typography_label, classes.default_typography_colorLight, classes.default_typography_bold)}>
-                        <FormattedMessage id="ENDING_DATE" />
+                        <FormattedMessage id="ENDING-DATE" />
 
                         <Box
                             component={'img'}
@@ -513,17 +510,17 @@ export const RouteDetailsBody = (props) => {
                     <Grid item xs={12} sm={4} justifyContent="center">
                         {routePlan.status ? (
                             <Button startIcon={<Pause />} fullWidth className={classes.default_modal_buttonSecondary} onClick={handleStatus}>
-                                <FormattedMessage id="disable_route" />
+                                <FormattedMessage id="disable-route" />
                             </Button>
                         ) : (
                             <Button startIcon={<Active />} fullWidth className={classes.default_modal_buttonSecondary} onClick={handleStatus}>
-                                <FormattedMessage id="activate_route" />
+                                <FormattedMessage id="activate-route" />
                             </Button>
                         )}
                     </Grid>
                     <Grid item xs={12} sm={4} justifyContent="center">
                         <Button fullWidth startIcon={<Delete />} className={classes.deleteButton} onClick={deleteRoutePlan}>
-                            <FormattedMessage id="delete_route" />
+                            <FormattedMessage id="delete-route" />
                         </Button>
                     </Grid>
                 </Grid>
@@ -531,7 +528,7 @@ export const RouteDetailsBody = (props) => {
         </Fragment>
     );
   };
-  console.log(new Date().getTime() / 1000 >= routePlan?.endingDate.seconds);
+
 
   const actionBar = (
     <div className={classes.default_headerSection_container}>
@@ -553,7 +550,7 @@ export const RouteDetailsBody = (props) => {
             setModalStates((prev) => ({ ...prev, manageAccess: true }));
           }}
         >
-          <FormattedMessage id="manage_access" />
+          <FormattedMessage id="manage-access" />
         </Button>
         <Button
           startIcon={<AddIconSim style={{ fontSize: 22 }} />}
@@ -561,7 +558,7 @@ export const RouteDetailsBody = (props) => {
             setModalStates((prev) => ({ ...prev, createPrize: true }));
           }}
         >
-          <FormattedMessage id="add_prize" />
+          <FormattedMessage id="add-prize" />
         </Button>
         <Button
           startIcon={<FileIcon style={{ fontSize: 22 }} />}
@@ -569,7 +566,7 @@ export const RouteDetailsBody = (props) => {
             handleGenEligibleKidsFile(data);
           }}
         >
-          <FormattedMessage id="Generate File" />
+          <FormattedMessage id="GENERATE-FILE" />
         </Button>
       </div>
     </div>
@@ -588,7 +585,7 @@ export const RouteDetailsBody = (props) => {
     <Fragment>
       <SimpleModal
         extended
-        title={<FormattedMessage id="manage_access" />}
+        title={<FormattedMessage id="manage-access" />}
         open={modalStates.manageAccess}
         handleClose={closeManageAccess}
       >
@@ -598,7 +595,7 @@ export const RouteDetailsBody = (props) => {
         />
       </SimpleModal>
       <SimpleModal
-        title={<FormattedMessage id="add_prize" />}
+        title={<FormattedMessage id="add-prize" />}
         open={modalStates.createPrize}
         handleClose={closeCreatePrize}
       >
@@ -617,7 +614,7 @@ export const RouteDetailsBody = (props) => {
       </SimpleModal>
 
       <SimpleModal
-        title={<FormattedMessage id="change_date" />}
+        title={<FormattedMessage id="change-date" />}
         open={modalStates.changeStartDate}
         handleClose={closeStartDate}
       >
@@ -639,7 +636,7 @@ export const RouteDetailsBody = (props) => {
       </SimpleModal>
 
       <SimpleModal
-        title={<FormattedMessage id="change_date" />}
+        title={<FormattedMessage id="change-date" />}
         open={modalStates.changeEndDate}
         handleClose={closeEndDate}
       >
@@ -669,7 +666,7 @@ export const RouteDetailsBody = (props) => {
               classes.default_typography_bold
             )}
           >
-            <FormattedMessage id="ROUTE_NAME" />
+            <FormattedMessage id="ROUTE-NAME" />
           </Typography>
           <Typography
             className={clsx(
@@ -702,7 +699,7 @@ export const RouteDetailsBody = (props) => {
               classes.default_typography_bold
             )}
           >
-            <FormattedMessage id="STARTING_DATE" />
+            <FormattedMessage id="STARTING-DATE" />
             <Box
               component={"img"}
               marginX={1}
@@ -747,7 +744,7 @@ export const RouteDetailsBody = (props) => {
               classes.default_typography_bold
             )}
           >
-            <FormattedMessage id="ENDING_DATE" />
+            <FormattedMessage id="ENDING-DATE" />
 
             <Box
               component={"img"}
@@ -808,7 +805,7 @@ export const RouteDetailsBody = (props) => {
                 className={classes.default_modal_buttonSecondary}
                 onClick={handleStatus}
               >
-                <FormattedMessage id="disable_route" />
+                <FormattedMessage id="disable-route" />
               </Button>
             ) : (
               <Button
@@ -817,7 +814,7 @@ export const RouteDetailsBody = (props) => {
                 className={classes.default_modal_buttonSecondary}
                 onClick={handleStatus}
               >
-                <FormattedMessage id="activate_route" />
+                <FormattedMessage id="activate-route" />
               </Button>
             )}
           </Grid>
@@ -828,7 +825,7 @@ export const RouteDetailsBody = (props) => {
               className={classes.deleteButton}
               onClick={deleteRoutePlan}
             >
-              <FormattedMessage id="delete_route" />
+              <FormattedMessage id="delete-route" />
             </Button>
           </Grid>
         </Grid>
