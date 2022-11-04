@@ -59,8 +59,8 @@ export function Login() {
   const [institutionCode, setInstitutionCode] = useState("TEST");
   const [rememberMe, setRememberMe] = useState(false);
   const [showChangePassword, setShowChangePassword] = useState(false);
-  const [userDataForTermAndPolicy,setUserDataForTermAndPolicy]=useState();
-  const [codeDataForTermAndPolicy,setCodeDataForTermAndPolicy]=useState();
+  const [userDataForTermAndPolicy, setUserDataForTermAndPolicy] = useState();
+  const [codeDataForTermAndPolicy, setCodeDataForTermAndPolicy] = useState();
 
   const [modalStates, setModalStates] = useState({
     forgotPassword: false,
@@ -70,6 +70,9 @@ export function Login() {
   useEffect(() => {
     if (user?.permissions?.webPanelAccess) {
       if (auth.currentUser) {
+        if ((user?.permissions?.showDashboard === false && user?.type !== ROLES.admin)) {
+          return history.push("/history");
+        }
         return history.push("/dashboard");
       }
     }
@@ -110,18 +113,18 @@ export function Login() {
   }
 
   const acceptTermAndPolciyHandler = (acceptTerm) => {
-    return new Promise(async(resolve, reject) => {
-      try{
+    return new Promise(async (resolve, reject) => {
+      try {
         await db
           .collection("Institution")
           .doc(codeDataForTermAndPolicy)
           .collection("staff")
           .doc(userDataForTermAndPolicy.id)
           .update({
-            hasAcceptedTerms:true
-          }).then(()=> console.log("updated term and policy"));
+            hasAcceptedTerms: true
+          }).then(() => console.log("updated term and policy"));
         resolve(true);
-      }catch (e){
+      } catch (e) {
         console.log(e)
         reject(e)
       }
@@ -214,6 +217,10 @@ export function Login() {
 
         await setLocalStorage(institutionCode, password, language, direction)
           .then(() => {
+            if ((user?.permissions?.showDashboard === false && user?.type !== ROLES.admin)) {
+              history.push("/history");
+              return
+            }
             history.push("/dashboard");
           }).then(() => localStorage.setItem("last_login", new Date()))
       }

@@ -59,6 +59,10 @@ export const Routes = React.memo(() => {
         return routesConfig.map(el => {
             const { component, ...otherProps } = el;
             const Component = component;
+
+            if(el.path.includes("/dashboard") && (user?.permissions?.showDashboard === false && user?.type !== ROLES.admin)){
+                return
+            }
             if (el?.private) {
                 if (user?.type !== ROLES.admin && el.roles.length && !el.roles.includes(user?.type)) return;
 

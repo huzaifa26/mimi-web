@@ -230,12 +230,12 @@ export function Sidebar({ children }) {
           )}
 
           {Routes.filter((el) => el.icon).map((el, idx) => {
-            if (
-              user.type !== ROLES.admin &&
-              el.roles.length &&
-              !el.roles.includes(user.type)
-            )
+            if (user.type !== ROLES.admin && el.roles.length && !el.roles.includes(user.type))
               return;
+
+            if(el.path.includes("/dashboard") && (user?.permissions?.showDashboard === false && user?.type !== ROLES.admin)){
+              return
+            }
 
             return (
               <ListItem

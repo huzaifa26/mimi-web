@@ -346,8 +346,8 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
           <Typography>
             {row?._groups?.length == 1 &&
               groups
-                .filter((el) => el.id == row._groups[0])
-                .map((filteredName) => filteredName.name)}
+                ?.filter((el) => el.id == row._groups[0])
+                ?.map((filteredName) => filteredName.name)}
             {row?._groups?.length > 1 && row?._groups?.length + " Groups"}
             {!row?._groups && row.payload.kid.groupName}
           </Typography>
