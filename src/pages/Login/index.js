@@ -59,10 +59,12 @@ export function Login() {
   const [institutionCode, setInstitutionCode] = useState("TEST");
   const [rememberMe, setRememberMe] = useState(false);
   const [showChangePassword, setShowChangePassword] = useState(false);
+  const [userDataForTermAndPolicy,setUserDataForTermAndPolicy]=useState();
+  const [codeDataForTermAndPolicy,setCodeDataForTermAndPolicy]=useState();
 
   const [modalStates, setModalStates] = useState({
     forgotPassword: false,
-    termAndPolicy:false
+    termAndPolicy: false
   });
 
   useEffect(() => {
@@ -107,10 +109,26 @@ export function Login() {
       })
   }
 
+  const acceptTermAndPolciyHandler = (acceptTerm) => {
+    return new Promise(async(resolve, reject) => {
+      try{
+        await db
+          .collection("Institution")
+          .doc(codeDataForTermAndPolicy)
+          .collection("staff")
+          .doc(userDataForTermAndPolicy.id)
+          .update({
+            hasAcceptedTerms:true
+          }).then(()=> console.log("updated term and policy"));
+        resolve(true);
+      }catch (e){
+        console.log(e)
+        reject(e)
+      }
+    })
+  }
 
   const handleSubmit = async () => {
-    // setModalStates((prev) => ({ ...prev, termAndPolicy: true }));
-    // return
     setLoading(true);
 
     try {
@@ -154,7 +172,14 @@ export function Login() {
         _code: institutionCode.toUpperCase(),
       };
 
+      setUserDataForTermAndPolicy(user);
+      setCodeDataForTermAndPolicy(institutionCode.toUpperCase());
+
       const access = user?.permissions[PERMISSIONS.webPanelAccess];
+
+      if (!user.hasAcceptedTerms && user.type !== ROLES.admin) {
+        return setModalStates((prev) => ({ ...prev, termAndPolicy: true }));
+      }
 
       if (!user.firstPasswordChanged && user.type !== ROLES.admin) {
         localStorage.clear();
@@ -268,6 +293,8 @@ export function Login() {
       >
         <TermAndPolicy
           handleClose={closeTermAndPolicy}
+          acceptTermAndPolciyHandler={acceptTermAndPolciyHandler}
+          setShowChangePassword={setShowChangePassword}
         />
       </SimpleModal>
 
