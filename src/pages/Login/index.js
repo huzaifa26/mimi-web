@@ -109,8 +109,8 @@ export function Login() {
 
 
   const handleSubmit = async () => {
-    setModalStates((prev) => ({ ...prev, termAndPolicy: true }));
-    return
+    // setModalStates((prev) => ({ ...prev, termAndPolicy: true }));
+    // return
     setLoading(true);
 
     try {
