@@ -338,6 +338,6 @@
   "delete":"Delete",
   "teams":"Teams",
   "term_and_policy":"Term and Policy",
-  "term_and_policy_message":"Please read the *privacy policy* and the *terms of use* in order to proceed",
+  "term_and_policy_message":"Please read the *{link1}* and the *{link2}* in order to proceed",
   "accept_term":"I have read and agree with the terms of use and privacy policy."
 }
