@@ -1,35 +1,12 @@
-import {
-  Box,
-  Grid,
-  makeStyles,
-  TableCell,
-  Typography,
-} from "@material-ui/core";
+import {Box,Grid,makeStyles,TableCell,Typography} from "@material-ui/core";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import {
-  Button,
-  SearchBar,
-  SimpleModal,
-  DataTable,
-  Loader,
-} from "../../../components";
-import Icons, {
-  AddIconSim,
-  Delete,
-  Edit,
-  Pause,
-  Active,
-} from "../../../components/Icons";
+import {Button,SearchBar,SimpleModal,DataTable,Loader,} from "../../../components";
+import Icons, {AddIconSim,Delete,Edit,Pause,Active,} from "../../../components/Icons";
 import StoreIcon from "../../../assets/icons/StoreIcon.png";
 import { useStore, useUi } from "../../../store";
 import { db } from "../../../utils/firebase";
-import {
-  getModalStyles,
-  getSectionHeaderStyles,
-  getTypographyStyles,
-  searchBy,
-} from "../../../utils/helpers";
+import {getModalStyles,getSectionHeaderStyles,getTypographyStyles,searchBy,} from "../../../utils/helpers";
 import { PERMISSIONS } from "../../../utils/constants";
 import Key from "../../../assets/icons/key.png";
 import clsx from "clsx";
@@ -204,7 +181,7 @@ export const StoreDetailsBody = (props) => {
         .collection("store")
         .doc(store.id)
         .update({
-          numberOfProducts: store.numberOfProducts - 1,
+          numberOfProducts: products.length - 1,
         });
     };
 

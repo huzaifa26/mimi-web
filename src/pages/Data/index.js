@@ -1289,7 +1289,7 @@ export const Data = React.memo(() => {
               classes.heightInvitation,
             ])}
           >
-            {invitationBar}
+            {/* {invitationBar} */}
             <DataTable
               {...{
                 data: [],
