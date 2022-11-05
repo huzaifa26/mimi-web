@@ -791,51 +791,55 @@ export const KidsDetail = (props) => {
       >
         {actionBar}
         <Box marginBottom={2}>
-          <Divider />
+          {/* <Divider /> */}
         </Box>
 
         <div className={classes.header}>
-          <img
-            src={kid?.image || defaultAvatars?.kid}
-            className={classes.kidImage}
-            alt=''
-          />
-          <Box textAlign={"center"} display="flex" alignItems={"center"}>
-            <Box>
-              <Typography
-                className={clsx([
-                  classes.default_typography_capitalize,
-                  classes.default_typography_bold,
-                  classes.default_typography_heading,
-                ])}
-              >
-                {kid?.name}
-              </Typography>
-              <Typography
-                className={clsx([
-                  classes.default_typography_bold,
-                  classes.default_typography_paragraph,
-                ])}
-              >
-                {kid?.username}
-              </Typography>
-              <Typography
-                className={clsx([
-                  classes.default_typography_capitalize,
-                  classes.default_typography_bold,
-                  classes.default_typography_paragraph,
-                ])}
-              >
-                {kid?.groupName}
-              </Typography>
-            </Box>
+          <Box sx={{ display: "flex", gap: "1.953125vw" }}>
+            <Box sx={{ position: "relative" }}>
+              <img
+                src={kid?.image || defaultAvatars?.kid}
+                className={classes.kidImage}
+                alt=''
+              />
 
-            <Box marginX={2}>
-              <Badge value={kid.level} />
+              <Box sx={{ position: "absolute", top: "-18px", left: "72%" }}>
+                <Badge value={kid.level} />
+              </Box>
+
+            </Box>
+            <Box display="flex" alignItems={"center"}>
+              <Box>
+                <Typography
+                  className={clsx([
+                    classes.default_typography_capitalize,
+                    classes.default_typography_bold,
+                    classes.default_typography_heading,
+                  ])}
+                >
+                  {kid?.name}
+                </Typography>
+                <Typography
+                  className={clsx([
+                    classes.default_typography_bold,
+                    classes.default_typography_paragraph,
+                  ])}
+                >
+                  {kid?.username}
+                </Typography>
+                <Typography
+                  className={clsx([
+                    classes.default_typography_capitalize,
+                    classes.default_typography_bold,
+                    classes.default_typography_paragraph,
+                  ])}
+                >
+                  {kid?.groupName}
+                </Typography>
+              </Box>
             </Box>
           </Box>
-
-          <Box textAlign={"center"}>
+          <Box>
             <Typography
               className={clsx([
                 classes.default_typography_uppercase,
@@ -923,11 +927,11 @@ export const KidsDetail = (props) => {
                 classes.default_page_BgWhite,
               ])}
             >
+              {toolBar}
+              <Box marginBottom={2}>
+                <Divider />
+              </Box>
               <ScrollArea smoothScrolling>
-                {toolBar}
-                <Box marginBottom={2}>
-                  <Divider />
-                </Box>
                 <Grid container spacing={2}>
                   <Grid item lg={3} md={4} sm={6} xs={12}>
                     <ToolBox
@@ -1009,7 +1013,7 @@ export const KidsDetail = (props) => {
                   </Grid>
                   <Grid item lg={3} md={4} sm={6} xs={12}>
                     <ToolBox
-                      style={{cursor:"pointer"}}
+                      style={{ cursor: "pointer" }}
                       image={
                         <Person style={{ color: "#4FBF67" }} fontSize="large" />
                       }
@@ -1020,7 +1024,6 @@ export const KidsDetail = (props) => {
                           : "enable_profile_pic"
                       }
                       onClick={handleProfilePic}
-                    // onClick={()=>{console.log("button is disabled")}}
                     />
                   </Grid>
                   <Grid item lg={3} md={4} sm={6} xs={12}>
@@ -1127,8 +1130,8 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     alignItems: "center",
     "& > *:not(:last-child)": {
-      marginRight: 30,
-      marginLeft: 30,
+      marginRight: 50,
+      marginLeft: 50,
     },
     [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
