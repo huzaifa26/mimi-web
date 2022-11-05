@@ -31,7 +31,7 @@ export const GroupInfo = ({ group }) => {
             const _group = (await db.collection('Institution').doc(user._code).collection('groups').doc(group.id).get()).data();
             setImage(_group.image);
         })();
-    }, []);
+    }, [group.id, user._code]);
 
     return (
         <Box display={'flex'}>
