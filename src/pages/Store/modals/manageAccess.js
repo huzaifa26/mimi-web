@@ -238,7 +238,7 @@ export const ManageAccessBody = props => {
 
     const renderGroup = group => {
         return (
-            <Fragment>
+            <Fragment key={group.id}>
                 <TableCell className={classes.cell}>{group.name}</TableCell>
                 <TableCell className={classes.cell}>{group.kids_ids.length}</TableCell>
                 <TableCell className={classes.cell}>
@@ -256,7 +256,7 @@ export const ManageAccessBody = props => {
 
     const renderKid = kid => {
         return (
-            <Fragment>
+            <Fragment key={kid.id}>
                 <TableCell className={classes.cell}>{kid.name}</TableCell>
                 <TableCell className={classes.cell}>{kid.groupName}</TableCell>
                 <TableCell className={classes.cell}>

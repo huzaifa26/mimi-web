@@ -222,6 +222,7 @@ export const DataTable = React.forwardRef((props, ref) => {
           <TableBody className={classes.tableBody}>
             {tableData.map((el) => (
               <TableRow
+                key={el.id}
                 innerRef={observerRef}
                 className={clsx({
                   [classes.tableBodyRow]: true,

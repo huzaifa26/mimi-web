@@ -19,7 +19,7 @@ import { usePagination } from "../../hooks/usePaginaton";
 import {
   getPageStyles,
   getSectionHeaderStyles,
-  getTypographyStyles,
+
   searchBy,
 } from "../../utils/helpers";
 import { ROLES } from "../../utils/constants";
@@ -168,8 +168,9 @@ export const Store = React.memo(() => {
 
 
   const renderLabel = (status) => {
+   
     return (
-      <Box display={"flex"} alignItems="center">
+      <Box display={"flex"} alignItems="center" id={status.id}>
         <FormattedMessage id="show" />
         <Box marginRight={0.5}>:</Box>
         {status.label}
@@ -178,7 +179,7 @@ export const Store = React.memo(() => {
   };
   const renderItem = (store) => {
     return (
-      <Fragment>
+      <Fragment key={store.id}>
         <TableCell>{store.store_name}</TableCell>
         <TableCell>
           <Status value={store.status} />
