@@ -218,6 +218,10 @@ export function Login() {
         await setLocalStorage(institutionCode, password, language, direction)
           .then(() => {
             if ((user?.permissions?.showDashboard === false && user?.type !== ROLES.admin)) {
+              setStoreState((prev) => ({
+                ...prev,
+                user,
+              }));
               history.push("/history");
               return
             }

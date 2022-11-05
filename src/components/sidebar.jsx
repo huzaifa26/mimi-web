@@ -181,10 +181,14 @@ export function Sidebar({ children }) {
   const history = useHistory();
   const classes = useStyles();
   const { state: uiState } = useUi();
-  const { state: storeState } = useStore();
+  // const { state: storeState } = useStore();
+  const { state: storeState, setState: setStoreState } = useStore();
+
   const [open, setOpen] = useState(window.innerWidth > 500 ? true : false);
 
-  if (!storeState.user || !uiState.sidebar) return children;
+  if (!storeState?.user || !uiState.sidebar) {
+    return children
+  };
 
   const { user, defaultAvatars, orientation } = storeState;
 
