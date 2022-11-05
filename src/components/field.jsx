@@ -1,5 +1,4 @@
 import { makeStyles, Typography } from '@material-ui/core';
-import { FormattedMessage } from 'react-intl';
 
 const useStyles = makeStyles(theme => {
     return {
