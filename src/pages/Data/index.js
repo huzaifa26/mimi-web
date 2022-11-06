@@ -676,6 +676,17 @@ export const Data = React.memo(() => {
         kidsId.map(async (kid_id) => {
           if (kid_id === undefined) return
 
+          let kid_report=await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("kid")
+            .doc(kid_id)
+            .get();
+          
+          let kidReport=kid_report.data();
+
+          if(kidReport === null && kidReport === undefined) return
+
           await db
             .collection("Institution")
             .doc(user._code)
@@ -1112,7 +1123,7 @@ export const Data = React.memo(() => {
 
       <SimpleModal
         disableBackdropClick
-        title={<FormattedMessage id={uploadFileType ? `Excel Upload ${uploadFileType}` : "Excel Upload"} />}
+        title={<FormattedMessage id={uploadFileType ? `Excel Upload ${uploadFileType}` : "excel_upload"} />}
         open={modalStates.fileUpload}
         handleClose={closeFileUploadModal}
       >

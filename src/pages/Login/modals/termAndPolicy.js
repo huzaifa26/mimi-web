@@ -1,10 +1,8 @@
 import { Box, Checkbox, FormControlLabel, Grid, Input, makeStyles, Typography } from "@material-ui/core";
 import React, { Fragment, useState } from "react";
-import { defineMessages, FormattedMessage } from "react-intl";
-import { Button, Field } from "../../../components/";
-import { useStore, useUi } from "../../../store";
-import { db, auth } from "../../../utils/firebase";
-import { nanoid } from "nanoid";
+import { FormattedMessage } from "react-intl";
+import { Button } from "../../../components/";
+import { useStore } from "../../../store";
 import { getModalStyles } from "../../../utils/helpers";
 
 const useStyles = makeStyles((theme) => {
@@ -21,21 +19,11 @@ export const TermAndPolicy = (props) => {
     const [loading, setLoading] = useState(false);
     const [acceptTerm, setAcceptTerm] = useState(false);
 
-    let link1 = 'https://mimiplan.com/legal/privacypolicy/en';
-    let link2 = 'https://mimiplan.com/legal/termsofuse/en';
-
-    const messages = defineMessages({
-        dataError: {
-            id: 'data.error',
-            defaultMessage: `Please read the ${link1} and the ${link2} in order to proceed`
-        }
-    })
-
     const _handleSubmit = (acceptTerm) => {
-        props.acceptTermAndPolciyHandler().then(()=>{
+        props.acceptTermAndPolciyHandler().then(() => {
             props.setShowChangePassword(true);
             handleClose();
-        }).catch((err)=>{
+        }).catch((err) => {
             handleClose();
         })
     };
@@ -44,10 +32,8 @@ export const TermAndPolicy = (props) => {
         <Fragment>
             <div className={classes.default_modal_footer}>
                 <Typography variant="h6">
-                    {/* <FormattedMessage id="term_and_policy_message" /> */}
                     <FormattedMessage
-                        {...messages.dataError}
-                        values={{ message: `Please read the *${link1}* and the *${link2}* in order to proceed` }}
+                        id={props.localUserRef.current.language !== "english"?"english_term":"hebrew_term"}
                     />
                 </Typography>
                 <Box>
@@ -60,7 +46,7 @@ export const TermAndPolicy = (props) => {
                                 className={classes.checkbox}
                                 disableRipple
                                 // checked={rememberMe}
-                                onChange={() => { setAcceptTerm((prev) => {return !prev }) }}
+                                onChange={() => { setAcceptTerm((prev) => { return !prev }) }}
                             />
                         }
                         label={<FormattedMessage id="accept_term" />}

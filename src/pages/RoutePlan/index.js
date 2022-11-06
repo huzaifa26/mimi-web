@@ -125,7 +125,7 @@ export const RoutePlan = React.memo(() => {
     const renderLabel = status => {
         return (
             <Box display={'flex'} alignItems="center">
-                <FormattedMessage id="show" />
+                <FormattedMessage id="Show:" />
                 <Box marginRight={0.5}>:</Box>
                 {status.label}
             </Box>

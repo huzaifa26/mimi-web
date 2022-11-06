@@ -13,6 +13,7 @@
   "set_basic_report": "הגדר טופס פנימייתי",
   "subscription_ends_in": "מנוי יסתיים בעוד",
   "days": "ימים",
+  "Days:": "ימים:",
   "information": "מידע",
   "name_and_code": "שם וקוד",
   "no_of_kids": "מספר חניכים",
@@ -52,7 +53,7 @@
   "unsync_message":"האם אתה בטוח שברצונך לבטל את סנכרון הנושא הזה.",
   "profile": "פרופיל",
   "history": "היסטוריה",
-  "show:": "הצג:",
+  "Show:": "הצג:",
   "this_month": "החודש הזה",
   "excecuter": "שם מבצע",
   "excecuted": "בוצע על",
@@ -199,6 +200,7 @@
   "team": "צוות",
   "add_new_staff": "הוספת איש צוות",
   "role*": "תפקיד*",
+  "role": "תפקיד",
   "reset_access": "שחזר גישה",
   "SCORE": "ניקוד",
   "group_access": "גישה לקבוצות",
@@ -308,6 +310,8 @@
   "download_template": "הורד תבנית",
   "total_groups_in_file: ": "סך הכל קבוצות בקובץ: ",
   "created: ": "נוצרו: ",
+  "create": "לִיצוֹר",
+  "no_records":"אין רשומות להראות!",
   "already_exists: ": "כבר קיימים: ",
   "upload_succeed": "ההעלאה הושלמה",
   "load_users_from_excel": "ייבא משתמשים מקובץ",
@@ -319,6 +323,11 @@
   "delete_kid_password":"נא להזין סיסמה כדי להמשיך",
   "delete":"לִמְחוֹק",
   "teams":"צוותים",
-  "term_and_policy":"תקופה ומדיניות"
-
+  "term_and_policy":"תקופה ומדיניות",
+  "term_and_policy_message":"Please read the *{link1}* and the *{link2}* in order to proceed",
+  "accept_term":"I have read and agree with the terms of use and privacy policy.",
+  "all":"את כל",
+  "TOTAL_PRODUCTS":"סך כל המוצרים",
+  "english_term":"Please read the https://mimiplan.com/legal/privacypolicy/en and the https://mimiplan.com/legal/termsofuse/en in order to proceed",
+  "hebrew_term":"Please read the https://mimiplan.com/legal/privacypolicy/heb and the https://mimiplan.com/legal/termsofuse/heb in order to proceed"
 }

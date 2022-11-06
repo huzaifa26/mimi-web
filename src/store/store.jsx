@@ -34,7 +34,6 @@ export const StoreProvidor = ({ children }) => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         let last_login = localStorage.getItem("last_login");
-        console.log(last_login)
         if (last_login !== null) {
           let minus4Hours = new Date();
           last_login = new Date(new Date(last_login).setHours(new Date().getHours())).getTime();
@@ -59,8 +58,6 @@ export const StoreProvidor = ({ children }) => {
 
           let userData = _user_Data.data();
           if (userData.permissions.webPanelAccess === true) {
-            console.log(userData.type, userData.firstPasswordChanged);
-            console.log(!(userData.type !== ROLES.admin && userData.firstPasswordChanged === false));
             if(!(userData.type !== ROLES.admin && userData.firstPasswordChanged === false)){
               let last_login=new Date();
               await db
@@ -95,7 +92,6 @@ export const StoreProvidor = ({ children }) => {
                     handleSignOut();
                   }
                   localStorage.setItem("last_login", new Date());
-                  console.log(snapshot.data());
                   setState((prev) => ({
                     ...prev,
                     authenticated: true,

@@ -180,23 +180,22 @@ export function Sidebar({ children }) {
 
   const [open, setOpen] = useState(window.innerWidth > 500 ? true : false);
 
-  if (!storeState?.user || !uiState.sidebar) {
-    return children
-  };
+  // if (!storeState?.user || !uiState.sidebar) {
+  //   return children
+  // };
 
   const { user, defaultAvatars, orientation } = storeState;
 
   const checkActive = (path) => {
-    const [basePath] = path.split("/").filter((el) => el);
+    // const [basePath] = path.split("/").filter((el) => el);
 
-    const [comparison] = location.pathname.split("/").filter((el) => el);
+    // const [comparison] = location.pathname.split("/").filter((el) => el);
 
-    return basePath === comparison;
+    // return basePath === comparison;
   };
 
   return (
-    <Box display={"flex"} className={classes.root}>
-      {user?.permissions?.webPanelAccess === true &&
+    <Box display={"flex"}  className={classes.root}>
         <Drawer
         variant="permanent"
         open={open}
@@ -228,7 +227,7 @@ export function Sidebar({ children }) {
           )}
 
           {Routes.filter((el) => el.icon).map((el, idx) => {
-            if (user.type !== ROLES.admin && el.roles.length && !el.roles.includes(user.type))
+            if (user?.type !== ROLES.admin && el.roles.length && !el.roles.includes(user?.type))
               return;
 
             if(el.path.includes("/dashboard") && (user?.permissions?.showDashboard === false && user?.type !== ROLES.admin)){
@@ -282,23 +281,22 @@ export function Sidebar({ children }) {
         >
           {orientation === "ltr" && (
             <ListItemIcon className={classes.listItemIcons}>
-              <Avatar src={user.image || defaultAvatars?.staff} />
+              <Avatar src={user?.image || defaultAvatars?.staff} />
             </ListItemIcon>
           )}
           <ListItemText
-            primary={user.name}
-            secondary={RoleMappings[user.type]}
+            primary={user?.name}
+            secondary={RoleMappings[user?.type]}
             classes={{ primary: classes.listItemText }}
           />
 
           {orientation === "rtl" && (
             <ListItemIcon className={classes.listItemIcons}>
-              <Avatar src={user.image || defaultAvatars?.staff} />
+              <Avatar src={user?.image || defaultAvatars?.staff} />
             </ListItemIcon>
           )}
         </ListItem>
         </Drawer>
-      } 
 
       <main className={classes.content}>{children}</main>
     </Box>

@@ -188,15 +188,15 @@ export const Kid = React.memo(() => {
         <Fragment>
             <TableCell>
                 <Box display={'flex'} alignItems="center">
-                    <img src={kid.favoriteBy?.includes(user.id) ? Star : StarOut} alt="pin" onClick={stopEventBubble(() => handleFavorite(kid))} />
+                    <img src={kid?.favoriteBy?.includes(user?.id) ? Star : StarOut} alt="pin" onClick={stopEventBubble(() => handleFavorite(kid))} />
                     <Box mx={1}>
-                        <Avatar src={kid.image || defaultAvatars?.kid} />
+                        <Avatar src={kid?.image || defaultAvatars?.kid} />
                     </Box>
-                    <Typography>{kid.name}</Typography>
+                    <Typography>{kid?.name}</Typography>
                 </Box>
             </TableCell>
-            <TableCell>{kid.groupName}</TableCell>
-            <TableCell>{kid.score}</TableCell>
+            <TableCell>{kid?.groupName}</TableCell>
+            <TableCell>{kid?.score}</TableCell>
         </Fragment>
     );
 
