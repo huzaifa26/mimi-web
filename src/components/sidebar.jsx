@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
-import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -11,20 +9,16 @@ import logo from "../assets/logo/applogo.png";
 import icons from "./Icons";
 import {
   Divider,
-  Typography,
-  IconButton,
   ListItemIcon,
-  Grid,
-  Button,
-  Avatar,
   Box,
+  IconButton,
+  Avatar
 } from "@material-ui/core";
 import { useHistory, useLocation } from "react-router";
 import { alpha } from "@material-ui/core/styles/colorManipulator";
-import { LANGUAGE_ORIENTATION, RoleMappings, ROLES } from "../utils/constants";
+import { RoleMappings, ROLES } from "../utils/constants";
 import { useStore, useUi } from "../store";
 import { Routes } from "../utils/config";
-import { auth } from "../utils/firebase";
 
 const drawerWidth = 250;
 const activeBgColor = alpha(`#E4E4E4`, 0.2);
@@ -224,7 +218,7 @@ export function Sidebar({ children }) {
         <List>
           {open && (
             <ListItem>
-              <img src={logo} className={classes.logoImage} />
+              <img src={logo} className={classes.logoImage} alt="logo" />
               <ListItemText
                 primary="Mimi"
                 classes={{ primary: classes.logoText }}
@@ -237,11 +231,10 @@ export function Sidebar({ children }) {
               return;
 
             if(el.path.includes("/dashboard") && (user?.permissions?.showDashboard === false && user?.type !== ROLES.admin)){
-              return
+              return;
             }
 
-            return (
-              <ListItem
+            return (<ListItem
                 component={"li"}
                 key={idx}
                 button
@@ -253,7 +246,7 @@ export function Sidebar({ children }) {
                   history.push(el.path);
                 }}
               >
-                {orientation == "ltr" && (
+                {orientation === "ltr" && (
                   <ListItemIcon className={classes.listItemIcons}>
                     {el.icon}
                   </ListItemIcon>
@@ -263,13 +256,13 @@ export function Sidebar({ children }) {
                   classes={{ primary: classes.listItemText }}
                 />
 
-                {orientation == "rtl" && (
+                {orientation === "rtl" && (
                   <ListItemIcon className={classes.listItemIcons}>
                     {el.icon}
                   </ListItemIcon>
                 )}
-              </ListItem>
-            );
+              </ListItem>);
+            
           })}
         </List>
         <Divider className={classes.divider} />
@@ -286,7 +279,7 @@ export function Sidebar({ children }) {
             history.push("/profile");
           }}
         >
-          {orientation == "ltr" && (
+          {orientation === "ltr" && (
             <ListItemIcon className={classes.listItemIcons}>
               <Avatar src={user?.image || defaultAvatars?.staff} />
             </ListItemIcon>
@@ -297,7 +290,7 @@ export function Sidebar({ children }) {
             classes={{ primary: classes.listItemText }}
           />
 
-          {orientation == "rtl" && (
+          {orientation === "rtl" && (
             <ListItemIcon className={classes.listItemIcons}>
               <Avatar src={user?.image || defaultAvatars?.staff} />
             </ListItemIcon>

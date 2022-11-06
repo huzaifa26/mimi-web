@@ -41,19 +41,6 @@ export const Routes = React.memo(() => {
         bodyEl.setAttribute('dir', state.orientation);
     }, [state.orientation]);
 
-    const checkAndDisableRoutes = async () => {
-        await firebase.functions().httpsCallable('disableRoutePlan')({ doc: user?._code })
-            .then(() => {
-                // console.log("Auto Disable run success)")
-            })
-            .catch((error) => {
-                // console.log(error)
-            })
-    }
-    useEffect(() => {
-        checkAndDisableRoutes();
-    })
-
     const renderRoutes = () => {
 
         return routesConfig.map(el => {

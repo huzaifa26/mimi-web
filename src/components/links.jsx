@@ -33,7 +33,7 @@ export const Links = ({ links }) => {
             {links.map((el, idx) => {
                 if (links.length === idx + 1) {
                     return (
-                        <Link className={clsx(classes.link, classes.active)} to={el.ref}>
+                        <Link className={clsx(classes.link, classes.active)} to={el.ref} key={idx}>
                             <Typography className={clsx([classes.default_typography_subHeading, classes.default_typography_bold, classes.default_typography_capitalize])}>
                                 {el.title}
                             </Typography>
@@ -41,7 +41,7 @@ export const Links = ({ links }) => {
                     );
                 } else {
                     return (
-                        <Fragment>
+                        <Fragment key={idx}>
                             <Link className={classes.link} to={el.ref}>
                                 <Typography className={clsx([classes.default_typography_subHeading, classes.default_typography_bold, classes.default_typography_capitalize])}>
                                     {el.title}

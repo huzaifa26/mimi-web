@@ -195,6 +195,7 @@
   "unlimited": "Unlimited",
   "add_new_store": "Add New Store",
   "active": "Active",
+  "all":"All",
   "store_details": "Store Details",
   "STORE_NAME": "STORE NAME",
   "TOTAL_PRODUCTS": "TOTAL PRODUCTS",
@@ -343,6 +344,7 @@
   "term_and_policy":"Term and Policy",
   "term_and_policy_message":"Please read the *{link1}* and the *{link2}* in order to proceed",
   "accept_term":"I have read and agree with the terms of use and privacy policy.",
+  "show":"Show",
   "all":"All",
   "english_term":"Please read the https://mimiplan.com/legal/privacypolicy/en and the https://mimiplan.com/legal/termsofuse/en in order to proceed",
   "hebrew_term":"Please read the https://mimiplan.com/legal/privacypolicy/heb and the https://mimiplan.com/legal/termsofuse/heb in order to proceed"
