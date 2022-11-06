@@ -22,7 +22,7 @@ import ExpandLessIcon from "@material-ui/icons/ArrowDropDown";
 import Reset from "../../../assets/icons/reset.png";
 import { getModalStyles } from "../../../utils/helpers";
 
-export const GroupReportBody = (props) => {
+export const c = (props) => {
   const { group, guides, kids } = props;
   const classes = useStyles();
   const { state: storeState } = useStore();
