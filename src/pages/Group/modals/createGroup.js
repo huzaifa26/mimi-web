@@ -25,6 +25,7 @@ export const CreateGroupBody = (props) => {
   const handleFileModalClose = () => {
     setFileUpload(false);
   };
+
   const handleSubmit = async () => {
     try {
       setLoading(true);
@@ -47,6 +48,7 @@ export const CreateGroupBody = (props) => {
         },
       });
 
+      // Reviewed by huzaifa: You must not refresh whole react website. you just killed the purpose of using react js.
       // this reload is to add the new data. data was not adding without the reload. So I added this
       window.location.reload();
       //-----------------------

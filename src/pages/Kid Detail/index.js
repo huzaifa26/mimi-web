@@ -109,7 +109,6 @@ export const KidsDetail = (props) => {
         .doc(user._code)
         .collection("kid")
         .doc(params.id)
-        // .orderBy("orderNo")
         .onSnapshot(async (querySnapshot) => {
           setKid(querySnapshot.data());
         });
@@ -140,6 +139,7 @@ export const KidsDetail = (props) => {
             .collection("groups")
             .doc(kid.groupId)
             .collection("report_templates")
+            .orderBy("orderNo")
             .get()
         ).docs.map((el) => el.data());
         setSubjects(report_templates);

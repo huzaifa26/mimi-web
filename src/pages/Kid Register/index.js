@@ -327,7 +327,7 @@ export const RegisterKid = (props) => {
             <Grid item xs={6}>
               <Field label={<FormattedMessage id="assign_days" />}>
                 <MenuMultiple
-                  prefix={<FormattedMessage id="Days: " />}
+                  prefix={<FormattedMessage id="Days:" />}
                   defaultSelected={defaultAssignedDays}
                   list={days}
                   entity={"Days"}

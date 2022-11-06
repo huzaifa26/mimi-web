@@ -27,6 +27,7 @@ import { ROLES } from "../../utils/constants";
 import { CreateStoreBody } from "./modals/createStore";
 import { StoreDetailsBody } from "./modals/storeDetails";
 import clsx from "clsx";
+import { useRef } from "react";
 
 const headers = [
   {
@@ -79,11 +80,16 @@ export const Store = React.memo(() => {
   };
 
   const [changeState,setChangeState]=useState(false);
+  const isProductAddedRef=useRef(null);
 
   const closeStoreDetail = useCallback(() => {
     setModalStates((prev) => ({ ...prev, storeDetail: false }));
     setSelectedStore(null);
-    setChangeState(!changeState);
+    console.log(isProductAddedRef.current);
+    if(isProductAddedRef.current === true){
+      setChangeState(!changeState);
+      isProductAddedRef.current=null;
+    }
   }, [changeState])
 
   const query = useMemo(() => {
@@ -166,12 +172,11 @@ export const Store = React.memo(() => {
     },
   ];
 
-
   const renderLabel = (status) => {
     return (
       <Box display={"flex"} alignItems="center">
-        <FormattedMessage id="show" />
-        <Box marginRight={0.5}>:</Box>
+        <FormattedMessage id="Show:" />
+        <Box marginRight={0.5}></Box>
         {status.label}
       </Box>
     );
@@ -251,7 +256,8 @@ export const Store = React.memo(() => {
         <StoreDetailsBody
           storeId={selectedStore?.id}
           handleClose={closeStoreDetail}
-          // changeStateAfterProductAdded={changeStateAfterProductAdded}
+          setChangeState={setChangeState}
+          isProductAddedRef={isProductAddedRef}
         />
       </SimpleModal>
       {actionBar}

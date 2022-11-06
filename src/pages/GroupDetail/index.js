@@ -96,9 +96,9 @@ export const GroupDetail = () => {
         .where("groupId", "==", params.id)
         .onSnapshot((querySnapshot) => {
           const _kids = querySnapshot.docs.map((el) => el.data());
-
           setGroupKids(_kids);
         });
+
       db.collection("Institution")
         .doc(user._code)
         .collection("groups")
@@ -193,6 +193,9 @@ export const GroupDetail = () => {
     subjectOrder
   ) => {
 
+    console.log(subjectAdded);
+    console.log(subjectLock);
+
     // Add subject
     let _save1 = await Promise.all(
       subjectAdded.map(async (sub) => {
@@ -207,6 +210,9 @@ export const GroupDetail = () => {
           type: sub.type || "group",
           orderNo: sub.orderNo
         };
+
+        console.log(payload);
+
         await db
           .collection("Institution")
           .doc(user._code)
@@ -539,22 +545,6 @@ export const GroupDetail = () => {
     // Sync subject
     let _save7 = await Promise.all(
       subjectLock.map(async (sub) => {
-        console.log(subjectLock)
-        const reportTemplates = await db
-          .collection("Institution")
-          .doc(user._code)
-          .collection("groups")
-          .doc(group.id)
-          .collection("report_templates")
-          .doc(sub.id)
-          .get();
-
-        let _report_templates = reportTemplates.data();
-
-        let _isSync = true;
-        if (_report_templates.isSync === true) {
-          _isSync = false
-        }
 
         await db
           .collection("Institution")
@@ -564,10 +554,40 @@ export const GroupDetail = () => {
           .collection("report_templates")
           .doc(sub.id)
           .update({
-            isSync: _isSync,
+            isSync: sub.isSync,
           });
 
         location?.state?.group.kids_ids.map(async (kid_id) => {
+          const kid_report = await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("kid")
+          .doc(kid_id)
+          .get();
+
+          const kidReport=kid_report.data();
+
+          if(!kidReport.has_special_program){
+            await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("groups")
+            .doc(kidReport.groupId)
+            .update({
+              isSpecialReport: true,
+            });
+
+          await db
+            .collection("Institution")
+            .doc(user._code)
+            .collection("groups")
+            .doc(kidReport.groupId)
+            .collection("report_templates")
+            .doc(sub.id)
+            .set(sub);
+          return
+          }
+
           const kidSubject = await db
             .collection("Institution")
             .doc(user._code)

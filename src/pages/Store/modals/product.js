@@ -109,6 +109,8 @@ export const ProductBody = (props) => {
           numberOfProducts: store.numberOfProducts + 1,
         });
 
+        console.log(true);
+      props.isProductAddedRef.current = true;
       handleClose();
     } catch (error) {
       actions.alert(error.message, "error");

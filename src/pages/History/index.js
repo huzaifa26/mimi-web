@@ -20,7 +20,6 @@ export const History = () => {
 
   const { state: storeState } = useStore();
   const { user } = storeState;
-console.log(user._code)
   const rootQuery = useMemo(
     () => db.collection("Institution").doc(user._code).collection("History"),
     []

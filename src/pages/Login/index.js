@@ -61,6 +61,7 @@ export function Login() {
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [userDataForTermAndPolicy, setUserDataForTermAndPolicy] = useState();
   const [codeDataForTermAndPolicy, setCodeDataForTermAndPolicy] = useState();
+  const localUserRef=useRef(null);
 
   const [modalStates, setModalStates] = useState({
     forgotPassword: false,
@@ -174,6 +175,8 @@ export function Login() {
         ...userDocRef.data(),
         _code: institutionCode.toUpperCase(),
       };
+
+      localUserRef.current=user;
 
       setUserDataForTermAndPolicy(user);
       setCodeDataForTermAndPolicy(institutionCode.toUpperCase());
@@ -306,6 +309,7 @@ export function Login() {
           handleClose={closeTermAndPolicy}
           acceptTermAndPolciyHandler={acceptTermAndPolciyHandler}
           setShowChangePassword={setShowChangePassword}
+          localUserRef={localUserRef}
         />
       </SimpleModal>
 

@@ -57,7 +57,6 @@ export const DeleteKid = (props) => {
         <Field label={<FormattedMessage id="password" />}>
             <Input
               value={password}
-              type="password"
               fullWidth
               size="small"
               type="password"

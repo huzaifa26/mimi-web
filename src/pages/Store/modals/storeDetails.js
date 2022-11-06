@@ -150,7 +150,6 @@ export const StoreDetailsBody = (props) => {
 
   const closeProduct = () => {
     setModalStates((prev) => ({ ...prev, product: false }));
-    // props.changeStateAfterProductAdded();
   };
 
   const closeManageAccess = () => {
@@ -355,6 +354,7 @@ export const StoreDetailsBody = (props) => {
         <ProductBody
           store={store}
           product={selectedProduct}
+          isProductAddedRef={props.isProductAddedRef}
           handleClose={closeProduct}
         />
       </SimpleModal>
