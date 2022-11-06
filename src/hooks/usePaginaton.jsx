@@ -107,7 +107,6 @@ export const usePagination = (query, modifier, comparator) => {
         };
     }, [query]);
 
-    console.log(state);
 
     return {
         ...state,

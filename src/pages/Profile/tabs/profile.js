@@ -44,7 +44,7 @@ export const Profile = () => {
       setGroups(totalGroups);
     })();
   }, [user._code]);
-  // console.log(groups);
+
 
   // To get a group
   useEffect(() => {
@@ -60,7 +60,7 @@ export const Profile = () => {
       setGroup(ref);
     })();
   }, []);
-  // console.log(group);
+
 
   const closeUploadModal = () => {
     setUploadModal(false);

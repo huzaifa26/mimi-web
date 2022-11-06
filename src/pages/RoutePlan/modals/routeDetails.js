@@ -1,8 +1,8 @@
 import { Grid, makeStyles, TableCell, Typography, Box } from '@material-ui/core';
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Button, SearchBar, Cockpit, SimpleModal, DataTable, Loader } from '../../../components';
-import Icons, { AddIconSim, Delete, Pause, Active,FileIcon, } from '../../../components/Icons';
+import { Button, SearchBar, SimpleModal, DataTable, Loader } from '../../../components';
+import { AddIconSim, Delete, Pause, Active,FileIcon, } from '../../../components/Icons';
 
 import { useStore, useUi } from '../../../store';
 import { db } from '../../../utils/firebase';
@@ -99,7 +99,7 @@ export const RouteDetailsBody = props => {
                     subActivity: routeLog?.current?.name,
                     uid: user.id
                 }
-                console.log("route "+routeLog?.current?.name+" opened, uid:" + user.id);
+             
 
                 // await db
                 //     .collection('Institution')
@@ -148,7 +148,7 @@ export const RouteDetailsBody = props => {
 
                     const levelsForPrizes = snapshot.docs.map(el => el.data().requiredLevel).sort();
 
-                    // console.log({ levelsForPrizes });
+                  
 
                     setData(
                         snapshot.docs.map(el => {
@@ -306,7 +306,7 @@ export const RouteDetailsBody = props => {
   
         resolve(prizeName);
       }).then((rows) => {
-        console.log(rows);
+   
         const worksheet = XLSX.utils.json_to_sheet(rows);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Dates");

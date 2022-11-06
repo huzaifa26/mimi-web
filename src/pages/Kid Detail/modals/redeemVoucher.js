@@ -1,4 +1,4 @@
-import { Grid, Input, makeStyles, Typography, Divider, Box, Avatar } from '@material-ui/core';
+import { makeStyles, Typography, Divider, Box, Avatar } from '@material-ui/core';
 import React, { Fragment, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useStore, useUi } from '../../../store';
@@ -8,10 +8,9 @@ import moment from 'moment';
 import { getModalStyles, getSectionHeaderStyles, getTypographyStyles } from '../../../utils/helpers';
 import clsx from 'clsx';
 export const RedeemVoucherBody = props => {
-    const { handleClose, kid, voucher } = props;
+    const {  kid, voucher } = props;
     const classes = useStyles();
     const { state: storeState } = useStore();
-    const { actions } = useUi();
     const { user, defaultAvatars } = storeState;
 
     const [staff, setStaff] = useState(null);
@@ -22,9 +21,9 @@ export const RedeemVoucherBody = props => {
         (async () => {
             setStaff((await db.collection('Institution').doc(user._code).collection('staff').doc(voucher.staff_id).get()).data());
         })();
-    }, [voucher]);
+    }, [user._code, voucher]);
+    
 
-    console.log(voucher);
 
     return (
         <Fragment>

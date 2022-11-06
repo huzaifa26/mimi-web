@@ -1,7 +1,5 @@
-import React, { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
-  Avatar,
-  TableCell,
   Typography,
   makeStyles,
   Box,
@@ -11,14 +9,10 @@ import { useHistory, useParams } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import {
   AddIcon,
-  Cockpit,
-  SearchBar,
   Button,
   Loader,
   SimpleModal,
   Links,
-  DataTable,
-  MenuMultiple,
   Pause,
   HistoryTable,
   Level,
@@ -26,12 +20,11 @@ import {
 } from "../../components";
 import { db } from "../../utils/firebase";
 import { useStore, useUi } from "../../store";
-import { usePagination } from "../../hooks/usePaginaton";
+
 
 import {
   getSectionHeaderStyles,
   getPageStyles,
-  FirebaseHelpers,
   getTypographyStyles,
 } from "../../utils/helpers";
 import clsx from "clsx";
@@ -113,9 +106,7 @@ export const SpecialProgramDetail = React.memo(() => {
     };
   }, []);
 
-  console.log({
-    levels,
-  });
+
 
   const links = [
     {
@@ -223,9 +214,7 @@ export const SpecialProgramDetail = React.memo(() => {
     const action = async () => {
       const currentLevel = levels.find((el) => el.currentLevel);
 
-      console.log({
-        currentLevel,
-      });
+     
 
       const id = nanoid(6);
       await db
@@ -304,6 +293,7 @@ export const SpecialProgramDetail = React.memo(() => {
             <img
               className={classes.profileImage}
               src={kid?.image || defaultAvatars?.kid}
+              alt="profile-img"
             />
             <Box>
               <Typography

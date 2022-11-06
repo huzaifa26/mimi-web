@@ -216,8 +216,8 @@ export const RegisterKid = (props) => {
 
       actions.alert("Kid added successfully", "success");
     } catch (error) {
-      // actions.alert(error.message, "error");
-      console.log(error)
+      actions.alert(error.message, "error");
+      
     } finally {
       setLoading(false);
     }

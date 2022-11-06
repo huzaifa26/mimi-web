@@ -104,8 +104,7 @@ export const ManagePermissionsBody = (props) => {
   const { handleClose, staff } = props;
   const classes = useStyles();
   const { state: storeState } = useStore();
-  const { actions } = useUi();
-  const { user, defaultAvatars } = storeState;
+  const { user, } = storeState;
 
   const [permissions, setPermissions] = useState(() => {
     const _permissions = { ...staff.permissions };

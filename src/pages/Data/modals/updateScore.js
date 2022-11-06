@@ -366,7 +366,7 @@ const steps = [
           setState((prev) => ({ ...prev, selectedKids: [] }));
         }
       };
-      console.log({ selectedKids: selectedKids });
+
 
       const renderItem = (kid) => {
         return (

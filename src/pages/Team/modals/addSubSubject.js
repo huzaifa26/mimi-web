@@ -1,9 +1,9 @@
-import { Grid, Input, makeStyles, TextField, Typography, CircularProgress, Divider } from '@material-ui/core';
+import { Grid, Input, makeStyles, } from '@material-ui/core';
 import React, { Fragment, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Button, Field } from '../../../components';
 import { useStore, useUi } from '../../../store';
-import { db, app } from '../../../utils/firebase';
+import { db,  } from '../../../utils/firebase';
 import firebase from 'firebase/app';
 import { nanoid } from 'nanoid';
 import { getModalStyles } from '../../../utils/helpers';
@@ -18,7 +18,6 @@ export const AddSubSubjectBody = props => {
     const { handleClose, subject, staff } = props;
     const classes = useStyles();
     const { state: storeState } = useStore();
-    const { actions } = useUi();
     const { user } = storeState;
 
     const [score, setScore] = useState(0);

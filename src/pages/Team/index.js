@@ -11,7 +11,6 @@ import { useHistory } from "react-router-dom";
 import { FormattedMessage, useIntl } from "react-intl";
 import {
   AddIcon,
-  Cockpit,
   SearchBar,
   Button,
   Loader,
@@ -36,7 +35,6 @@ import {
 } from "../../utils/helpers";
 import { RoleMappings, ROLES } from "../../utils/constants";
 import { ProfileBody } from "./modals/profile";
-import { AddSchoolBody } from "./modals/addSchool";
 
 import clsx from "clsx";
 import intersectionBy from "lodash/intersectionBy";
@@ -81,7 +79,7 @@ export const Team = React.memo(() => {
   const classes = useStyles();
 
   const { state: storeState } = useStore();
-  const { user, orientation, defaultAvatars } = storeState;
+  const { user, defaultAvatars } = storeState;
 
   const intl = useIntl();
 
@@ -98,9 +96,7 @@ export const Team = React.memo(() => {
 
   const modifier = useMemo(
     () => async (list) => {
-      console.log("this is staff list", {
-        list,
-      });
+      
       if (
         user.type == ROLES.crdntr ||
         user.type == ROLES.gStaff ||
@@ -115,7 +111,7 @@ export const Team = React.memo(() => {
             }
           });
         });
-        console.log({ filteredList: _arr });
+       
         list = _arr;
       }
       const temp = [];

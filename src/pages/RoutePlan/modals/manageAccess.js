@@ -5,7 +5,6 @@ import { Button, SearchBar, MenuMultiple, DataTable } from '../../../components'
 import { useStore, useUi } from '../../../store';
 import { getModalStyles, FirebaseHelpers, getPageStyles, getTypographyStyles, getSectionHeaderStyles, searchBy } from '../../../utils/helpers';
 import IconOne from '../../../assets/logo/routeIcon.png';
-import IconThree from '../../../assets/logo/routeIconThree.png';
 import clsx from 'clsx';
 import intersectionWith from 'lodash/intersectionWith';
 import differenceWith from 'lodash/differenceWith';
@@ -39,9 +38,8 @@ export const ManageAccessBody = props => {
     const { handleClose, routePlan } = props;
     const classes = useStyles();
     const { state: storeState } = useStore();
-    const { actions } = useUi();
     const { user } = storeState;
-
+    const { actions } = useUi();
     const [loading, setLoading] = useState(false);
 
     const [state, setState] = useState({
@@ -162,7 +160,7 @@ export const ManageAccessBody = props => {
 
     const handleKidChange = kid => {
         const { selectedKids } = state;
-        const exists = selectedKids.find(el => el.id == kid.id);
+        const exists = selectedKids.find(el => el.id === kid.id);
         if (exists) {
             setState(prev => ({ ...prev, selectedKids: prev.selectedKids.filter(el => el.id !== kid.id) }));
         } else {
@@ -216,7 +214,7 @@ export const ManageAccessBody = props => {
             setLoading(false);
             handleClose();
         } catch (error) {
-            console.log(error);
+           actions.alert(error,"error");
         }
     };
 
@@ -275,7 +273,7 @@ export const ManageAccessBody = props => {
             <Grid container spacing={2}>
                 <Grid item lg={6} md={6} sm={6} xs={12}>
                     <div className={classes.pillContainer}>
-                        <img src={IconOne} />
+                        <img src={IconOne} alt="icon"/>
                         <div>
                             <Typography className={classes.pillLabel}>
                                 <FormattedMessage id="selected_groups"></FormattedMessage>
@@ -286,7 +284,7 @@ export const ManageAccessBody = props => {
                 </Grid>
                 <Grid item lg={6} md={6} sm={6} xs={12}>
                     <div className={classes.pillContainer}>
-                        <img src={IconOne} />
+                        <img src={IconOne} alt="icon"/>
                         <div>
                             <Typography className={classes.pillLabel}>
                                 <FormattedMessage id="selected_kids"></FormattedMessage>

@@ -1,4 +1,4 @@
-import { Grid, makeStyles, Typography } from "@material-ui/core";
+import { Grid, makeStyles, } from "@material-ui/core";
 import React, { Fragment, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";

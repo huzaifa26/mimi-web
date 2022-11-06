@@ -68,7 +68,6 @@ export const Data = React.memo(() => {
   const [subjects, setSubjects] = useState([]);
   const [uploadFileType, setUploadFileType] = useState("");
 
-  console.log(institute);
 
   useEffect(() => {
     (async () => {
@@ -747,7 +746,7 @@ export const Data = React.memo(() => {
         if (sub.isSync) {
           const batch = db.batch();
           kidsId.map(async (kid_id) => {
-            console.log(kid_id)
+    
             batch.delete(
               db.collection("Institution")
                 .doc(user._code)
@@ -761,7 +760,7 @@ export const Data = React.memo(() => {
 
           const batch1 = db.batch();
           groupsId.map(async (group_id) => {
-            console.log(group_id)
+        
             batch1.delete(
               db.collection("Institution")
                 .doc(user._code)

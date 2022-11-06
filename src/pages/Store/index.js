@@ -19,7 +19,6 @@ import { usePagination } from "../../hooks/usePaginaton";
 import {
   getPageStyles,
   getSectionHeaderStyles,
-  getTypographyStyles,
   searchBy,
 } from "../../utils/helpers";
 import { ROLES } from "../../utils/constants";
@@ -58,7 +57,7 @@ const options = [
 export const Store = React.memo(() => {
   const classes = useStyles();
   const { state: storeState } = useStore();
-  const { user, orientation, defaultAvatars } = storeState;
+  const { user, } = storeState;
   const [stores, setStores] = useState([]);
   const [selectedStore, setSelectedStore] = useState();
   const [searchText, setSearchText] = useState("");
@@ -131,7 +130,7 @@ export const Store = React.memo(() => {
   );
 
   useEffect(() => {
-    console.log(data);
+   
     if (searchText) {
       setStores(searchBy(data, ["store_name"], searchText));
     } else {

@@ -1,7 +1,6 @@
 import React, {
   Fragment,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,7 +18,7 @@ import rtlDetect from "rtl-detect";
 import { useHistory } from "react-router-dom";
 import { useUi, useStore } from "../../store";
 import { LANGUAGE_MAPPING, ROLES, PERMISSIONS } from "../../utils/constants";
-import { db, app, auth } from "../../utils/firebase";
+import { db,  auth } from "../../utils/firebase";
 import clsx from "clsx";
 
 import Image from "../../assets/logo/background.jpg";
@@ -180,7 +179,7 @@ export function Login() {
           }).then(() => localStorage.setItem("last_login", new Date()))
       }
     } catch (error) {
-      console.log(error);
+    actions.alert(error,"error");
       return actions.alert(error.message, "error");
     } finally {
       setLoading(false);
@@ -236,8 +235,8 @@ export function Login() {
       </SimpleModal>
       <div className={classes.backgroundconatiner}>
         <Form>
-          <img src={KidPic1} className={classes.kidImage1} />
-          <img src={KidPic2} className={classes.kidImage2} />
+          <img src={KidPic1} className={classes.kidImage1} alt="kid-profile" />
+          <img src={KidPic2} className={classes.kidImage2} alt="kid-profile"/>
 
           <Box>
             <Typography

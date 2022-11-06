@@ -64,7 +64,7 @@ export const Group = React.memo(() => {
     const [searchText, setSearchText] = useState('');
     const [createGroupModalShow, setCreateGroupModalShow] = useState(false);
 
-    // console.log(groups);
+
     // --------- the bug seemes like here ----------
     useEffect(() => {
         if (searchText) {

@@ -1,7 +1,7 @@
-import { Grid, Input, makeStyles, TextField, Typography, CircularProgress, Divider } from '@material-ui/core';
+import { Grid, Input, makeStyles,} from '@material-ui/core';
 import React, { Fragment, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Button, ErrorIcon, Field } from '../../../components';
+import { Button, Field } from '../../../components';
 import { useStore, useUi } from '../../../store';
 import { db } from '../../../utils/firebase';
 import { nanoid } from 'nanoid';

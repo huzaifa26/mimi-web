@@ -539,7 +539,7 @@ export const GroupDetail = () => {
     // Sync subject
     let _save7 = await Promise.all(
       subjectLock.map(async (sub) => {
-        console.log(subjectLock)
+
         const reportTemplates = await db
           .collection("Institution")
           .doc(user._code)

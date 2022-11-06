@@ -73,7 +73,7 @@ export const CreateRoutePlanBody = props => {
 
             const route_names = (await db.collection('Institution').doc(user._code).collection('routePlan').get()).docs.map(el => el.data());
 
-            const exists = route_names.some(el => el.name.toLowerCase() == routeName.toLowerCase());
+            const exists = route_names.some(el => el.name.toLowerCase() === routeName.toLowerCase());
 
             if (exists) throw new Error('Route Name with same name already exists,kindly choose a different Name', 'error');
 

@@ -70,9 +70,6 @@ export const AssignDaysBody = props => {
     const handleSubmit = async () => {
         try {
             const leastSelected = selectedDays.some(el => el);
-
-            console.log(selectedDays, leastSelected);
-
             if (!leastSelected) throw new Error('must select atleast one day');
 
             setLoading(true);
@@ -94,7 +91,7 @@ export const AssignDaysBody = props => {
             <section className={clsx([classes.default_page_root])}>
                 <ScrollArea smoothScrolling speed={0.5}>
                     {selectedDays.map((el, idx) => {
-                        const day = days.find(element => element.id == idx);
+                        const day = days.find(element => element.id === idx);
 
                         return (
                             <Box display={'flex'} alignItems={'center'}>

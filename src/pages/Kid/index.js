@@ -58,7 +58,7 @@ export const Kid = React.memo(() => {
                     subActivity:kidLog?.current?.name,
                     uid:user.id
                 }
-                console.log(payload);
+              
                 await db
                     .collection('Institution')
                     .doc(user._code)
@@ -82,7 +82,7 @@ export const Kid = React.memo(() => {
                     subActivity: kidLog?.current?.name,
                     uid: user.id
                 }
-                console.log("kid " + kidLog?.current?.name + " opened, uid:" + user.id);
+            
 
                 // await db
                 //     .collection('Institution')

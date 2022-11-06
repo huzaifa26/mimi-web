@@ -1,8 +1,8 @@
-import React, { Fragment, useEffect, useLayoutEffect, useMemo } from 'react';
+import React, {  useLayoutEffect, } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { useHistory } from 'react-router-dom';
-import { useUi, useStore } from '../../store';
+import { useUi, } from '../../store';
 
 import clsx from 'clsx';
 
@@ -29,8 +29,8 @@ export const Page404 = React.memo(() => {
 
     return (
         <div className={classes.bg}>
-            <img src={ScoutLeftImage} className={classes.imageLeft} />
-            <img src={ScoutRightImage} className={classes.imageRight} />
+            <img src={ScoutLeftImage} className={classes.imageLeft} alt="img" />
+            <img src={ScoutRightImage} className={classes.imageRight} alt="img"/>
             <Box className={classes.container}>
                 <Typography className={classes.heading}>404</Typography>
                 <Typography>
