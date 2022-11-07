@@ -59,7 +59,7 @@ export const EditStoreBody = (props) => {
       }
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("store")
         .doc(store.id)
         .update({

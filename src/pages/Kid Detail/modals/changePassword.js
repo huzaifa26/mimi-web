@@ -62,7 +62,7 @@ export const ChangePasswordBody = props => {
 
             const encryptPass = md5(password);
             console.log(encryptPass);
-            await db.collection('Institution').doc(user._code).collection('kid').doc(kid.id).update({ password: encryptPass });
+            await db.collection('Institution').doc(user?._code).collection('kid').doc(kid.id).update({ password: encryptPass });
 
             handleClose();
         } catch (error) {

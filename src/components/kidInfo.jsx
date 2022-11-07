@@ -28,7 +28,7 @@ export const KidInfo = ({ kid }) => {
 
     useEffect(() => {
         (async () => {
-            const _kid = (await db.collection('Institution').doc(user._code).collection('kid').doc(kid.id).get()).data();
+            const _kid = (await db.collection('Institution').doc(user?._code).collection('kid').doc(kid.id).get()).data();
             setImage(_kid.image);
         })();
     }, []);

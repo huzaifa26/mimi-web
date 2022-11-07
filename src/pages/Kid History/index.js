@@ -21,7 +21,7 @@ export const KidHistory = () => {
     const { state: storeState } = useStore();
     const { user } = storeState;
 
-    const rootQuery = useMemo(() => db.collection('Institution').doc(user._code).collection('History').where('_kids', 'array-contains', params.id), []);
+    const rootQuery = useMemo(() => db.collection('Institution').doc(user?._code).collection('History').where('_kids', 'array-contains', params.id), []);
 
     return (
         <section className={clsx([classes.default_page_root, classes.default_page_Bg1])}>

@@ -61,7 +61,7 @@ export const Kid = React.memo(() => {
                 console.log(payload);
                 await db
                     .collection('Institution')
-                    .doc(user._code)
+                    .doc(user?._code)
                     .collection('log')
                     .doc(payload.id)
                     .set(payload)
@@ -86,7 +86,7 @@ export const Kid = React.memo(() => {
 
                 // await db
                 //     .collection('Institution')
-                //     .doc(user._code)
+                //     .doc(user?._code)
                 //     .collection('log')
                 //     .doc(payload.id)
                 //     .set(payload)
@@ -166,7 +166,7 @@ export const Kid = React.memo(() => {
         if ((kid.favoriteBy || []).includes(user.id)) {
             await db
                 .collection('Institution')
-                .doc(user._code)
+                .doc(user?._code)
                 .collection('kid')
                 .doc(kid.id)
                 .update({
@@ -175,7 +175,7 @@ export const Kid = React.memo(() => {
         } else {
             await db
                 .collection('Institution')
-                .doc(user._code)
+                .doc(user?._code)
                 .collection('kid')
                 .doc(kid.id)
                 .update({

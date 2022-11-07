@@ -175,7 +175,7 @@ export function Login() {
         ...userDocRef.data(),
         _code: institutionCode.toUpperCase(),
       };
-
+      console.log(user);
       localUserRef.current=user;
 
       setUserDataForTermAndPolicy(user);
@@ -193,9 +193,10 @@ export function Login() {
         return
       }
 
-      if (access === false) {
-        handleSignout()
-        return actions.alert("You account doesn't have access permission to the console", "error");
+
+      if (access === false || !user?.permissions.hasOwnProperty(PERMISSIONS.webPanelAccess)) {
+        handleSignout();
+        return actions.alert("Your account doesn't have access permission to the console", "error");
       } else if (access === true) {
         // If institute subscription end. Only admin can login.
         if (todayDate > subEndDate && user.type !== ROLES.admin) {

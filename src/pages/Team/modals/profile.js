@@ -75,7 +75,7 @@ export const ProfileBody = (props) => {
         console.log("staff " + staffLog?.current?.name + " opened, uid:" + user.id);
         // await db
         //     .collection('Institution')
-        //     .doc(user._code)
+        //     .doc(user?._code)
         //     .collection('log')
         //     .doc(payload.id)
         //     .set(payload)
@@ -85,7 +85,7 @@ export const ProfileBody = (props) => {
 
   useEffect(() => {
     db.collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("staff")
       .doc(staffId)
       .onSnapshot(async (snapshot) => {
@@ -111,7 +111,7 @@ export const ProfileBody = (props) => {
             const _group = (
               await db
                 .collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("groups")
                 .doc(groupId)
                 .get()

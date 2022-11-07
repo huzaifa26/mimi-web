@@ -291,7 +291,7 @@ const steps = [
           const _kids = (
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .where(
                 "groupId",
@@ -514,7 +514,7 @@ export const GrantScoreBody = (props) => {
       const updatedPoints = Number(kid.score) + Number(state.score);
       const ref = db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(kid.id);
       batch.update(ref, {
@@ -524,7 +524,7 @@ export const GrantScoreBody = (props) => {
 
     const historyRef = db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("History")
       .doc(historyId);
 

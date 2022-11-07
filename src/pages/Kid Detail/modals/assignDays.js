@@ -77,7 +77,7 @@ export const AssignDaysBody = props => {
 
             setLoading(true);
 
-            await db.collection('Institution').doc(user._code).collection('kid').doc(kid.id).update({
+            await db.collection('Institution').doc(user?._code).collection('kid').doc(kid.id).update({
                 assigned_days: selectedDays,
             });
 

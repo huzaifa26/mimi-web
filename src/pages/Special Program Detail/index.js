@@ -87,7 +87,7 @@ export const SpecialProgramDetail = React.memo(() => {
       listenersRef.current.push(
         db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(params.id)
           .onSnapshot(async (querySnapshot) => {
@@ -97,7 +97,7 @@ export const SpecialProgramDetail = React.memo(() => {
       listenersRef.current.push(
         db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(params.id)
           .collection("levels")
@@ -140,7 +140,7 @@ export const SpecialProgramDetail = React.memo(() => {
     () =>
       db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("History")
         .where("_kidIds", "array-contains", params.id),
     []
@@ -159,7 +159,7 @@ export const SpecialProgramDetail = React.memo(() => {
           const subjects = (
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(kid.id)
               .collection("levels")
@@ -172,7 +172,7 @@ export const SpecialProgramDetail = React.memo(() => {
             subjects.map((subject) =>
               db
                 .collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("kid")
                 .doc(kid.id)
                 .collection("levels")
@@ -185,7 +185,7 @@ export const SpecialProgramDetail = React.memo(() => {
 
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("kid")
             .doc(kid.id)
             .collection("levels")
@@ -196,7 +196,7 @@ export const SpecialProgramDetail = React.memo(() => {
 
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(kid.id)
         .update({
@@ -230,7 +230,7 @@ export const SpecialProgramDetail = React.memo(() => {
       const id = nanoid(6);
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(params.id)
         .collection("levels")
@@ -244,7 +244,7 @@ export const SpecialProgramDetail = React.memo(() => {
         });
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(params.id)
         .collection("levels")
@@ -256,7 +256,7 @@ export const SpecialProgramDetail = React.memo(() => {
 
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(params.id)
         .update({

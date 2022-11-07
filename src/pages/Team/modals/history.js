@@ -12,7 +12,7 @@ export const HistoryBody = props => {
     const { actions } = useUi();
     const { user } = storeState;
 
-    const rootQuery = useMemo(() => db.collection('Institution').doc(user._code).collection('History').where('_staff', '==', staff.id), []);
+    const rootQuery = useMemo(() => db.collection('Institution').doc(user?._code).collection('History').where('_staff', '==', staff.id), []);
 
     return <HistoryTable rootQuery={rootQuery} hideTitle />;
 };
