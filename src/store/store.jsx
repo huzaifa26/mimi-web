@@ -5,6 +5,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import { date } from "yup";
 import { LANGUAGE_MAPPING, ROLES } from "../utils/constants";
 import { db, auth } from "../utils/firebase";
+import { PERMISSIONS } from "../utils/constants";
 
 const ctx = React.createContext();
 
@@ -57,7 +58,7 @@ export const StoreProvidor = ({ children }) => {
             .get();
 
           let userData = _user_Data.data();
-          if (userData.permissions.webPanelAccess === true) {
+          if (userData.permissions.webPanelAccess === true && userData?.permissions.hasOwnProperty(PERMISSIONS.webPanelAccess)) {
             if(!(userData.type !== ROLES.admin && userData.firstPasswordChanged === false)){
               let last_login=new Date();
               await db
@@ -84,7 +85,8 @@ export const StoreProvidor = ({ children }) => {
                 .collection("staff")
                 .doc(userData?.id)
                 .onSnapshot((snapshot) => {
-                  if (snapshot.data().permissions.webPanelAccess === false) {
+                  let data=snapshot.data();
+                  if (data.permissions.webPanelAccess === false || !data.permissions.hasOwnProperty(PERMISSIONS.webPanelAccess)) {
                     setState((prev) => ({ ...prev, user: null, authenticated: true }));
                     listener.current && listener.current();
                     instituteListener.current && instituteListener.current();
@@ -124,7 +126,7 @@ export const StoreProvidor = ({ children }) => {
                   }
                 })
             }
-          } else if (userData.permissions.webPanelAccess === false) {
+          } else if (userData.permissions.webPanelAccess === false || userData.permissions.hasOwnProperty(PERMISSIONS.webPanelAccess)) {
             setState((prev) => ({ ...prev, user: null, authenticated: true }));
           }
         }
@@ -142,7 +144,7 @@ export const StoreProvidor = ({ children }) => {
       (async () => {
         const institutionDocs = await db
           .collection("Institution")
-          .where("code", "==", state.user._code)
+          .where("code", "==", state.user?._code)
           .get();
 
         if (!institutionDocs.empty) {

@@ -75,21 +75,21 @@ export const Data = React.memo(() => {
       const _groups = (
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .get()
       ).docs.length;
       const _kids = (
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .get()
       ).docs.length;
       const _staff = (
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("staff")
           .get()
       ).docs.length;
@@ -126,7 +126,7 @@ export const Data = React.memo(() => {
       const report_templates = (
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("basicReport")
           .orderBy("orderNo")
           .get()
@@ -139,7 +139,7 @@ export const Data = React.memo(() => {
     const getKidIds = async () => {
       const kidTemplates = await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .get();
 
@@ -156,7 +156,7 @@ export const Data = React.memo(() => {
     const getGroupIds = async () => {
       const groupsTemplates = await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("groups")
         .get();
 
@@ -220,7 +220,7 @@ export const Data = React.memo(() => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("basicReport")
           .doc(sub.id)
           .set(payload);
@@ -228,7 +228,7 @@ export const Data = React.memo(() => {
         const groups = (
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .where("isSpecialReport", "==", false)
             .get()
@@ -240,7 +240,7 @@ export const Data = React.memo(() => {
 
             const ref = db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("groups")
               .doc(group.id)
               .collection("report_templates")
@@ -250,7 +250,7 @@ export const Data = React.memo(() => {
             const kids = (
               await db
                 .collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("kid")
                 .where("groupId", "==", group.id)
                 .get()
@@ -259,7 +259,7 @@ export const Data = React.memo(() => {
             const reportTemplates = (
               await db
                 .collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("groups")
                 .doc(group.id)
                 .collection("report_templates")
@@ -271,7 +271,7 @@ export const Data = React.memo(() => {
                 batch.set(
                   db
                     .collection("Institution")
-                    .doc(user._code)
+                    .doc(user?._code)
                     .collection("kid")
                     .doc(kid.id)
                     .collection("achievements")
@@ -304,7 +304,7 @@ export const Data = React.memo(() => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("basicReport")
           .doc(sub.subjectId)
           .update({
@@ -316,7 +316,7 @@ export const Data = React.memo(() => {
         const groups = (
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .where("isSpecialReport", "==", false)
             .get()
@@ -324,7 +324,7 @@ export const Data = React.memo(() => {
 
         // const reportTemplates = await db
         //   .collection("Institution")
-        //   .doc(user._code)
+        //   .doc(user?._code)
         //   .collection("basicReport")
         //   .doc(sub.subjectId)
         //   .get();
@@ -334,7 +334,7 @@ export const Data = React.memo(() => {
         if (sub.isSync) {
           kidsId.map(async (kid_id) => {
             await db.collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(kid_id)
               .collection("subjects")
@@ -348,7 +348,7 @@ export const Data = React.memo(() => {
 
           groupsId.map(async (group_id) => {
             await db.collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("groups")
               .doc(group_id)
               .collection("report_templates")
@@ -375,7 +375,7 @@ export const Data = React.memo(() => {
             batch.update(
               db
                 .collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("groups")
                 .doc(group.id)
                 .collection("report_templates")
@@ -397,7 +397,7 @@ export const Data = React.memo(() => {
       subjectEdit.map(async (sub) => {
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("basicReport")
           .doc(sub.id)
           .delete();
@@ -417,7 +417,7 @@ export const Data = React.memo(() => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("basicReport")
           .doc(sub.id)
           .set(payload);
@@ -426,7 +426,7 @@ export const Data = React.memo(() => {
           kidsId.map(async (kid_id) => {
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(kid_id)
               .collection("subjects")
@@ -437,7 +437,7 @@ export const Data = React.memo(() => {
 
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(kid_id)
               .collection("subjects")
@@ -446,7 +446,7 @@ export const Data = React.memo(() => {
 
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(kid_id)
               .collection("subjects")
@@ -457,7 +457,7 @@ export const Data = React.memo(() => {
           groupsId.map(async (group_id) => {
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("groups")
               .doc(group_id)
               .update({
@@ -466,7 +466,7 @@ export const Data = React.memo(() => {
 
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("groups")
               .doc(group_id)
               .collection("report_templates")
@@ -475,7 +475,7 @@ export const Data = React.memo(() => {
 
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("groups")
               .doc(group_id)
               .collection("report_templates")
@@ -487,7 +487,7 @@ export const Data = React.memo(() => {
         let groups = (
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .where("isSpecialReport", "==", false)
             .get()
@@ -496,7 +496,7 @@ export const Data = React.memo(() => {
         groups.map(async (group) => {
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(group.id)
             .collection("report_templates")
@@ -517,7 +517,7 @@ export const Data = React.memo(() => {
 
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(group.id)
             .collection("report_templates")
@@ -534,7 +534,7 @@ export const Data = React.memo(() => {
         let groups = (
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .where("isSpecialReport", "==", false)
             .get()
@@ -543,7 +543,7 @@ export const Data = React.memo(() => {
         groups.map(async (group) => {
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(group.id)
             .collection("report_templates")
@@ -554,7 +554,7 @@ export const Data = React.memo(() => {
 
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(group.id)
             .collection("report_templates")
@@ -564,7 +564,7 @@ export const Data = React.memo(() => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("basicReport")
           .doc(sub.subjectId)
           .delete();
@@ -579,7 +579,7 @@ export const Data = React.memo(() => {
         _payload.totalPoints = totalSum;
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("basicReport")
           .doc(sub.subjectId)
           .set(_payload);
@@ -588,7 +588,7 @@ export const Data = React.memo(() => {
           kidsId.map(async (kid_id) => {
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(kid_id)
               .update({
@@ -597,7 +597,7 @@ export const Data = React.memo(() => {
 
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(kid_id)
               .collection("subjects")
@@ -606,7 +606,7 @@ export const Data = React.memo(() => {
 
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(kid_id)
               .collection("subjects")
@@ -617,7 +617,7 @@ export const Data = React.memo(() => {
           groupsId.map(async (group_id) => {
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("groups")
               .doc(group_id)
               .update({
@@ -626,7 +626,7 @@ export const Data = React.memo(() => {
 
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("groups")
               .doc(group_id)
               .collection("report_templates")
@@ -635,7 +635,7 @@ export const Data = React.memo(() => {
 
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("groups")
               .doc(group_id)
               .collection("report_templates")
@@ -651,7 +651,7 @@ export const Data = React.memo(() => {
       subjectOrder.map(async(sub,index) => {
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("basicReport")
           .doc(sub.id)
           .update({
@@ -666,7 +666,7 @@ export const Data = React.memo(() => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("basicReport")
           .doc(sub.id)
           .update({
@@ -678,7 +678,7 @@ export const Data = React.memo(() => {
 
           let kid_report=await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("kid")
             .doc(kid_id)
             .get();
@@ -689,7 +689,7 @@ export const Data = React.memo(() => {
 
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("kid")
             .doc(kid_id)
             .update({
@@ -698,7 +698,7 @@ export const Data = React.memo(() => {
 
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("kid")
             .doc(kid_id)
             .collection("subjects")
@@ -707,7 +707,7 @@ export const Data = React.memo(() => {
 
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("kid")
             .doc(kid_id)
             .collection("achievements")
@@ -726,7 +726,7 @@ export const Data = React.memo(() => {
 
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(group_id)
             .update({
@@ -735,7 +735,7 @@ export const Data = React.memo(() => {
 
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(group_id)
             .collection("report_templates")
@@ -750,7 +750,7 @@ export const Data = React.memo(() => {
       subjectDeleted.map(async (sub) => {
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("basicReport")
           .doc(sub.id)
           .delete();
@@ -761,7 +761,7 @@ export const Data = React.memo(() => {
             console.log(kid_id)
             batch.delete(
               db.collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("kid")
                 .doc(kid_id)
                 .collection("subjects")
@@ -775,7 +775,7 @@ export const Data = React.memo(() => {
             console.log(group_id)
             batch1.delete(
               db.collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("groups")
                 .doc(group_id)
                 .collection("report_templates")
@@ -788,7 +788,7 @@ export const Data = React.memo(() => {
         let groups = (
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .where("isSpecialReport", "==", false)
             .get()
@@ -797,7 +797,7 @@ export const Data = React.memo(() => {
         groups.map(async (group) => {
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(group.id)
             .collection("report_templates")
@@ -807,7 +807,7 @@ export const Data = React.memo(() => {
           let kids = (
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .where("groupId", "==", group.id)
               .get()
@@ -816,7 +816,7 @@ export const Data = React.memo(() => {
           kids.map(async (el) => {
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(el.id)
               .collection("achievements")
@@ -838,14 +838,14 @@ export const Data = React.memo(() => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("basicReport")
           .doc(sub.subjectId)
           .delete()
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("basicReport")
           .doc(sub.subjectId)
           .set(_payload)
@@ -853,7 +853,7 @@ export const Data = React.memo(() => {
         if (sub.isSync) {
           kidsId.map(async (kid_id) => {
             await db.collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(kid_id)
               .collection("subjects")
@@ -861,7 +861,7 @@ export const Data = React.memo(() => {
               .delete()
 
             await db.collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(kid_id)
               .collection("subjects")
@@ -870,7 +870,7 @@ export const Data = React.memo(() => {
 
             if (_payload.subSubject.length === 0) {
               await db.collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("kid")
                 .doc(kid_id)
                 .collection("subjects")
@@ -880,7 +880,7 @@ export const Data = React.memo(() => {
                 });
             } else if (_payload.subSubject.length > 0) {
               await db.collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("kid")
                 .doc(kid_id)
                 .collection("subjects")
@@ -893,7 +893,7 @@ export const Data = React.memo(() => {
 
           groupsId.map(async (group_id) => {
             db.collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("groups")
               .doc(group_id)
               .collection("report_templates")
@@ -901,7 +901,7 @@ export const Data = React.memo(() => {
               .delete()
 
             await db.collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("groups")
               .doc(group_id)
               .collection("report_templates")
@@ -910,7 +910,7 @@ export const Data = React.memo(() => {
 
             if (_payload.subSubject.length === 0) {
               await db.collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("groups")
                 .doc(group_id)
                 .collection("report_templates")
@@ -920,7 +920,7 @@ export const Data = React.memo(() => {
                 });
             } else if (_payload.subSubject.length > 0) {
               await db.collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("groups")
                 .doc(group_id)
                 .collection("report_templates")
@@ -935,7 +935,7 @@ export const Data = React.memo(() => {
         let groups = (
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .where("isSpecialReport", "==", false)
             .get()
@@ -944,7 +944,7 @@ export const Data = React.memo(() => {
         groups.map(async (group) => {
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(group.id)
             .collection("report_templates")
@@ -953,7 +953,7 @@ export const Data = React.memo(() => {
 
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(group.id)
             .collection("report_templates")
@@ -963,7 +963,7 @@ export const Data = React.memo(() => {
           if (_payload.subSubject.length === 0) {
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("groups")
               .doc(group.id)
               .collection("report_templates")
@@ -974,7 +974,7 @@ export const Data = React.memo(() => {
           } else if (_payload.subSubject.length > 0) {
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("groups")
               .doc(group.id)
               .collection("report_templates")
@@ -988,7 +988,7 @@ export const Data = React.memo(() => {
         if (_payload.subSubject.length === 0) {
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("basicReport")
             .doc(sub.subjectId)
             .update({
@@ -997,7 +997,7 @@ export const Data = React.memo(() => {
         } else if (_payload.subSubject.length > 0) {
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("basicReport")
             .doc(sub.subjectId)
             .update({

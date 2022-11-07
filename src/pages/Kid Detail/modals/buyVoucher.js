@@ -28,7 +28,7 @@ export const BuyVoucherBody = props => {
 
         await db
             .collection('Institution')
-            .doc(user._code)
+            .doc(user?._code)
             .collection('kid')
             .doc(kid.id)
             .update({
@@ -49,7 +49,7 @@ export const BuyVoucherBody = props => {
 
         await db
             .collection('Institution')
-            .doc(user._code)
+            .doc(user?._code)
             .collection('staff')
             .doc(user.id)
             .update({
@@ -69,7 +69,7 @@ export const BuyVoucherBody = props => {
         };
         await db
             .collection('Institution')
-            .doc(user._code)
+            .doc(user?._code)
             .collection('kid')
             .doc(kid.id)
             .update({
@@ -79,7 +79,7 @@ export const BuyVoucherBody = props => {
         const historyId = nanoid(6);
         await db
             .collection('Institution')
-            .doc(user._code)
+            .doc(user?._code)
             .collection('History')
             .doc(historyId)
             .set({
@@ -106,12 +106,12 @@ export const BuyVoucherBody = props => {
         setRefundLoading(true);
 
         const final_score = Number(kid.score) + Number(voucher.price);
-        await db.collection('Institution').doc(user._code).collection('kid').doc(kid.id).update({
+        await db.collection('Institution').doc(user?._code).collection('kid').doc(kid.id).update({
             score: final_score,
         });
         await db
             .collection('Institution')
-            .doc(user._code)
+            .doc(user?._code)
             .collection('kid')
             .doc(kid.id)
             .update({
@@ -123,7 +123,7 @@ export const BuyVoucherBody = props => {
         const historyId = nanoid(6);
         await db
             .collection('Institution')
-            .doc(user._code)
+            .doc(user?._code)
             .collection('History')
             .doc(historyId)
             .set({

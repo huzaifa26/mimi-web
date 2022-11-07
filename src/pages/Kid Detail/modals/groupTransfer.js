@@ -38,11 +38,11 @@ export const GroupTranferBody = props => {
 
             setLoading(true);
 
-            const previousGroup = await db.collection('Institution').doc(user._code).collection('groups').doc(kid.groupId).get();
+            const previousGroup = await db.collection('Institution').doc(user?._code).collection('groups').doc(kid.groupId).get();
             previousGroup.data().staffId.map(async e => {
                 await db
                     .collection('Institution')
-                    .doc(user._code)
+                    .doc(user?._code)
                     .collection('staff')
                     .doc(e)
                     .update({
@@ -51,22 +51,22 @@ export const GroupTranferBody = props => {
             });
             await db
                 .collection('Institution')
-                .doc(user._code)
+                .doc(user?._code)
                 .collection('groups')
                 .doc(kid.groupId)
                 .update({
                     kids_ids: firebase.firestore.FieldValue.arrayRemove(kid.id),
                 });
-            await db.collection('Institution').doc(user._code).collection('kid').doc(kid.id).update({
+            await db.collection('Institution').doc(user?._code).collection('kid').doc(kid.id).update({
                 groupName: group.name,
                 groupId: group.id,
             });
 
-            const newGroup = await db.collection('Institution').doc(user._code).collection('groups').doc(group.id).get();
+            const newGroup = await db.collection('Institution').doc(user?._code).collection('groups').doc(group.id).get();
             newGroup.data().staffId.map(async e => {
                 await db
                     .collection('Institution')
-                    .doc(user._code)
+                    .doc(user?._code)
                     .collection('staff')
                     .doc(e)
                     .update({
@@ -75,17 +75,17 @@ export const GroupTranferBody = props => {
             });
             await db
                 .collection('Institution')
-                .doc(user._code)
+                .doc(user?._code)
                 .collection('groups')
                 .doc(group.id)
                 .update({
                     kids_ids: firebase.firestore.FieldValue.arrayUnion(kid.id),
                 });
 
-            const previousTemplates = await db.collection('Institution').doc(user._code).collection('groups').doc(kid.groupId).collection('report_templates').get();
+            const previousTemplates = await db.collection('Institution').doc(user?._code).collection('groups').doc(kid.groupId).collection('report_templates').get();
             previousTemplates.docs.map(async e => {
                 const subjectId = e.data().id;
-                await db.collection('Institution').doc(user._code).collection('kid').doc(kid.id).collection('achievements').doc(subjectId).set({
+                await db.collection('Institution').doc(user?._code).collection('kid').doc(kid.id).collection('achievements').doc(subjectId).set({
                     redPoints: 0,
                     streak: 0,
                     subjectName: e.data().name,
@@ -93,10 +93,10 @@ export const GroupTranferBody = props => {
                     subject_id: subjectId,
                 });
             });
-            const report_templates = await db.collection('Institution').doc(user._code).collection('groups').doc(group.id).collection('report_templates').get();
+            const report_templates = await db.collection('Institution').doc(user?._code).collection('groups').doc(group.id).collection('report_templates').get();
             report_templates.docs.map(async e => {
                 const subjectId = e.data().id;
-                await db.collection('Institution').doc(user._code).collection('kid').doc(kid.id).collection('achievements').doc(subjectId).set({
+                await db.collection('Institution').doc(user?._code).collection('kid').doc(kid.id).collection('achievements').doc(subjectId).set({
                     redPoints: 0,
                     streak: 0,
                     subjectName: e.data().name,
@@ -104,15 +104,15 @@ export const GroupTranferBody = props => {
                     subject_id: subjectId,
                 });
                 const kidScore = kid.score;
-                const prevGroup = await db.collection('Institution').doc(user._code).collection('groups').doc(kid.groupId).get();
+                const prevGroup = await db.collection('Institution').doc(user?._code).collection('groups').doc(kid.groupId).get();
                 let prevGroupScore = Number(prevGroup.data().score) - Number(kidScore);
-                const nextGroup = await db.collection('Institution').doc(user._code).collection('groups').doc(group.id).get();
+                const nextGroup = await db.collection('Institution').doc(user?._code).collection('groups').doc(group.id).get();
                 let nextGroupScore = Number(nextGroup.data().score) + Number(kidScore);
 
-                await db.collection('Institution').doc(user._code).collection('groups').doc(kid.groupId).update({
+                await db.collection('Institution').doc(user?._code).collection('groups').doc(kid.groupId).update({
                     score: prevGroupScore,
                 });
-                await db.collection('Institution').doc(user._code).collection('groups').doc(group.id).update({
+                await db.collection('Institution').doc(user?._code).collection('groups').doc(group.id).update({
                     score: nextGroupScore,
                 });
             });

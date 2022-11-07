@@ -50,7 +50,7 @@ export const AddSubSubjectBody = props => {
 
         await db
             .collection('Institution')
-            .doc(user._code)
+            .doc(user?._code)
             .collection('basicReport')
             .doc(subject.id)
             .update({
@@ -59,7 +59,7 @@ export const AddSubSubjectBody = props => {
                 totalPoints: Number(pointsSum),
             });
 
-        const groups = (await db.collection('Institution').doc(user._code).collection('groups').where('isSpecialReport', '==', false).get()).docs.map(el => el.data());
+        const groups = (await db.collection('Institution').doc(user?._code).collection('groups').where('isSpecialReport', '==', false).get()).docs.map(el => el.data());
 
         await Promise.all(
             groups.map(async group => {
@@ -72,7 +72,7 @@ export const AddSubSubjectBody = props => {
                     obtainedPoints: 0,
                 };
 
-                batch.update(db.collection('Institution').doc(user._code).collection('groups').doc(group.id).collection('report_templates').doc(subject.id), {
+                batch.update(db.collection('Institution').doc(user?._code).collection('groups').doc(group.id).collection('report_templates').doc(subject.id), {
                     subSubject: firebase.firestore.FieldValue.arrayUnion(report),
                     hasSubSubject: true,
                     totalPoints: Number(pointsSum),

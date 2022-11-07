@@ -74,7 +74,7 @@ export const StoreDetailsBody = (props) => {
 
         await db
           .collection('Institution')
-          .doc(user._code)
+          .doc(user?._code)
           .collection('log')
           .doc(payload.id)
           .set(payload)
@@ -104,7 +104,7 @@ export const StoreDetailsBody = (props) => {
     listenerRef.current.push(
       db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("store")
         .doc(storeId)
         .onSnapshot((snapshot) => {
@@ -124,7 +124,7 @@ export const StoreDetailsBody = (props) => {
     listenerRef.current.push(
       db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("store")
         .doc(store.id)
         .collection("products")
@@ -167,7 +167,7 @@ export const StoreDetailsBody = (props) => {
     const action = async () => {
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("store")
         .doc(store.id)
         .collection("products")
@@ -176,7 +176,7 @@ export const StoreDetailsBody = (props) => {
 
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("store")
         .doc(store.id)
         .update({
@@ -199,7 +199,7 @@ export const StoreDetailsBody = (props) => {
     const action = async () => {
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("store")
         .doc(store.id)
         .delete();
@@ -220,7 +220,7 @@ export const StoreDetailsBody = (props) => {
 
     await db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("store")
       .doc(store.id)
       .update({

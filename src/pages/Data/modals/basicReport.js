@@ -111,7 +111,7 @@ export const BasicReportBody = (props) => {
 
   useEffect(() => {
     db.collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("basicReport")
       .onSnapshot((snapshot) => {
         setSubjects(snapshot.docs.map((doc) => doc.data()));
@@ -128,7 +128,7 @@ export const BasicReportBody = (props) => {
 
     await db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("groups")
       .doc(group.id)
       .update({
@@ -142,7 +142,7 @@ export const BasicReportBody = (props) => {
 
     await db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("groups")
       .doc(group.id)
       .collection("report_templates")
@@ -152,7 +152,7 @@ export const BasicReportBody = (props) => {
     let kids = (
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .where("groupId", "==", group.id)
         .get()
@@ -161,7 +161,7 @@ export const BasicReportBody = (props) => {
     kids.map(async (el) => {
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(el.id)
         .collection("achievements")
@@ -183,7 +183,7 @@ export const BasicReportBody = (props) => {
 
     await db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("groups")
       .doc(group.id)
       .update({
@@ -192,7 +192,7 @@ export const BasicReportBody = (props) => {
 
     await db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("groups")
       .doc(group.id)
       .collection("report_templates")
@@ -205,7 +205,7 @@ export const BasicReportBody = (props) => {
 
     await db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("groups")
       .doc(group.id)
       .collection("report_templates")
@@ -217,7 +217,7 @@ export const BasicReportBody = (props) => {
     if (!subject.subSubject.length) {
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("groups")
         .doc(group.id)
         .collection("report_templates")

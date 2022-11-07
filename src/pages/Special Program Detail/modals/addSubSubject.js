@@ -50,7 +50,7 @@ export const AddSubSubjectBody = props => {
 
         await db
             .collection('Institution')
-            .doc(user._code)
+            .doc(user?._code)
             .collection('kid')
             .doc(kid.id)
             .collection('levels')

@@ -106,7 +106,7 @@ export const KidsDetail = (props) => {
   useEffect(() => {
     (async () => {
       db.collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(params.id)
         .onSnapshot(async (querySnapshot) => {
@@ -123,7 +123,7 @@ export const KidsDetail = (props) => {
         const report_templates = (
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("kid")
             .doc(kid.id)
             .collection("subjects")
@@ -135,7 +135,7 @@ export const KidsDetail = (props) => {
         const report_templates = (
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(kid.groupId)
             .collection("report_templates")
@@ -153,7 +153,7 @@ export const KidsDetail = (props) => {
       const _prizes = (
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("routePlan")
           .doc(kid.route_id)
           .collection("prizes")
@@ -261,7 +261,7 @@ export const KidsDetail = (props) => {
   ) => {
     if (kid.has_special_program == false) {
       db.collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(kid.id)
         .update({
@@ -273,7 +273,7 @@ export const KidsDetail = (props) => {
         (report_templates = (
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(kid.groupId)
             .collection("report_templates")
@@ -283,7 +283,7 @@ export const KidsDetail = (props) => {
         .then(
           report_templates.forEach((el) => {
             db.collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(kid.id)
               .collection("subjects")
@@ -294,7 +294,7 @@ export const KidsDetail = (props) => {
         .then(
           report_templates.forEach((el) => {
             db.collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(kid.id)
               .collection("achievements")
@@ -327,7 +327,7 @@ export const KidsDetail = (props) => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .update({
@@ -335,7 +335,7 @@ export const KidsDetail = (props) => {
           });
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")
@@ -344,7 +344,7 @@ export const KidsDetail = (props) => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("achievements")
@@ -364,7 +364,7 @@ export const KidsDetail = (props) => {
       subSubjectAdded.map(async (sub) => {
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .update({
@@ -378,7 +378,7 @@ export const KidsDetail = (props) => {
         };
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")
@@ -396,7 +396,7 @@ export const KidsDetail = (props) => {
       subjectEdit.map(async (sub) => {
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .update({
@@ -404,7 +404,7 @@ export const KidsDetail = (props) => {
           });
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")
@@ -423,7 +423,7 @@ export const KidsDetail = (props) => {
         };
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")
@@ -443,7 +443,7 @@ export const KidsDetail = (props) => {
         // };
         // const reportTemplates = await db
         //   .collection("Institution")
-        //   .doc(user._code)
+        //   .doc(user?._code)
         //   .collection("kid")
         //   .doc(kid.id)
         //   .collection("subjects")
@@ -457,7 +457,7 @@ export const KidsDetail = (props) => {
         // });
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .update({
@@ -465,7 +465,7 @@ export const KidsDetail = (props) => {
           });
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")
@@ -493,7 +493,7 @@ export const KidsDetail = (props) => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")
@@ -508,7 +508,7 @@ export const KidsDetail = (props) => {
         console.log("11111111111111111111111111111111111111")
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")
@@ -524,7 +524,7 @@ export const KidsDetail = (props) => {
       subjectDeleted.map(async (sub) => {
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .update({
@@ -532,7 +532,7 @@ export const KidsDetail = (props) => {
           });
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")
@@ -541,7 +541,7 @@ export const KidsDetail = (props) => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("achievements")
@@ -561,7 +561,7 @@ export const KidsDetail = (props) => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .update({
@@ -570,7 +570,7 @@ export const KidsDetail = (props) => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")
@@ -579,7 +579,7 @@ export const KidsDetail = (props) => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")
@@ -589,7 +589,7 @@ export const KidsDetail = (props) => {
         if (_payload.subSubject.length === 0) {
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("kid")
             .doc(kid.id)
             .collection("subjects")
@@ -600,7 +600,7 @@ export const KidsDetail = (props) => {
         } else if (_payload.subSubject.length > 0) {
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("kid")
             .doc(kid.id)
             .collection("subjects")
@@ -617,14 +617,14 @@ export const KidsDetail = (props) => {
   const handleReportDefault = async () => {
     let subjects = await db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("kid")
       .doc(kid.id)
       .collection("subjects")
       .get();
     await db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("kid")
       .doc(kid.id)
       .update({
@@ -634,7 +634,7 @@ export const KidsDetail = (props) => {
       subjects.docs.map(async (sub) =>
         db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")

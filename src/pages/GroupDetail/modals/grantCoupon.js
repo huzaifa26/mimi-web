@@ -43,7 +43,7 @@ export const GrantCouponBody = props => {
         const batch = db.batch();
 
         group.kids_ids.forEach(kidId => {
-            const ref = db.collection('Institution').doc(user._code).collection('kid').doc(kidId);
+            const ref = db.collection('Institution').doc(user?._code).collection('kid').doc(kidId);
 
             state.selectedProducts.forEach(product => {
                 const payload = {
@@ -63,7 +63,7 @@ export const GrantCouponBody = props => {
             });
         });
 
-        const historyRef = db.collection('Institution').doc(user._code).collection('History').doc(historyId);
+        const historyRef = db.collection('Institution').doc(user?._code).collection('History').doc(historyId);
 
         batch.set(historyRef, {
             type: 'Grant Group Coupon',
@@ -100,11 +100,11 @@ export const GrantCouponBody = props => {
 
     useEffect(() => {
         (async () => {
-            const _stores = (await db.collection('Institution').doc(user._code).collection('store').get()).docs.map(el => el.data());
+            const _stores = (await db.collection('Institution').doc(user?._code).collection('store').get()).docs.map(el => el.data());
             const _products = (
                 await Promise.all(
                     _stores.map(async el => {
-                        return (await db.collection('Institution').doc(user._code).collection('store').doc(el.id).collection('products').get()).docs.map(el => el.data());
+                        return (await db.collection('Institution').doc(user?._code).collection('store').doc(el.id).collection('products').get()).docs.map(el => el.data());
                     }),
                 )
             ).flat();

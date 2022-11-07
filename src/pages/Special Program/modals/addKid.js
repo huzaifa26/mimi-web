@@ -67,7 +67,7 @@ export const AddKidBody = (props) => {
       const _kids = (
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .where("has_special_program", "==", false)
           .get()
@@ -195,7 +195,7 @@ export const AddKidBody = (props) => {
         const batch = db.batch();
         const ref = db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id);
         batch.update(ref, {
@@ -205,7 +205,7 @@ export const AddKidBody = (props) => {
         const reportTempaltes = (
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(kid.groupId)
             .collection("report_templates")
@@ -217,7 +217,7 @@ export const AddKidBody = (props) => {
         batch.set(
           db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("kid")
             .doc(kid.id)
             .collection("levels")
@@ -235,7 +235,7 @@ export const AddKidBody = (props) => {
           batch.set(
             db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(kid.id)
               .collection("levels")
@@ -252,7 +252,7 @@ export const AddKidBody = (props) => {
           batch.set(
             db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(kid.id)
               .collection("achievements")

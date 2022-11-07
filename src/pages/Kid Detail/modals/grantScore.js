@@ -45,16 +45,16 @@ export const GrantScoreBody = props => {
 
             await db
                 .collection('Institution')
-                .doc(user._code)
+                .doc(user?._code)
                 .collection('kid')
                 .doc(kid.id)
                 .update({
                     score: parseInt(finalScore),
                 });
-            const group = await db.collection('Institution').doc(user._code).collection('groups').doc(kid.groupId).get();
+            const group = await db.collection('Institution').doc(user?._code).collection('groups').doc(kid.groupId).get();
             await db
                 .collection('Institution')
-                .doc(user._code)
+                .doc(user?._code)
                 .collection('groups')
                 .doc(kid.groupId)
                 .update({
@@ -62,7 +62,7 @@ export const GrantScoreBody = props => {
                 });
             await db
                 .collection('Institution')
-                .doc(user._code)
+                .doc(user?._code)
                 .collection('History')
                 .doc(id)
                 .set({

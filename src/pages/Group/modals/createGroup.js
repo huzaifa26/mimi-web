@@ -31,7 +31,7 @@ export const CreateGroupBody = (props) => {
       setLoading(true);
       const groups = await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("groups")
         .where("name", "==", name)
         .get();

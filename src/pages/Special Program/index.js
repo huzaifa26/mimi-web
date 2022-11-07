@@ -88,7 +88,7 @@ export const SpecialProgram = React.memo(() => {
         if ((kid._favoriteBy || []).includes(user.id)) {
             await db
                 .collection('Institution')
-                .doc(user._code)
+                .doc(user?._code)
                 .collection('kid')
                 .doc(kid.id)
                 .update({
@@ -97,7 +97,7 @@ export const SpecialProgram = React.memo(() => {
         } else {
             await db
                 .collection('Institution')
-                .doc(user._code)
+                .doc(user?._code)
                 .collection('kid')
                 .doc(kid.id)
                 .update({

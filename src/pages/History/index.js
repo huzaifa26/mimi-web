@@ -21,7 +21,7 @@ export const History = () => {
   const { state: storeState } = useStore();
   const { user } = storeState;
   const rootQuery = useMemo(
-    () => db.collection("Institution").doc(user._code).collection("History"),
+    () => db.collection("Institution").doc(user?._code).collection("History"),
     []
   );
 

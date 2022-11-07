@@ -33,7 +33,7 @@ export const FileUploadBody = (props) => {
         let name = data[0];
         const groups = await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .where("name", "==", name.toLowerCase())
           .get();

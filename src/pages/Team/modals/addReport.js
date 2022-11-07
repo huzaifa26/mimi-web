@@ -112,7 +112,7 @@ export const ReportBody = props => {
 
     useEffect(() => {
         db.collection('Institution')
-            .doc(user._code)
+            .doc(user?._code)
             .collection('staff')
             .doc(staff.id)
             .collection('report_templates')
@@ -122,7 +122,7 @@ export const ReportBody = props => {
     }, []);
 
     const handleSubjectDelete = async subject => {
-        const action = () => db.collection('Institution').doc(user._code).collection('staff').doc(staff.id).collection('report_templates').doc(subject.id).delete();
+        const action = () => db.collection('Institution').doc(user?._code).collection('staff').doc(staff.id).collection('report_templates').doc(subject.id).delete();
 
         actions.showDialog({
             action,
@@ -137,7 +137,7 @@ export const ReportBody = props => {
 
             await db
                 .collection('Institution')
-                .doc(user._code)
+                .doc(user?._code)
                 .collection('staff')
                 .doc(staff.id)
                 .collection('report_templates')
@@ -148,7 +148,7 @@ export const ReportBody = props => {
                 });
 
             if (subject.subSubject.length === 1) {
-                await db.collection('Institution').doc(user._code).collection('groups').doc(group.id).collection('report_templates').doc(subject.id).update({
+                await db.collection('Institution').doc(user?._code).collection('groups').doc(group.id).collection('report_templates').doc(subject.id).update({
                     hasSubSubject: false,
                 });
             }
