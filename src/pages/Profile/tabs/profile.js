@@ -43,13 +43,8 @@ export const Profile = () => {
       ).docs.map((el) => el.data());
       setGroups(totalGroups);
     })();
-<<<<<<< HEAD
   }, [user._code]);
 
-=======
-  }, [user?._code]);
-  // console.log(groups);
->>>>>>> 38b81032e12b292f002360f7ab829d9cf7f9c0f0
 
   // To get a group
   useEffect(() => {

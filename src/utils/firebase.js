@@ -6,10 +6,6 @@ import "firebase/firebase-functions"
 // const envoirnment = process.env.REACT_APP_ENVIRONMENT || "DEV";
 // const envoirnment = "PROD";
 const envoirnment = "DEV";
-<<<<<<< HEAD
-
-=======
->>>>>>> 38b81032e12b292f002360f7ab829d9cf7f9c0f0
 
 // console.log({ e: process.env.REACT_APP_DEV_FIREBASE_API_KEY });
 const firebaseConfig = {

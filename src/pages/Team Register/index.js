@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Fragment, useMemo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, InputAdornment, Input, Grid, Box, VisibilityIcon,VisibilityOffIcon } from "@material-ui/core";
+import { Typography, InputAdornment, Input, Grid, Box } from "@material-ui/core";
 import PasswordStrengthBar from "react-password-strength-bar";
 import ScrollArea from "react-scrollbar";
 
@@ -24,7 +24,8 @@ import {
   getSectionHeaderStyles,
   getTypographyStyles,
 } from "../../utils/helpers";
-
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import Person from "../../assets/icons/personIcon.png";
 import Mail from "../../assets/icons/mailIcon.png";
 import clsx from "clsx";
