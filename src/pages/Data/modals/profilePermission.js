@@ -222,7 +222,7 @@ const steps = [
                     const _kids = (
                         await db
                             .collection('Institution')
-                            .doc(user._code)
+                            .doc(user?._code)
                             .collection('kid')
                             .where(
                                 'groupId',
@@ -411,13 +411,13 @@ export const ProfilePermissionBody = props => {
         const batch = db.batch();
 
         state.selectedKids.map(async kid => {
-            const ref = db.collection('Institution').doc(user._code).collection('kid').doc(kid.id);
+            const ref = db.collection('Institution').doc(user?._code).collection('kid').doc(kid.id);
             batch.update(ref, {
                 profile_permission: state.permission,
             });
         });
 
-        const historyRef = db.collection('Institution').doc(user._code).collection('History').doc(historyId);
+        const historyRef = db.collection('Institution').doc(user?._code).collection('History').doc(historyId);
 
         batch.set(historyRef, {
             type: 'Profile Pic Permission Data',

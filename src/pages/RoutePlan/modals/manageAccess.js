@@ -190,19 +190,19 @@ export const ManageAccessBody = props => {
             const batch = db.batch();
 
             _removeKids.forEach(kidId => {
-                const ref = db.collection('Institution').doc(user._code).collection('kid').doc(kidId);
+                const ref = db.collection('Institution').doc(user?._code).collection('kid').doc(kidId);
                 batch.update(ref, {
                     route_id: '',
                 });
             });
 
             _selectedKids.forEach(kidId => {
-                const ref = db.collection('Institution').doc(user._code).collection('kid').doc(kidId);
+                const ref = db.collection('Institution').doc(user?._code).collection('kid').doc(kidId);
                 batch.update(ref, {
                     route_id: routePlan.id,
                 });
             });
-            const ref = db.collection('Institution').doc(user._code).collection('routePlan').doc(routePlan.id);
+            const ref = db.collection('Institution').doc(user?._code).collection('routePlan').doc(routePlan.id);
             batch.update(ref, {
                 kids: _selectedKids,
                 groups: _selectedGroups,

@@ -68,7 +68,7 @@ export const ManageAccessBody = props => {
 
     useEffect(() => {
         (async () => {
-            const currentStaff = { ...staff, _code: user._code, type: ROLES.admin };
+            const currentStaff = { ...staff, _code: user?._code, type: ROLES.admin };
             const groups = await FirebaseHelpers.fetchGroups.execute({ user: currentStaff });
             setState(prev => ({ ...prev, groups }));
             const kids = await FirebaseHelpers.fetchKids.execute({ user: currentStaff });
@@ -219,53 +219,53 @@ export const ManageAccessBody = props => {
             const _removeGroups = differenceWith(staff.group_ids, _selectedGroups, (a, b) => a === b);
 
             _selectedKids.map(id => {
-                const ref = db.collection('Institution').doc(user._code).collection('kid').doc(id);
+                const ref = db.collection('Institution').doc(user?._code).collection('kid').doc(id);
                 batch.update(ref, {
                     staffId: firebase.firestore.FieldValue.arrayUnion(staff.id),
                 });
             });
             _removeKids.map(id => {
-                const ref = db.collection('Institution').doc(user._code).collection('kid').doc(id);
+                const ref = db.collection('Institution').doc(user?._code).collection('kid').doc(id);
                 batch.update(ref, {
                     staffId: firebase.firestore.FieldValue.arrayRemove(staff.id),
                 });
             });
             _selectedGroups.map(id => {
-                const ref = db.collection('Institution').doc(user._code).collection('groups').doc(id);
+                const ref = db.collection('Institution').doc(user?._code).collection('groups').doc(id);
                 batch.update(ref, {
                     staffId: firebase.firestore.FieldValue.arrayUnion(staff.id),
                 });
             });
 
             _removeGroups.map(id => {
-                const ref = db.collection('Institution').doc(user._code).collection('groups').doc(id);
+                const ref = db.collection('Institution').doc(user?._code).collection('groups').doc(id);
                 batch.update(ref, {
                     staffId: firebase.firestore.FieldValue.arrayRemove(staff.id),
                 });
             });
 
             _selectedKids.map(id => {
-                const ref = db.collection('Institution').doc(user._code).collection('staff').doc(staff.id);
+                const ref = db.collection('Institution').doc(user?._code).collection('staff').doc(staff.id);
                 batch.update(ref, {
                     kids_access: firebase.firestore.FieldValue.arrayUnion(id),
                 });
             });
             _removeKids.map(id => {
-                const ref = db.collection('Institution').doc(user._code).collection('staff').doc(staff.id);
+                const ref = db.collection('Institution').doc(user?._code).collection('staff').doc(staff.id);
                 batch.update(ref, {
                     kids_access: firebase.firestore.FieldValue.arrayRemove(id),
                 });
             });
 
             _selectedGroups.map(id => {
-                const ref = db.collection('Institution').doc(user._code).collection('staff').doc(staff.id);
+                const ref = db.collection('Institution').doc(user?._code).collection('staff').doc(staff.id);
                 batch.update(ref, {
                     group_ids: firebase.firestore.FieldValue.arrayUnion(id),
                 });
             });
 
             _removeGroups.map(id => {
-                const ref = db.collection('Institution').doc(user._code).collection('staff').doc(staff.id);
+                const ref = db.collection('Institution').doc(user?._code).collection('staff').doc(staff.id);
                 batch.update(ref, {
                     group_ids: firebase.firestore.FieldValue.arrayRemove(id),
                 });

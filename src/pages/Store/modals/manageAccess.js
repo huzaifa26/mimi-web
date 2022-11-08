@@ -195,32 +195,32 @@ export const ManageAccessBody = props => {
             const batch = db.batch();
 
             _removeKids.forEach(kidId => {
-                const ref = db.collection('Institution').doc(user._code).collection('kid').doc(kidId);
+                const ref = db.collection('Institution').doc(user?._code).collection('kid').doc(kidId);
                 batch.update(ref, {
                     storeId: firebase.firestore.FieldValue.arrayRemove(store.id),
                 });
             });
             _removeGroups.forEach(groupId => {
-                const ref = db.collection('Institution').doc(user._code).collection('groups').doc(groupId);
+                const ref = db.collection('Institution').doc(user?._code).collection('groups').doc(groupId);
                 batch.update(ref, {
                     storeId: firebase.firestore.FieldValue.arrayRemove(store.id),
                 });
             });
 
             _selectedKids.forEach(kidId => {
-                const ref = db.collection('Institution').doc(user._code).collection('kid').doc(kidId);
+                const ref = db.collection('Institution').doc(user?._code).collection('kid').doc(kidId);
                 batch.update(ref, {
                     storeId: firebase.firestore.FieldValue.arrayUnion(store.id),
                 });
             });
             _selectedGroups.forEach(groupId => {
-                const ref = db.collection('Institution').doc(user._code).collection('groups').doc(groupId);
+                const ref = db.collection('Institution').doc(user?._code).collection('groups').doc(groupId);
                 batch.update(ref, {
                     storeId: firebase.firestore.FieldValue.arrayUnion(store.id),
                 });
             });
 
-            const ref = db.collection('Institution').doc(user._code).collection('store').doc(store.id);
+            const ref = db.collection('Institution').doc(user?._code).collection('store').doc(store.id);
             batch.update(ref, {
                 access: _selectedKids,
                 group_access: _selectedGroups,
@@ -238,7 +238,7 @@ export const ManageAccessBody = props => {
 
     const renderGroup = group => {
         return (
-            <Fragment>
+            <Fragment key={group.id}>
                 <TableCell className={classes.cell}>{group.name}</TableCell>
                 <TableCell className={classes.cell}>{group.kids_ids.length}</TableCell>
                 <TableCell className={classes.cell}>
@@ -256,7 +256,7 @@ export const ManageAccessBody = props => {
 
     const renderKid = kid => {
         return (
-            <Fragment>
+            <Fragment key={kid.id}>
                 <TableCell className={classes.cell}>{kid.name}</TableCell>
                 <TableCell className={classes.cell}>{kid.groupName}</TableCell>
                 <TableCell className={classes.cell}>

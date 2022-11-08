@@ -6,6 +6,11 @@ import { FormattedMessage } from 'react-intl';
 import { Button, Field } from '../../../components';
 import { useUi } from '../../../store';
 import { getModalStyles } from '../../../utils/helpers';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import {
+    Box,
+  } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => {
     return {
@@ -34,13 +39,28 @@ export const ChangePasswordBody = props => {
         }
     };
 
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     return (
         <Fragment>
             <Field label={<FormattedMessage id="new_password" />}>
-                <Input type="password" fullWidth value={password} onChange={e => setPassword(e.target.value)} />
+                <Box sx={{ display: "flex" }}>
+                    <Input type={showPassword === false ? "password" : "text"} fullWidth value={password} onChange={e => setPassword(e.target.value)} />
+                    {showPassword === false ?
+                        <VisibilityIcon onClick={() => { setShowPassword(true) }} style={{ position: "absolute", left: "84%", color: "#8f92a1", cursor: "pointer" }} />
+                        : <VisibilityOffIcon onClick={() => { setShowPassword(false) }} style={{ position: "absolute", left: "84%", color: "#8f92a1", cursor: "pointer" }} />
+                    }
+                </Box>
             </Field>
             <Field label={<FormattedMessage id="confirm_new_password" />}>
-                <Input type="password" fullWidth value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
+                <Box sx={{ display: "flex" }}>
+                    <Input type={showConfirmPassword === false ? "password" : "text"} fullWidth value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
+                    {showConfirmPassword === false ?
+                        <VisibilityIcon onClick={() => { setShowConfirmPassword(true) }} style={{ position: "absolute", left: "84%", color: "#8f92a1", cursor: "pointer" }} />
+                        : <VisibilityOffIcon onClick={() => { setShowConfirmPassword(false) }} style={{ position: "absolute", left: "84%", color: "#8f92a1", cursor: "pointer" }} />
+                    }
+                </Box>
             </Field>
             <Field label={<FormattedMessage id="password_strength" />}>
                 <PasswordStrengthBar password={password} className={classes.passBar} />

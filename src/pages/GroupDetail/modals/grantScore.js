@@ -31,25 +31,25 @@ export const GrantScoreBody = props => {
         const id = nanoid(6);
         let newScore = 0;
 
-        let kidData = await db.collection('Institution').doc(user._code).collection('kid').get();
+        let kidData = await db.collection('Institution').doc(user?._code).collection('kid').get();
         let filter = kidData.docs.filter(e => e.data().groupId == group.id);
         filter.map(
             async e =>
                 await db
                     .collection('Institution')
-                    .doc(user._code)
+                    .doc(user?._code)
                     .collection('kid')
                     .doc(e.data().id)
                     .update({
                         score: Number(score) + Number(e.data().score),
                     }),
         );
-        kidData = await db.collection('Institution').doc(user._code).collection('kid').get();
+        kidData = await db.collection('Institution').doc(user?._code).collection('kid').get();
         filter = kidData.docs.filter(e => e.data().groupId == group.id);
         filter.map(e => (newScore = Number(newScore) + Number(e.data().score)));
         await db
             .collection('Institution')
-            .doc(user._code)
+            .doc(user?._code)
             .collection('groups')
             .doc(group.id)
             .update({
@@ -57,7 +57,7 @@ export const GrantScoreBody = props => {
             });
         await db
             .collection('Institution')
-            .doc(user._code)
+            .doc(user?._code)
             .collection('History')
             .doc(id)
             .set({

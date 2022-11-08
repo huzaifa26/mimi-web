@@ -40,7 +40,7 @@ export const AddSubjectBody = (props) => {
 
     await db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("staff")
       .doc(staff.id)
       .collection("report_templates")

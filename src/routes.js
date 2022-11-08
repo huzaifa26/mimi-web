@@ -23,7 +23,7 @@ export const Routes = React.memo(() => {
     const { state, setState: setStoreState } = useStore();
 
     const { user } = state;
-    
+
 
     const theme = useMemo(() => {
         return createTheme({
@@ -41,18 +41,26 @@ export const Routes = React.memo(() => {
         bodyEl.setAttribute('dir', state.orientation);
     }, [state.orientation]);
 
-
     const renderRoutes = () => {
-    
+
         return routesConfig.map(el => {
             const { component, ...otherProps } = el;
             const Component = component;
+
+            if (el.path === "/") return
+            // if(el.path === "*") return
+
+            if (el.path.includes("/dashboard") && (user?.permissions?.showDashboard === false && user?.type !== ROLES.admin)) {
+                return
+            }
             if (el?.private) {
                 if (user?.type !== ROLES.admin && el.roles.length && !el.roles.includes(user?.type)) return;
 
                 return (
                     <PrivateRoute key={el.path} {...otherProps}>
-                        <Component />
+                        <Sidebar>
+                            <Component />
+                        </Sidebar>
                     </PrivateRoute>
                 );
             } else {
@@ -67,14 +75,25 @@ export const Routes = React.memo(() => {
 
     if (!state.authenticated) return <Loader />;
 
+    const route404 = routesConfig[routesConfig.length - 1];
+    console.log(route404);
+    const { component404, ...otherProps404 } = route404;
+    const Component404 = component404
+
+
     return (
         <IntlProvider messages={LanugageFiles[state.language] || english} locale={state.language} defaultLocale={LANGUAGE_MAPPING.ENGLISH}>
             <ThemeProvider theme={theme}>
-                    <UiProvidor>
-                        <Sidebar>
-                            <Switch>{renderRoutes()}</Switch>
-                        </Sidebar>
-                    </UiProvidor>
+                <UiProvidor>
+                    <Switch>
+                        <Route key={routesConfig.path} {...routesConfig[0]} ></Route>
+                        {renderRoutes()}
+
+                        {/* <PrivateRoute key={route404.path} {...otherProps404} > */}
+                        {/* <Component404 /> */}
+                        {/* </PrivateRoute> */}
+                    </Switch>
+                </UiProvidor>
             </ThemeProvider>
         </IntlProvider>
     );

@@ -181,7 +181,7 @@ export const RegisterKid = (props) => {
       setLoading(true);
       const kidExists = await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .where("username", "==", username.toLowerCase())
         .get();
@@ -329,7 +329,7 @@ export const RegisterKid = (props) => {
             <Grid item xs={6}>
               <Field label={<FormattedMessage id="assign_days" />}>
                 <MenuMultiple
-                  prefix={<FormattedMessage id="Days: " />}
+                  prefix={<FormattedMessage id="Days:" />}
                   defaultSelected={defaultAssignedDays}
                   list={days}
                   entity={"Days"}

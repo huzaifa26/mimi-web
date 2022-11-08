@@ -41,7 +41,7 @@ export const AddSubjectBody = props => {
 
         await db
             .collection('Institution')
-            .doc(user._code)
+            .doc(user?._code)
             .collection('kid')
             .doc(kid.id)
             .collection('levels')
@@ -50,7 +50,7 @@ export const AddSubjectBody = props => {
             .doc(subject_id)
             .set(payload);
 
-        await db.collection('Institution').doc(user._code).collection('kid').doc(kid.id).collection('achievements').doc(subject_id).set({
+        await db.collection('Institution').doc(user?._code).collection('kid').doc(kid.id).collection('achievements').doc(subject_id).set({
             redPoints: 0,
             streak: 0,
             subjectName: subjectName,

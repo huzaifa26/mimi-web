@@ -160,7 +160,7 @@ export const GroupReportBody = (props) => {
       const report_templates = (
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(params.id)
           .collection("report_templates")
@@ -171,7 +171,7 @@ export const GroupReportBody = (props) => {
   }, []);
 
   function insertAndShift(arr, from, to) {
-    let cutOut = arr.splice(from, 1)[0]; // cut the element at index 'from'
+    let cutOut = arr.splice(from, 1)[0];  // cut the element at index 'from'
     arr.splice(to, 0, cutOut);            // insert it at index 'to'
   }
 
@@ -181,42 +181,6 @@ export const GroupReportBody = (props) => {
     insertAndShift(subjectCopy, result.source.index, result.destination.index);
     setSubjects(subjectCopy);
     setSubjectOrder(subjectCopy);
-    console.log(subjectCopy);
-
-    // for(let i=0; i<subjectCopy.length;i++){
-    //   if(location.pathname.includes("/kids")){
-    //     await db
-    //     .collection("Institution")
-    //     .doc(user._code)
-    //     .collection("kid")
-    //     .doc(kid.id)
-    //     .collection("subjects")
-    //     .doc(subjectCopy[i].id)
-    //     .update({
-    //       orderNo:i,
-    //     });
-    //   } else if(location.pathname.includes("/data")){
-    //     await db
-    //     .collection("Institution")
-    //     .doc(user._code)
-    //     .collection("basicReport")
-    //     .doc(subjectCopy[i].id)
-    //     .update({
-    //       orderNo:i,
-    //     });
-    //   } else if(location.pathname.includes("/groups")){
-    //     await db
-    //     .collection("Institution")
-    //     .doc(user._code)
-    //     .collection("groups")
-    //     .doc(group.id)
-    //     .collection("report_templates")
-    //     .doc(subjectCopy[i].id)
-    //     .update({
-    //       orderNo:i,
-    //     });
-    //   } 
-    // }
   };
 
   const _handleSyncSubject = (id, subject) => {

@@ -10,6 +10,12 @@ import { db } from '../../../utils/firebase';
 import { getModalStyles, getTypographyStyles } from '../../../utils/helpers';
 import * as yup from 'yup';
 import clsx from 'clsx';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import {
+    Box,
+  } from "@material-ui/core";
+
 
 const useStyles = makeStyles(theme => {
     return {
@@ -55,7 +61,12 @@ export const ChangePasswordBody = props => {
             Schema.validateSync(payload);
 
             const encryptPass = md5(password);
+<<<<<<< HEAD
             await db.collection('Institution').doc(user._code).collection('kid').doc(kid.id).update({ password: encryptPass });
+=======
+            console.log(encryptPass);
+            await db.collection('Institution').doc(user?._code).collection('kid').doc(kid.id).update({ password: encryptPass });
+>>>>>>> 38b81032e12b292f002360f7ab829d9cf7f9c0f0
 
             handleClose();
         } catch (error) {
@@ -65,13 +76,28 @@ export const ChangePasswordBody = props => {
         }
     };
 
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     return (
         <Fragment>
             <Field label={<FormattedMessage id="new_password" />}>
-                <Input type="password" fullWidth value={password} onChange={e => setPassword(e.target.value)} />
+                <Box sx={{ display: "flex" }}>
+                    <Input type={showPassword === false ? "password" : "text"} fullWidth value={password} onChange={e => setPassword(e.target.value)} />
+                    {showPassword === false ?
+                        <VisibilityIcon onClick={() => { setShowPassword(true) }} style={{ position: "absolute", left: "90%", color: "#8f92a1", cursor: "pointer" }} />
+                        : <VisibilityOffIcon onClick={() => { setShowPassword(false) }} style={{ position: "absolute", left: "90%", color: "#8f92a1", cursor: "pointer" }} />
+                    }
+                </Box>
             </Field>
             <Field label={<FormattedMessage id="confirm_new_password" />}>
-                <Input type="password" fullWidth value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
+                <Box sx={{ display: "flex" }}>
+                    <Input type={showConfirmPassword === false ? "password" : "text"} fullWidth value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
+                    {showConfirmPassword === false ?
+                        <VisibilityIcon onClick={() => { setShowConfirmPassword(true) }} style={{ position: "absolute", left: "90%", color: "#8f92a1", cursor: "pointer" }} />
+                        : <VisibilityOffIcon onClick={() => { setShowConfirmPassword(false) }} style={{ position: "absolute", left: "90%", color: "#8f92a1", cursor: "pointer" }} />
+                    }
+                </Box>
             </Field>
             <Field label={<FormattedMessage id="password_strength" />}>
                 <PasswordStrengthBar password={password} className={classes.passBar} />

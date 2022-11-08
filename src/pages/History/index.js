@@ -21,8 +21,8 @@ export const History = () => {
   const { state: storeState } = useStore();
   const { user } = storeState;
   const rootQuery = useMemo(
-    () => db.collection("Institution").doc(user._code).collection("History"),
-    [user._code]
+    () => db.collection("Institution").doc(user?._code).collection("History"),
+    []
   );
 
   const modifier = (list) => {

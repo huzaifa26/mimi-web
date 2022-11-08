@@ -26,6 +26,7 @@ import { ROLES } from "../../utils/constants";
 import { CreateStoreBody } from "./modals/createStore";
 import { StoreDetailsBody } from "./modals/storeDetails";
 import clsx from "clsx";
+import { useRef } from "react";
 
 const headers = [
   {
@@ -78,17 +79,22 @@ export const Store = React.memo(() => {
   };
 
   const [changeState,setChangeState]=useState(false);
+  const isProductAddedRef=useRef(null);
 
   const closeStoreDetail = useCallback(() => {
     setModalStates((prev) => ({ ...prev, storeDetail: false }));
     setSelectedStore(null);
-    setChangeState(!changeState);
+    console.log(isProductAddedRef.current);
+    if(isProductAddedRef.current === true){
+      setChangeState(!changeState);
+      isProductAddedRef.current=null;
+    }
   }, [changeState])
 
   const query = useMemo(() => {
     const baseQuery = db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("store")
       .orderBy("id");
 
@@ -143,7 +149,7 @@ export const Store = React.memo(() => {
   const updateOnAdding = async () => {
     var updateData = []
     await db.collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("store")
       .orderBy("id").get()
       .then((querySnapshot) => {
@@ -165,10 +171,10 @@ export const Store = React.memo(() => {
     },
   ];
 
-
   const renderLabel = (status) => {
+   
     return (
-      <Box display={"flex"} alignItems="center">
+      <Box display={"flex"} alignItems="center" id={status.id}>
         <FormattedMessage id="show" />
         <Box marginRight={0.5}>:</Box>
         {status.label}
@@ -177,7 +183,7 @@ export const Store = React.memo(() => {
   };
   const renderItem = (store) => {
     return (
-      <Fragment>
+      <Fragment key={store.id}>
         <TableCell>{store.store_name}</TableCell>
         <TableCell>
           <Status value={store.status} />
@@ -250,7 +256,8 @@ export const Store = React.memo(() => {
         <StoreDetailsBody
           storeId={selectedStore?.id}
           handleClose={closeStoreDetail}
-          // changeStateAfterProductAdded={changeStateAfterProductAdded}
+          setChangeState={setChangeState}
+          isProductAddedRef={isProductAddedRef}
         />
       </SimpleModal>
       {actionBar}

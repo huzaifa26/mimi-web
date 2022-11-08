@@ -115,7 +115,6 @@ const icons = {
     zip: <CreditCardIcon />,
     relation: <SupervisorAccountOutlinedIcon />,
     eye: <VisibilityOutlinedIcon />,
-    search: <SearchIcon />,
     download: <GetAppIcon />,
     ticket: <ReceiptOutlinedIcon />,
     submit: <BackupOutlinedIcon />,

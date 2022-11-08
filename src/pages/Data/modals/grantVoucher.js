@@ -78,11 +78,11 @@ const steps = [
 
             useEffect(() => {
                 (async () => {
-                    const _stores = (await db.collection('Institution').doc(user._code).collection('store').get()).docs.map(el => el.data());
+                    const _stores = (await db.collection('Institution').doc(user?._code).collection('store').get()).docs.map(el => el.data());
                     const _products = (
                         await Promise.all(
                             _stores.map(async el => {
-                                return (await db.collection('Institution').doc(user._code).collection('store').doc(el.id).collection('products').get()).docs.map(el => el.data());
+                                return (await db.collection('Institution').doc(user?._code).collection('store').doc(el.id).collection('products').get()).docs.map(el => el.data());
                             }),
                         )
                     ).flat();
@@ -361,7 +361,7 @@ const steps = [
                     const _kids = (
                         await db
                             .collection('Institution')
-                            .doc(user._code)
+                            .doc(user?._code)
                             .collection('kid')
                             .where(
                                 'groupId',
@@ -549,7 +549,7 @@ export const GrantVoucherBody = props => {
         const batch = db.batch();
 
         state.selectedKids.forEach(kid => {
-            const ref = db.collection('Institution').doc(user._code).collection('kid').doc(kid.id);
+            const ref = db.collection('Institution').doc(user?._code).collection('kid').doc(kid.id);
 
             state.selectedProducts.forEach(product => {
                 const payload = {
@@ -569,7 +569,7 @@ export const GrantVoucherBody = props => {
             });
         });
 
-        const historyRef = db.collection('Institution').doc(user._code).collection('History').doc(historyId);
+        const historyRef = db.collection('Institution').doc(user?._code).collection('History').doc(historyId);
 
         batch.set(historyRef, {
             type: 'Coupon Data',

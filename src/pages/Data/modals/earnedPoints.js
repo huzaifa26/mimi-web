@@ -293,7 +293,7 @@ const steps = [
           const _kids = (
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .where(
                 "groupId",
@@ -525,7 +525,7 @@ export const EarnedPointsBody = (props) => {
     state.selectedKids.map(async (kid) => {
       const ref = db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(kid.id);
       const xpToGainNewLevel = institute.points_for_next_level;
@@ -549,7 +549,7 @@ export const EarnedPointsBody = (props) => {
 
     const historyRef = db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("History")
       .doc(historyId);
 

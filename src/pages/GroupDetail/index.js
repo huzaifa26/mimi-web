@@ -83,7 +83,7 @@ export const GroupDetail = () => {
   useEffect(() => {
     (async () => {
       db.collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("groups")
         .doc(params.id)
         .onSnapshot((querySnapshot) => {
@@ -91,16 +91,16 @@ export const GroupDetail = () => {
         });
 
       db.collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .where("groupId", "==", params.id)
         .onSnapshot((querySnapshot) => {
           const _kids = querySnapshot.docs.map((el) => el.data());
-
           setGroupKids(_kids);
         });
+
       db.collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("groups")
         .doc(params.id)
         .collection("report_templates")
@@ -111,7 +111,7 @@ export const GroupDetail = () => {
         });
 
       db.collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("staff")
         .where("group_ids", "array-contains", params.id)
         .where("type", "==", ROLES.guide)
@@ -128,7 +128,7 @@ export const GroupDetail = () => {
         const report_templates = (
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(params.id)
             .collection("report_templates")
@@ -193,6 +193,9 @@ export const GroupDetail = () => {
     subjectOrder
   ) => {
 
+    console.log(subjectAdded);
+    console.log(subjectLock);
+
     // Add subject
     let _save1 = await Promise.all(
       subjectAdded.map(async (sub) => {
@@ -207,9 +210,12 @@ export const GroupDetail = () => {
           type: sub.type || "group",
           orderNo: sub.orderNo
         };
+
+        console.log(payload);
+
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(group.id)
           .update({
@@ -218,7 +224,7 @@ export const GroupDetail = () => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(group.id)
           .collection("report_templates")
@@ -228,7 +234,7 @@ export const GroupDetail = () => {
         const kids = (
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("kid")
             .where("groupId", "==", group.id)
             .get()
@@ -239,7 +245,7 @@ export const GroupDetail = () => {
             const subjectId = e.id;
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(el.id)
               .collection("achievements")
@@ -268,7 +274,7 @@ export const GroupDetail = () => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(group.id)
           .update({
@@ -277,7 +283,7 @@ export const GroupDetail = () => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(group.id)
           .collection("report_templates")
@@ -292,7 +298,7 @@ export const GroupDetail = () => {
           location?.state?.group.kids_ids.map(async (kid_id) => {
             const kidSubject = await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(kid_id)
               .collection("subjects")
@@ -303,7 +309,7 @@ export const GroupDetail = () => {
             if (_kid_subject !== undefined) {
               await db
                 .collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("kid")
                 .doc(kid_id)
                 .collection("subjects")
@@ -314,7 +320,7 @@ export const GroupDetail = () => {
 
               await db
                 .collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("kid")
                 .doc(kid_id)
                 .collection("subjects")
@@ -335,7 +341,7 @@ export const GroupDetail = () => {
       subjectEdit.map(async (sub) => {
         const reportTemplates = await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(group.id)
           .collection("report_templates")
@@ -347,7 +353,7 @@ export const GroupDetail = () => {
         // edit subject inside group
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(group.id)
           .update({
@@ -356,7 +362,7 @@ export const GroupDetail = () => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(group.id)
           .collection("report_templates")
@@ -376,7 +382,7 @@ export const GroupDetail = () => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(group.id)
           .collection("report_templates")
@@ -388,7 +394,7 @@ export const GroupDetail = () => {
           location?.state?.group.kids_ids.map(async (kid_id) => {
             const kidSubject = await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(kid_id)
               .collection("subjects")
@@ -399,7 +405,7 @@ export const GroupDetail = () => {
             if (_kid_subject !== undefined) {
               await db
                 .collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("kid")
                 .doc(kid_id)
                 .collection("subjects")
@@ -410,7 +416,7 @@ export const GroupDetail = () => {
 
               await db
                 .collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("kid")
                 .doc(kid_id)
                 .collection("subjects")
@@ -419,7 +425,7 @@ export const GroupDetail = () => {
 
               await db
                 .collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("kid")
                 .doc(kid_id)
                 .collection("subjects")
@@ -438,7 +444,7 @@ export const GroupDetail = () => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(group.id)
           .update({
@@ -447,7 +453,7 @@ export const GroupDetail = () => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(group.id)
           .collection("report_templates")
@@ -465,7 +471,7 @@ export const GroupDetail = () => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(group.id)
           .collection("report_templates")
@@ -477,7 +483,7 @@ export const GroupDetail = () => {
           location?.state?.group.kids_ids.map(async (kid_id) => {
             const kidSubject = await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(kid_id)
               .collection("subjects")
@@ -488,7 +494,7 @@ export const GroupDetail = () => {
             if (_kid_subject !== undefined) {
               await db
                 .collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("kid")
                 .doc(kid_id)
                 .collection("subjects")
@@ -499,7 +505,7 @@ export const GroupDetail = () => {
 
               await db
                 .collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("kid")
                 .doc(kid_id)
                 .collection("subjects")
@@ -508,7 +514,7 @@ export const GroupDetail = () => {
 
               await db
                 .collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("kid")
                 .doc(kid_id)
                 .collection("subjects")
@@ -525,7 +531,7 @@ export const GroupDetail = () => {
       subjectOrder.map(async (sub, index) => {
         await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(group.id)
             .collection("report_templates")
@@ -558,19 +564,49 @@ export const GroupDetail = () => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(group.id)
           .collection("report_templates")
           .doc(sub.id)
           .update({
-            isSync: _isSync,
+            isSync: sub.isSync,
           });
 
         location?.state?.group.kids_ids.map(async (kid_id) => {
+          const kid_report = await db
+          .collection("Institution")
+          .doc(user?._code)
+          .collection("kid")
+          .doc(kid_id)
+          .get();
+
+          const kidReport=kid_report.data();
+
+          if(!kidReport.has_special_program){
+            await db
+            .collection("Institution")
+            .doc(user?._code)
+            .collection("groups")
+            .doc(kidReport.groupId)
+            .update({
+              isSpecialReport: true,
+            });
+
+          await db
+            .collection("Institution")
+            .doc(user?._code)
+            .collection("groups")
+            .doc(kidReport.groupId)
+            .collection("report_templates")
+            .doc(sub.id)
+            .set(sub);
+          return
+          }
+
           const kidSubject = await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("kid")
             .doc(kid_id)
             .collection("subjects")
@@ -581,7 +617,7 @@ export const GroupDetail = () => {
 
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("kid")
             .doc(kid_id)
             .update({
@@ -590,7 +626,7 @@ export const GroupDetail = () => {
 
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("kid")
             .doc(kid_id)
             .collection("subjects")
@@ -605,7 +641,7 @@ export const GroupDetail = () => {
       subjectDeleted.map(async (sub) => {
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(group.id)
           .update({
@@ -614,7 +650,7 @@ export const GroupDetail = () => {
 
         const reportTemplates = await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(group.id)
           .collection("report_templates")
@@ -627,7 +663,7 @@ export const GroupDetail = () => {
           location?.state?.group.kids_ids.map(async (kid_id) => {
             const kidSubject = await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(kid_id)
               .collection("subjects")
@@ -640,7 +676,7 @@ export const GroupDetail = () => {
               location?.state?.group.kids_ids.map(async (kid_id) => {
                 const kidSubject = await db
                   .collection("Institution")
-                  .doc(user._code)
+                  .doc(user?._code)
                   .collection("kid")
                   .doc(kid_id)
                   .collection("subjects")
@@ -651,7 +687,7 @@ export const GroupDetail = () => {
                 if (_kid_subject !== undefined) {
                   await db
                     .collection("Institution")
-                    .doc(user._code)
+                    .doc(user?._code)
                     .collection("kid")
                     .doc(kid_id)
                     .update({
@@ -660,7 +696,7 @@ export const GroupDetail = () => {
 
                   await db
                     .collection("Institution")
-                    .doc(user._code)
+                    .doc(user?._code)
                     .collection("kid")
                     .doc(kid_id)
                     .collection("subjects")
@@ -674,7 +710,7 @@ export const GroupDetail = () => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(group.id)
           .collection("report_templates")
@@ -684,7 +720,7 @@ export const GroupDetail = () => {
         let kids = (
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("kid")
             .where("groupId", "==", group.id)
             .get()
@@ -693,7 +729,7 @@ export const GroupDetail = () => {
         kids.map(async (el) => {
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("kid")
             .doc(el.id)
             .collection("achievements")
@@ -714,7 +750,7 @@ export const GroupDetail = () => {
 
         // await db
         //   .collection("Institution")
-        //   .doc(user._code)
+        //   .doc(user?._code)
         //   .collection("groups")
         //   .doc(group.id)
         //   .update({
@@ -723,7 +759,7 @@ export const GroupDetail = () => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(group.id)
           .collection("report_templates")
@@ -732,7 +768,7 @@ export const GroupDetail = () => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(group.id)
           .collection("report_templates")
@@ -742,7 +778,7 @@ export const GroupDetail = () => {
         if (_payload.subSubject.length === 0) {
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(group.id)
             .collection("report_templates")
@@ -753,7 +789,7 @@ export const GroupDetail = () => {
         } else if (_payload.subSubject.length > 0) {
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(group.id)
             .collection("report_templates")
@@ -768,7 +804,7 @@ export const GroupDetail = () => {
           location?.state?.group.kids_ids.map(async (kid_id) => {
             const kidSubject = await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(kid_id)
               .collection("subjects")
@@ -779,7 +815,7 @@ export const GroupDetail = () => {
             if (_kid_subject !== undefined) {
               // await db
               //   .collection("Institution")
-              //   .doc(user._code)
+              //   .doc(user?._code)
               //   .collection("kid")
               //   .doc(kid_id)
               //   .collection("subjects")
@@ -790,7 +826,7 @@ export const GroupDetail = () => {
 
               await db
                 .collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("kid")
                 .doc(kid_id)
                 .collection("subjects")
@@ -799,7 +835,7 @@ export const GroupDetail = () => {
 
               await db
                 .collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("kid")
                 .doc(kid_id)
                 .collection("subjects")
@@ -809,7 +845,7 @@ export const GroupDetail = () => {
               if (_payload.subSubject.length === 0) {
                 await db
                   .collection("Institution")
-                  .doc(user._code)
+                  .doc(user?._code)
                   .collection("kid")
                   .doc(kid_id)
                   .collection("subjects")
@@ -820,7 +856,7 @@ export const GroupDetail = () => {
               } else if (_payload.subSubject.length > 0) {
                 await db
                   .collection("Institution")
-                  .doc(user._code)
+                  .doc(user?._code)
                   .collection("kid")
                   .doc(kid_id)
                   .collection("subjects")
@@ -840,7 +876,7 @@ export const GroupDetail = () => {
   const handleReportDefault = async (subjects) => {
     await db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("groups")
       .doc(group.id)
       .update({
@@ -850,7 +886,7 @@ export const GroupDetail = () => {
     subjects.map(async (e) => {
       return await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("groups")
         .doc(group.id)
         .collection("report_templates")
@@ -860,7 +896,7 @@ export const GroupDetail = () => {
     const defaultSubjects = (
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("basicReport")
         .get()
     ).docs.map((el) => el.data());
@@ -869,7 +905,7 @@ export const GroupDetail = () => {
       defaultSubjects.map(async (e) => {
         return await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(group.id)
           .collection("report_templates")
@@ -881,7 +917,7 @@ export const GroupDetail = () => {
     const kids = (
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .where("groupId", "==", group.id)
         .get()
@@ -892,7 +928,7 @@ export const GroupDetail = () => {
         const subjectId = e.id;
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(el.id)
           .collection("achievements")
@@ -1161,22 +1197,22 @@ export const GroupDetail = () => {
           <div>
             <Box display={"flex"} alignItems="center" marginY={2}>
               <Box marginX={1}>
+                <div className={classes.greenDot}></div>
+              </Box>
+              <Typography>
+                <FormattedMessage id="current_point" />:{" "}
+                <strong>{stats.totalGroupXp}</strong>
+              </Typography>
+            </Box>
+
+            <Box display={"flex"} alignItems="center" marginY={2}>
+              <Box marginX={1}>
                 <div className={classes.greyDot}></div>
               </Box>
 
               <Typography>
                 <FormattedMessage id="point_goal" /> :{" "}
                 <strong>{stats.xpNext}</strong>
-              </Typography>
-            </Box>
-
-            <Box display={"flex"} alignItems="center" marginY={2}>
-              <Box marginX={1}>
-                <div className={classes.greenDot}></div>
-              </Box>
-              <Typography>
-                <FormattedMessage id="current_point" />:{" "}
-                <strong>{stats.totalGroupXp}</strong>
               </Typography>
             </Box>
           </div>

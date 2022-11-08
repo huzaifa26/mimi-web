@@ -48,7 +48,7 @@ export const ChangeScoreBody = props => {
             const id = nanoid(6);
             await db
                 .collection('Institution')
-                .doc(user._code)
+                .doc(user?._code)
                 .collection('kid')
                 .doc(kid.id)
                 .update({
@@ -56,7 +56,7 @@ export const ChangeScoreBody = props => {
                 });
             await db
                 .collection('Institution')
-                .doc(user._code)
+                .doc(user?._code)
                 .collection('History')
                 .doc(id)
                 .set({

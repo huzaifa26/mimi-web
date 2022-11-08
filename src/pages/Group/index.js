@@ -43,7 +43,7 @@ export const Group = React.memo(() => {
     //         for (const group of list) {
     //             const _group = { ...group };
 
-    //             const groupScore = (await db.collection('Institution').doc(user._code).collection('kid').where('groupId', '==', _group.id).get()).docs
+    //             const groupScore = (await db.collection('Institution').doc(user?._code).collection('kid').where('groupId', '==', _group.id).get()).docs
     //                 .map(el => el.data())
     //                 .reduce((acc, el) => (acc += el.score), 0);
 
@@ -59,7 +59,7 @@ export const Group = React.memo(() => {
 
     const query = useMemo(() => FirebaseHelpers.fetchGroups.query({ user }).orderBy('id'), []);
 
-    const { data, loading, loadMore } = usePagination(query, null, list => sortByFavorite(list, user.id));
+    const { data, loading, loadMore } = usePagination(query, null, list => sortByFavorite(list, user?.id));
     const [groups, setGroups] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [createGroupModalShow, setCreateGroupModalShow] = useState(false);
@@ -82,23 +82,23 @@ export const Group = React.memo(() => {
     ];
 
     const handleFavorite = async group => {
-        if ((group.favoriteBy || []).includes(user.id)) {
+        if ((group.favoriteBy || []).includes(user?.id)) {
             await db
                 .collection('Institution')
-                .doc(user._code)
+                .doc(user?._code)
                 .collection('groups')
                 .doc(group.id)
                 .update({
-                    favoriteBy: firebase.firestore.FieldValue.arrayRemove(user.id),
+                    favoriteBy: firebase.firestore.FieldValue.arrayRemove(user?.id),
                 });
         } else {
             await db
                 .collection('Institution')
-                .doc(user._code)
+                .doc(user?._code)
                 .collection('groups')
                 .doc(group.id)
                 .update({
-                    favoriteBy: firebase.firestore.FieldValue.arrayUnion(user.id),
+                    favoriteBy: firebase.firestore.FieldValue.arrayUnion(user?.id),
                 });
         }
     };
@@ -110,12 +110,12 @@ export const Group = React.memo(() => {
             </div>
             <SearchBar placeholder={`Search by names`} size={'small'} handleSearch={value => setSearchText(value)} />
             {
-                [ROLES.admin, ROLES.mngr, ROLES.crdntr].includes(user.type) &&
+                [ROLES.admin, ROLES.mngr, ROLES.crdntr].includes(user?.type) &&
                 <div className={classes.default_headerSection_actionsContainer}>
                     <Button
                         startIcon={<AddIcon />}
                         onClick={() => {
-                            if ([ROLES.admin, ROLES.mngr, ROLES.crdntr].includes(user.type)) {
+                            if ([ROLES.admin, ROLES.mngr, ROLES.crdntr].includes(user?.type)) {
                                 setCreateGroupModalShow(true);
                             } else {
                                 actions.alert('Restricted Access', 'info');
@@ -139,7 +139,7 @@ export const Group = React.memo(() => {
                                 style={{
                                     height: 20,
                                 }}
-                                src={(group.favoriteBy || []).includes(user.id) ? Star : StarOut}
+                                src={(group.favoriteBy || []).includes(user?.id) ? Star : StarOut}
                                 alt=''
                             />
                         </Box>

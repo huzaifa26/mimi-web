@@ -300,7 +300,7 @@ const steps = [
           const _kids = (
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .where(
                 "groupId",
@@ -533,7 +533,7 @@ export const UpdateScoreBody = (props) => {
     state.selectedKids.map(async (kid) => {
       const ref = db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(kid.id);
       batch.update(ref, {
@@ -543,7 +543,7 @@ export const UpdateScoreBody = (props) => {
 
     const historyRef = db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("History")
       .doc(historyId);
 

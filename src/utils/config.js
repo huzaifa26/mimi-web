@@ -215,12 +215,12 @@ export const Routes = [
     roles: [],
     permissions: [],
   },
-  {
-    exact: true,
-    path: "*",
-    component: Page404,
-    private: true,
-    roles: [],
-    permissions: [],
-  },
+  // {
+  //   exact: true,
+  //   path: "*",
+  //   component: Page404,
+  //   private: true,
+  //   roles: [],
+  //   permissions: [],
+  // },
 ];

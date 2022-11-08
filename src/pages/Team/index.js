@@ -138,7 +138,7 @@ export const Team = React.memo(() => {
             const _group = (
               await db
                 .collection("Institution")
-                .doc(user._code)
+                .doc(user?._code)
                 .collection("groups")
                 .doc(groupId)
                 .get()
@@ -198,7 +198,7 @@ export const Team = React.memo(() => {
           [...groups].map((groupId) =>
             db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("groups")
               .doc(groupId)
               .get()
@@ -308,7 +308,7 @@ export const Team = React.memo(() => {
     if ((staff.favoriteBy || []).includes(user.id)) {
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("staff")
         .doc(staff.id)
         .update({
@@ -317,7 +317,7 @@ export const Team = React.memo(() => {
     } else {
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("staff")
         .doc(staff.id)
         .update({

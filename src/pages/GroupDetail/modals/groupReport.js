@@ -22,7 +22,7 @@ import ExpandLessIcon from "@material-ui/icons/ArrowDropDown";
 import Reset from "../../../assets/icons/reset.png";
 import { getModalStyles } from "../../../utils/helpers";
 
-export const GroupReportBody = (props) => {
+export const c = (props) => {
   const { group, guides, kids } = props;
   const classes = useStyles();
   const { state: storeState } = useStore();
@@ -45,7 +45,7 @@ export const GroupReportBody = (props) => {
 
   useEffect(() => {
     db.collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("groups")
       .doc(group.id)
       .collection("report_templates")
@@ -59,7 +59,7 @@ export const GroupReportBody = (props) => {
   const restoreDefault = async () => {
     await db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("groups")
       .doc(group.id)
       .update({
@@ -69,7 +69,7 @@ export const GroupReportBody = (props) => {
     subjects.map(async (e) => {
       return await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("groups")
         .doc(group.id)
         .collection("report_templates")
@@ -79,7 +79,7 @@ export const GroupReportBody = (props) => {
     const defaultSubjects = (
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("basicReport")
         .get()
     ).docs.map((el) => el.data());
@@ -88,7 +88,7 @@ export const GroupReportBody = (props) => {
       defaultSubjects.map(async (e) => {
         return await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(group.id)
           .collection("report_templates")
@@ -100,7 +100,7 @@ export const GroupReportBody = (props) => {
     const kids = (
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .where("groupId", "==", group.id)
         .get()
@@ -111,7 +111,7 @@ export const GroupReportBody = (props) => {
         const subjectId = e.id;
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(el.id)
           .collection("achievements")
@@ -137,7 +137,7 @@ export const GroupReportBody = (props) => {
 
     await db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("groups")
       .doc(group.id)
       .update({
@@ -151,7 +151,7 @@ export const GroupReportBody = (props) => {
 
     await db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("groups")
       .doc(group.id)
       .collection("report_templates")
@@ -161,7 +161,7 @@ export const GroupReportBody = (props) => {
     let kids = (
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .where("groupId", "==", group.id)
         .get()
@@ -170,7 +170,7 @@ export const GroupReportBody = (props) => {
     kids.map(async (el) => {
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(el.id)
         .collection("achievements")
@@ -192,7 +192,7 @@ export const GroupReportBody = (props) => {
 
     await db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("groups")
       .doc(group.id)
       .update({
@@ -201,7 +201,7 @@ export const GroupReportBody = (props) => {
 
     await db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("groups")
       .doc(group.id)
       .collection("report_templates")
@@ -214,7 +214,7 @@ export const GroupReportBody = (props) => {
 
     await db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("groups")
       .doc(group.id)
       .collection("report_templates")
@@ -226,7 +226,7 @@ export const GroupReportBody = (props) => {
     if (!subject.subSubject.length) {
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("groups")
         .doc(group.id)
         .collection("report_templates")

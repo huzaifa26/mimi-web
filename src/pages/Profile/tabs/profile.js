@@ -37,14 +37,19 @@ export const Profile = () => {
       const totalGroups = (
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .get()
       ).docs.map((el) => el.data());
       setGroups(totalGroups);
     })();
+<<<<<<< HEAD
   }, [user._code]);
 
+=======
+  }, [user?._code]);
+  // console.log(groups);
+>>>>>>> 38b81032e12b292f002360f7ab829d9cf7f9c0f0
 
   // To get a group
   useEffect(() => {
@@ -52,9 +57,9 @@ export const Profile = () => {
       const ref = (
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
-          .where("id", "==", user.group_ids[0])
+          .where("id", "==", user?.group_ids[0])
           .get()
       ).docs.map((el) => el.data());
       setGroup(ref);
@@ -76,9 +81,9 @@ export const Profile = () => {
     const action = async () => {
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("staff")
-        .doc(user.id)
+        .doc(user?.id)
         .update({
           image: "",
         });
@@ -95,9 +100,9 @@ export const Profile = () => {
     () =>
       db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("History")
-        .where("_staff", "array-contains", user.id),
+        .where("_staff", "array-contains", user?.id),
     []
   );
 
@@ -121,7 +126,7 @@ export const Profile = () => {
         <div className={classes.profileContainer}>
           <Box marginX={2} marginY={1}>
             <img
-              src={user.image || defaultAvatars?.staff}
+              src={user?.image || defaultAvatars?.staff}
               className={classes.profileImage}
               alt=""
             />
@@ -152,7 +157,7 @@ export const Profile = () => {
               </Typography>
             </Box>
 
-            {user.type === "admin" ? (
+            {user?.type === "admin" ? (
               <Box marginY={1}>
                 <Typography
                   className={clsx([
@@ -165,8 +170,8 @@ export const Profile = () => {
                   Groups: {groups.length}
                 </Typography>
               </Box>
-            ) : user.group_ids.length !== 0 ? (
-              user.group_ids.length > 1 ? (
+            ) : user?.group_ids.length !== 0 ? (
+              user?.group_ids.length > 1 ? (
                 <Box marginY={1}>
                   <Typography
                     className={clsx([
@@ -176,7 +181,7 @@ export const Profile = () => {
                       classes.default_typography_colorLight,
                     ])}
                   >
-                    Groups: {user.group_ids.length}
+                    Groups: {user?.group_ids.length}
                   </Typography>
                 </Box>
               ) : (

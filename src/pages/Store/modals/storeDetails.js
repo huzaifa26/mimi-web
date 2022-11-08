@@ -1,35 +1,12 @@
-import {
-  Box,
-  Grid,
-  makeStyles,
-  TableCell,
-  Typography,
-} from "@material-ui/core";
+import {Box,Grid,makeStyles,TableCell,Typography} from "@material-ui/core";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import {
-  Button,
-  SearchBar,
-  SimpleModal,
-  DataTable,
-  Loader,
-} from "../../../components";
-import Icons, {
-  AddIconSim,
-  Delete,
-  Edit,
-  Pause,
-  Active,
-} from "../../../components/Icons";
+import {Button,SearchBar,SimpleModal,DataTable,Loader,} from "../../../components";
+import Icons, {AddIconSim,Delete,Edit,Pause,Active,} from "../../../components/Icons";
 import StoreIcon from "../../../assets/icons/StoreIcon.png";
 import { useStore, useUi } from "../../../store";
 import { db } from "../../../utils/firebase";
-import {
-  getModalStyles,
-  getSectionHeaderStyles,
-  getTypographyStyles,
-  searchBy,
-} from "../../../utils/helpers";
+import {getModalStyles,getSectionHeaderStyles,getTypographyStyles,searchBy,} from "../../../utils/helpers";
 import { PERMISSIONS } from "../../../utils/constants";
 import Key from "../../../assets/icons/key.png";
 import clsx from "clsx";
@@ -97,7 +74,7 @@ export const StoreDetailsBody = (props) => {
 
         await db
           .collection('Institution')
-          .doc(user._code)
+          .doc(user?._code)
           .collection('log')
           .doc(payload.id)
           .set(payload)
@@ -127,7 +104,7 @@ export const StoreDetailsBody = (props) => {
     listenerRef.current.push(
       db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("store")
         .doc(storeId)
         .onSnapshot((snapshot) => {
@@ -147,7 +124,7 @@ export const StoreDetailsBody = (props) => {
     listenerRef.current.push(
       db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("store")
         .doc(store.id)
         .collection("products")
@@ -173,7 +150,6 @@ export const StoreDetailsBody = (props) => {
 
   const closeProduct = () => {
     setModalStates((prev) => ({ ...prev, product: false }));
-    // props.changeStateAfterProductAdded();
   };
 
   const closeManageAccess = () => {
@@ -191,7 +167,7 @@ export const StoreDetailsBody = (props) => {
     const action = async () => {
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("store")
         .doc(store.id)
         .collection("products")
@@ -200,11 +176,11 @@ export const StoreDetailsBody = (props) => {
 
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("store")
         .doc(store.id)
         .update({
-          numberOfProducts: store.numberOfProducts - 1,
+          numberOfProducts: products.length - 1,
         });
     };
 
@@ -223,7 +199,7 @@ export const StoreDetailsBody = (props) => {
     const action = async () => {
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("store")
         .doc(store.id)
         .delete();
@@ -244,7 +220,7 @@ export const StoreDetailsBody = (props) => {
 
     await db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("store")
       .doc(store.id)
       .update({
@@ -378,6 +354,7 @@ export const StoreDetailsBody = (props) => {
         <ProductBody
           store={store}
           product={selectedProduct}
+          isProductAddedRef={props.isProductAddedRef}
           handleClose={closeProduct}
         />
       </SimpleModal>

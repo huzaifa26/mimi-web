@@ -32,6 +32,10 @@ import {
 import md5 from "md5";
 import { ChangePasswordBody } from "./modals/changePassword";
 import CryptoJS from "crypto-js";
+import { ForgotPassword } from "./modals/forgotpassword";
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import { TermAndPolicy } from "./modals/termAndPolicy";
 
 let key = process.env.REACT_APP_ENCRYPT_KEY;
 key = CryptoJS.enc.Utf8.parse(key);
@@ -54,10 +58,21 @@ export function Login() {
   const [institutionCode, setInstitutionCode] = useState("TEST");
   const [rememberMe, setRememberMe] = useState(false);
   const [showChangePassword, setShowChangePassword] = useState(false);
+  const [userDataForTermAndPolicy, setUserDataForTermAndPolicy] = useState();
+  const [codeDataForTermAndPolicy, setCodeDataForTermAndPolicy] = useState();
+  const localUserRef=useRef(null);
+
+  const [modalStates, setModalStates] = useState({
+    forgotPassword: false,
+    termAndPolicy: false
+  });
 
   useEffect(() => {
     if (user?.permissions?.webPanelAccess) {
       if (auth.currentUser) {
+        if ((user?.permissions?.showDashboard === false && user?.type !== ROLES.admin)) {
+          return history.push("/history");
+        }
         return history.push("/dashboard");
       }
     }
@@ -97,6 +112,24 @@ export function Login() {
       })
   }
 
+  const acceptTermAndPolciyHandler = (acceptTerm) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await db
+          .collection("Institution")
+          .doc(codeDataForTermAndPolicy)
+          .collection("staff")
+          .doc(userDataForTermAndPolicy.id)
+          .update({
+            hasAcceptedTerms: true
+          }).then(() => console.log("updated term and policy"));
+        resolve(true);
+      } catch (e) {
+        console.log(e)
+        reject(e)
+      }
+    })
+  }
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -141,12 +174,28 @@ export function Login() {
         ...userDocRef.data(),
         _code: institutionCode.toUpperCase(),
       };
+      console.log(user);
+      localUserRef.current=user;
+
+      setUserDataForTermAndPolicy(user);
+      setCodeDataForTermAndPolicy(institutionCode.toUpperCase());
 
       const access = user?.permissions[PERMISSIONS.webPanelAccess];
 
-      if (access === false) {
-        handleSignout()
-        return actions.alert("You account has been disabled. Please contact admin for queries", "error");
+      if (!user.hasAcceptedTerms && user.type !== ROLES.admin) {
+        return setModalStates((prev) => ({ ...prev, termAndPolicy: true }));
+      }
+
+      if (!user.firstPasswordChanged && user.type !== ROLES.admin) {
+        localStorage.clear();
+        setShowChangePassword(true);
+        return
+      }
+
+
+      if (access === false || !user?.permissions.hasOwnProperty(PERMISSIONS.webPanelAccess)) {
+        handleSignout();
+        return actions.alert("Your account doesn't have access permission to the console", "error");
       } else if (access === true) {
         // If institute subscription end. Only admin can login.
         if (todayDate > subEndDate && user.type !== ROLES.admin) {
@@ -156,12 +205,8 @@ export function Login() {
 
         // If institute is disabled. Only admin can login.
         if (institution.enabled === false && user.type !== ROLES.admin) {
-          handleSignout()
+          handleSignout();
           return actions.alert("Institution Disabled", "error");
-        }
-
-        if (!user.firstPasswordChanged && user.type != ROLES.admin) {
-          return setShowChangePassword(true);
         }
 
         await db
@@ -175,6 +220,14 @@ export function Login() {
 
         await setLocalStorage(institutionCode, password, language, direction)
           .then(() => {
+            if ((user?.permissions?.showDashboard === false && user?.type !== ROLES.admin)) {
+              setStoreState((prev) => ({
+                ...prev,
+                user,
+              }));
+              history.push("/history");
+              return
+            }
             history.push("/dashboard");
           }).then(() => localStorage.setItem("last_login", new Date()))
       }
@@ -193,8 +246,7 @@ export function Login() {
         user,
         institute: {
           id: "DEV",
-          image:
-            "https://firebasestorage.googleapis.com/v0/b/mimi-plan.appspot.com/o/images%2FdefaultAvatar.png?alt=media&token=d8133d4a-1874-4462-9b3b-3e24baefa6b9",
+          image: "https://firebasestorage.googleapis.com/v0/b/mimi-plan.appspot.com/o/images%2FdefaultAvatar.png?alt=media&token=d8133d4a-1874-4462-9b3b-3e24baefa6b9",
           name: "newBoardingDev",
           expireDate: "2023-07-27",
           language: "English",
@@ -209,7 +261,7 @@ export function Login() {
 
   const handleUpdatePassword = async (newPassword) => {
     const encryptPass = md5(newPassword);
-    await auth.currentUser.updatenewPassword(newPassword);
+    await auth.currentUser.updatePassword(newPassword);
     await db
       .collection("Institution")
       .doc(institutionCode)
@@ -222,6 +274,10 @@ export function Login() {
     setShowChangePassword(false);
   };
 
+  const closeForgotPassword = () => setModalStates((prev) => ({ ...prev, forgotPassword: false }));
+  const closeTermAndPolicy = () => setModalStates((prev) => ({ ...prev, termAndPolicy: false }));
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <Fragment>
       <SimpleModal
@@ -233,6 +289,30 @@ export function Login() {
           changePasswordHandler={handleUpdatePassword}
         />
       </SimpleModal>
+
+      <SimpleModal
+        title={<FormattedMessage id="forgot_password" />}
+        open={modalStates.forgotPassword}
+        handleClose={closeForgotPassword}
+      >
+        <ForgotPassword
+          handleClose={closeForgotPassword}
+        />
+      </SimpleModal>
+
+      <SimpleModal
+        title={<FormattedMessage id="term_and_policy" />}
+        open={modalStates.termAndPolicy}
+        handleClose={closeTermAndPolicy}
+      >
+        <TermAndPolicy
+          handleClose={closeTermAndPolicy}
+          acceptTermAndPolciyHandler={acceptTermAndPolciyHandler}
+          setShowChangePassword={setShowChangePassword}
+          localUserRef={localUserRef}
+        />
+      </SimpleModal>
+
       <div className={classes.backgroundconatiner}>
         <Form>
           <img src={KidPic1} className={classes.kidImage1} alt="kid-profile" />
@@ -270,13 +350,19 @@ export function Login() {
             />
           </Field>
           <Field label={<FormattedMessage id="password" />}>
-            <Input
-              value={password}
-              fullWidth
-              type="password"
-              size="small"
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <Box sx={{ display: "flex" }}>
+              <Input
+                value={password}
+                fullWidth
+                type={showPassword === false ? "password" : "text"}
+                size="small"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              {showPassword === false ?
+                <VisibilityIcon onClick={() => { setShowPassword(true) }} style={{ position: "absolute", left: "84%", color: "#8f92a1", cursor: "pointer" }} />
+                : <VisibilityOffIcon onClick={() => { setShowPassword(false) }} style={{ position: "absolute", left: "84%", color: "#8f92a1", cursor: "pointer" }} />
+              }
+            </Box>
           </Field>
           <Field label={<FormattedMessage id="institution_code" />}>
             <Input
@@ -288,7 +374,16 @@ export function Login() {
           </Field>
 
           <Field label={null}>
-            <Box display={"flex"} justifyContent="flex-end">
+            <Box sx={{ justifyContent: "space-between" }} display={"flex"} justifyContent="flex-end">
+              <Typography
+                align="center"
+                className={classes.forgotPassword}
+                onClick={() => {
+                  setModalStates((prev) => ({ ...prev, forgotPassword: true }))
+                }}
+              >
+                <FormattedMessage id={"forgot_password"} />?
+              </Typography>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -358,4 +453,10 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  forgotPassword: {
+    fontSize: "16px",
+    alignSelf: "center",
+    cursor: "pointer",
+    color: "#8f92a1",
+  }
 }));

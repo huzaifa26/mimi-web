@@ -19,7 +19,7 @@ export const RedeemVoucherBody = props => {
         if (!voucher) return;
 
         (async () => {
-            setStaff((await db.collection('Institution').doc(user._code).collection('staff').doc(voucher.staff_id).get()).data());
+            setStaff((await db.collection('Institution').doc(user?._code).collection('staff').doc(voucher.staff_id).get()).data());
         })();
     }, [user._code, voucher]);
     

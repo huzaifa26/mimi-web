@@ -124,7 +124,7 @@ export const EditLevelBody = (props) => {
 
   useEffect(() => {
     db.collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("kid")
       .doc(kid.id)
       .collection("levels")
@@ -141,7 +141,7 @@ export const EditLevelBody = (props) => {
     const action = async () => {
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(kid.id)
         .collection("achievements")
@@ -154,7 +154,7 @@ export const EditLevelBody = (props) => {
 
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(kid.id)
         .collection("levels")
@@ -178,7 +178,7 @@ export const EditLevelBody = (props) => {
 
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(kid.id)
         .collection("levels")
@@ -193,7 +193,7 @@ export const EditLevelBody = (props) => {
       if (subject.subSubject.length == 2) {
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("levels")
@@ -221,7 +221,7 @@ export const EditLevelBody = (props) => {
     const [lvl] = (
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(kid.id)
         .collection("levels")
@@ -231,7 +231,7 @@ export const EditLevelBody = (props) => {
 
     let subjects = await db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("kid")
       .doc(kid.id)
       .collection("levels")
@@ -242,7 +242,7 @@ export const EditLevelBody = (props) => {
       subjects.docs.map(async (sub) =>
         db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("levels")
@@ -256,7 +256,7 @@ export const EditLevelBody = (props) => {
     const documents = (
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("basicReport")
         .get()
     ).docs.map((el) => el.data());
@@ -266,7 +266,7 @@ export const EditLevelBody = (props) => {
         const id = nanoid(6);
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("levels")
@@ -277,7 +277,7 @@ export const EditLevelBody = (props) => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("achievements")

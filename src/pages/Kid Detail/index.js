@@ -104,10 +104,9 @@ export const KidsDetail = (props) => {
   useEffect(() => {
     (async () => {
       db.collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(params.id)
-        // .orderBy("orderNo")
         .onSnapshot(async (querySnapshot) => {
           setKid(querySnapshot.data());
         });
@@ -122,7 +121,7 @@ export const KidsDetail = (props) => {
         const report_templates = (
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("kid")
             .doc(kid.id)
             .collection("subjects")
@@ -134,10 +133,11 @@ export const KidsDetail = (props) => {
         const report_templates = (
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(kid.groupId)
             .collection("report_templates")
+            .orderBy("orderNo")
             .get()
         ).docs.map((el) => el.data());
         setSubjects(report_templates);
@@ -151,7 +151,7 @@ export const KidsDetail = (props) => {
       const _prizes = (
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("routePlan")
           .doc(kid.route_id)
           .collection("prizes")
@@ -204,6 +204,7 @@ export const KidsDetail = (props) => {
 
   const handleProfilePic = async () => {
     console.log("button is disabled!")
+    actions.alert("This feature is not available","info");
     // if (!user.permissions[PERMISSIONS.picAccess])
     //   return actions.alert("You don't have access to perform this action");
 
@@ -258,7 +259,7 @@ export const KidsDetail = (props) => {
   ) => {
     if (kid.has_special_program == false) {
       db.collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(kid.id)
         .update({
@@ -270,7 +271,7 @@ export const KidsDetail = (props) => {
         (report_templates = (
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(kid.groupId)
             .collection("report_templates")
@@ -280,7 +281,7 @@ export const KidsDetail = (props) => {
         .then(
           report_templates.forEach((el) => {
             db.collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(kid.id)
               .collection("subjects")
@@ -291,7 +292,7 @@ export const KidsDetail = (props) => {
         .then(
           report_templates.forEach((el) => {
             db.collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(kid.id)
               .collection("achievements")
@@ -324,7 +325,7 @@ export const KidsDetail = (props) => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .update({
@@ -332,7 +333,7 @@ export const KidsDetail = (props) => {
           });
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")
@@ -341,7 +342,7 @@ export const KidsDetail = (props) => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("achievements")
@@ -361,7 +362,7 @@ export const KidsDetail = (props) => {
       subSubjectAdded.map(async (sub) => {
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .update({
@@ -375,7 +376,7 @@ export const KidsDetail = (props) => {
         };
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")
@@ -393,7 +394,7 @@ export const KidsDetail = (props) => {
       subjectEdit.map(async (sub) => {
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .update({
@@ -401,7 +402,7 @@ export const KidsDetail = (props) => {
           });
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")
@@ -420,7 +421,7 @@ export const KidsDetail = (props) => {
         };
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")
@@ -440,7 +441,7 @@ export const KidsDetail = (props) => {
         // };
         // const reportTemplates = await db
         //   .collection("Institution")
-        //   .doc(user._code)
+        //   .doc(user?._code)
         //   .collection("kid")
         //   .doc(kid.id)
         //   .collection("subjects")
@@ -454,7 +455,7 @@ export const KidsDetail = (props) => {
         // });
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .update({
@@ -462,7 +463,7 @@ export const KidsDetail = (props) => {
           });
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")
@@ -490,7 +491,7 @@ export const KidsDetail = (props) => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")
@@ -505,7 +506,7 @@ export const KidsDetail = (props) => {
        
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")
@@ -521,7 +522,7 @@ export const KidsDetail = (props) => {
       subjectDeleted.map(async (sub) => {
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .update({
@@ -529,7 +530,7 @@ export const KidsDetail = (props) => {
           });
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")
@@ -538,7 +539,7 @@ export const KidsDetail = (props) => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("achievements")
@@ -558,7 +559,7 @@ export const KidsDetail = (props) => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .update({
@@ -567,7 +568,7 @@ export const KidsDetail = (props) => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")
@@ -576,7 +577,7 @@ export const KidsDetail = (props) => {
 
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")
@@ -586,7 +587,7 @@ export const KidsDetail = (props) => {
         if (_payload.subSubject.length === 0) {
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("kid")
             .doc(kid.id)
             .collection("subjects")
@@ -597,7 +598,7 @@ export const KidsDetail = (props) => {
         } else if (_payload.subSubject.length > 0) {
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("kid")
             .doc(kid.id)
             .collection("subjects")
@@ -614,14 +615,14 @@ export const KidsDetail = (props) => {
   const handleReportDefault = async () => {
     let subjects = await db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("kid")
       .doc(kid.id)
       .collection("subjects")
       .get();
     await db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("kid")
       .doc(kid.id)
       .update({
@@ -631,7 +632,7 @@ export const KidsDetail = (props) => {
       subjects.docs.map(async (sub) =>
         db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("subjects")
@@ -788,51 +789,55 @@ export const KidsDetail = (props) => {
       >
         {actionBar}
         <Box marginBottom={2}>
-          <Divider />
+          {/* <Divider /> */}
         </Box>
 
         <div className={classes.header}>
-          <img
-            src={kid?.image || defaultAvatars?.kid}
-            className={classes.kidImage}
-            alt=''
-          />
-          <Box textAlign={"center"} display="flex" alignItems={"center"}>
-            <Box>
-              <Typography
-                className={clsx([
-                  classes.default_typography_capitalize,
-                  classes.default_typography_bold,
-                  classes.default_typography_heading,
-                ])}
-              >
-                {kid?.name}
-              </Typography>
-              <Typography
-                className={clsx([
-                  classes.default_typography_bold,
-                  classes.default_typography_paragraph,
-                ])}
-              >
-                {kid?.username}
-              </Typography>
-              <Typography
-                className={clsx([
-                  classes.default_typography_capitalize,
-                  classes.default_typography_bold,
-                  classes.default_typography_paragraph,
-                ])}
-              >
-                {kid?.groupName}
-              </Typography>
-            </Box>
+          <Box sx={{ display: "flex", gap: "1.953125vw" }}>
+            <Box sx={{ position: "relative" }}>
+              <img
+                src={kid?.image || defaultAvatars?.kid}
+                className={classes.kidImage}
+                alt=''
+              />
 
-            <Box marginX={2}>
-              <Badge value={kid.level} />
+              <Box sx={{ position: "absolute", top: "-18px", left: "72%" }}>
+                <Badge value={kid.level} />
+              </Box>
+
+            </Box>
+            <Box display="flex" alignItems={"center"}>
+              <Box>
+                <Typography
+                  className={clsx([
+                    classes.default_typography_capitalize,
+                    classes.default_typography_bold,
+                    classes.default_typography_heading,
+                  ])}
+                >
+                  {kid?.name}
+                </Typography>
+                <Typography
+                  className={clsx([
+                    classes.default_typography_bold,
+                    classes.default_typography_paragraph,
+                  ])}
+                >
+                  {kid?.username}
+                </Typography>
+                <Typography
+                  className={clsx([
+                    classes.default_typography_capitalize,
+                    classes.default_typography_bold,
+                    classes.default_typography_paragraph,
+                  ])}
+                >
+                  {kid?.groupName}
+                </Typography>
+              </Box>
             </Box>
           </Box>
-
-          <Box textAlign={"center"}>
+          <Box>
             <Typography
               className={clsx([
                 classes.default_typography_uppercase,
@@ -878,22 +883,22 @@ export const KidsDetail = (props) => {
           <div>
             <Box display={"flex"} alignItems="center" marginY={2}>
               <Box marginX={1}>
+                <div className={classes.greenDot}></div>
+              </Box>
+              <Typography>
+                <FormattedMessage id="current_point" />:{" "}
+                <strong>{kid.xp}</strong>
+              </Typography>
+            </Box>
+
+            <Box display={"flex"} alignItems="center" marginY={2}>
+              <Box marginX={1}>
                 <div className={classes.greyDot}></div>
               </Box>
 
               <Typography>
                 <FormattedMessage id="point_goal" /> :{" "}
                 <strong>{kid.xpForNextLevel}</strong>
-              </Typography>
-            </Box>
-
-            <Box display={"flex"} alignItems="center" marginY={2}>
-              <Box marginX={1}>
-                <div className={classes.greenDot}></div>
-              </Box>
-              <Typography>
-                <FormattedMessage id="current_point" />:{" "}
-                <strong>{kid.xp}</strong>
               </Typography>
             </Box>
           </div>
@@ -920,11 +925,11 @@ export const KidsDetail = (props) => {
                 classes.default_page_BgWhite,
               ])}
             >
+              {toolBar}
+              <Box marginBottom={2}>
+                <Divider />
+              </Box>
               <ScrollArea smoothScrolling>
-                {toolBar}
-                <Box marginBottom={2}>
-                  <Divider />
-                </Box>
                 <Grid container spacing={2}>
                   <Grid item lg={3} md={4} sm={6} xs={12}>
                     <ToolBox
@@ -1006,7 +1011,7 @@ export const KidsDetail = (props) => {
                   </Grid>
                   <Grid item lg={3} md={4} sm={6} xs={12}>
                     <ToolBox
-
+                      style={{ cursor: "pointer" }}
                       image={
                         <Person style={{ color: "#4FBF67" }} fontSize="large" />
                       }
@@ -1034,7 +1039,7 @@ export const KidsDetail = (props) => {
                         )
                       }
                       background={alpha("#FF991F", 0.2)}
-                      label={"special_program"}
+                      label={"special_report"}
                       onClick={() => {
                         setModalStates((prev) => ({
                           ...prev,
@@ -1125,8 +1130,8 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     alignItems: "center",
     "& > *:not(:last-child)": {
-      marginRight: 30,
-      marginLeft: 30,
+      marginRight: 50,
+      marginLeft: 50,
     },
     [theme.breakpoints.down("sm")]: {
       flexDirection: "column",

@@ -86,7 +86,7 @@ export const ProductBody = (props) => {
 
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("store")
         .doc(store.id)
         .collection("products")
@@ -106,13 +106,15 @@ export const ProductBody = (props) => {
           
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("store")
         .doc(store.id)
         .update({
           numberOfProducts: store.numberOfProducts + 1,
         });
 
+        console.log(true);
+      props.isProductAddedRef.current = true;
       handleClose();
     } catch (error) {
       actions.alert(error.message, "error");

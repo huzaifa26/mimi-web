@@ -179,7 +179,7 @@ function DragDrop(props) {
       hoverTitle="."
     >
       <div className={classes.dottedDiv}>
-        <img src={uploadIcon} />
+        <img src={uploadIcon} alt="dragndrop-img" />
         <Typography className={classes.buttonText}>
           <FormattedMessage id="drag_&_drop_to_upload" />
         </Typography>

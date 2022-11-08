@@ -43,25 +43,25 @@ export const AddSubjectBody = props => {
         };
     
 
-        await db.collection('Institution').doc(user._code).collection('basicReport').doc(subject_id).set(payload);
+        await db.collection('Institution').doc(user?._code).collection('basicReport').doc(subject_id).set(payload);
 
-        const groups = (await db.collection('Institution').doc(user._code).collection('groups').where('isSpecialReport', '==', false).get()).docs.map(el => el.data());
+        const groups = (await db.collection('Institution').doc(user?._code).collection('groups').where('isSpecialReport', '==', false).get()).docs.map(el => el.data());
 
         await Promise.all(
             groups.map(async group => {
                 const batch = db.batch();
 
-                const ref = db.collection('Institution').doc(user._code).collection('groups').doc(group.id).collection('report_templates').doc(subject_id);
+                const ref = db.collection('Institution').doc(user?._code).collection('groups').doc(group.id).collection('report_templates').doc(subject_id);
                 batch.set(ref, payload);
 
-                const kids = (await db.collection('Institution').doc(user._code).collection('kid').where('groupId', '==', group.id).get()).docs.map(el => el.data());
-                const reportTemplates = (await db.collection('Institution').doc(user._code).collection('groups').doc(group.id).collection('report_templates').get()).docs.map(el =>
+                const kids = (await db.collection('Institution').doc(user?._code).collection('kid').where('groupId', '==', group.id).get()).docs.map(el => el.data());
+                const reportTemplates = (await db.collection('Institution').doc(user?._code).collection('groups').doc(group.id).collection('report_templates').get()).docs.map(el =>
                     el.data(),
                 );
 
                 kids.forEach(kid => {
                     reportTemplates.forEach(report => {
-                        batch.set(db.collection('Institution').doc(user._code).collection('kid').doc(kid.id).collection('achievements').doc(report.id), {
+                        batch.set(db.collection('Institution').doc(user?._code).collection('kid').doc(kid.id).collection('achievements').doc(report.id), {
                             redPoints: 0,
                             streak: 0,
                             subjectName: report.name,

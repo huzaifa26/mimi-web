@@ -29,9 +29,9 @@ export const DailyScoreBody = props => {
         (async () => {
     
             let bonus = [];
-            const report = await db.collection('Institution').doc(user._code).collection('reports').doc(reportId).get();
+            const report = await db.collection('Institution').doc(user?._code).collection('reports').doc(reportId).get();
 
-            const subjects = await db.collection('Institution').doc(user._code).collection('reports').doc(reportId).collection('subjects').get();
+            const subjects = await db.collection('Institution').doc(user?._code).collection('reports').doc(reportId).collection('subjects').get();
 
             const transformedSubjects = await Promise.all(
                 subjects.docs.map(async e => {
@@ -43,7 +43,7 @@ export const DailyScoreBody = props => {
                         subSubjects = (
                             await db
                                 .collection('Institution')
-                                .doc(user._code)
+                                .doc(user?._code)
                                 .collection('reports')
                                 .doc(reportId)
                                 .collection('subjects')

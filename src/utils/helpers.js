@@ -17,7 +17,7 @@ export const FirebaseHelpers = {
 
       let _query = db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("staff");
 
       return _query;
@@ -35,31 +35,31 @@ export const FirebaseHelpers = {
       if (user.type == ROLES.admin) {
         _query = db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("staff");
       } else if (user.type == ROLES.mngr) {
         _query = db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("staff")
           .where("type", "in", [ROLES.gStaff, ROLES.crdntr, ROLES.guide]);
       } else if (user.type == ROLES.crdntr) {
         _query = db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("staff")
           .where("type", "in", [ROLES.gStaff, ROLES.guide]);
       } else if (user.type == ROLES.guide) {
         _query = db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("staff")
           .where("type", "in", [ROLES.gStaff])
           .where("group_ids", "array-contains-any", user.group_ids);
       } else if (user.type == ROLES.gStaff) {
         _query = db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("staff")
           .where("type", "in", [ROLES.gStaff])
           .where("group_ids", "array-contains-any", user.group_ids);
@@ -80,13 +80,13 @@ export const FirebaseHelpers = {
       if (user.type == ROLES.admin || user.type == ROLES.mngr) {
         _query = db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .where("has_special_program", "==", true);
       } else {
         _query = db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .where("staffId", "array-contains", user.id)
           .where("has_special_program", "==", true);
@@ -104,11 +104,11 @@ export const FirebaseHelpers = {
       let _query;
 
       if (user.type == ROLES.admin || user.type == ROLES.mngr) {
-        _query = db.collection("Institution").doc(user._code).collection("kid");
+        _query = db.collection("Institution").doc(user?._code).collection("kid");
       } else {
         _query = db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .where("staffId", "array-contains", user.id);
       }
@@ -128,12 +128,12 @@ export const FirebaseHelpers = {
       if (user.type == ROLES.admin || user.type == ROLES.mngr) {
         _query = db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups");
       } else {
         _query = db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .where("staffId", "array-contains", user.id);
       }
@@ -380,7 +380,7 @@ export const FirebaseHelpers = {
 
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("groups")
         .doc(groupId)
         .set({
@@ -400,7 +400,7 @@ export const FirebaseHelpers = {
       const reports = (
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("basicReport")
           .get()
       ).docs.map((el) => el.data());
@@ -409,7 +409,7 @@ export const FirebaseHelpers = {
         reports.map((e) =>
           db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(groupId)
             .collection("report_templates")
@@ -421,7 +421,7 @@ export const FirebaseHelpers = {
       if (ROLES.admin !== user.type && ROLES.mngr !== user.type) {
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(groupId)
           .update({
@@ -429,7 +429,7 @@ export const FirebaseHelpers = {
           });
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("staff")
           .doc(user.id)
           .update({
@@ -449,7 +449,7 @@ export const FirebaseHelpers = {
       const [defaultPermissions] = (
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("permissions")
           .where("type", "==", type)
           .get()
@@ -474,13 +474,14 @@ export const FirebaseHelpers = {
           password
         );
       } catch (e) {
+        console.log(e);
         if (e.code === "auth/email-already-in-use" && user.type !== ROLES.admin) {
           throw new Error(e);
         }
 
         const _user=(await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("staff")
           .where("email", "==", email)
           .get())
@@ -500,7 +501,7 @@ export const FirebaseHelpers = {
 
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("staff")
         .doc(staffId)
         .set({
@@ -621,7 +622,7 @@ export const FirebaseHelpers = {
         selectedGroups.map(async (e) => {
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("staff")
             .doc(staffId)
             .update({
@@ -630,7 +631,7 @@ export const FirebaseHelpers = {
             });
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(e.id)
             .update({
@@ -641,7 +642,7 @@ export const FirebaseHelpers = {
           e.kids_ids.map(async (el) => {
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("staff")
               .doc(staffId)
               .update({
@@ -649,7 +650,7 @@ export const FirebaseHelpers = {
               });
             await db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("kid")
               .doc(el)
               .update({
@@ -678,7 +679,7 @@ export const FirebaseHelpers = {
      
       const kidExists = await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .where("username", "==", username.toLowerCase())
         .get();
@@ -690,7 +691,7 @@ export const FirebaseHelpers = {
 
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(kidId)
         .set({
@@ -734,7 +735,7 @@ export const FirebaseHelpers = {
         });
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("groups")
         .doc(group.id)
         .update({
@@ -746,7 +747,7 @@ export const FirebaseHelpers = {
 
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("staff")
             .doc(e)
             .update({
@@ -755,7 +756,7 @@ export const FirebaseHelpers = {
 
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("kid")
             .doc(kidId)
             .update({
@@ -766,7 +767,7 @@ export const FirebaseHelpers = {
 
       const report_templates = await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("groups")
         .doc(group.id)
         .collection("report_templates")
@@ -775,7 +776,7 @@ export const FirebaseHelpers = {
         const subjectId = e.data().id;
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kidId)
           .collection("achievements")
@@ -799,7 +800,7 @@ export const FirebaseHelpers = {
       const staff = (
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("staff")
           .get()
       ).docs.map((el) => el.data());
@@ -807,7 +808,7 @@ export const FirebaseHelpers = {
         staff.map(async (el, idx) =>
           db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("staff")
             .doc(el.id)
             .update({
@@ -819,7 +820,7 @@ export const FirebaseHelpers = {
       const report_templates = (
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(group.id)
           .collection("report_templates")
@@ -832,7 +833,7 @@ export const FirebaseHelpers = {
         report_templates.map(async (e) =>
           db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(group.id)
             .collection("report_templates")
@@ -842,7 +843,7 @@ export const FirebaseHelpers = {
       );
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("groups")
         .doc(group.id)
         .delete();
@@ -864,7 +865,7 @@ export const FirebaseHelpers = {
       const groups = (
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .get()
       ).docs.map((el) => el.data());
@@ -873,7 +874,7 @@ export const FirebaseHelpers = {
         groups.map((group) =>
           db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("groups")
             .doc(group.id)
             .update({
@@ -885,7 +886,7 @@ export const FirebaseHelpers = {
       const kids = (
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .get()
       ).docs.map((el) => el.data());
@@ -894,7 +895,7 @@ export const FirebaseHelpers = {
         kids.map((kid) =>
           db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("kid")
             .doc(kid.id)
             .update({
@@ -905,7 +906,7 @@ export const FirebaseHelpers = {
 
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("staff")
         .doc(staff.id)
         .delete();
@@ -920,14 +921,14 @@ export const FirebaseHelpers = {
 
       const stores = await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("store")
         .get();
 
       stores.docs.map(async (e, idx) => {
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("store")
           .doc(e.data().id)
           .update({
@@ -937,14 +938,14 @@ export const FirebaseHelpers = {
 
       const routes = await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("routePlan")
         .get();
 
       routes.docs.map(async (e, idx) => {
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("routePlan")
           .doc(e.data().id)
           .update({
@@ -954,14 +955,14 @@ export const FirebaseHelpers = {
 
       const staff_ = await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("staff")
         .get();
 
       staff_.docs.map(async (e, idx) => {
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("staff")
           .doc(e.data().id)
           .update({
@@ -971,14 +972,14 @@ export const FirebaseHelpers = {
 
       const groups = await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("groups")
         .get();
 
       groups.docs.map(async (e, idx) => {
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(e.data().id)
           .update({
@@ -988,7 +989,7 @@ export const FirebaseHelpers = {
 
       const levels = await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(kid.id)
         .collection("levels")
@@ -996,7 +997,7 @@ export const FirebaseHelpers = {
       levels.docs.map(async (e) => {
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .collection("levels")
@@ -1006,7 +1007,7 @@ export const FirebaseHelpers = {
 
       const achievements = await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(kid.id)
         .collection("achievements")
@@ -1015,7 +1016,7 @@ export const FirebaseHelpers = {
         achievements.docs.map(async (e) => {
           await db
             .collection("Institution")
-            .doc(user._code)
+            .doc(user?._code)
             .collection("kid")
             .doc(kid.id)
             .collection("achievements")
@@ -1025,7 +1026,7 @@ export const FirebaseHelpers = {
       );
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(kid.id)
         .delete();
@@ -1041,7 +1042,7 @@ export const FirebaseHelpers = {
 
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .doc(kid.id)
         .update({

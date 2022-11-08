@@ -23,7 +23,7 @@ export const Date = ({ date }) => {
 
     return (
         <Box display={'flex'}>
-            <img src={DateLogo} className={classes.image} />
+            <img src={DateLogo} alt="date-logo" className={classes.image} />
 
             <Box display={'flex'} flexDirection="column" justifyContent={'center'}>
                 <Typography className={clsx([classes.default_typography_paragraph])}>{moment(date.toDate()).format('dddd')}</Typography>

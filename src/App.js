@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Routes } from './routes';
-import { StoreProvidor, UiProvidor } from './store';
+import { StoreProvidor } from './store';
 import { useWindowDims } from './hooks/useWindow';
 
 export const App = () => {

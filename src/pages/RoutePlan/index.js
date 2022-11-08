@@ -63,7 +63,6 @@ export const RoutePlan = React.memo(() => {
     const [changeState,setChangeState]=useState(false);
 
     const closeRoutePlanDetail = useCallback(() => {
-   
         setModalStates(prev => ({ ...prev, routePlanDetail: false }));
         setSelectedRoutePlan(null);
         setChangeState(!changeState);
@@ -72,7 +71,7 @@ export const RoutePlan = React.memo(() => {
   
 
     const query = useMemo(() => {
-        const baseQuery = db.collection('Institution').doc(user._code).collection('routePlan').orderBy('id');
+        const baseQuery = db.collection('Institution').doc(user?._code).collection('routePlan').orderBy('id');
         if (typeof status?.id != 'boolean' && !status.id) return baseQuery;
         return baseQuery.where('status', '==', status.id);
     }, [status,closeRoutePlanDetail]);
@@ -126,7 +125,7 @@ export const RoutePlan = React.memo(() => {
     const renderLabel = status => {
         return (
             <Box display={'flex'} alignItems="center">
-                <FormattedMessage id="show" />
+                <FormattedMessage id="Show:" />
                 <Box marginRight={0.5}>:</Box>
                 {status.label}
             </Box>

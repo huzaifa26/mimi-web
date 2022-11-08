@@ -61,7 +61,7 @@ export const Kid = React.memo(() => {
               
                 await db
                     .collection('Institution')
-                    .doc(user._code)
+                    .doc(user?._code)
                     .collection('log')
                     .doc(payload.id)
                     .set(payload)
@@ -86,7 +86,7 @@ export const Kid = React.memo(() => {
 
                 // await db
                 //     .collection('Institution')
-                //     .doc(user._code)
+                //     .doc(user?._code)
                 //     .collection('log')
                 //     .doc(payload.id)
                 //     .set(payload)
@@ -166,7 +166,7 @@ export const Kid = React.memo(() => {
         if ((kid.favoriteBy || []).includes(user.id)) {
             await db
                 .collection('Institution')
-                .doc(user._code)
+                .doc(user?._code)
                 .collection('kid')
                 .doc(kid.id)
                 .update({
@@ -175,7 +175,7 @@ export const Kid = React.memo(() => {
         } else {
             await db
                 .collection('Institution')
-                .doc(user._code)
+                .doc(user?._code)
                 .collection('kid')
                 .doc(kid.id)
                 .update({
@@ -188,15 +188,15 @@ export const Kid = React.memo(() => {
         <Fragment>
             <TableCell>
                 <Box display={'flex'} alignItems="center">
-                    <img src={kid.favoriteBy?.includes(user.id) ? Star : StarOut} alt="pin" onClick={stopEventBubble(() => handleFavorite(kid))} />
+                    <img src={kid?.favoriteBy?.includes(user?.id) ? Star : StarOut} alt="pin" onClick={stopEventBubble(() => handleFavorite(kid))} />
                     <Box mx={1}>
-                        <Avatar src={kid.image || defaultAvatars?.kid} />
+                        <Avatar src={kid?.image || defaultAvatars?.kid} />
                     </Box>
-                    <Typography>{kid.name}</Typography>
+                    <Typography>{kid?.name}</Typography>
                 </Box>
             </TableCell>
-            <TableCell>{kid.groupName}</TableCell>
-            <TableCell>{kid.score}</TableCell>
+            <TableCell>{kid?.groupName}</TableCell>
+            <TableCell>{kid?.score}</TableCell>
         </Fragment>
     );
 

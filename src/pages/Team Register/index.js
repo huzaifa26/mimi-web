@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Fragment, useMemo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, InputAdornment, Input, Grid } from "@material-ui/core";
+import { Typography, InputAdornment, Input, Grid, Box, VisibilityIcon,VisibilityOffIcon } from "@material-ui/core";
 import PasswordStrengthBar from "react-password-strength-bar";
 import ScrollArea from "react-scrollbar";
 
@@ -30,7 +30,6 @@ import Mail from "../../assets/icons/mailIcon.png";
 import clsx from "clsx";
 import { FileUploadBody } from "./modals/fileUpload";
 import * as yup from "yup";
-
 
 const roleOptions = [
   {
@@ -134,7 +133,7 @@ export const RegisterTeam = (props) => {
     try {
       if ([ROLES.guide].some((el) => el === role.id)) {
         if (selectedGroups.length > 1) {
-          return actions.alert("Only one group can be assigned to Guide","error");
+          return actions.alert("Only one group can be assigned to Guide", "error");
         }
       }
 
@@ -163,7 +162,7 @@ export const RegisterTeam = (props) => {
 
       history.push("/teams");
     } catch (error) {
-      actions.alert(error.message, "error");
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -191,6 +190,10 @@ export const RegisterTeam = (props) => {
       </div>
     </div>
   );
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
 
   return (
     <Fragment>
@@ -244,20 +247,32 @@ export const RegisterTeam = (props) => {
               />
             </Field>
             <Field label={<FormattedMessage id="password" />}>
-              <Input
-                autoComplete="new-password"
-                type="password"
-                fullWidth
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <Box sx={{ display: "flex" }}>
+                <Input
+                  autoComplete="new-password"
+                  type={showPassword===false?"password":"text"}
+                  fullWidth
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                {showPassword === false ?
+                  <VisibilityIcon onClick={() => { setShowPassword(true) }} style={{ position: "absolute", left: "84%", color: "#8f92a1", cursor: "pointer" }} />
+                  : <VisibilityOffIcon onClick={() => { setShowPassword(false) }} style={{ position: "absolute", left: "84%", color: "#8f92a1", cursor: "pointer" }} />
+                }
+              </Box>
             </Field>
             <Field label={<FormattedMessage id="confirm_new_password" />}>
-              <Input
-                autoComplete="new-password"
-                type="password"
-                fullWidth
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
+              <Box sx={{ display: "flex" }}>
+                <Input
+                  autoComplete="new-password"
+                  type={showConfirmPassword===false?"password":"text"}
+                  fullWidth
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+                {showConfirmPassword === false ?
+                  <VisibilityIcon onClick={() => { setShowConfirmPassword(true) }} style={{ position: "absolute", left: "84%", color: "#8f92a1", cursor: "pointer" }} />
+                  : <VisibilityOffIcon onClick={() => { setShowConfirmPassword(false) }} style={{ position: "absolute", left: "84%", color: "#8f92a1", cursor: "pointer" }} />
+                }
+              </Box>
             </Field>
             <Field label={<FormattedMessage id="password_strength" />}>
               <PasswordStrengthBar password={password} />
