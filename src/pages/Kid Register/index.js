@@ -34,11 +34,7 @@ import * as yup from "yup";
 import { FileUploadBody } from "./modals/fileUpload";
 
 const days = [
-  {
-    id: "6",
-    name: <FormattedMessage id="sunday" />,
-    label: <FormattedMessage id="sunday" />,
-  },
+  
   {
     id: "0",
     name: <FormattedMessage id="monday" />,
@@ -68,6 +64,11 @@ const days = [
     id: "5",
     name: <FormattedMessage id="saturday" />,
     label: <FormattedMessage id="saturday" />,
+  },
+  {
+    id: "6",
+    name: <FormattedMessage id="sunday" />,
+    label: <FormattedMessage id="sunday" />,
   },
 ];
 
@@ -105,10 +106,11 @@ export const RegisterKid = (props) => {
 
   const Schema = useMemo(() => {
     return yup.object().shape({
-      name: yup.string().min(2).required(),
+      name: yup.string().min(2).max(16).required(),
       username: yup
         .string()
         .min(2)
+        .max(16)
         .test("whitespace", "no spaces allowed in username", function (value) {
           return !/\s/.test(value.trim());
         })
@@ -118,7 +120,7 @@ export const RegisterKid = (props) => {
         .test("passwords-match", "Passwords must match", function (value) {
           return this.parent.password === value;
         }),
-      password: yup.string().min(4).required(),
+      password: yup.string().min(4).max(16).required(),
       assigned_days: yup
         .array()
         .test(
@@ -184,8 +186,8 @@ export const RegisterKid = (props) => {
         .where("username", "==", username.toLowerCase())
         .get();
       if (!kidExists.empty)
-        throw new Error(
-          "Kid with same name already exists, Kindly choose a different name"
+       actions.alert(
+          "Kid with same name already exists, Kindly choose a different name", "error"
         );
 
       const payload = {
@@ -214,8 +216,8 @@ export const RegisterKid = (props) => {
 
       actions.alert("Kid added successfully", "success");
     } catch (error) {
-      // actions.alert(error.message, "error");
-      console.log(error)
+      actions.alert(error.message, "error");
+      
     } finally {
       setLoading(false);
     }

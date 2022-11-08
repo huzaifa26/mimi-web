@@ -43,8 +43,8 @@ export const Profile = () => {
       ).docs.map((el) => el.data());
       setGroups(totalGroups);
     })();
-  }, [user?._code]);
-  // console.log(groups);
+  }, [user._code]);
+
 
   // To get a group
   useEffect(() => {
@@ -60,7 +60,7 @@ export const Profile = () => {
       setGroup(ref);
     })();
   }, []);
-  // console.log(group);
+
 
   const closeUploadModal = () => {
     setUploadModal(false);

@@ -1,7 +1,7 @@
-import { Grid, Input, makeStyles, TextField, Typography, CircularProgress, Divider, Box, Avatar } from '@material-ui/core';
+import { Grid,  makeStyles, Typography,Divider, Box, Avatar } from '@material-ui/core';
 import React, { Fragment, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Button, ErrorIcon } from '../../../components';
+import { Button, } from '../../../components';
 import { useStore, useUi } from '../../../store';
 import { db } from '../../../utils/firebase';
 import { nanoid } from 'nanoid';
@@ -15,7 +15,7 @@ export const BuyVoucherBody = props => {
     const { handleClose, kid, voucher } = props;
     const classes = useStyles();
     const { state: storeState } = useStore();
-    const { actions } = useUi();
+    
     const { user, defaultAvatars } = storeState;
 
     const [redeemloading, setRedeemLoading] = useState(false);

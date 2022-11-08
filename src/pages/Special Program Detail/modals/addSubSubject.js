@@ -2,7 +2,7 @@ import { Grid, Input, makeStyles } from '@material-ui/core';
 import React, { Fragment, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Button, Field } from '../../../components';
-import { useStore, useUi } from '../../../store';
+import { useStore, } from '../../../store';
 import { db } from '../../../utils/firebase';
 import firebase from 'firebase/app';
 import { nanoid } from 'nanoid';

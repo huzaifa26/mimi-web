@@ -1,8 +1,8 @@
-import { Grid, Input, makeStyles, TextField, TableCell, Box } from '@material-ui/core';
+import { makeStyles,  TableCell, Box } from '@material-ui/core';
 import React, { Fragment, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Button, Cockpit, DataTable, SearchBar, SimpleModal, TabList } from '../../../components';
-import { useStore, useUi } from '../../../store';
+import {  DataTable, SearchBar, SimpleModal, TabList } from '../../../components';
+import { useStore } from '../../../store';
 import { db } from '../../../utils/firebase';
 import { getModalStyles, getSectionHeaderStyles, searchBy } from '../../../utils/helpers';
 
@@ -33,7 +33,7 @@ const list = [
 ];
 
 export const VoucherBody = props => {
-    const { handleClose, kidId } = props;
+    const { kidId } = props;
     const classes = useStyles();
     const { state: storeState } = useStore();
     const { user } = storeState;
@@ -71,7 +71,7 @@ export const VoucherBody = props => {
                     setKid(querySnapshot.data());
                 });
         })();
-    }, [kidId]);
+    }, [kidId, user._code]);
 
     useEffect(() => {
         if (!kid) return;
@@ -86,7 +86,7 @@ export const VoucherBody = props => {
                 setData(kid.products_used || []);
             }
         }
-    }, [searchText]);
+    }, [kid, searchText, tab]);
 
     useEffect(() => {
         if (!kid) return;

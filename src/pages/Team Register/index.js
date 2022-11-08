@@ -15,7 +15,6 @@ import {
 } from "../../components";
 import { FormattedMessage } from "react-intl"; //Used for dual language text
 import { useHistory } from "react-router";
-import { _auth } from "../../utils/firebase";
 import { ROLES } from "../../utils/constants";
 import { useStore, useUi } from "../../store";
 
@@ -25,15 +24,13 @@ import {
   getSectionHeaderStyles,
   getTypographyStyles,
 } from "../../utils/helpers";
-
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import Person from "../../assets/icons/personIcon.png";
 import Mail from "../../assets/icons/mailIcon.png";
 import clsx from "clsx";
 import { FileUploadBody } from "./modals/fileUpload";
 import * as yup from "yup";
-import { set } from "lodash";
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 
 const roleOptions = [
   {
@@ -81,7 +78,6 @@ export const RegisterTeam = (props) => {
   );
 
   const [name, setName] = useState("");
-  const [breakPoint, setBreakPoint] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -96,13 +92,13 @@ export const RegisterTeam = (props) => {
   const Schema = useMemo(() => {
     return yup.object().shape({
       confirmPassword: yup.string().test("passwords-match", "Passwords must match", function (value) {
-        return this.parent.password === value;
-      }),
-      password: yup.string().min(6).required(),
+          return this.parent.password === value;
+        }),
+      password: yup.string().min(4).max(16).required(),
       selectedGroups: yup.array(),
       role: yup.object().nullable(false).required(),
-      email: yup.string().email().required(),
-      name: yup.string().min(2).required(),
+      email: yup.string().email().max(30).required(),
+      name: yup.string().min(2).max(20).required(),
     });
   }, []);
 
@@ -232,7 +228,7 @@ export const RegisterTeam = (props) => {
                 autoComplete="new-password"
                 startAdornment={
                   <InputAdornment position="start">
-                    <img src={Person} />
+                    <img src={Person} alt="Person" />
                   </InputAdornment>
                 }
                 fullWidth
@@ -244,7 +240,7 @@ export const RegisterTeam = (props) => {
                 autoComplete="new-password"
                 startAdornment={
                   <InputAdornment position="start">
-                    <img src={Mail} />
+                    <img src={Mail} alt="Mail"/>
                   </InputAdornment>
                 }
                 fullWidth

@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { useStore } from '../../../store';
 import { db } from '../../../utils/firebase';
 import { Loader, KidInfo, Date } from '../../../components';
-import moment from 'moment';
 import { Divider, Typography, makeStyles, Box, Grid, alpha } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
 import ProgressBar from '@ramonak/react-progress-bar';
@@ -28,7 +27,7 @@ export const DailyScoreBody = props => {
         if (!data) return;
 
         (async () => {
-            let subject_ = [];
+    
             let bonus = [];
             const report = await db.collection('Institution').doc(user?._code).collection('reports').doc(reportId).get();
 
@@ -40,7 +39,7 @@ export const DailyScoreBody = props => {
 
                     let subSubjects = [];
 
-                    if (subject.hasSubSubject == true) {
+                    if (subject.hasSubSubject === true) {
                         subSubjects = (
                             await db
                                 .collection('Institution')
@@ -69,7 +68,7 @@ export const DailyScoreBody = props => {
                 }),
             );
 
-            if (report?.data()?.bonus_given == true) {
+            if (report?.data()?.bonus_given ===true) {
                 bonus.push(report?.data().bonus);
             }
 
@@ -80,11 +79,7 @@ export const DailyScoreBody = props => {
                 obtainedPoints: report?.data()?.reportObtainedPoints,
             });
         })();
-    }, [data]);
-
-    console.log({
-        state,
-    });
+    }, [data, reportId, user._code]);
 
     return (
         <Fragment>
@@ -178,7 +173,7 @@ export const DailyScoreBody = props => {
                                             >
                                                 {e.description}
                                             </Typography>
-                                            <img src={Star} className={classes.img} />
+                                            <img src={Star} className={classes.img} alt="star-icon"/>
                                         </Box>
 
                                         <Typography className={clsx(classes.default_typography_paragraph, classes.default_typography_bold, classes.default_typography_capitalize)}>

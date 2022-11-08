@@ -1,4 +1,4 @@
-import { Grid, makeStyles, Typography } from "@material-ui/core";
+import { Grid, makeStyles, } from "@material-ui/core";
 import React, { Fragment, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";
@@ -33,7 +33,7 @@ export const FileUploadBody = (props) => {
         let _name = data[0];
         let _type = data[1];
         let _email = data[2];
-        let _group = props.groups.filter((e) => e.id == data[3]);
+        let _group = props.groups.filter((e) => e.id === data[3]);
         let _password = data[4].toString();
         const _staff = await _auth.createUserWithEmailAndPassword(
           _email,
@@ -51,7 +51,7 @@ export const FileUploadBody = (props) => {
           },
         });
         counter = counter + 1;
-        if (value.length == counter) {
+        if (value.length === counter) {
           setLoading(false);
           history.push("/teams");
         }

@@ -40,6 +40,12 @@ export const CreateStoreBody = (props) => {
     return yup.object().shape({
       name: yup.string().required().min(2),
       status: yup.boolean().required(),
+      coupons:yup
+      .number()
+      .transform(value => (isNaN(value) ? 0 : value))
+      .required()
+      .min(1)
+      .max(99),
     });
   }, []);
 
@@ -61,6 +67,7 @@ export const CreateStoreBody = (props) => {
       Schema.validateSync({
         name: storeName,
         status: status.id,
+        coupons:limit
       });
       const storeId = nanoid(6);
       const store_names = (

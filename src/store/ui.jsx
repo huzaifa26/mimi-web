@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => {
 
 export const UiProvidor = ({ children }) => {
     const classes = useStyles();
-
+  
     const [loading, setLoading] = useState(false);
 
     const [state, setState] = useState({
@@ -145,7 +145,7 @@ export const UiProvidor = ({ children }) => {
                                         state.dialog.action && (await state.dialog.action());
                                         handleCloseDialog();
                                     } catch (error) {
-                                        console.log(error);
+                                       
                                         alert('Error Performing Action', 'error');
                                     } finally {
                                         setLoading(false);

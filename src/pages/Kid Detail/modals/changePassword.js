@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useMemo, useState } from 'react';
-import { Divider, Typography, TextField, makeStyles, Grid, CircularProgress, Input } from '@material-ui/core';
+import {  Typography,  makeStyles, Grid, Input } from '@material-ui/core';
 import PasswordStrengthBar from 'react-password-strength-bar';
 import md5 from 'md5';
 
@@ -61,8 +61,7 @@ export const ChangePasswordBody = props => {
             Schema.validateSync(payload);
 
             const encryptPass = md5(password);
-            console.log(encryptPass);
-            await db.collection('Institution').doc(user?._code).collection('kid').doc(kid.id).update({ password: encryptPass });
+            await db.collection('Institution').doc(user._code).collection('kid').doc(kid.id).update({ password: encryptPass });
 
             handleClose();
         } catch (error) {

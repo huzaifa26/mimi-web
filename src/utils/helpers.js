@@ -676,8 +676,7 @@ export const FirebaseHelpers = {
         joinDate,
         assigned_days,
       } = kid;
-      console.log(kid)
-      console.log(user)
+     
       const kidExists = await db
         .collection("Institution")
         .doc(user?._code)
@@ -796,7 +795,7 @@ export const FirebaseHelpers = {
     execute: async function (params, config) {
       const { user, group, history } = params;
 
-      console.log("deleting", group);
+  
 
       const staff = (
         await db
@@ -828,7 +827,7 @@ export const FirebaseHelpers = {
           .get()
       ).docs.map((el) => el.data());
 
-      console.log(report_templates);
+
 
       await Promise.all(
         report_templates.map(async (e) =>
@@ -854,7 +853,7 @@ export const FirebaseHelpers = {
   },
   deleteStaff: {
     execute: async function (params, config) {
-      console.log(params)
+
       const { staff, user } = params;
       await firebase.functions().httpsCallable('deleteUser')(staff)
         .then(() => {
@@ -1039,7 +1038,7 @@ export const FirebaseHelpers = {
     execute: async function (params, config) {
       const { user, kid } = params;
 
-      console.log(kid.profile_permission);
+    
 
       await db
         .collection("Institution")

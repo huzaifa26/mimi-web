@@ -1,9 +1,9 @@
 import firebase from 'firebase/app';
 import React, { Fragment, useEffect, useMemo, useState } from 'react';
-import { Avatar, TableCell, Typography, makeStyles, Box, Grid } from '@material-ui/core';
+import { Avatar, TableCell, Typography, makeStyles, Box, } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
-import { AddIcon, Cockpit, SearchBar, Button, Loader, SimpleModal, Links, DataTable, MenuMultiple } from '../../components';
+import { AddIcon, SearchBar, Button, Loader, SimpleModal, Links, DataTable, MenuMultiple } from '../../components';
 import { db } from '../../utils/firebase';
 import { useStore, useUi } from '../../store';
 import { usePagination } from '../../hooks/usePaginaton';
@@ -33,7 +33,7 @@ export const SpecialProgram = React.memo(() => {
 
     const { state: storeState } = useStore();
     const { actions } = useUi();
-    const { user, orientation, defaultAvatars } = storeState;
+    const { user, defaultAvatars } = storeState;
 
     const query = useMemo(() => FirebaseHelpers.fetchSpecialKids.query({ user }).orderBy('id'), []);
 
