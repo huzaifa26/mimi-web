@@ -163,7 +163,7 @@ export const RegisterTeam = (props) => {
 
       history.push("/teams");
     } catch (error) {
-      console.log(error);
+      // error
     } finally {
       setLoading(false);
     }

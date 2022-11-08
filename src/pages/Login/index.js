@@ -123,10 +123,9 @@ export function Login() {
           .doc(userDataForTermAndPolicy.id)
           .update({
             hasAcceptedTerms: true
-          }).then(() => console.log("updated term and policy"));
+          })
         resolve(true);
       } catch (e) {
-        console.log(e)
         reject(e)
       }
     })
@@ -175,7 +174,6 @@ export function Login() {
         ...userDocRef.data(),
         _code: institutionCode.toUpperCase(),
       };
-      console.log(user);
       localUserRef.current=user;
 
       setUserDataForTermAndPolicy(user);
@@ -233,7 +231,6 @@ export function Login() {
           }).then(() => localStorage.setItem("last_login", new Date()))
       }
     } catch (error) {
-      console.log(error);
       return actions.alert(error.message, "error");
     } finally {
       setLoading(false);

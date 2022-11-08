@@ -55,7 +55,6 @@ import { DeleteKid } from "./modals/deleteKid";
 export const KidsDetail = (props) => {
   const params = useParams();
   const location=useLocation();
-  console.log(location.state.state);
 
   const { state: storeState } = useStore();
   const { actions } = useUi();
@@ -209,7 +208,6 @@ export const KidsDetail = (props) => {
   };
 
   const handleProfilePic = async () => {
-    console.log("button is disabled!")
     actions.alert("This feature is not available","info");
     // if (!user.permissions[PERMISSIONS.picAccess])
     //   return actions.alert("You don't have access to perform this action");

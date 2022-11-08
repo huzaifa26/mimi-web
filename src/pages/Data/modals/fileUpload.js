@@ -501,7 +501,6 @@ export const FileUploadBody = (props) => {
       let _group = groups?.filter((e) => e.name === _groupWithIndividualRow?.map(e => { return e }))
      
       if (data[4] === undefined) {
-        console.log("group is => undefined")
       } else {
         if (_group.length === 0) {
           const _payload = {

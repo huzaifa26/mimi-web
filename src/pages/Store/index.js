@@ -84,7 +84,6 @@ export const Store = React.memo(() => {
   const closeStoreDetail = useCallback(() => {
     setModalStates((prev) => ({ ...prev, storeDetail: false }));
     setSelectedStore(null);
-    console.log(isProductAddedRef.current);
     if(isProductAddedRef.current === true){
       setChangeState(!changeState);
       isProductAddedRef.current=null;

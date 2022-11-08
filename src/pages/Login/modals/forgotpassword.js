@@ -26,7 +26,6 @@ export const ForgotPassword = (props) => {
         setLoading(true);
         auth.sendPasswordResetEmail(email)
             .then(() => {
-                console.log("email send");
                 actions.alert("Password reset email sent.", "success");
                 setLoading(false);
                 handleClose();

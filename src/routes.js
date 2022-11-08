@@ -76,7 +76,6 @@ export const Routes = React.memo(() => {
     if (!state.authenticated) return <Loader />;
 
     const route404 = routesConfig[routesConfig.length - 1];
-    console.log(route404);
     const { component404, ...otherProps404 } = route404;
     const Component404 = component404
 

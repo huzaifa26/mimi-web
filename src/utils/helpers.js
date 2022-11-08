@@ -474,7 +474,7 @@ export const FirebaseHelpers = {
           password
         );
       } catch (e) {
-        console.log(e);
+        // e
         if (e.code === "auth/email-already-in-use" && user.type !== ROLES.admin) {
           throw new Error(e);
         }

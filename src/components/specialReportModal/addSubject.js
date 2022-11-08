@@ -65,7 +65,6 @@ export const AddSubjectBody = (props) => {
       };
       Schema.validateSync(payload)
       let ValidationError = new yup.ValidationError('error', 'value', 'path');
-      console.log(ValidationError)
       let isAvail=false;
       subjectsCopy.filter((sub)=>{
         if(sub.name === subjectName){
@@ -75,7 +74,6 @@ export const AddSubjectBody = (props) => {
       if(isAvail){
         return actions.alert("Subject with this name already exists.","error");
       }else if(!isAvail){
-        console.log(payload);
         subjectsCopy.push(payload);
         subjectAdded(subjectsCopy, payload);
         handleClose();

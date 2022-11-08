@@ -93,7 +93,6 @@ export const AddSubSubjectBody = (props) => {
       };
       Schema.validateSync(payload)
       const subjectsCopy = [...subjects];
-      console.log(subjectsCopy);
   
       subjectsCopy.map((el) => {
         if (el.id == selectedSubject.id) {
@@ -104,7 +103,6 @@ export const AddSubSubjectBody = (props) => {
             }
           })
           if(!isAvail){
-            console.log(payload);
             el.subSubject.push(payload);
             el.subSubject.map((e) => {
               points = e.totalPoints + points;

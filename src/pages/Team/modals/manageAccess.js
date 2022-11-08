@@ -270,13 +270,12 @@ export const ManageAccessBody = props => {
                     group_ids: firebase.firestore.FieldValue.arrayRemove(id),
                 });
             });
-            // ----------------------------------------
             await batch.commit();
             setLoading(true);
             setLoading(false);
             handleClose();
         } catch (error) {
-            console.log(error);
+             // error
         }
     };
 

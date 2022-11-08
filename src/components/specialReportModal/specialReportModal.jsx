@@ -584,7 +584,6 @@ export const GroupReportBody = (props) => {
                                 color: "#8F92A1",
                               }}
                               onClick={() => {
-                                console.log("111111111111")
                                 _handleSubSubjectDelete(subSubject, subject);
                               }}
                             />

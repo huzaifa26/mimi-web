@@ -193,9 +193,6 @@ export const GroupDetail = () => {
     subjectOrder
   ) => {
 
-    console.log(subjectAdded);
-    console.log(subjectLock);
-
     // Add subject
     let _save1 = await Promise.all(
       subjectAdded.map(async (sub) => {
@@ -210,8 +207,6 @@ export const GroupDetail = () => {
           type: sub.type || "group",
           orderNo: sub.orderNo
         };
-
-        console.log(payload);
 
         await db
           .collection("Institution")

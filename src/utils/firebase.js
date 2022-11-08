@@ -7,7 +7,6 @@ import "firebase/firebase-functions"
 // const envoirnment = "PROD";
 const envoirnment = "DEV";
 
-// console.log({ e: process.env.REACT_APP_DEV_FIREBASE_API_KEY });
 const firebaseConfig = {
   apiKey: process.env[`REACT_APP_${envoirnment}_FIREBASE_API_KEY`],
   authDomain: process.env[`REACT_APP_${envoirnment}_FIREBASE_AUTH_DOMAIN`],

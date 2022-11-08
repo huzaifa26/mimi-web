@@ -165,7 +165,6 @@ export const RouteDetailsBody = (props) => {
             .map((el) => el.data().requiredLevel)
             .sort();
 
-          // console.log({ levelsForPrizes });
 
           setData(
             snapshot.docs.map((el) => {
@@ -274,7 +273,6 @@ export const RouteDetailsBody = (props) => {
       });
   };
   const handleGenEligibleKidsFile = async (data) => {
-    console.log(data);
     return new Promise((resolve, reject) => {
       // var prizeName = data.map((e)=>{
       //    return  [e.name, e.requiredLevel, ...e.eligibleKids.map(el=>el.groupName), ...e.eligibleKids.map(el=>el.name) ]
@@ -290,7 +288,6 @@ export const RouteDetailsBody = (props) => {
 
       resolve(prizeName);
     }).then((rows) => {
-      console.log(rows);
       const worksheet = XLSX.utils.json_to_sheet(rows);
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Dates");
@@ -377,7 +374,6 @@ export const RouteDetailsBody = (props) => {
       </Fragment>
     );
   };
-  console.log(new Date().getTime() / 1000 >= routePlan?.endingDate.seconds);
 
   const actionBar = (
     <div className={classes.default_headerSection_container}>
@@ -625,7 +621,6 @@ export const RouteDetailsBody = (props) => {
               classes.default_typography_capitalize
             )}
           >
-            {console.log(routePlan.endingDate)}
             {moment(routePlan.endingDate.toDate()).format("DD-MM-YYYY")}
           </Typography>
         </Grid>

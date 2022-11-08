@@ -15,7 +15,6 @@ exports.deleteUser = functions.https.onCall((data, context) => {
         })
         .catch((error) => {
           reject(new functions.https.HttpsError(error.code, error.message));
-          console.log(error);
         });
   });
 });
@@ -100,7 +99,7 @@ exports.autoDisableRoute = functions.pubsub
                     status: false,
                   })
                   .then((res) => {
-                   console.log("Route is disabled");
+                  //  "Route is disabled"
                   });
               }
             });

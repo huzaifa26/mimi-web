@@ -163,7 +163,6 @@ export const Kid = React.memo(() => {
         loadMore,
         handleRowClick: kid => {
             kidLog.current = kid;
-            console.log(kidLog);
             history.push(`/kids/${kid.id}`,{state:kidLog.current});
         },
     };

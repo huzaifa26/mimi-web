@@ -82,7 +82,7 @@ export const usePagination = (query, modifier, comparator) => {
 
             return docs.length;
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     },[query, state.data]);
 

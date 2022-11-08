@@ -41,8 +41,6 @@ export const EditSubjectBody = (props) => {
     const subjectsCopy=[...subjects];
     subjectsCopy.map((sub)=>{
       if(selectedSubject.id === sub.id){
-        console.log(sub.subSubject.length);
-        console.log(selectedSubject.hasSubSubject && +actualSubject?.subSubject?.length > 0);
         setActualSubject(sub);
       }
     })

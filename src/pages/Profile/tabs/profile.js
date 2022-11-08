@@ -193,8 +193,8 @@ export const Profile = () => {
                   </Typography>
                 </Box>
               )
-            ) : (
-              console.log("no group")
+            ) : (null
+              // console.log("no group")
             )}
           </Box>
           <Box marginX={2} marginY={1}>
