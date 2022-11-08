@@ -66,7 +66,7 @@ export const CreateStoreBody = (props) => {
       const store_names = (
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("store")
           .get()
       ).docs.map((el) => el.data());
@@ -86,7 +86,7 @@ export const CreateStoreBody = (props) => {
       }
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("store")
         .doc(storeId)
         .set({

@@ -95,10 +95,10 @@ export const UploadImageBody = props => {
 
         const file = new File([data], 'test.jpg', metadata);
         const storage = firebase.storage();
-        const storageRef = storage.ref(`images/${user._code}/Users/user-${user.id}.jpeg`);
+        const storageRef = storage.ref(`images/${user?._code}/Users/user-${user.id}.jpeg`);
         const result = await storageRef.put(file);
         const imageURL = await result.ref.getDownloadURL();
-        await db.collection('Institution').doc(user._code).collection('staff').doc(user.id).update({
+        await db.collection('Institution').doc(user?._code).collection('staff').doc(user.id).update({
             image: imageURL,
         });
     };

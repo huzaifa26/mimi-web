@@ -34,7 +34,7 @@ export const AddSubSubjectBody = (props) => {
   //   const pointsSum = handleTotalPoints();
   //   await db
   //     .collection("Institution")
-  //     .doc(user._code)
+  //     .doc(user?._code)
   //     .collection("groups")
   //     .doc(group.id)
   //     .update({
@@ -50,7 +50,7 @@ export const AddSubSubjectBody = (props) => {
 
   //   await db
   //     .collection("Institution")
-  //     .doc(user._code)
+  //     .doc(user?._code)
   //     .collection("groups")
   //     .doc(group.id)
   //     .collection("report_templates")

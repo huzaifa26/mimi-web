@@ -144,7 +144,7 @@ export const ManagePermissionsBody = (props) => {
       !_permissions[PERMISSIONS.requireScoreConfirmation];
 
     db.collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("staff")
       .doc(staff.id)
       .update({

@@ -56,7 +56,7 @@ export const CreatePrizeBody = props => {
             const prizeId = nanoid(6);
             await db
                 .collection('Institution')
-                .doc(user._code)
+                .doc(user?._code)
                 .collection('routePlan')
                 .doc(routePlan.id)
                 .collection('prizes')

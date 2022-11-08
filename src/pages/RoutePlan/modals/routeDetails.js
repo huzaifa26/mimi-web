@@ -129,7 +129,7 @@ export const RouteDetailsBody = (props) => {
 
         // await db
         //     .collection('Institution')
-        //     .doc(user._code)
+        //     .doc(user?._code)
         //     .collection('log')
         //     .doc(payload.id)
         //     .set(payload)
@@ -142,7 +142,7 @@ export const RouteDetailsBody = (props) => {
     listenerRef.current.push(
       db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("routePlan")
         .doc(routePlanId)
         .onSnapshot((snapshot) => {
@@ -162,7 +162,7 @@ export const RouteDetailsBody = (props) => {
     listenerRef.current.push(
       db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("routePlan")
         .doc(routePlan.id)
         .collection("prizes")
@@ -172,7 +172,7 @@ export const RouteDetailsBody = (props) => {
             ? (
                 await db
                   .collection("Institution")
-                  .doc(user._code)
+                  .doc(user?._code)
                   .collection("kid")
                   .get()
               ).docs
@@ -241,7 +241,7 @@ export const RouteDetailsBody = (props) => {
     const action = async () => {
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("routePlan")
         .doc(routePlan.id)
         .collection("prizes")
@@ -264,7 +264,7 @@ export const RouteDetailsBody = (props) => {
     const action = async () => {
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("routePlan")
         .doc(routePlan.id)
         .delete();
@@ -285,7 +285,7 @@ export const RouteDetailsBody = (props) => {
 
     await db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("routePlan")
       .doc(routePlan.id)
       .update({
@@ -396,7 +396,7 @@ export const RouteDetailsBody = (props) => {
                     routePlan={routePlan}
                     handleClose={closeStartDate}
                     setter={date => {
-                        return db.collection('Institution').doc(user._code).collection('routePlan').doc(routePlan.id).update({
+                        return db.collection('Institution').doc(user?._code).collection('routePlan').doc(routePlan.id).update({
                             startingDate: date,
                         });
                     }}
@@ -409,7 +409,7 @@ export const RouteDetailsBody = (props) => {
                     handleClose={closeEndDate}
                     condition={routePlan.startingDate.toDate()}
                     setter={date => {
-                        return db.collection('Institution').doc(user._code).collection('routePlan').doc(routePlan.id).update({
+                        return db.collection('Institution').doc(user?._code).collection('routePlan').doc(routePlan.id).update({
                             endingDate: date,
                         });
                     }}
@@ -631,7 +631,7 @@ export const RouteDetailsBody = (props) => {
           setter={(date) => {
             return db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("routePlan")
               .doc(routePlan.id)
               .update({
@@ -653,7 +653,7 @@ export const RouteDetailsBody = (props) => {
           setter={(date) => {
             return db
               .collection("Institution")
-              .doc(user._code)
+              .doc(user?._code)
               .collection("routePlan")
               .doc(routePlan.id)
               .update({

@@ -3,6 +3,7 @@ import React, { Fragment, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { Button } from "../../../components/";
 import { useStore } from "../../../store";
+import { auth } from "../../../utils/firebase";
 import { getModalStyles } from "../../../utils/helpers";
 
 const useStyles = makeStyles((theme) => {
@@ -28,12 +29,23 @@ export const TermAndPolicy = (props) => {
         })
     };
 
+    const closetermAndPolicyHandler=async()=>{
+        await auth.signOut().then(() => {
+            localStorage.clear();
+          },
+            (error) => {
+              console.error("Sign Out Error", error);
+            })
+        handleClose();
+
+    }
+
     return (
         <Fragment>
             <div className={classes.default_modal_footer}>
                 <Typography variant="h6">
                     <FormattedMessage
-                        id={props.localUserRef.current.language !== "english"?"english_term":"hebrew_term"}
+                        id={props.localUserRef.current.language === "english"?"english_term":"hebrew_term"}
                     />
                 </Typography>
                 <Box>
@@ -58,7 +70,7 @@ export const TermAndPolicy = (props) => {
                             fullWidth
                             disable={loading}
                             className={classes.default_modal_buttonSecondary}
-                            onClick={handleClose}
+                            onClick={closetermAndPolicyHandler}
                         >
                             <FormattedMessage id="cancel" />
                         </Button>
@@ -69,8 +81,6 @@ export const TermAndPolicy = (props) => {
                                 <Button
                                     fullWidth
                                     disable={true}
-                                // className={classes.default_modal_buttonSecondary}
-                                // onClick={handleClose}
                                 >
                                     <FormattedMessage id="submit" />
                                 </Button>

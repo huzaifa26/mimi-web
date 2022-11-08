@@ -66,7 +66,7 @@ export const ChangePassword = (props) => {
       setLoading(true);
       await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("staff")
         .doc(user.id)
         .update({ password: md5(state.password) });

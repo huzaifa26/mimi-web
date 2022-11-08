@@ -64,7 +64,7 @@ export const VoucherBody = props => {
 
         (async () => {
             db.collection('Institution')
-                .doc(user._code)
+                .doc(user?._code)
                 .collection('kid')
                 .doc(kidId)
                 .onSnapshot(async querySnapshot => {

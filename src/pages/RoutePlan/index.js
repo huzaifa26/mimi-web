@@ -71,7 +71,7 @@ export const RoutePlan = React.memo(() => {
     const routeLog=useRef(null);
 
     const query = useMemo(() => {
-        const baseQuery = db.collection('Institution').doc(user._code).collection('routePlan').orderBy('id');
+        const baseQuery = db.collection('Institution').doc(user?._code).collection('routePlan').orderBy('id');
         if (typeof status?.id != 'boolean' && !status.id) return baseQuery;
         return baseQuery.where('status', '==', status.id);
     }, [status,closeRoutePlanDetail]);
@@ -104,7 +104,7 @@ export const RoutePlan = React.memo(() => {
     const updateOnAdding = async() =>{
         var updateData = [];
         console.log("runooooo")
-       await db.collection('Institution').doc(user._code).collection('routePlan').orderBy('id').get()
+       await db.collection('Institution').doc(user?._code).collection('routePlan').orderBy('id').get()
         .then((querySnapshot)=>{
             querySnapshot.forEach((doc)=>{
                 updateData.push(doc.data())

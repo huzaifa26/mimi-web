@@ -179,7 +179,7 @@ export const RegisterKid = (props) => {
       setLoading(true);
       const kidExists = await db
         .collection("Institution")
-        .doc(user._code)
+        .doc(user?._code)
         .collection("kid")
         .where("username", "==", username.toLowerCase())
         .get();

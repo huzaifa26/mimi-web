@@ -95,7 +95,7 @@ export const Store = React.memo(() => {
   const query = useMemo(() => {
     const baseQuery = db
       .collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("store")
       .orderBy("id");
 
@@ -150,7 +150,7 @@ export const Store = React.memo(() => {
   const updateOnAdding = async () => {
     var updateData = []
     await db.collection("Institution")
-      .doc(user._code)
+      .doc(user?._code)
       .collection("store")
       .orderBy("id").get()
       .then((querySnapshot) => {

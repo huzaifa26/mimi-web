@@ -160,7 +160,7 @@ export const GroupReportBody = (props) => {
       const report_templates = (
         await db
           .collection("Institution")
-          .doc(user._code)
+          .doc(user?._code)
           .collection("groups")
           .doc(params.id)
           .collection("report_templates")

@@ -71,7 +71,7 @@ export const CreateRoutePlanBody = props => {
 
             const routePlanId = nanoid(6);
 
-            const route_names = (await db.collection('Institution').doc(user._code).collection('routePlan').get()).docs.map(el => el.data());
+            const route_names = (await db.collection('Institution').doc(user?._code).collection('routePlan').get()).docs.map(el => el.data());
 
             const exists = route_names.some(el => el.name.toLowerCase() == routeName.toLowerCase());
 
@@ -79,7 +79,7 @@ export const CreateRoutePlanBody = props => {
 
             await db
                 .collection('Institution')
-                .doc(user._code)
+                .doc(user?._code)
                 .collection('routePlan')
                 .doc(routePlanId)
                 .set({
