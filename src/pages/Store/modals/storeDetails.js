@@ -1,12 +1,12 @@
-import {Box,Grid,makeStyles,TableCell,Typography} from "@material-ui/core";
+import { Box, Grid, makeStyles, TableCell, Typography } from "@material-ui/core";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import {Button,SearchBar,SimpleModal,DataTable,Loader,} from "../../../components";
-import Icons, {AddIconSim,Delete,Edit,Pause,Active,} from "../../../components/Icons";
+import { Button, SearchBar, SimpleModal, DataTable, Loader, } from "../../../components";
+import Icons, { AddIconSim, Delete, Edit, Pause, Active, } from "../../../components/Icons";
 import StoreIcon from "../../../assets/icons/StoreIcon.png";
 import { useStore, useUi } from "../../../store";
 import { db } from "../../../utils/firebase";
-import {getModalStyles,getSectionHeaderStyles,getTypographyStyles,searchBy,} from "../../../utils/helpers";
+import { getModalStyles, getSectionHeaderStyles, getTypographyStyles, searchBy, } from "../../../utils/helpers";
 import { PERMISSIONS } from "../../../utils/constants";
 import Key from "../../../assets/icons/key.png";
 import clsx from "clsx";
@@ -61,43 +61,12 @@ export const StoreDetailsBody = (props) => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState();
 
-  useEffect(() => {
-    return async () => {
-      if (storeLog.current !== null) {
-        const subject_id = nanoid(6);
-        const payload = {
-          id: subject_id,
-          activity: "store",
-          subActivity: storeLog?.current?.store_name,
-          uid: user.id
-        }
-
-        await db
-          .collection('Institution')
-          .doc(user?._code)
-          .collection('log')
-          .doc(payload.id)
-          .set(payload)
-      }
-    }
-  }, [])
-
   const storeLog = useRef(null)
 
   useEffect(() => {
-    return async () => {
-      if (storeLog.current !== null) {
-        const subject_id = nanoid(6);
-        const payload = {
-          id: subject_id,
-          activity: "store",
-          subActivity: storeLog?.current?.store_name,
-          uid: user.id
-        }
-      
-      }
-    }
-  }, [])
+    if(storeLog?.current !== null)
+    console.log("route " + storeLog?.current?.store_name + " opened, uid:" + user.id);
+  }, [storeLog.current])
 
   useEffect(() => {
     if (!storeId) return;

@@ -60,27 +60,10 @@ export const ProfileBody = (props) => {
 
   const staffLog = useRef(null);
 
-  // Log
   useEffect(() => {
-    return async () => {
-      if (staffLog.current !== null) {
-        const subject_id = nanoid(6);
-        const payload = {
-          id: subject_id,
-          activity: "staff",
-          subActivity: staffLog?.current?.name,
-          uid: user.id
-        }
+    if(staffLog.current !== null)
         console.log("staff " + staffLog?.current?.name + " opened, uid:" + user.id);
-        // await db
-        //     .collection('Institution')
-        //     .doc(user?._code)
-        //     .collection('log')
-        //     .doc(payload.id)
-        //     .set(payload)
-      }
-    }
-  }, [])
+  }, [staffLog.current])
 
   useEffect(() => {
     db.collection("Institution")

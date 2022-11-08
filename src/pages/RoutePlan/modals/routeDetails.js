@@ -114,28 +114,9 @@ export const RouteDetailsBody = (props) => {
   const routeLog = useRef(null);
 
   useEffect(() => {
-    return async () => {
-      if (routeLog.current !== null) {
-        const subject_id = nanoid(6);
-        const payload = {
-          id: subject_id,
-          activity: "route plan",
-          subActivity: routeLog?.current?.name,
-          uid: user.id,
-        };
-        console.log(
-          "route " + routeLog?.current?.name + " opened, uid:" + user.id
-        );
-
-        // await db
-        //     .collection('Institution')
-        //     .doc(user._code)
-        //     .collection('log')
-        //     .doc(payload.id)
-        //     .set(payload)
-      }
-    };
-  }, []);
+    if(routeLog?.current !== null)
+      console.log("route " + routeLog?.current?.name + " opened, uid:" + user.id);
+  }, [routeLog.current]);
 
   useEffect(() => {
     if (!routePlanId) return;

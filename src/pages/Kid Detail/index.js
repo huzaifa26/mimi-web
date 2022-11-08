@@ -38,7 +38,7 @@ import {
 } from "../../utils/helpers";
 import firebase from "firebase/app";
 import { db } from "../../utils/firebase";
-import { useHistory, useParams } from "react-router";
+import { useHistory, useParams, useLocation } from "react-router";
 import { useStore, useUi } from "../../store";
 import { SimpleModal, Links, Badge, ToolBox, Loader } from "../../components";
 import ScrollArea from "react-scrollbar";
@@ -54,6 +54,8 @@ import { DeleteKid } from "./modals/deleteKid";
 
 export const KidsDetail = (props) => {
   const params = useParams();
+  const location=useLocation();
+  console.log(location.state.state);
 
   const { state: storeState } = useStore();
   const { actions } = useUi();
@@ -75,6 +77,10 @@ export const KidsDetail = (props) => {
     kidReport: false,
     deleteKid: false
   });
+
+  useEffect(() => {
+    console.log("kid " + location?.state?.state?.name + " opened, uid:" + user.id);
+}, [])
 
   const closeGrantScoreModal = () => {
     setModalStates((prev) => ({ ...prev, grantScore: false }));
