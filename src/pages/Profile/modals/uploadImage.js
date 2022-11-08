@@ -1,12 +1,11 @@
-import { Grid, makeStyles, CircularProgress } from '@material-ui/core';
+import { Grid, makeStyles,  } from '@material-ui/core';
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import ReactCrop from 'react-image-crop';
 import { FormattedMessage } from 'react-intl';
-import { Button, ErrorIcon } from '../../../components';
+import { Button, } from '../../../components';
 import { useStore, useUi } from '../../../store';
 import firebase from 'firebase';
 import { db } from '../../../utils/firebase';
-import { nanoid } from 'nanoid';
 import 'react-image-crop/dist/ReactCrop.css';
 import { getModalStyles } from '../../../utils/helpers';
 
@@ -19,10 +18,9 @@ const useStyles = makeStyles(theme => {
 });
 
 export const UploadImageBody = props => {
-    const { handleClose, group, image } = props;
+    const { handleClose, image } = props;
     const classes = useStyles();
     const { state: storeState } = useStore();
-    const { actions } = useUi();
     const { user } = storeState;
 
     const imageRef = useRef();

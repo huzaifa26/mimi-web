@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
 import {
   Checkbox,
-  Divider,
   MenuItem,
   TextField,
   Typography,
@@ -96,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
 export const AddSchoolBody = (props) => {
   const { actions } = useUi();
   const { state: storeState } = useStore();
-  const { user, institute } = storeState;
+  const { user, } = storeState;
   const classes = useStyles();
   const [ReferenceCode, setReferenceCode] = useState();
   const [language, setLanguage] = useState();

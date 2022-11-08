@@ -1,18 +1,17 @@
-import { Grid, makeStyles, Typography, TableCell, Checkbox, FormControlLabel } from '@material-ui/core';
+import { Grid, makeStyles, TableCell, Checkbox, FormControlLabel } from '@material-ui/core';
 import React, { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Button, SearchBar, MenuMultiple, Cockpit, DataTable } from '../../../components';
+import { Button, SearchBar, MenuMultiple, DataTable } from '../../../components';
 import { useStore, useUi } from '../../../store';
 import { getModalStyles, FirebaseHelpers, getPageStyles, getSectionHeaderStyles, searchBy } from '../../../utils/helpers';
-import IconOne from '../../../assets/logo/routeIcon.png';
-import IconThree from '../../../assets/logo/routeIconThree.png';
+
 import clsx from 'clsx';
 import intersectionWith from 'lodash/intersectionWith';
 import differenceWith from 'lodash/differenceWith';
 import { db } from '../../../utils/firebase';
 import firebase from 'firebase/app';
 import Reset from '../../../assets/icons/reset.png';
-import { ROLES, RoleMappings } from '../../../utils/constants';
+import { ROLES,  } from '../../../utils/constants';
 
 const groupHeaders = [
     {

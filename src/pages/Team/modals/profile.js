@@ -3,7 +3,6 @@ import {
   Box,
   Divider,
   Grid,
-  Input,
   makeStyles,
   Typography,
 } from "@material-ui/core";
@@ -11,9 +10,9 @@ import clsx from "clsx";
 import React, { Fragment, useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import {
-  Button,
+
   Delete,
-  Links,
+
   Loader,
   SimpleModal,
   ToolButton,
@@ -208,6 +207,7 @@ export const ProfileBody = (props) => {
             <img
               src={staff?.image || defaultAvatars.staff}
               className={classes.staffImage}
+              alt="staff"
             />
           </div>
         </div>
@@ -263,7 +263,7 @@ export const ProfileBody = (props) => {
               borderRadius: "50%",
             }}
           >
-            <img src={Group} />
+            <img src={Group} alt="group"/>
           </Box>
           <Box>
             <Typography
@@ -314,7 +314,7 @@ export const ProfileBody = (props) => {
               borderRadius: "50%",
             }}
           >
-            <img src={Group} />
+            <img src={Group} alt="group" />
           </Box>
           <Box>
             <Typography
@@ -362,7 +362,7 @@ export const ProfileBody = (props) => {
           <Grid container spacing={1}>
             <Grid item md={6} xs={12}>
               <ToolButton
-                image={<img src={GroupAccess} />}
+                image={<img src={GroupAccess} alt="group access"/>}
                 background={alpha("#FF991F", 0.1)}
                 label={
                   staff?.type === ROLES.gStaff ? "kid_access" : "group_access"
@@ -374,7 +374,7 @@ export const ProfileBody = (props) => {
             </Grid>
             <Grid item md={6} xs={12}>
               <ToolButton
-                image={<img src={History} />}
+                image={<img src={History} alt="history" />}
                 background={alpha("#57CAF7", 0.1)}
                 label={"history"}
                 onClick={() => {
@@ -384,7 +384,7 @@ export const ProfileBody = (props) => {
             </Grid>
             <Grid item md={6} xs={12}>
               <ToolButton
-                image={<img src={Permission} />}
+                image={<img src={Permission} alt="permission" />}
                 background={alpha("#4FBF67", 0.1)}
                 label={"manage_permissions"}
                 onClick={() => {
@@ -408,7 +408,7 @@ export const ProfileBody = (props) => {
               <Grid item xs={12}>
                 <ToolButton
                   fullWidth
-                  image={<img src={Report} />}
+                  image={<img src={Report} alt="report"/>}
                   background={alpha("#6304FE ", 0.1)}
                   label={"set_report"}
                   onClick={() => {

@@ -1,20 +1,16 @@
-import React, { useEffect, useState, Fragment } from "react";
-import { makeStyles, useTheme, withStyles } from "@material-ui/core/styles";
+import React, { useState, Fragment } from "react";
+import { makeStyles, } from "@material-ui/core/styles";
 import {
-  MenuItem,
+
   Typography,
-  Menu,
-  Checkbox,
   Box,
   Input,
 } from "@material-ui/core";
 import PasswordStrengthBar from "react-password-strength-bar";
 import md5 from "md5";
 import { FormattedMessage } from "react-intl"; //Used for dual language text
-
 import { db, auth } from "../../../utils/firebase";
 import { useStore, useUi } from "../../../store";
-import { useHistory } from "react-router-dom";
 import { Button, Field, Form } from "../../../components";
 import clsx from "clsx";
 import { getTypographyStyles } from "../../../utils/helpers";
@@ -54,8 +50,8 @@ export const ChangePassword = (props) => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
-    console.log(state.currentPaswsword, oldPassword)
-    if (state.currentPaswsword != oldPassword) {
+   
+    if (state.currentPaswsword !== oldPassword) {
       actions.alert("Current password is not correct", "error");
       return;
     }

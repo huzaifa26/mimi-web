@@ -3,8 +3,7 @@ import React, { Fragment, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { Button } from "../../../components/button";
 import { useStore, useUi } from "../../../store";
-import { auth, db } from "../../../utils/firebase";
-import { nanoid } from "nanoid";
+import { auth,  } from "../../../utils/firebase";
 import { getModalStyles,FirebaseHelpers } from "../../../utils/helpers";
 import { Field } from "../../../components";
 
@@ -15,7 +14,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 export const DeleteKid = (props) => {
-  const { handleClose, kid, userData,history } = props;
+  const { handleClose, kid,history } = props;
   const classes = useStyles();
   const { state: storeState } = useStore();
   const { actions } = useUi();
@@ -59,7 +58,6 @@ export const DeleteKid = (props) => {
               value={password}
               fullWidth
               size="small"
-              type="password"
               onChange={(e) => setPassword(e.target.value)}
             />
           </Field>

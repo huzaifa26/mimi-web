@@ -9,7 +9,7 @@ import moment from 'moment';
 export const BuyVoucherBody = props => {
     const { data } = props;
 
-    const { time, payload, executer } = data;
+    const { time, payload} = data;
     const { kid, coupon } = payload;
 
     const classes = useStyles();

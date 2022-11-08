@@ -46,7 +46,7 @@ export const RoutePlan = React.memo(() => {
     const classes = useStyles();
 
     const { state: storeState } = useStore();
-    const { user, orientation } = storeState;
+    const { user,  } = storeState;
 
     const [routePlans, setRoutePlans] = useState([]);
     const [selectedRoutePlan, setSelectedRoutePlan] = useState();
@@ -68,7 +68,7 @@ export const RoutePlan = React.memo(() => {
         setChangeState(!changeState);
     },[changeState])
 
-    const routeLog=useRef(null);
+  
 
     const query = useMemo(() => {
         const baseQuery = db.collection('Institution').doc(user?._code).collection('routePlan').orderBy('id');
@@ -103,8 +103,8 @@ export const RoutePlan = React.memo(() => {
 
     const updateOnAdding = async() =>{
         var updateData = [];
-        console.log("runooooo")
-       await db.collection('Institution').doc(user?._code).collection('routePlan').orderBy('id').get()
+  
+       await db.collection('Institution').doc(user._code).collection('routePlan').orderBy('id').get()
         .then((querySnapshot)=>{
             querySnapshot.forEach((doc)=>{
                 updateData.push(doc.data())

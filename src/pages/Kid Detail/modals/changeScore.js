@@ -1,4 +1,4 @@
-import { Grid, Input, makeStyles, TextField, Typography, CircularProgress, Divider } from '@material-ui/core';
+import { Grid, Input, makeStyles, Typography,  } from '@material-ui/core';
 import React, { Fragment, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Button, ErrorIcon, Field } from '../../../components';
@@ -31,7 +31,8 @@ export const ChangeScoreBody = props => {
                 .number()
                 .transform(value => (isNaN(value) ? 0 : value))
                 .positive()
-                .min(1)
+                .min(0)
+                .max(999999)
                 .required(),
         });
     }, []);

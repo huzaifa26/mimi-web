@@ -2,7 +2,6 @@ import {
   Avatar,
   Checkbox,
   Grid,
-  Input,
   makeStyles,
   TableCell,
   Typography,
@@ -32,7 +31,6 @@ export const AddKidBody = (props) => {
   const { handleClose } = props;
   const classes = useStyles();
   const { state: storeState } = useStore();
-  const { actions } = useUi();
   const { user, defaultAvatars } = storeState;
 
   const [state, setState] = useState({

@@ -14,9 +14,7 @@ import { FormattedMessage } from "react-intl";
 import { useStore } from "../../store";
 import { HISTORY_TYPES } from "../../utils/constants";
 import { FirebaseHelpers } from "../../utils/helpers";
-import { db } from "../../utils/firebase";
 import { usePagination } from "../../hooks/usePaginaton";
-// import { db } from "../../utils/firebase";
 
 import * as Modals from "./modals";
 import {
@@ -262,14 +260,10 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
       setKids(_kids);
     })();
   }, []);
-
-
-
-
   const classes = useStyles();
 
   const { state: storeState } = useStore();
-  const { user, orientation } = storeState;
+  const { user} = storeState;
 
   const [modalStates, setModalStates] = useState(() => {
     return Object.keys(HISTORY_TYPES).reduce((acc, el) => {
@@ -283,7 +277,6 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
   const [groups, setGroups] = useState();
   const [kids, setKids] = useState();
   const [searchText, setSearchText] = useState("");
-  const [allFilteredGroups, setAllFilteredGroups] = useState([])
   const [groupOption, setGroupOption] = useState([])
   const [actionOption, setActionOption] = useState([])
   const [duration, setDuration] = useState({
@@ -344,7 +337,7 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
         </TableCell>
         <TableCell>
           <Typography>
-            {row?._groups?.length == 1 &&
+            {row?._groups?.length === 1 &&
               groups
                 ?.filter((el) => el.id == row._groups[0])
                 ?.map((filteredName) => filteredName.name)}
@@ -458,13 +451,11 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
       if (object.payload?.kid?.groupName === groupsNames.label) {
         filteredData.push(object)
 
-      } else {
-        console.log("dont match")
-      }
+      } 
     })
     setHistory(filteredData)
 
-  }, [groupsNames])
+  }, [data, groupsNames.id, groupsNames.label])
 
 
 
@@ -483,13 +474,11 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
       if (object.type === actionNames.label) {
         filteredData.push(object)
 
-      } else {
-        console.log("don't match")
       }
     })
     setHistory(filteredData)
 
-  }, [actionNames])
+  }, [actionNames.id, actionNames.label, data])
 
   const actionBar = (
     <div className={classes.default_headerSection_container}>
@@ -505,13 +494,15 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
         }}
       >
         <SearchBar
-          placeholder={`Search by names`}
+          placeholder={`Search by Action, Date etc…`}
+          value={searchText}
           size={"small"}
           handleSearch={(value) => setSearchText(value)}
         />
       </div>
       <div className={classes.default_headerSection_actionsContainer}>
         <MenuSingle
+        
           list={options}
           label={renderLabel(duration)}
           handleChange={(value) => setDuration(value)}
@@ -519,7 +510,7 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
         />
       </div>
 
-      <div>
+      <div className={classes.default_headerSection_actionsContainer}>
         <MenuMultiple
           list={groupOption}
           entity={'Groups'}
@@ -545,6 +536,7 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
       </div>
     </div>
   );
+
 
   const tableProps = {
     data: history,

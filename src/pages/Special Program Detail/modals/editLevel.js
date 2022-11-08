@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 export const EditLevelBody = (props) => {
-  const { group, kid, currentLevel } = props;
+  const { kid, currentLevel } = props;
   const classes = useStyles();
   const { state: storeState } = useStore();
   const { actions } = useUi();

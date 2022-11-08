@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment, useMemo } from "react";
+import React, { useState, useEffect, Fragment, } from "react";
 import { makeStyles, alpha } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
 
@@ -32,7 +32,6 @@ import { FormattedMessage } from "react-intl";
 import "firebase/firestore";
 import { PERMISSIONS } from "../../utils/constants";
 import {
-  FirebaseHelpers,
   getPageStyles,
   getSectionHeaderStyles,
   getTypographyStyles,
@@ -52,7 +51,6 @@ import { VoucherBody } from "./modals/voucher";
 import { Award } from "../../components/award";
 import { GroupReportBody as KidReportBody } from "../../components/specialReportModal/specialReportModal";
 import { DeleteKid } from "./modals/deleteKid";
-import { orderBy } from "firebase/firestore";
 
 export const KidsDetail = (props) => {
   const params = useParams();
@@ -113,7 +111,7 @@ export const KidsDetail = (props) => {
           setKid(querySnapshot.data());
         });
     })();
-  }, [modalStates.kidReport]);
+  }, [modalStates.kidReport, params.id, user._code]);
 
   useEffect(() => {
     if (!kid) return;
@@ -145,7 +143,7 @@ export const KidsDetail = (props) => {
         setSubjects(report_templates);
       }
     })();
-  }, [modalStates.kidReport, kid]);
+  }, [modalStates.kidReport, kid, user._code]);
 
   useEffect(() => {
     if (!kid?.id) return;
@@ -505,7 +503,7 @@ export const KidsDetail = (props) => {
     //Change order of report.
     let _save = await Promise.all(
       subjectOrder.map(async (sub, index) => {
-        console.log("11111111111111111111111111111111111111")
+       
         await db
           .collection("Institution")
           .doc(user?._code)
@@ -935,7 +933,7 @@ export const KidsDetail = (props) => {
                 <Grid container spacing={2}>
                   <Grid item lg={3} md={4} sm={6} xs={12}>
                     <ToolBox
-                      image={<img src={File} />}
+                      image={<img src={File} alt="file-icon" />}
                       background={alpha("#FF991F", 0.1)}
                       label={"insights"}
                       onClick={handleInsights}
@@ -953,7 +951,7 @@ export const KidsDetail = (props) => {
                   </Grid>
                   <Grid item lg={3} md={4} sm={6} xs={12}>
                     <ToolBox
-                      image={<img src={trophy} />}
+                      image={<img src={trophy} alt="trophy-icon"/>}
                       background={alpha("#B5008A", 0.1)}
                       label={"achievement"}
                       onClick={handleAchievement}
@@ -961,7 +959,7 @@ export const KidsDetail = (props) => {
                   </Grid>
                   <Grid item lg={3} md={4} sm={6} xs={12}>
                     <ToolBox
-                      image={<img src={Group} />}
+                      image={<img src={Group} alt="group"/>}
                       background={alpha("#A600D4", 0.1)}
                       label={"grant_score"}
                       onClick={handleGrantScore}
@@ -1005,7 +1003,7 @@ export const KidsDetail = (props) => {
                   </Grid>
                   <Grid item lg={3} md={4} sm={6} xs={12}>
                     <ToolBox
-                      image={<img src={Score} />}
+                      image={<img src={Score} alt="group" />}
                       background={alpha("#00D8F6", 0.2)}
                       label={"change_score"}
                       onClick={handleChangeScore}
@@ -1024,6 +1022,7 @@ export const KidsDetail = (props) => {
                           : "enable_profile_pic"
                       }
                       onClick={handleProfilePic}
+                 
                     />
                   </Grid>
                   <Grid item lg={3} md={4} sm={6} xs={12}>
@@ -1033,9 +1032,10 @@ export const KidsDetail = (props) => {
                           <img
                             src={StarFull}
                             style={{ height: 45, width: 45 }}
+                            alt="star-icon"
                           />
                         ) : (
-                          <img src={Star} />
+                          <img src={Star} alt="start-icon" />
                         )
                       }
                       background={alpha("#FF991F", 0.2)}
@@ -1050,7 +1050,7 @@ export const KidsDetail = (props) => {
                   </Grid>
                   <Grid item lg={3} md={4} sm={6} xs={12}>
                     <ToolBox
-                      image={<img src={Calendar} />}
+                      image={<img src={Calendar} alt="calender-icon"/>}
                       background={alpha("#3BFFFF", 0.2)}
                       label={"assign_days"}
                       onClick={handleAssginDays}
@@ -1089,7 +1089,7 @@ export const KidsDetail = (props) => {
                     index={idx + 1}
                     level={el.requiredLevel}
                     label={el.name}
-                    selected={el.requiredLevel == eligiblePrize?.requiredLevel}
+                    selected={el.requiredLevel === eligiblePrize?.requiredLevel}
                   />
                 ))}
               </ScrollArea>

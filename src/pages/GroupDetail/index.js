@@ -546,6 +546,22 @@ export const GroupDetail = () => {
     let _save7 = await Promise.all(
       subjectLock.map(async (sub) => {
 
+        const reportTemplates = await db
+          .collection("Institution")
+          .doc(user._code)
+          .collection("groups")
+          .doc(group.id)
+          .collection("report_templates")
+          .doc(sub.id)
+          .get();
+
+        let _report_templates = reportTemplates.data();
+
+        let _isSync = true;
+        if (_report_templates.isSync === true) {
+          _isSync = false
+        }
+
         await db
           .collection("Institution")
           .doc(user?._code)

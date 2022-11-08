@@ -55,7 +55,7 @@ export const CreateGroupBody = (props) => {
 
       handleClose();
     } catch (error) {
-      console.log(error);
+     actions.alert(error,"error");
     } finally {
       setLoading(false);
     }

@@ -1,4 +1,4 @@
-import { Grid, Input, makeStyles, TextField, Avatar, Typography, CircularProgress, Divider, Box } from '@material-ui/core';
+import { Grid, makeStyles,  Avatar, Typography, Box } from '@material-ui/core';
 import React, { Fragment, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Button, MenuSingle, Field } from '../../../components';
@@ -6,7 +6,6 @@ import { useStore, useUi } from '../../../store';
 import { db } from '../../../utils/firebase';
 import { FirebaseHelpers, getModalStyles, getTypographyStyles } from '../../../utils/helpers';
 import firebase from 'firebase/app';
-import { nanoid } from 'nanoid';
 import clsx from 'clsx';
 
 export const GroupTranferBody = props => {
