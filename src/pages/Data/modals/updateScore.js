@@ -6,7 +6,8 @@ import {
   Checkbox,
   FormControlLabel,
   Avatar,
-  Box
+  Box,
+  
 } from "@material-ui/core";
 import clsx from "clsx";
 import { nanoid } from "nanoid";
@@ -29,7 +30,7 @@ import {
   getPageStyles,
   searchBy,
 } from "../../../utils/helpers";
-
+import * as yup from "yup";
 const useStyles = makeStyles((theme) => {
   return {
     ...getModalStyles(theme),
@@ -365,7 +366,7 @@ const steps = [
           setState((prev) => ({ ...prev, selectedKids: [] }));
         }
       };
-      console.log({ selectedKids: selectedKids });
+
 
       const renderItem = (kid) => {
         return (
@@ -513,11 +514,19 @@ export const UpdateScoreBody = (props) => {
     selectedGroups: [],
     selectedKids: [],
   });
-
+  const Schema = useMemo(() => {
+    return yup.object().shape({
+      score:yup.number().required().min(0).max(99999)
+    });
+  }, []);
   const handleSubmit = async () => {
-    if (state.score <= 0)
+    
+    try{
+      if (state.score <= 0)
       return actions.alert("Please Enter a valid score", "error");
-
+      Schema.validateSync({
+        score: state.score
+      });
     const historyId = nanoid(6);
     const batch = db.batch();
 
@@ -560,6 +569,13 @@ export const UpdateScoreBody = (props) => {
     await batch.commit();
 
     handleClose();
+    }
+    catch(error){
+      actions.alert(error.message, "error");
+    }
+
+
+   
   };
 
   return (

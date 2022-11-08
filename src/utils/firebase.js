@@ -6,6 +6,10 @@ import "firebase/firebase-functions"
 // const envoirnment = process.env.REACT_APP_ENVIRONMENT || "DEV";
 // const envoirnment = "PROD";
 const envoirnment = "DEV";
+<<<<<<< HEAD
+
+=======
+>>>>>>> 38b81032e12b292f002360f7ab829d9cf7f9c0f0
 
 // console.log({ e: process.env.REACT_APP_DEV_FIREBASE_API_KEY });
 const firebaseConfig = {
@@ -19,7 +23,7 @@ const firebaseConfig = {
   appId: process.env[`REACT_APP_${envoirnment}_FIREBASE_APP_ID`],
   // measurementId: process.env[`REACT_APP_${envoirnment}_FIREBASE_MEASUREMENT_ID`],
 };
-console.log(firebaseConfig)
+
 const app = firebase.initializeApp(firebaseConfig);
 const db = app.firestore();
 const auth = app.auth();

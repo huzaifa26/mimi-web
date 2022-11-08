@@ -1,8 +1,7 @@
-import { TableCell, makeStyles, Grid, Avatar, Typography } from '@material-ui/core';
+import { TableCell, Grid, Avatar, Typography } from '@material-ui/core';
 import React, { Fragment } from 'react';
 import { useStore } from '../../../store';
 import { useHistory } from 'react-router-dom';
-import { getModalStyles } from '../../../utils/helpers';
 import { DataTable } from '../../../components';
 
 const headers = [

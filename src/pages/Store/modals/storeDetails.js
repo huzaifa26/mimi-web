@@ -94,7 +94,7 @@ export const StoreDetailsBody = (props) => {
           subActivity: storeLog?.current?.store_name,
           uid: user.id
         }
-        console.log("store " + storeLog?.current?.store_name + " opened, uid:" + user.id);
+      
       }
     }
   }, [])

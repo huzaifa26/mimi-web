@@ -68,3 +68,43 @@ exports.disableRoutePlan = functions.https.onCall((data, context) => {
   });
 });
 
+exports.autoDisableRoute = functions.pubsub
+    .schedule('0 0 * * *')
+    .onRun(async (context) => {
+      admin
+      .firestore()
+      .collection("Institution")
+      .doc("TEST")
+      .collection("routePlan")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach(async (doc) => {
+          admin
+            .firestore()
+            .collection("Institution")
+            .doc("TEST")
+            .collection("routePlan")
+            .doc(doc.id)
+            .onSnapshot((snapshot) => {
+              if (
+                new Date().getTime()/1000 >= snapshot.data().endingDate.seconds
+              ) {
+                admin
+
+                  .firestore()
+                  .collection("Institution")
+                  .doc("TEST")
+                  .collection("routePlan")
+                  .doc(snapshot.data().id)
+                  .update({
+                    status: false,
+                  })
+                  .then((res) => {
+                   console.log("Route is disabled");
+                  });
+              }
+            });
+        });
+      });
+        return null;
+    })

@@ -29,9 +29,9 @@ export const History = () => {
     if ([ROLES.admin, ROLES.mngr].includes(user.type)) return list;
 
     return list.filter((record) => {
-      const { _groups, _kids, _staff } = record;
+      const { _groups, _staff } = record;
 
-      const { group_ids, kids_access, id } = user;
+      const { group_ids, id } = user;
 
       return [
         intersectionBy(group_ids, _groups).length,

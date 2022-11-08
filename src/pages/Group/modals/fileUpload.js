@@ -37,7 +37,7 @@ export const FileUploadBody = (props) => {
           .collection("groups")
           .where("name", "==", name.toLowerCase())
           .get();
-        console.log({ g: groups });
+    
         if (!groups.empty)
           return actions.alert(
             "Group with same name already exists, Kindly choose a different name",

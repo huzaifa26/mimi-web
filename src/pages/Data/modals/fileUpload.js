@@ -474,7 +474,6 @@ export const FileUploadBody = (props) => {
     value = value.filter((e, idx) => idx != 0);
     value = value.filter((e) => !e.length == 0);
 
-    console.log({ v: value });
 
     value.map(async (data) => {
 
@@ -502,7 +501,7 @@ export const FileUploadBody = (props) => {
       let _group = groups?.filter((e) => e.name === _groupWithIndividualRow?.map(e => { return e }))
      
       if (data[4] === undefined) {
-        console.log("undefined")
+        console.log("group is => undefined")
       } else {
         if (_group.length === 0) {
           const _payload = {
@@ -560,7 +559,7 @@ export const FileUploadBody = (props) => {
             }
           })
         })
-        .catch(error => { console.log(error) })
+        .catch(error => { actions.alert(error,"error") })
 
       // ** close checking manually all conditions ** 
 
@@ -672,7 +671,7 @@ export const FileUploadBody = (props) => {
         }
       });
     }
-    console.log({ v: validation });
+
     if (validation) {
       actions.alert(
         "Please select a file according to Kids template syntax",
@@ -705,11 +704,7 @@ export const FileUploadBody = (props) => {
         return !!exists;
       });
 
-      if(data[4]===undefined){
-        console.log(data[1] +" firebase default days! ")
-      } else {
-        console.log(assignedDaysArray)
-      }
+     
 
       _filteredArr.map(days => {
         days?.map(val => {
@@ -769,7 +764,7 @@ export const FileUploadBody = (props) => {
         };
         setFailed((prev) => [...prev, _payload])
       }
-      console.log(_password)
+   
       if (_password === undefined) {
         const _payload = {
           password: _password,
@@ -800,8 +795,7 @@ export const FileUploadBody = (props) => {
       // handle error if username / name / password missing
       if (_username === undefined) {
         let lineNumber = index + 2;
-        console.log(index)
-        console.log(lineNumber)
+      
         const _payload = {
           password: _password,
           name: _name,
@@ -840,8 +834,7 @@ export const FileUploadBody = (props) => {
 
       if (_name === undefined) {
         let lineNumber = index + 2;
-        console.log(index)
-        console.log(lineNumber)
+   
         const _payload = {
           password: _password,
           name: _name,
@@ -867,9 +860,7 @@ export const FileUploadBody = (props) => {
         joinDate: new Date(),
         assigned_days: data[4]===undefined? [true,false,true,false,true,false,false] : assignedDaysArray,
       };
-      console.log({
-        p: payload,
-      });
+      
       const kidId = nanoid(6);
 
       // await FirebaseHelpers.createKid
@@ -928,10 +919,7 @@ export const FileUploadBody = (props) => {
     setData(value);
   };
   const handleUploadConfirmGroup = async () => {
-    console.log(created)
-    console.log(exists)
-    console.log(failed)
-   
+  
 
     created.map( async(value)=>{
       await FirebaseHelpers.createGroup.execute({
@@ -958,9 +946,7 @@ export const FileUploadBody = (props) => {
     })
   }
   const handleUploadConfirmKid = async () => {
-    console.log(created)
-    console.log(exists)
-    console.log(failed)
+
     created.map(async(data)=>{
       const kidId = nanoid(6);
 
@@ -992,7 +978,7 @@ export const FileUploadBody = (props) => {
     })
   }
   const handleUploadConfirmStaff = async () => {
-    console.log(created)
+    
     created.map(async (data) => {
       var payload = {
         user,

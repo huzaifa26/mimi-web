@@ -13,7 +13,6 @@ import AddIcon from '../../../assets/icons/addIcon.png'; //Action Icon
 import TickIcon from '../../../assets/icons/tickIcon.png';
 import ExpandMoreIcon from '@material-ui/icons/ArrowRight';
 import ExpandLessIcon from '@material-ui/icons/ArrowDropDown';
-import Reset from '../../../assets/icons/reset.png';
 
 import { getModalStyles, getTypographyStyles } from '../../../utils/helpers';
 import clsx from 'clsx';
@@ -190,7 +189,7 @@ export const ReportBody = props => {
                                     setModalStates(prev => ({ ...prev, subSubject: true }));
                                 }}
                             >
-                                <img src={AddIcon} className={classes.AddImage} />
+                                <img src={AddIcon} className={classes.AddImage} alt="add-icon"/>
                             </div>
                         </Grid>
                         <Grid item lg={3} md={2} sm={2} xs={3}>
@@ -223,6 +222,7 @@ export const ReportBody = props => {
                                             marginTop: 6,
                                             marginRight: 10,
                                         }}
+                                        alt="tick-icon"
                                     />
                                     <Typography className={classes.summaryTypo}>{subSubject.name}</Typography>
                                 </div>
@@ -259,7 +259,7 @@ export const ReportBody = props => {
                 <Grid container>
                     <Grid item xs={12} md={12} lg={8}>
                         <div className={classes.container}>
-                            <img className={classes.image} src={staff?.image || defaultAvatars?.staff} />
+                            <img className={classes.image} src={staff?.image || defaultAvatars?.staff} alt="avatar" />
 
                             <div className={classes.metaContainer}>
                                 <Typography className={clsx([classes.default_typography_capitalize, classes.default_typography_bold, classes.default_typography_heading])}>

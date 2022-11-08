@@ -1,4 +1,4 @@
-import { Grid, Input, makeStyles, Typography } from '@material-ui/core';
+import { Grid, Input, makeStyles, } from '@material-ui/core';
 import React, { Fragment, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Button, Field } from '../../../components';
@@ -28,7 +28,7 @@ export const CreatePrizeBody = props => {
 
     const Schema = useMemo(() => {
         return yup.object().shape({
-            name: yup.string().required().min(2),
+            name: yup.string().required().min(2).max(20),
             requiredLevel: yup
                 .number()
                 .transform(value => (isNaN(value) ? 0 : value))
@@ -39,6 +39,7 @@ export const CreatePrizeBody = props => {
     }, []);
 
     const handleSubmit = async () => {
+       
         try {
             setLoading(true);
 

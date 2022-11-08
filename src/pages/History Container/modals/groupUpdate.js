@@ -9,7 +9,7 @@ export const GroupUpdateScoreBody = props => {
     const { data } = props;
 
     const { time, payload, executer } = data;
-    const { group, score, reason } = payload;
+    const { group, score,} = payload;
 
     const classes = useStyles();
 

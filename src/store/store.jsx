@@ -34,9 +34,10 @@ export const StoreProvidor = ({ children }) => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
-        let last_login = localStorage.getItem("last_login");
-        if (last_login !== null) {
-          let minus4Hours = new Date();
+        let last_login=localStorage.getItem("last_login");
+      
+        if(last_login !== null){
+          let minus4Hours=new Date();
           last_login = new Date(new Date(last_login).setHours(new Date().getHours())).getTime();
           minus4Hours = new Date().setHours(new Date().getHours() - 4);
 

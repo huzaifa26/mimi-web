@@ -1,5 +1,5 @@
 import { Grid, Input, makeStyles } from "@material-ui/core";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useMemo } from "react";
 import { FormattedMessage } from "react-intl";
 import { Button, Field } from "..";
 import { useStore, useUi } from "../../store";
@@ -7,7 +7,7 @@ import { db } from "../../utils/firebase";
 import { nanoid } from "nanoid";
 import { getModalStyles } from "../../utils/helpers";
 import { useLocation } from "react-router-dom";
-
+import * as yup from "yup";
 const useStyles = makeStyles((theme) => {
   return {
     ...getModalStyles(theme),
@@ -25,43 +25,66 @@ export const AddSubjectBody = (props) => {
   const [subjectName, setSubjectName] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const _handleSubmit = () => {
-    let subjectsCopy = [...subjects];
-    let type=''
-    if(location.pathname.includes("/groups")){
-      type="group"
-    } else if(location.pathname.includes("/kids")){
-      type="kid"
-    } else if(location.pathname.includes("/data")){
-      type="basic"
-    }
-    const subject_id = nanoid(6);
-    const payload = {
-      id: subject_id,
-      name: subjectName,
-      totalPoints: parseInt(score),
-      subSubject: [],
-      obtainedPoints: 0,
-      hasSubSubject: false,
-      isSync:false,
-      type:type,
-      orderNo:subjects.length
-    };
+  const Schema = useMemo(() => {
+    return yup.object().shape({
+      name: yup.string().required().min(2).max(20),
+      totalPoints: yup
+        .number()
+        .transform((value) => (isNaN(value) ? 0 : value))
+        .positive()
+        .min(1)
+        .max(9999)
+        .required(),
+    });
+  }, []);
 
-    let isAvail=false;
-    subjectsCopy.filter((sub)=>{
-      if(sub.name === subjectName){
-        isAvail=true;
+  const _handleSubmit = async() => {
+  
+
+    try{
+      let subjectsCopy = [...subjects];
+      let type=''
+      if(location.pathname.includes("/groups")){
+        type="group"
+      } else if(location.pathname.includes("/kids")){
+        type="kid"
+      } else if(location.pathname.includes("/data")){
+        type="basic"
       }
-    })
-    if(isAvail){
-      return actions.alert("Subject with this name already exists.","error");
-    }else if(!isAvail){
-      console.log(payload);
-      subjectsCopy.push(payload);
-      subjectAdded(subjectsCopy, payload);
-      handleClose();
+      const subject_id = nanoid(6);
+      const payload = {
+        id: subject_id,
+        name: subjectName,
+        totalPoints: parseInt(score),
+        subSubject: [],
+        obtainedPoints: 0,
+        hasSubSubject: false,
+        isSync:false,
+        type:type,
+        orderNo:subjects.length
+      };
+      Schema.validateSync(payload)
+      let ValidationError = new yup.ValidationError('error', 'value', 'path');
+      console.log(ValidationError)
+      let isAvail=false;
+      subjectsCopy.filter((sub)=>{
+        if(sub.name === subjectName){
+          isAvail=true;
+        }
+      })
+      if(isAvail){
+        return actions.alert("Subject with this name already exists.","error");
+      }else if(!isAvail){
+        console.log(payload);
+        subjectsCopy.push(payload);
+        subjectAdded(subjectsCopy, payload);
+        handleClose();
+      }
     }
+    catch(error){
+      actions.alert(error.message, "error");
+    }
+   
   };
   
   return (

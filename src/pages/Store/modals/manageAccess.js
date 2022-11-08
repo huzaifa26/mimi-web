@@ -232,7 +232,7 @@ export const ManageAccessBody = props => {
             setLoading(false);
             handleClose();
         } catch (error) {
-            console.log(error);
+            actions.alert(error,"error");
         }
     };
 
