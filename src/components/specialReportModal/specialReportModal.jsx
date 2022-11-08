@@ -313,7 +313,7 @@ export const GroupReportBody = (props) => {
                           />
                         </div>
                       }
-                      {subject.type === "kid" && location.pathname.includes("/kids") &&
+                      {(subject.type === "kid" && location.pathname.includes("/kids") || (subject.type === "group" && !subject.isSync && location.pathname.includes("/kids")) || (subject.type === "basic" && !subject.isSync && location.pathname.includes("/kids")) || (subject.type === "basic" && !subject.isSync && location.pathname.includes("/groups")) ) &&
                         <div
                           onClick={stopEventBubble(() => {
                             setSelectedSubject(subject);
@@ -349,15 +349,15 @@ export const GroupReportBody = (props) => {
                       }
                     </Grid>
                     <Grid item lg={2} md={2} sm={2} xs={2}>
-                      {(!subject.isSync && location.pathname.includes("/kids")) || (subject.type === "basic" && location.pathname.includes("/group")) ? null :
+                      {(!subject.isSync && location.pathname.includes("/kids")) || (subject.type === "basic" && location.pathname.includes("/groups")) ? null :
                         <Sync className={classes.editHover}
-                          style={(subject.isSync && !location.pathname.includes("/kids") && (subject.type === "group" && location.pathname.includes("/group"))) || (subject.isSync && subject.type === "basic" && location.pathname.includes("/data")) ? {
+                          style={(subject.isSync && !location.pathname.includes("/kids") && (subject.type === "group" && location.pathname.includes("/groups"))) || (subject.isSync && subject.type === "basic" && location.pathname.includes("/data")) ? {
                             color: "#685be7", //Blue
                             marginRight: "10",
                           } : subject.isSync && location.pathname.includes("/kids") || (subject.isSync && subject.type === "basic") ? {
                             color: "#4cb763", //Green
                             marginRight: "10",
-                          } : (!subject.isSync && subject.type === "basic" && location.pathname.includes("/group")) ? {
+                          } : (!subject.isSync && subject.type === "basic" && location.pathname.includes("/groups")) ? {
                             color: "#4cb763", //Green
                             marginRight: "10",
                             pointerEvents: "none"
@@ -375,7 +375,7 @@ export const GroupReportBody = (props) => {
                           })}
                         />
                       }
-                      {(subject.isSync && subject.type === "basic" && location.pathname.includes("/group")) ?
+                      {(subject.isSync && subject.type === "basic" && location.pathname.includes("/groups")) ?
                         <Sync className={classes.editHover}
                           style={{
                             color: "#4cb763", //Green
@@ -392,7 +392,7 @@ export const GroupReportBody = (props) => {
                           })}
                         /> : null
                       }
-                      {(subject.type === "group" && location.pathname.includes("/group")) ?
+                      {((subject.type === "group" && location.pathname.includes("/groups")) || (subject.type === "basic" && !subject.isSync && location.pathname.includes("/groups"))) ?
                         <>
                           <Edit
                             className={classes.editHover}
@@ -420,7 +420,7 @@ export const GroupReportBody = (props) => {
                         </>
                         : null
                       }
-                      {(subject.type === "kid" && location.pathname.includes("/kid")) ?
+                      {(((subject.type === "kid" && location.pathname.includes("/kids")) || (subject.type === "basic" && !subject.isSync && location.pathname.includes("/kids"))  || (subject.type === "group" && !subject.isSync && location.pathname.includes("/kids")))) ?
                         <>
                           <Edit
                             className={classes.editHover}
@@ -507,7 +507,7 @@ export const GroupReportBody = (props) => {
                       </Grid>
                       <Grid item lg={2} md={2} sm={2} xs={2}></Grid>
                       <Grid item lg={2} md={2} sm={2} xs={2}>
-                        {subject.isSync && subject.type === "kid" && location.pathname.includes("/kids") &&
+                        {((subject.type === "kid" && location.pathname.includes("/kids")) || (subject.type === "basic" && !subject.isSync && location.pathname.includes("/kids"))) &&
                           <>
                             <Edit
                               className={classes.editHover}
@@ -530,12 +530,11 @@ export const GroupReportBody = (props) => {
                                 color: "#8F92A1",
                               }}
                               onClick={() => {
-                                console.log("111111111111")
                                 _handleSubSubjectDelete(subSubject, subject);
                               }}
                             />
                           </>}
-                        {(!subject.isSync && subject.type === "group") && (location.pathname.includes("/kids") || location.pathname.includes("/groups")) &&
+                        {((subject.type === "group" && location.pathname.includes("/groups") || (!subject.isSync && subject.type === "group" && location.pathname.includes("/kids"))) || (subject.type === "basic" && !subject.isSync && location.pathname.includes("/groups"))) &&
                           <>
                             <Edit
                               className={classes.editHover}
@@ -558,7 +557,6 @@ export const GroupReportBody = (props) => {
                                 color: "#8F92A1",
                               }}
                               onClick={() => {
-                                console.log("111111111111")
                                 _handleSubSubjectDelete(subSubject, subject);
                               }}
                             />
