@@ -129,7 +129,7 @@ export const RouteDetailsBody = (props) => {
 
         // await db
         //     .collection('Institution')
-        //     .doc(user?._code)
+        //     .doc(user._code)
         //     .collection('log')
         //     .doc(payload.id)
         //     .set(payload)
@@ -142,7 +142,7 @@ export const RouteDetailsBody = (props) => {
     listenerRef.current.push(
       db
         .collection("Institution")
-        .doc(user?._code)
+        .doc(user._code)
         .collection("routePlan")
         .doc(routePlanId)
         .onSnapshot((snapshot) => {
@@ -162,7 +162,7 @@ export const RouteDetailsBody = (props) => {
     listenerRef.current.push(
       db
         .collection("Institution")
-        .doc(user?._code)
+        .doc(user._code)
         .collection("routePlan")
         .doc(routePlan.id)
         .collection("prizes")
@@ -172,7 +172,7 @@ export const RouteDetailsBody = (props) => {
             ? (
                 await db
                   .collection("Institution")
-                  .doc(user?._code)
+                  .doc(user._code)
                   .collection("kid")
                   .get()
               ).docs
@@ -241,7 +241,7 @@ export const RouteDetailsBody = (props) => {
     const action = async () => {
       await db
         .collection("Institution")
-        .doc(user?._code)
+        .doc(user._code)
         .collection("routePlan")
         .doc(routePlan.id)
         .collection("prizes")
@@ -264,7 +264,7 @@ export const RouteDetailsBody = (props) => {
     const action = async () => {
       await db
         .collection("Institution")
-        .doc(user?._code)
+        .doc(user._code)
         .collection("routePlan")
         .doc(routePlan.id)
         .delete();
@@ -285,7 +285,7 @@ export const RouteDetailsBody = (props) => {
 
     await db
       .collection("Institution")
-      .doc(user?._code)
+      .doc(user._code)
       .collection("routePlan")
       .doc(routePlan.id)
       .update({
@@ -318,8 +318,23 @@ export const RouteDetailsBody = (props) => {
         [["Prize Name", "Level", "Groups", "Kids"]],
         { origin: "A1" }
       );
-      
-     
+      const max_widthA = rows.reduce(
+        (w, r) => Math.max(w, r.prizeName.length),
+        10
+      );
+      const max_widthB = rows.reduce((w, r) => Math.max(w, r.level.length), 10);
+      const max_widthC = rows.reduce(
+        (w, r) => Math.max(w, r.groups.length),
+        10
+      );
+      const max_widthD = rows.reduce((w, r) => Math.max(w, r.kids.length), 10);
+
+      worksheet["!cols"] = [
+        { wch: max_widthA },
+        { wch: max_widthB },
+        { wch: max_widthC },
+        { wch: max_widthD },
+      ];
       return XLSX.writeFile(workbook, "EligibleKids.xlsx", {
         compression: true,
       });
@@ -358,7 +373,6 @@ export const RouteDetailsBody = (props) => {
 
   const renderItem = (prize) => {
     return (
-
       <Fragment>
         <TableCell>{prize.name}</TableCell>
         <TableCell
@@ -379,159 +393,7 @@ export const RouteDetailsBody = (props) => {
             onClick={() => deletePrize(prize)}
           />
         </TableCell>
-      
-            <SimpleModal extended title={<FormattedMessage id="manage_access" />} open={modalStates.manageAccess} handleClose={closeManageAccess}>
-                <ManageAccessBody routePlan={routePlan} handleClose={closeManageAccess} />
-            </SimpleModal>
-            <SimpleModal title={<FormattedMessage id="add_prize" />} open={modalStates.createPrize} handleClose={closeCreatePrize}>
-                <CreatePrizeBody prizes={prizes} routePlan={routePlan} handleClose={closeCreatePrize} />
-            </SimpleModal>
-            <SimpleModal title={<FormattedMessage id="eligibles" />} open={modalStates.eligibleKids} handleClose={closeEligibleKids}>
-                <EligibleKidsBody kids={eligibleKids} handleClose={closeEligibleKids} />
-            </SimpleModal>
-
-            <SimpleModal title={<FormattedMessage id="change_date" />} open={modalStates.changeStartDate} handleClose={closeStartDate}>
-                <ChangeDateBody
-                    defaultDate={routePlan.startingDate.toDate()}
-                    routePlan={routePlan}
-                    handleClose={closeStartDate}
-                    setter={date => {
-                        return db.collection('Institution').doc(user?._code).collection('routePlan').doc(routePlan.id).update({
-                            startingDate: date,
-                        });
-                    }}
-                />
-            </SimpleModal>
-
-            <SimpleModal title={<FormattedMessage id="change_date" />} open={modalStates.changeEndDate} handleClose={closeEndDate}>
-                <ChangeDateBody
-                    defaultDate={routePlan.endingDate.toDate()}
-                    handleClose={closeEndDate}
-                    condition={routePlan.startingDate.toDate()}
-                    setter={date => {
-                        return db.collection('Institution').doc(user?._code).collection('routePlan').doc(routePlan.id).update({
-                            endingDate: date,
-                        });
-                    }}
-                />
-            </SimpleModal>
-
-            <Grid container>
-                <Grid item md={3} xs={6}>
-                    <Typography className={clsx(classes.default_typography_label, classes.default_typography_colorLight, classes.default_typography_bold)}>
-                        <FormattedMessage id="ROUTE_NAME" />
-                    </Typography>
-                    <Typography
-                        className={clsx(
-                            classes.default_typography_subHeading,
-                            classes.default_typography_colorDark,
-                            classes.default_typography_bold,
-                            classes.default_typography_capitalize,
-                        )}
-                    >
-                        {routePlan.name}
-                    </Typography>
-                </Grid>
-                <Grid item md={3} xs={6}>
-                    <Typography className={clsx(classes.default_typography_label, classes.default_typography_colorLight, classes.default_typography_bold)}>
-                        <FormattedMessage id="STATUS" />
-                    </Typography>
-                    {renderStatus(routePlan.status)}
-                </Grid>
-                <Grid item md={3} xs={6}>
-                    <Typography className={clsx(classes.default_typography_label, classes.default_typography_colorLight, classes.default_typography_bold)}>
-                        <FormattedMessage id="STARTING_DATE" />
-                        <Box
-                            component={'img'}
-                            marginX={1}
-                            src={Edit}
-                            style={{ cursor: "pointer", color: isHover ? "blue" : null }}
-                            onMouseEnter={() => { setIsHover(true) }}
-                            onMouseLeave={() => { setIsHover(false) }}
-                            onClick={() => {
-                                if (!user.permissions[PERMISSIONS.trackAccess]) {
-                                    return actions.alert("You don't have access to perform this action");
-                                } else {
-                                    setModalStates(prev => ({ ...prev, changeStartDate: true }));
-                                }
-                            }}
-                        />
-                    </Typography>
-                    <Typography
-                        className={clsx(
-                            classes.default_typography_subHeading,
-                            classes.default_typography_colorDark,
-                            classes.default_typography_bold,
-                            classes.default_typography_capitalize,
-                        )}
-                    >
-                        {moment(routePlan.startingDate?.toDate()).format('DD-MM-YYYY')}
-                    </Typography>
-                </Grid>
-                <Grid item md={3} xs={6}>
-                    <Typography className={clsx(classes.default_typography_label, classes.default_typography_colorLight, classes.default_typography_bold)}>
-                        <FormattedMessage id="ENDING_DATE" />
-
-                        <Box
-                            component={'img'}
-                            marginX={1}
-                            src={Edit}
-                            style={{ cursor: "pointer", color: isHover ? "blue" : null }}
-                            onMouseEnter={() => { setIsHover(true) }}
-                            onMouseLeave={() => { setIsHover(false) }}
-                            onClick={() => {
-                                if (!user.permissions[PERMISSIONS.trackAccess]) {
-                                    return actions.alert("You don't have access to perform this action");
-                                } else {
-                                    setModalStates(prev => ({ ...prev, changeEndDate: true }));
-                                }
-                            }}
-                        />
-                    </Typography>
-                    <Typography
-                        className={clsx(
-                            classes.default_typography_subHeading,
-                            classes.default_typography_colorDark,
-                            classes.default_typography_bold,
-                            classes.default_typography_capitalize,
-                        )}
-                    >
-                        {moment(routePlan.endingDate.toDate()).format('DD-MM-YYYY')}
-                    </Typography>
-                </Grid>
-            </Grid>
-
-            {actionBar}
-
-            <DataTable {...tableProps} />
-
-            <div className={classes.default_modal_footer}>
-                <Grid container spacing={1}>
-                    <Grid item xs={12} sm={4} justifyContent="center">
-                        <Button fullWidth className={classes.default_modal_buttonSecondary} onClick={handleClose}>
-                            <FormattedMessage id="cancel" />
-                        </Button>
-                    </Grid>
-                    <Grid item xs={12} sm={4} justifyContent="center">
-                        {routePlan.status ? (
-                            <Button startIcon={<Pause />} fullWidth className={classes.default_modal_buttonSecondary} onClick={handleStatus}>
-                                <FormattedMessage id="disable_route" />
-                            </Button>
-                        ) : (
-                            <Button startIcon={<Active />} fullWidth className={classes.default_modal_buttonSecondary} onClick={handleStatus}>
-                                <FormattedMessage id="activate_route" />
-                            </Button>
-                        )}
-                    </Grid>
-                    <Grid item xs={12} sm={4} justifyContent="center">
-                        <Button fullWidth startIcon={<Delete />} className={classes.deleteButton} onClick={deleteRoutePlan}>
-                            <FormattedMessage id="delete_route" />
-                        </Button>
-                    </Grid>
-                </Grid>
-            </div>
-        </Fragment>
-
+      </Fragment>
     );
   };
   console.log(new Date().getTime() / 1000 >= routePlan?.endingDate.seconds);
@@ -631,7 +493,7 @@ export const RouteDetailsBody = (props) => {
           setter={(date) => {
             return db
               .collection("Institution")
-              .doc(user?._code)
+              .doc(user._code)
               .collection("routePlan")
               .doc(routePlan.id)
               .update({
@@ -653,7 +515,7 @@ export const RouteDetailsBody = (props) => {
           setter={(date) => {
             return db
               .collection("Institution")
-              .doc(user?._code)
+              .doc(user._code)
               .collection("routePlan")
               .doc(routePlan.id)
               .update({
