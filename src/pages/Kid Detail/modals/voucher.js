@@ -114,7 +114,7 @@ export const VoucherBody = props => {
                     flex: 1,
                 }}
             >
-                <SearchBar placeholder={`Search by names`} size={'small'} handleSearch={value => setSearchText(value)} />
+                <SearchBar placeholder={`search_by_names`} size={'small'} handleSearch={value => setSearchText(value)} />
             </div>
         </div>
     );

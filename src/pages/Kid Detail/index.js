@@ -210,7 +210,7 @@ export const KidsDetail = (props) => {
   const handleProfilePic = async () => {
     actions.alert("This feature is not available","info");
     // if (!user.permissions[PERMISSIONS.picAccess])
-    //   return actions.alert("You don't have access to perform this action");
+    //   return actions.alert(<FormattedMessage id="access_denied"/>);
 
     // actions.showDialog({
     //   action: FirebaseHelpers.enableKidProfilePicture.execute.bind(null, {
@@ -237,7 +237,7 @@ export const KidsDetail = (props) => {
   // delete kid handler
   const hanldeDeleteKid = async () => {
     if (!user.permissions[PERMISSIONS.deleteKid])
-      return actions.alert("You don't have access to perform this action");
+      return actions.alert(<FormattedMessage id="access_denied"/>);
     setModalStates((prev) => ({ ...prev, deleteKid: true }));
 
     // actions.showDialog({
@@ -247,7 +247,7 @@ export const KidsDetail = (props) => {
     //     history,
     //   }),
     //   title: `Delete ${kid.name}?`,
-    //   body: "Are you sure you want to delete? it cannot be undone",
+    //   body: <FormattedMessage id="delete_message"/>,
     // });
   };
 
@@ -523,14 +523,14 @@ export const KidsDetail = (props) => {
 
     // delete subject
     let _save3 = await Promise.all(
-      subjectDeleted.map(async (sub) => {
+      subjectDeleted.sub.map(async (sub) => {
         await db
           .collection("Institution")
           .doc(user?._code)
           .collection("kid")
           .doc(kid.id)
           .update({
-            has_special_program: true,
+            has_special_program: subjectDeleted.isSpecialReport,
           });
         await db
           .collection("Institution")

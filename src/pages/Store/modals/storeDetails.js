@@ -130,7 +130,7 @@ export const StoreDetailsBody = (props) => {
 
   const deleteProduct = async (product) => {
     if (!user.permissions[PERMISSIONS.storeAccess]) {
-      return actions.alert("You don't have access to perform this action");
+      return actions.alert(<FormattedMessage id="access_denied"/>);
     }
 
     const action = async () => {
@@ -155,14 +155,15 @@ export const StoreDetailsBody = (props) => {
 
     actions.showDialog({
       action,
-      title: `Delete ${product.name}?`,
-      body: "Are you sure you want to delete? it cannot be undone",
+      // title: `Delete ${product.name}?`,
+      title: <FormattedMessage id="delete_heading" defaultMessage="Delete {name}?" values={{name:product.name}}/>,
+      body: <FormattedMessage id="delete_message"/>,
     });
   };
 
   const deleteStore = async () => {
     if (!user.permissions[PERMISSIONS.trackAccess]) {
-      return actions.alert("You don't have access to perform this action");
+      return actions.alert(<FormattedMessage id="access_denied"/>);
     }
 
     const action = async () => {
@@ -177,14 +178,15 @@ export const StoreDetailsBody = (props) => {
 
     actions.showDialog({
       action,
-      title: `Delete ${store.store_name}?`,
-      body: "Are you sure you want to delete? it cannot be undone",
+      // title: `Delete ${store.store_name}?`,
+      title: <FormattedMessage id="delete_heading" defaultMessage="Delete {name}?" values={{name:store.store_name}}/>,
+      body: <FormattedMessage id="delete_message"/>,
     });
   };
 
   const handleStatus = async () => {
     if (!user.permissions[PERMISSIONS.trackAccess]) {
-      return actions.alert("You don't have access to perform this action");
+      return actions.alert(<FormattedMessage id="access_denied"/>);
     }
 
     await db
@@ -258,7 +260,7 @@ export const StoreDetailsBody = (props) => {
         }}
       >
         <SearchBar
-          placeholder={`Search by names`}
+          placeholder={"search_by_names"}
           size={"small"}
           handleSearch={(value) => setSearchText(value)}
         />

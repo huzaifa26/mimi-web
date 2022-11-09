@@ -125,8 +125,9 @@ export const ReportBody = props => {
 
         actions.showDialog({
             action,
-            title: `Delete ${subject.name}?`,
-            body: 'Are you sure you want to delete? it cannot be undone',
+            // title: `Delete ${subject.name}?`,
+            title: <FormattedMessage id="delete_heading" defaultMessage="Delete {name}?" values={{ name: subject.name }} />,
+            body: <FormattedMessage id="delete_message" />,
         });
     };
 
@@ -156,7 +157,7 @@ export const ReportBody = props => {
         actions.showDialog({
             action,
             title: `Delete ${subSubject.name}?`,
-            body: 'Are you sure you want to delete? it cannot be undone',
+            body: <FormattedMessage id="delete_message" />,
         });
     };
 
@@ -164,13 +165,13 @@ export const ReportBody = props => {
         const expandIconProps =
             subject.subSubject.length > 0
                 ? {
-                      onClick: () => handleChange(`panel${idx}`),
-                  }
+                    onClick: () => handleChange(`panel${idx}`),
+                }
                 : {
-                      style: {
-                          visibility: 'hidden',
-                      },
-                  };
+                    style: {
+                        visibility: 'hidden',
+                    },
+                };
 
         return (
             <Accordion expanded={expanded === `panel${idx}`}>
@@ -189,7 +190,7 @@ export const ReportBody = props => {
                                     setModalStates(prev => ({ ...prev, subSubject: true }));
                                 }}
                             >
-                                <img src={AddIcon} className={classes.AddImage} alt="add-icon"/>
+                                <img src={AddIcon} className={classes.AddImage} alt="add-icon" />
                             </div>
                         </Grid>
                         <Grid item lg={3} md={2} sm={2} xs={3}>

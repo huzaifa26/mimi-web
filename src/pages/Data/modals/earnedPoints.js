@@ -200,7 +200,7 @@ const steps = [
       const actionBar = (
         <Box display={"flex"} padding="16px" justifyContent={"space-between"}>
           <SearchBar
-            placeholder={`Search by names`}
+            placeholder={"search_by_names"}
             size={"small"}
             handleSearch={(value) => setSearchText(value)}
           />
@@ -396,7 +396,7 @@ const steps = [
             }}
           >
             <SearchBar
-              placeholder={`Search by names`}
+              placeholder={"search_by_names"}
               size={"small"}
               handleSearch={(value) => setSearchText(value)}
             />

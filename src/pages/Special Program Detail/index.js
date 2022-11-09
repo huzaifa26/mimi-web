@@ -140,7 +140,7 @@ export const SpecialProgramDetail = React.memo(() => {
   const handleStopLevel = async () => {
     if (!user.permissions[PERMISSIONS.kidSpecialReport])
       return actions.showAlert(
-        "You don't have access to perform this action",
+        <FormattedMessage id="access_denied"/>,
         "info"
       );
 
@@ -207,7 +207,7 @@ export const SpecialProgramDetail = React.memo(() => {
   const handleNewLevel = () => {
     if (!user.permissions[PERMISSIONS.kidSpecialReport])
       return actions.showAlert(
-        "You don't have access to perform this action",
+        <FormattedMessage id="access_denied"/>,
         "info"
       );
 

@@ -319,7 +319,7 @@ export const RegisterKid = (props) => {
               <Field label={<FormattedMessage id="select_group" />}>
                 <MenuSingle
                   list={groups}
-                  label={group?.name || "none"}
+                  label={group?.name || <FormattedMessage id="none"/>}
                   handleChange={(item) => {
                     setGroup(item);
                   }}

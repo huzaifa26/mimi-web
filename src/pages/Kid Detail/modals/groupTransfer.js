@@ -164,7 +164,7 @@ export const GroupTranferBody = props => {
             </Box>
 
             <Field label={<FormattedMessage id="select_new_group" />}>
-                <MenuSingle list={groups} label={group ? group.name : 'none'} handleChange={value => setGroup(value)} />
+                <MenuSingle list={groups} label={group ? group.name : <FormattedMessage id='none'/>} handleChange={value => setGroup(value)} />
             </Field>
 
             <div className={classes.default_modal_footer}>

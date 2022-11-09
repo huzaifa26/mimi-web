@@ -99,14 +99,19 @@ export const MenuMultiple = React.memo(props => {
         let label;
 
         if (activeFilters.length === filters.length) {
-            label = defaultFilter.name;
+            label = defaultFilter.name
+            if(defaultFilter.name === "All Groups"){
+                label = <FormattedMessage id={"all_groups"}/> ;
+            }else if(defaultFilter.name === "All Actions"){
+                label = <FormattedMessage id={"all_actions"}/> ;
+            }
         } else if (activeFilters.length == 0 && filters.length != 0) {
-            label = 'None';
+            label = <FormattedMessage id={"none"}/> ;
         } else if (activeFilters.length == 1 && filters.length > activeFilters.length) {
             const [_filter] = activeFilters;
-            label = _filter.name;
+            label = _filter.label;
         } else if (activeFilters.length != 0 && filters.length > activeFilters.length) {
-            label = 'Mixed';
+            label = <FormattedMessage id='mixed'/>;
         }
 
         return label;
@@ -137,7 +142,8 @@ export const MenuMultiple = React.memo(props => {
                 open={Boolean(anchorEl)}
                 onClose={() => handleClose()}
             >
-                {filtersToShow.map(el => (
+                {filtersToShow.map(el => {
+                    return(
                     <MenuItem key={el.id}>
                         <FormControlLabel
                             className={classes.labelContainer}
@@ -155,7 +161,7 @@ export const MenuMultiple = React.memo(props => {
                             label={el.label || el.name}
                         />
                     </MenuItem>
-                ))}
+                )})}
             </Menu>
         </div>
     );

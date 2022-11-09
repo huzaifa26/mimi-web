@@ -141,8 +141,10 @@ export const ProfileBody = (props) => {
 
     actions.showDialog({
       action,
-      title: `Delete ${staff.name}?`,
-      body: "Are you sure you want to delete? it cannot be undone",
+      // title: `Delete ${staff.name}?`,
+      body: <FormattedMessage id="delete_message"/>,
+      title: <FormattedMessage id="delete_heading" defaultMessage="Delete {name}?" values={{name:staff.name}}/>,
+
     });
   };
 

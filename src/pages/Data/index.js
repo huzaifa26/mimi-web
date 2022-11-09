@@ -647,7 +647,7 @@ export const Data = React.memo(() => {
 
     //Change order of report.
     let _save = await Promise.all(
-      subjectOrder.map(async(sub,index) => {
+      subjectOrder.map(async (sub, index) => {
         await db
           .collection("Institution")
           .doc(user?._code)
@@ -675,25 +675,16 @@ export const Data = React.memo(() => {
         kidsId.map(async (kid_id) => {
           if (kid_id === undefined) return
 
-          let kid_report=await db
+          let kid_report = await db
             .collection("Institution")
             .doc(user?._code)
             .collection("kid")
             .doc(kid_id)
             .get();
-          
-          let kidReport=kid_report.data();
 
-          if(kidReport === null && kidReport === undefined) return
+          let kidReport = kid_report.data();
 
-          await db
-            .collection("Institution")
-            .doc(user?._code)
-            .collection("kid")
-            .doc(kid_id)
-            .update({
-              isSpecialReport: true,
-            });
+          if (kidReport === null && kidReport === undefined) return
 
           await db
             .collection("Institution")
@@ -728,15 +719,6 @@ export const Data = React.memo(() => {
             .doc(user?._code)
             .collection("groups")
             .doc(group_id)
-            .update({
-              isSpecialReport: true,
-            });
-
-          await db
-            .collection("Institution")
-            .doc(user?._code)
-            .collection("groups")
-            .doc(group_id)
             .collection("report_templates")
             .doc(sub.id)
             .set(sub);
@@ -746,7 +728,7 @@ export const Data = React.memo(() => {
 
     // delete subject
     let _save3 = await Promise.all(
-      subjectDeleted.map(async (sub) => {
+      subjectDeleted.sub.map(async (sub) => {
         await db
           .collection("Institution")
           .doc(user?._code)
@@ -757,7 +739,7 @@ export const Data = React.memo(() => {
         if (sub.isSync) {
           const batch = db.batch();
           kidsId.map(async (kid_id) => {
-    
+
             batch.delete(
               db.collection("Institution")
                 .doc(user?._code)
@@ -771,7 +753,7 @@ export const Data = React.memo(() => {
 
           const batch1 = db.batch();
           groupsId.map(async (group_id) => {
-        
+
             batch1.delete(
               db.collection("Institution")
                 .doc(user?._code)
@@ -1053,7 +1035,7 @@ export const Data = React.memo(() => {
         <Button
           className={classes.buttonSubscription}
           disableRipple
-          startIcon={<img src={Clock} alt=''/>}
+          startIcon={<img src={Clock} alt='' />}
         >
           <FormattedMessage id="subscription_ends_in" />
           <Box marginX={1} color="#685BE7">
@@ -1226,7 +1208,7 @@ export const Data = React.memo(() => {
                     #{institute?.code}
                   </Box>
 
-                  
+
                 </Typography>
               </div>
 
@@ -1376,7 +1358,7 @@ export const Data = React.memo(() => {
                       }));
                     }}
                   >
-                    <img src={ExcelUpload} alt=''/>
+                    <img src={ExcelUpload} alt='' />
                     <Typography className={classes.toolTitle}>
                       <FormattedMessage id="load_users_from_excel" />
                     </Typography>
@@ -1392,7 +1374,7 @@ export const Data = React.memo(() => {
                       }));
                     }}
                   >
-                    <img src={Points} alt=''/>
+                    <img src={Points} alt='' />
                     <Typography className={classes.toolTitle}>
                       <FormattedMessage id="change_total_points_earned" />
                     </Typography>

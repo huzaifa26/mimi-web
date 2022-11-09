@@ -94,7 +94,7 @@ export const Kid = React.memo(() => {
             <div className={classes.default_headerSection_pageTitle}>
                 <Links links={links} />
             </div>
-            <SearchBar placeholder={`Search by names`} size={'small'} handleSearch={value => setSearchText(value)} />
+            <SearchBar placeholder={"search_by_names"} size={'small'} handleSearch={value => setSearchText(value)} />
             <div className={classes.default_headerSection_actionsContainer}>
                 <Button
                     startIcon={<AddIcon />}

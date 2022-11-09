@@ -284,7 +284,7 @@ export const RegisterTeam = (props) => {
                 <Field label={<FormattedMessage id="role" />}>
                   <MenuSingle
                     list={options}
-                    label={role?.label || "Select Role"}
+                    label={role?.label || <FormattedMessage id="select_role" />}
                     handleChange={(value) => setRole(value)}
                   />
                 </Field>

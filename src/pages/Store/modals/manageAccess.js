@@ -330,7 +330,7 @@ export const ManageAccessBody = props => {
                         flex: 1,
                     }}
                 >
-                    <SearchBar placeholder={`Search by names`} size={'small'} handleSearch={value => setState(prev => ({ ...prev, searchText: value }))} />
+                    <SearchBar placeholder={"search_by_names"} size={'small'} handleSearch={value => setState(prev => ({ ...prev, searchText: value }))} />
                 </div>
                 <div className={classes.default_headerSection_actionsContainer}>
                     <MenuMultiple list={state.groupOptions} entity={'Groups'} handleChange={handleMenuChange} />

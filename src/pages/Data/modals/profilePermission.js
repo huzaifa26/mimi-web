@@ -148,7 +148,7 @@ const steps = [
 
             const actionBar = (
                 <div className={classes.default_headerSection_container}>
-                    <SearchBar placeholder={`Search by names`} size={'small'} handleSearch={value => setSearchText(value)} />
+                    <SearchBar placeholder={"search_by_names"} size={'small'} handleSearch={value => setSearchText(value)} />
                 </div>
             );
 
@@ -311,7 +311,7 @@ const steps = [
                             flex: 1,
                         }}
                     >
-                        <SearchBar placeholder={`Search by names`} size={'small'} handleSearch={value => setSearchText(value)} />
+                        <SearchBar placeholder={"search_by_names"} size={'small'} handleSearch={value => setSearchText(value)} />
                     </div>
                     <div className={classes.default_headerSection_actionsContainer}>
                         <MenuMultiple

@@ -21,11 +21,11 @@ const useStyles = makeStyles((theme) => {
 const options = [
   {
     id: true,
-    label: "Active",
+    label: <FormattedMessage id="active"/>,
   },
   {
     id: false,
-    label: "Disabled",
+    label: <FormattedMessage id="disabled"/>,
   },
 ];
 

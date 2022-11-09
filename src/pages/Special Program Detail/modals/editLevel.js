@@ -166,8 +166,9 @@ export const EditLevelBody = (props) => {
 
     actions.showDialog({
       action,
-      title: `Delete ${subject.name}?`,
-      body: "Are you sure you want to delete? it cannot be undone",
+      // title: `Delete ${subject.name}?`,
+      title: <FormattedMessage id="delete_heading" defaultMessage="Delete {name}?" values={{name:subject.name}}/>,
+      body: <FormattedMessage id="delete_message"/>,
     });
   };
 
@@ -208,14 +209,15 @@ export const EditLevelBody = (props) => {
 
     actions.showDialog({
       action,
-      title: `Delete ${subSubject.name}?`,
-      body: "Are you sure you want to delete? it cannot be undone",
+      // title: `Delete ${subSubject.name}?`,
+      title: <FormattedMessage id="delete_heading" defaultMessage="Delete {name}?" values={{name:subSubject.name}}/>,
+      body: <FormattedMessage id="delete_message"/>,
     });
   };
 
   const restoreDefault = async () => {
     // if (!props.user.permissions.kidSpecialReport) {
-    //     return actions.showAlert("You don't have access to perform this action", 'info');
+    //     return actions.showAlert(<FormattedMessage id="access_denied"/>, 'info');
     // }
 
     const [lvl] = (

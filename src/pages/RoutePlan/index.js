@@ -30,7 +30,7 @@ const headers = [
 const options = [
     {
         id: null,
-        label: <FormattedMessage id={'all'} />,
+        label: <FormattedMessage id="all" />,
     },
     {
         id: true,
@@ -57,7 +57,7 @@ export const RoutePlan = React.memo(() => {
     });
     const [status, setStatus] = useState({
         id: null,
-        label: <FormattedMessage id={'all'} />,
+        label: <FormattedMessage id="all" />,
     });
 
     const [changeState,setChangeState]=useState(false);
@@ -126,7 +126,6 @@ export const RoutePlan = React.memo(() => {
         return (
             <Box display={'flex'} alignItems="center">
                 <FormattedMessage id="Show:" />
-                <Box marginRight={0.5}>:</Box>
                 {status.label}
             </Box>
         );
@@ -149,7 +148,7 @@ export const RoutePlan = React.memo(() => {
             <div className={classes.default_headerSection_pageTitle}>
                 <Links links={links} />
             </div>
-            <SearchBar placeholder={`Search`} size={'small'} handleSearch={value => setSearchText(value)} />
+            <SearchBar placeholder={'search'} size={'small'} handleSearch={value => setSearchText(value)} />
             <div className={classes.default_headerSection_actionsContainer}>
                 <Button
                     startIcon={<AddIcon />}

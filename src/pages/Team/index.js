@@ -273,7 +273,7 @@ export const Team = React.memo(() => {
         <Links links={links} />
       </div>
       <SearchBar
-        placeholder={`Search by names`}
+        placeholder={"search_by_names"}
         size={"small"}
         handleSearch={(value) => setSearchText(value)}
       />

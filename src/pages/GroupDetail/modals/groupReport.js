@@ -129,7 +129,7 @@ export const c = (props) => {
 
   const handleSubjectDelete = async (id) => {
     const confirm = window.confirm(
-      "Are you sure you want to delete? it cannot be undone"
+      <FormattedMessage id="delete_message"/>
     );
     if (!confirm) {
       return;
@@ -184,7 +184,7 @@ export const c = (props) => {
   };
   const handleSubSubjectDelete = async (subSubject, subject) => {
     const confirm = window.confirm(
-      "Are you sure you want to delete? it cannot be undone"
+      <FormattedMessage id="delete_message"/>
     );
     if (!confirm) {
       return;

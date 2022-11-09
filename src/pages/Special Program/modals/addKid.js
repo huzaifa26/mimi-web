@@ -162,7 +162,7 @@ export const AddKidBody = (props) => {
         }}
       >
         <SearchBar
-          placeholder={`Search by names`}
+          placeholder={"search_by_names"}
           size={"small"}
           handleSearch={(value) => setSearchText(value)}
         />

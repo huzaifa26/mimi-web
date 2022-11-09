@@ -47,18 +47,20 @@ const headers = [
 const options = [
   {
     id: "month",
-    label: "This Month",
+    // label: "This Month",
+    label: <FormattedMessage id="this_month"/>,
   },
   {
     id: "year",
-    label: "This Year",
+    // label: "This Year",
+    label: <FormattedMessage id="this_year"/>,
   },
   {
     id: "week",
-    label: "This Week",
+    // label: "This Week",
+    label: <FormattedMessage id="this_week"/>,
   },
 ];
-
 
 const ModalMappings = [
   {
@@ -279,17 +281,20 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
   const [searchText, setSearchText] = useState("");
   const [groupOption, setGroupOption] = useState([])
   const [actionOption, setActionOption] = useState([])
+
   const [duration, setDuration] = useState({
     id: "month",
-    label: "This Month",
+    label: <FormattedMessage id="this_month"/>,
   });
+
   const [groupsNames, setGroupNames] = useState({
     id: "All",
-    label: "All Groups",
+    label: "all_groups",
   });
+
   const [actionNames, setActionNames] = useState({
     id: "All",
-    label: "All Actions",
+    label: "all_actions",
   });
   const [history, setHistory] = useState([]);
 
@@ -305,6 +310,7 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
       (a, b) => b.time.toDate().getTime() - a.time.toDate().getTime()
     );
   });
+
   useEffect(() => {
     var arr = [];
     data.map(object => { arr.push(object.payload?.kid?.groupName) })
@@ -321,8 +327,7 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
     });
     var actionOptions = [];
     const filteredActionNames = [...new Set(actionArr)]
-    filteredActionNames.map(value => actionOptions.push({ id: value, label: value }))
- 
+    filteredActionNames.map(value => actionOptions.push({ id: value, label: <FormattedMessage id={value}/> }))
     setActionOption(actionOptions)
   }, [data])
  
@@ -415,13 +420,13 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
     if (duration) {
       return (
         <Fragment>
-          <span className={classes.label}>Show:</span> {duration.label}
+          <span className={classes.label}><FormattedMessage id="Show:"/></span>{duration.label}
         </Fragment>
       );
     } else {
       return (
         <Fragment>
-          <span className={classes.label}>Show:</span> none
+          <span className={classes.label}><FormattedMessage id="Show:"/></span> <FormattedMessage id={"none"}/>
         </Fragment>
       );
     }
@@ -434,13 +439,8 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
     },
   ];
 
-
-
-
   // function for rendering data based on group drop down.
   useMemo(() => {
-
-
     if (groupsNames.id === "All") {
       setHistory(data);
       return
@@ -450,20 +450,13 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
     data.map(object => {
       if (object.payload?.kid?.groupName === groupsNames.label) {
         filteredData.push(object)
-
       } 
     })
     setHistory(filteredData)
-
   }, [data, groupsNames.id, groupsNames.label])
-
-
-
 
   // function for rendering data based on action drop down.
   useMemo(() => {
-
-
     if (actionNames.id === "All") {
       setHistory(data);
       return
@@ -488,13 +481,9 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
         </div>
       )}
 
-      <div
-        style={{
-          flex: 1,
-        }}
-      >
+      <div style={{flex: 1}}>
         <SearchBar
-          placeholder={`Search by Action, Date etc…`}
+          placeholder={"search_by_action_date_etc"}
           value={searchText}
           size={"small"}
           handleSearch={(value) => setSearchText(value)}
@@ -502,7 +491,6 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
       </div>
       <div className={classes.default_headerSection_actionsContainer}>
         <MenuSingle
-        
           list={options}
           label={renderLabel(duration)}
           handleChange={(value) => setDuration(value)}
@@ -520,7 +508,6 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
             setHistory(filtered);
           }}
         />
-
       </div>
 
       <div className={classes.default_headerSection_actionsContainer}>
@@ -560,7 +547,6 @@ export const HistoryTable = ({ rootQuery, hideTitle, modifier }) => {
     <Fragment>
       {ModalMappings.map((el) => {
         const Component = el.modal;
-
         return (
           <SimpleModal
             title={el.id}

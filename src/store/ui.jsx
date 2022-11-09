@@ -3,6 +3,7 @@ import { Button, SimpleModal } from '../components';
 import Alert from '@material-ui/lab/Alert';
 import React, { useContext, useState, useEffect } from 'react';
 import { getModalStyles } from '../utils/helpers';
+import { FormattedMessage } from 'react-intl';
 
 const uiContext = React.createContext();
 
@@ -132,7 +133,7 @@ export const UiProvidor = ({ children }) => {
                     <Grid container spacing={2}>
                         <Grid item xs={6} justifyContent="center">
                             <Button fullWidth className={classes.default_modal_buttonSecondary} onClick={handleCloseDialog}>
-                                Disagree
+                                <FormattedMessage id='disagree'/>
                             </Button>
                         </Grid>
                         <Grid item xs={6} justifyContent="center">
@@ -152,7 +153,7 @@ export const UiProvidor = ({ children }) => {
                                     }
                                 }}
                             >
-                                Agree
+                                <FormattedMessage id='agree'/>
                             </Button>
                         </Grid>
                     </Grid>

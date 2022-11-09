@@ -215,7 +215,7 @@ export const RouteDetailsBody = (props) => {
 
   const deletePrize = async (prize) => {
     if (!user.permissions[PERMISSIONS.trackAccess]) {
-      return actions.alert("You don't have access to perform this action");
+      return actions.alert(<FormattedMessage id="access_denied"/>);
     }
 
     const action = async () => {
@@ -231,14 +231,15 @@ export const RouteDetailsBody = (props) => {
 
     actions.showDialog({
       action,
-      title: `Delete ${prize.name}?`,
-      body: "Are you sure you want to delete? it cannot be undone",
+      // title: `Delete ${prize.name}?`,
+      title: <FormattedMessage id="delete_heading" defaultMessage="Delete {name}?" values={{name:prize.name}}/>,
+      body: <FormattedMessage id="delete_message"/>,
     });
   };
 
   const deleteRoutePlan = async () => {
     if (!user.permissions[PERMISSIONS.trackAccess]) {
-      return actions.alert("You don't have access to perform this action");
+      return actions.alert(<FormattedMessage id="access_denied"/>);
     }
 
     const action = async () => {
@@ -253,14 +254,15 @@ export const RouteDetailsBody = (props) => {
 
     actions.showDialog({
       action,
-      title: `Delete ${routePlan.name}?`,
-      body: "Are you sure you want to delete? it cannot be undone",
+      // title: `Delete ${routePlan.name}?`,
+      title: <FormattedMessage id="delete_heading" defaultMessage="Delete {name}?" values={{name:routePlan.name}}/>,
+      body: <FormattedMessage id="delete_message"/>,
     });
   };
 
   const handleStatus = async () => {
     if (!user.permissions[PERMISSIONS.trackAccess]) {
-      return actions.alert("You don't have access to perform this action");
+      return actions.alert(<FormattedMessage id="access_denied"/>);
     }
 
     await db
@@ -383,7 +385,7 @@ export const RouteDetailsBody = (props) => {
         }}
       >
         <SearchBar
-          placeholder={`Search by names`}
+          placeholder={"search_by_names"}
           size={"small"}
           handleSearch={(value) => setSearchText(value)}
         />
@@ -559,7 +561,7 @@ export const RouteDetailsBody = (props) => {
               onClick={() => {
                 if (!user.permissions[PERMISSIONS.trackAccess]) {
                   return actions.alert(
-                    "You don't have access to perform this action"
+                    <FormattedMessage id="access_denied"/>
                   );
                 } else {
                   setModalStates((prev) => ({
@@ -605,7 +607,7 @@ export const RouteDetailsBody = (props) => {
               onClick={() => {
                 if (!user.permissions[PERMISSIONS.trackAccess]) {
                   return actions.alert(
-                    "You don't have access to perform this action"
+                    <FormattedMessage id="access_denied"/>
                   );
                 } else {
                   setModalStates((prev) => ({ ...prev, changeEndDate: true }));

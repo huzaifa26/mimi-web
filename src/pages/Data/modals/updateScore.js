@@ -201,7 +201,7 @@ const steps = [
          <Box display={"flex"} padding="10px">
           <SearchBar
           
-            placeholder={`Search by names`}
+            placeholder={"search_by_names"}
             size={"sm"}
             handleSearch={(value) => setSearchText(value)}
           />
@@ -405,7 +405,7 @@ const steps = [
             }}
           >
             <SearchBar
-              placeholder={`Search by names`}
+              placeholder={"search_by_names"}
               size={"small"}
               handleSearch={(value) => setSearchText(value)}
             />

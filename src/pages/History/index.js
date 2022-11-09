@@ -20,10 +20,8 @@ export const History = () => {
 
   const { state: storeState } = useStore();
   const { user } = storeState;
-  const rootQuery = useMemo(
-    () => db.collection("Institution").doc(user?._code).collection("History"),
-    []
-  );
+  const rootQuery = useMemo(() => db.collection("Institution").doc(user?._code).collection("History")
+  ,[]);
 
   const modifier = (list) => {
     if ([ROLES.admin, ROLES.mngr].includes(user.type)) return list;

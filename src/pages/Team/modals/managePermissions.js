@@ -9,122 +9,124 @@ import { getModalStyles, getPageStyles } from "../../../utils/helpers";
 import { PERMISSIONS, ROLES } from "../../../utils/constants";
 import ScrollArea from "react-scrollbar";
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
-
-const permissionOptions = [
-  {
-    id: PERMISSIONS.allowAddBonus,
-    label: <FormattedMessage id="allow_add_bonus" />,
-    tooltip:"Allow staff to add bonus points when submitting report for kid. (App)"
-  },
-  {
-    id: PERMISSIONS.requireScoreConfirmation,
-    label: <FormattedMessage id="not_require_score_confirmation" />,
-    tooltip:"Allow staff to submit report without the need to ask the kid permission to submit. (App)"
-  },
-  {
-    id: PERMISSIONS.groupReport,
-    label: <FormattedMessage id="edit_group_report" />,
-    tooltip:"Allow staff to make changes to the group report. (Web)",
-    restrictedRoles: [ROLES.gStaff],
-  },
-  {
-    id: PERMISSIONS.storeAccess,
-    label: <FormattedMessage id="store_management" />,
-    tooltip:"Allow staff to make changes to the stores that his group have access to. (Web)",
-    restrictedRoles: [ROLES.gStaff],
-  },
-  {
-    id: PERMISSIONS.trackAccess,
-    label: <FormattedMessage id="track_management" />,
-    tooltip:"Allow staff to make changes to route plans that his group have access to. (Web)",
-    restrictedRoles: [ROLES.gStaff],
-  },
-  {
-    id: PERMISSIONS.picAccess,
-    label: <FormattedMessage id="enable_profile_pic" />,
-    tooltip:"Allow staff to enable the option of kid to upload profile picture from the gallery. (Web)",
-    restrictedRoles: [ROLES.gStaff],
-  },
-  {
-    id: PERMISSIONS.kidScore,
-    label: <FormattedMessage id="kid_score" />,
-    tooltip:"Allow staff to add or update the score of a kid. (Web)",
-    restrictedRoles: [ROLES.gStaff],
-  },
-  {
-    id: PERMISSIONS.redeemCoupon,
-    label: <FormattedMessage id="redeem_coupon" />,
-    tooltip:"Allow staff to redeem coupon of kid. (Web, App)",
-    restrictedRoles: [ROLES.gStaff],
-  },
-  {
-    id: PERMISSIONS.refundCoupon,
-    label: <FormattedMessage id="refund_coupon" />,
-    tooltip:"Allow staff to refund coupon of kid. (Web)",
-    restrictedRoles: [ROLES.gStaff],
-  },
-  {
-    id: PERMISSIONS.groupScore,
-    label: <FormattedMessage id="group_score" />,
-    tooltip:"Allow staff to add or update the score for the whole group. (Web)",
-    restrictedRoles: [ROLES.gStaff],
-  },
-  {
-    id: PERMISSIONS.groupTransFer,
-    label: <FormattedMessage id="group_transfer" />,
-    tooltip:"Allow staff to move kid from one group to another. (Web)",
-    restrictedRoles: [ROLES.gStaff],
-  },
-  {
-    id: PERMISSIONS.assignDays,
-    label: <FormattedMessage id="assign_days" />,
-    tooltip:"Allow staff to change the assign days of the kid. (Web)",
-    restrictedRoles: [ROLES.gStaff],
-  },
-  {
-    id: PERMISSIONS.deleteKid,
-    label: <FormattedMessage id="delete_kid" />,
-    tooltip:"Allow staff to delete kid. (Web)",
-    restrictedRoles: [ROLES.gStaff],
-  },
-  {
-    id: PERMISSIONS.deleteGroup,
-    label: <FormattedMessage id="delete_group" />,
-    tooltip:"Allow staff to delete group that have no kids in it. (Web)",
-    restrictedRoles: [ROLES.gStaff],
-  },
-  {
-    id: PERMISSIONS.kidSpecialReport,
-    label: <FormattedMessage id="edit_kid_special_report" />,
-    tooltip:"Allow staff to set and edit report of kid. (Web)",
-    restrictedRoles: [ROLES.gStaff],
-  },
-  // {
-  //   id: PERMISSIONS.kidSpecialReport,
-  //   label: <FormattedMessage id="edit_kid_special_report" />,
-  //   tooltip:"– Allow staff to add bonus points when submitting report for kid. (App)",
-  //   restrictedRoles: [ROLES.gStaff],
-  // },
-  {
-    id: PERMISSIONS.webPanelAccess,
-    label: <FormattedMessage id="web_panel_access" />,
-    tooltip:"Allow staff to login to the console.",
-    restrictedRoles: [ROLES.gStaff],
-  },
-  {
-    id: PERMISSIONS.grantCouponToGroup,
-    label: <FormattedMessage id="grant_coupon_to_group" />,
-    tooltip:"Allow staff to grant coupon for the whole group.",
-    restrictedRoles: [ROLES.gStaff],
-  },
-];
+import { useIntl } from 'react-intl'
 
 export const ManagePermissionsBody = (props) => {
   const { handleClose, staff } = props;
   const classes = useStyles();
   const { state: storeState } = useStore();
   const { user, } = storeState;
-
+  const intl = useIntl()
+  
+  const permissionOptions = [
+    {
+      id: PERMISSIONS.allowAddBonus,
+      label: <FormattedMessage id="allow_add_bonus" />,
+      tooltip:intl.formatMessage({id:"allow_add_bonus_kid"}),
+    },
+    {
+      id: PERMISSIONS.requireScoreConfirmation,
+      label: <FormattedMessage id="not_require_score_confirmation" />,
+      tooltip:intl.formatMessage({id:"submit_report_without_permission"}),
+    },
+    {
+      id: PERMISSIONS.groupReport,
+      label: <FormattedMessage id="edit_group_report" />,
+      tooltip:intl.formatMessage({id:"make_changes_group_report"}),
+      restrictedRoles: [ROLES.gStaff],
+    },
+    {
+      id: PERMISSIONS.storeAccess,
+      label: <FormattedMessage id="store_management" />,
+      tooltip:intl.formatMessage({id:"make_changes_store"}),
+      restrictedRoles: [ROLES.gStaff],
+    },
+    {
+      id: PERMISSIONS.trackAccess,
+      label: <FormattedMessage id="track_management" />,
+      tooltip:intl.formatMessage({id:"make_changes_route"}),
+      restrictedRoles: [ROLES.gStaff],
+    },
+    {
+      id: PERMISSIONS.picAccess,
+      label: <FormattedMessage id="enable_profile_pic" />,
+      tooltip:intl.formatMessage({id:"enable_kid_pic"}),
+      restrictedRoles: [ROLES.gStaff],
+    },
+    {
+      id: PERMISSIONS.kidScore,
+      label: <FormattedMessage id="kid_score" />,
+      tooltip:intl.formatMessage({id:"add_update_kid_score"}),
+      restrictedRoles: [ROLES.gStaff],
+    },
+    {
+      id: PERMISSIONS.redeemCoupon,
+      label: <FormattedMessage id="redeem_coupon" />,
+      tooltip:intl.formatMessage({id:"allow_redeem_coupon"}),
+      restrictedRoles: [ROLES.gStaff],
+    },
+    {
+      id: PERMISSIONS.refundCoupon,
+      label: <FormattedMessage id="refund_coupon" />,
+      tooltip:intl.formatMessage({id:"allow_refucd_coupon"}),
+      restrictedRoles: [ROLES.gStaff],
+    },
+    {
+      id: PERMISSIONS.groupScore,
+      label: <FormattedMessage id="group_score" />,
+      tooltip:intl.formatMessage({id:"add_update_group_score"}),
+      restrictedRoles: [ROLES.gStaff],
+    },
+    {
+      id: PERMISSIONS.groupTransFer,
+      label: <FormattedMessage id="group_transfer" />,
+      tooltip:intl.formatMessage({id:"allow_transfer_kid"}),
+      restrictedRoles: [ROLES.gStaff],
+    },
+    {
+      id: PERMISSIONS.assignDays,
+      label: <FormattedMessage id="assign_days" />,
+      tooltip:intl.formatMessage({id:"change_assign_days_kid"}),
+      restrictedRoles: [ROLES.gStaff],
+    },
+    {
+      id: PERMISSIONS.deleteKid,
+      label: <FormattedMessage id="delete_kid" />,
+      tooltip:intl.formatMessage({id:"allow_staff_delete_kid"}),
+      restrictedRoles: [ROLES.gStaff],
+    },
+    {
+      id: PERMISSIONS.deleteGroup,
+      label: <FormattedMessage id="delete_group" />,
+      tooltip:intl.formatMessage({id:"allow_staff_delete_group"}),
+      restrictedRoles: [ROLES.gStaff],
+    },
+    {
+      id: PERMISSIONS.kidSpecialReport,
+      label: <FormattedMessage id="edit_kid_special_report" />,
+      tooltip:intl.formatMessage({id:"edit_set_kid_report"}),
+      restrictedRoles: [ROLES.gStaff],
+    },
+    // {
+    //   id: PERMISSIONS.kidSpecialReport,
+    //   label: <FormattedMessage id="edit_kid_special_report" />,
+    //   tooltip:"– Allow staff to add bonus points when submitting report for kid. (App)",
+    //   restrictedRoles: [ROLES.gStaff],
+    // },
+    {
+      id: PERMISSIONS.webPanelAccess,
+      label: <FormattedMessage id="web_panel_access" />,
+      tooltip:intl.formatMessage({id:"allow_staff_console"}),
+      restrictedRoles: [ROLES.gStaff],
+    },
+    {
+      id: PERMISSIONS.grantCouponToGroup,
+      label: <FormattedMessage id="grant_coupon_to_group" />,
+      tooltip:intl.formatMessage({id:"grand_coupon_group"}),
+      restrictedRoles: [ROLES.gStaff],
+    },
+  ];
+  
   const [permissions, setPermissions] = useState(() => {
     const _permissions = { ...staff.permissions };
     _permissions[PERMISSIONS.requireScoreConfirmation] =

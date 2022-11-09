@@ -644,14 +644,14 @@ export const GroupDetail = () => {
 
     // delete subject
     let _save3 = await Promise.all(
-      subjectDeleted.map(async (sub) => {
+      subjectDeleted.sub.map(async (sub) => {
         await db
           .collection("Institution")
           .doc(user?._code)
           .collection("groups")
           .doc(group.id)
           .update({
-            isSpecialReport: true,
+            isSpecialReport: subjectDeleted.isSpecialReport,
           });
 
         const reportTemplates = await db
@@ -982,7 +982,7 @@ export const GroupDetail = () => {
 
   const handleDeleteGroup = () => {
     if (!user.permissions[PERMISSIONS.deleteGroup])
-      return uiActions.alert("You don't have access to perform this action");
+      return uiActions.alert(<FormattedMessage id="access_denied"/>);
 
     if (group.kids_ids.length > 0)
       return uiActions.alert("Group is not empty", "error");
@@ -993,8 +993,9 @@ export const GroupDetail = () => {
         group,
         history,
       }),
-      title: `Delete ${group.name}?`,
-      body: "Are you sure you want to delete? it cannot be undone",
+      // title: `Delete ${group.name}?`,
+      title: <FormattedMessage id="delete_heading" defaultMessage="Delete {name}?" values={{name:group.name}}/>,
+      body: <FormattedMessage id="delete_message"/>,
     });
   };
 
@@ -1507,7 +1508,7 @@ export const GroupDetail = () => {
                       onClick={() => {
                         if (!user.permissions[PERMISSIONS.grantGroupCoupon])
                           return uiActions.alert(
-                            "You don't have access to perform this action",
+                            <FormattedMessage id="access_denied"/>,
                             "info"
                           );
                         if (!group.kids_ids.length)

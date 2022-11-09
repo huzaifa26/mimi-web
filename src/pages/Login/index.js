@@ -141,7 +141,7 @@ export function Login() {
         .get();
 
       if (institutionDocs.empty)
-        return actions.alert("No Institution code found", "error");
+        return actions.alert(<FormattedMessage id="no_code"/>, "error");
 
       const language = "en";
       const direction = "ltr";
@@ -194,18 +194,18 @@ export function Login() {
 
       if (access === false || !user?.permissions.hasOwnProperty(PERMISSIONS.webPanelAccess)) {
         handleSignout();
-        return actions.alert("Your account doesn't have access permission to the console", "error");
+        return actions.alert(<FormattedMessage id="no_access"/>, "error");
       } else if (access === true) {
         // If institute subscription end. Only admin can login.
         if (todayDate > subEndDate && user.type !== ROLES.admin) {
           handleSignout()
-          return actions.alert("Subscription Expired", "error");
+          return actions.alert(<FormattedMessage id="no_subscription"/>, "error");
         }
 
         // If institute is disabled. Only admin can login.
         if (institution.enabled === false && user.type !== ROLES.admin) {
           handleSignout();
-          return actions.alert("Institution Disabled", "error");
+          return actions.alert(<FormattedMessage id="institute_disable"/>, "error");
         }
 
         await db

@@ -56,7 +56,7 @@ export const GroupReportBody = (props) => {
   const [subjects, setSubjects] = useState(_subjects);
   const [_subjectAdded, setSubjectAdded] = useState([]);
   const [_subSubjectAdded, setSubSubjectAdded] = useState([]);
-  const [_subjectDeleted, setSubjectDeleted] = useState([]);
+  const [_subjectDeleted, setSubjectDeleted] = useState({sub:[]});
   const [_subSubjectDeleted, setSubSubjectDeleted] = useState([]);
   const [_subjectEdit, setSubjectEdit] = useState([]);
   const [_subSubjectEdit, setSubSubjectEdit] = useState([]);
@@ -145,9 +145,25 @@ export const GroupReportBody = (props) => {
       window.alert("Can't delete all subjects");
       return;
     }
-    const filteredSubjects = subjects.filter((e) => e.id != id);
+    let count=0;
+    let isSpecialReport=false;
+    const filteredSubjects = subjects.filter((e) => {
+      if(e.type === "group" && location.pathname.includes("/groups") && e.id != id){
+        count++;
+      }
+      if(e.type === "kid" && location.pathname.includes("/kids") && e.id != id){
+        count++;
+      }
+      return e.id != id
+    });
+    if(count>0){
+      isSpecialReport=true;
+    }
     setSubjects(filteredSubjects);
-    setSubjectDeleted((prev) => [...prev, subject]);
+    // setSubjectDeleted((prev) => [...prev, subject]);
+    setSubjectDeleted((prev) => {
+      return {sub:[...prev.sub,subject],isSpecialReport}
+    });
   };
 
   const handleC = (panel) => (event, newExpanded) => {

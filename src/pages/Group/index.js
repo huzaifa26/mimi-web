@@ -108,7 +108,7 @@ export const Group = React.memo(() => {
             <div className={classes.default_headerSection_pageTitle}>
                 <Links links={links} />
             </div>
-            <SearchBar placeholder={`Search by names`} size={'small'} handleSearch={value => setSearchText(value)} />
+            <SearchBar placeholder={"search_by_names"} size={'small'} handleSearch={value => setSearchText(value)} />
             {
                 [ROLES.admin, ROLES.mngr, ROLES.crdntr].includes(user?.type) &&
                 <div className={classes.default_headerSection_actionsContainer}>

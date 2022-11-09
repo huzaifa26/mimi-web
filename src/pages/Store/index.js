@@ -198,7 +198,7 @@ export const Store = React.memo(() => {
         <Links links={links} />
       </div>
       <SearchBar
-        placeholder={`Search`}
+        placeholder={`search`}
         size={"small"}
         handleSearch={(value) => setSearchText(value)}
       />
