@@ -55,6 +55,7 @@ import {
 import { PERMISSIONS, ROLES } from "../../utils/constants";
 import { DisplayGuidesBody } from "./modals/guides";
 import { sub } from "date-fns";
+import { useRef } from "react";
 
 export const GroupDetail = () => {
   const history = useHistory();
@@ -80,6 +81,14 @@ export const GroupDetail = () => {
     guides: false,
   });
 
+  const groupLog=useRef(null);
+
+  useEffect(()=>{
+    if(groupLog.current !== null){
+      console.log("Group " + groupLog?.current?.name + " opened, uid:" + user.id);
+    }
+  },[groupLog.current])
+
   useEffect(() => {
     (async () => {
       db.collection("Institution")
@@ -87,7 +96,9 @@ export const GroupDetail = () => {
         .collection("groups")
         .doc(params.id)
         .onSnapshot((querySnapshot) => {
-          setGroup(querySnapshot.data());
+          let data=querySnapshot.data();
+          groupLog.current=data
+          setGroup(data);
         });
 
       db.collection("Institution")

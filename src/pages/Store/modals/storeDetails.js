@@ -65,7 +65,7 @@ export const StoreDetailsBody = (props) => {
 
   useEffect(() => {
     if(storeLog?.current !== null)
-    console.log("route " + storeLog?.current?.store_name + " opened, uid:" + user.id);
+    console.log("store " + storeLog?.current?.store_name + " opened, uid:" + user.id);
   }, [storeLog.current])
 
   useEffect(() => {
